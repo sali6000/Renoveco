@@ -1,0 +1,64 @@
+{% extends "layout.twig" %}
+{% block title %}À propos de l'auteur{% endblock %}
+{% block head %}
+<script>
+  loadCss("{{ base_url_assets_css ~ 'presentationStylesheet.css' }}");
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const cells = document.getElementsByClassName('cell border-bottom');
+    if (cells.length > 2) {
+      cells[2].style.borderBottom = "2px solid darkgrey";
+    }
+  });
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="cell-about">
+  <div class="logo-container">
+    <img class="logo lazy-content" data-src="{{ base_url_assets_img_logos ~ 'alupon2.png' }}" alt="logo-author">
+  </div>
+  <hr><br>
+
+  <div class="image-auteur">
+    <img src="{{ base_url_assets_img ~ 'about.jpg' }}" alt="img-author">
+  </div>
+
+  <div class="text-description-about">
+    <span>
+      SAWY développe une œuvre graphique, inspirée du Street-Art, bariolée et fourmillante d'objets et de personnages humoristiques rappelant les univers Hip-Hop, de la BD, de l’animation et du Gaming.
+      <br><br>
+      Artiste prolixe, il se déploie sur tous les supports, de la toile aux briques, en passant par des objets chinés au quotidien qu'il aime customiser et assembler pour transmettre ses messages aux « folks » (peuples).
+      <br><br>
+      Depuis 2017, il s’aventure dans une collection d’œuvres poético-PoP à la gamme de couleurs vanillées dans un esprit très Miami Vice, avec ses intentions engagées sur notre société de consommation et de malbouffe — ce sont pour lui les débordements du capitalisme.
+      <br><br>
+      Pour 2019, il développe plusieurs séries qui suivent l’actualité des salaires sportifs, ses amours vintage des années 90, … Jeune artiste hip-hop belgo-marocain de 30 ans, la création de ses œuvres est principalement opérée à partir d’éléments récupérés et améliorés pour leur donner une seconde vie inespérée.
+    </span>
+    <br><br>
+
+    <h1 style="text-align: center;">Parcours</h1>
+    <br>
+
+    <span>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </span>
+    <br>
+
+    <ul>
+      <li>Texte 1</li>
+      <li>Texte 2</li>
+      <li>Texte 3</li>
+      <li>Texte 4</li>
+      <li>Texte 5</li>
+      <li>Texte 6</li>
+    </ul>
+  </div>
+
+  <div style="clear:both;"></div>
+</div>
+{% endblock %}

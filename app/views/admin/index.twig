@@ -1,0 +1,53 @@
+{# Inclusion du CSS dynamiquement et personnalisation #}
+{% extends "layout.twig" %}
+{% block title %}{{ title }}{% endblock %}
+{% block head %}
+<script>
+    loadCss("{{ base_url_assets_css ~ 'cguStylesheet.css' }}");
+    document.getElementsByClassName('cell border-bottom')[4].style.borderBottom = "2px solid darkgrey";
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div class="container-cgu">
+    <h1>Panneau d'administration</h1>
+
+    <p>Bienvenue sur le site web de {{ BASE_ENTREPRISE_TITLE }}.</p>
+    <p>{{ message }}</p>
+
+    <h1>Créer une nouvelle page</h1>
+    <form action="{{ BASE_URL_MANAGE }}controllers/create" method="post">
+        <label>Nom de la page (ex: Voiture)</label><br>
+        <input type="text" name="pageName" required>
+        <br><br>
+        <button type="submit">Créer la page</button>
+    </form>
+
+    <h2>🧹 Supprimer un contrôleur</h2>
+    <form method="post" action="{{ BASE_URL_MANAGE }}controllers/delete">
+        <label for="controller">Sélectionnez un contrôleur :</label><br><br>
+        <select name="controller" id="controller" required>
+            {% for controller in controllers %}
+                <option value="{{ controller|e }}">{{ controller|e }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <button type="submit" onclick="return confirm('Es-tu sûr de vouloir supprimer ce contrôleur ?')">🗑️ Supprimer</button>
+    </form>
+
+    <h2>Liste des contrôleurs</h2>
+    <ol>
+        {% for controller in controllers %}
+            <li>{{ controller|e }}</li>
+        {% endfor %}
+    </ol>
+
+    <h2>Liste des vues</h2>
+    <ol>
+        {% for view in views %}
+            <li>{{ view|e }}</li>
+        {% endfor %}
+    </ol>
+</div>
+{% endblock %}

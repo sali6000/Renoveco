@@ -1,0 +1,242 @@
+body {
+    margin-top:7%;
+  }
+  
+  tbody {
+    background-color: white;
+    color:black;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  thead {
+    background-color: rgb(34, 67, 158);
+    color: white;
+  }
+  
+  p {
+    text-align: center;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .filter-container {
+    position: fixed;
+    display: flex;
+  }
+  
+  .logo-proc {
+    margin: 5% 35%;
+    text-align: center;
+  }
+
+  .logo-proc img {
+    width: 50%;
+  }
+  
+  /* GALLERY */
+  .div-center {
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, sans-serif;
+  }
+  
+  .image-container {
+    width: 500px;
+    height: 500px;
+    overflow: hidden;
+    border: 2px solid #ccc;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+  }
+  
+  .image-container img.zoomed {
+    transform: scale(2);
+    cursor: zoom-out;
+  }
+  
+  .thumbnails {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .thumbnails img {
+    overflow: hidden;
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    border: 2px solid #ccc;
+    transition: border 0.3s ease;
+  }
+  
+  .thumbnails img:hover {
+    border: 2px solid #000;
+  }
+  
+  /* Le reste */
+  hr
+  {
+    height: 0.063em;
+    opacity: 0.7;
+    background-color:grey;
+    border-style: none;
+    text-align: center;
+    width: 100%;
+  }
+  
+  .texte-title
+  {
+    text-align: center;
+    color: rgb(34, 67, 158);
+    font-size: 28px;
+  }
+  
+  
+  .preview
+  {
+    height: 300px;;
+    width: 300px;
+    object-fit:contain;
+    margin-top: 54px;
+  }
+  
+  .logo-pro-position {
+    text-align: center;
+  }
+  
+  .logo-pro {
+  height: 50px;
+  }
+  
+  .preview-logo
+  {
+    height: 300px;
+    width: 300px;
+    object-fit: contain;
+    overflow: hidden;
+  }
+  
+  .text-centered
+  {
+    display: none;
+  }
+  
+  .masonry {
+    display: flex;
+    flex-flow: row wrap;
+    margin-left: 10%;
+    margin-right: 5%;;
+  }
+  
+  .masonry-brick
+  {
+    margin:10px;
+    min-width: 350px;
+    background-color: white;
+    border: 0.5px solid lightgrey;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 
+                0 6px 20px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out;
+  }
+  
+  .masonry-brick:hover
+  {
+   position: relative;
+   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 
+   0 12px 40px rgba(0, 0, 0, 0.2);
+  }
+  
+  .item {
+    display: none;
+  }
+  
+  .item {
+    display: block;
+    color:rgb(34, 67, 158);
+  }
+  
+  .masonry-brick:hover .text-centered
+  {
+    display: initial;
+    z-index: 1;
+    position: absolute;
+    top: 200px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Julius Sans One', cursive;
+    font-size:18px;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    border:10px solid black;
+    background-color: black;
+    opacity: 0.8;
+  }
+  
+  .masonry-brick:nth-child(4n+1) {
+    width: 250px;
+  }
+  .masonry-brick:nth-child(4n+1):nth-child(4n+2) {
+    width: 325px;
+  }
+  .masonry-brick:nth-child(4n+1):nth-child(4n+3) {
+    width: 180px;
+  }
+  .masonry-brick:nth-child(4n+1):nth-child(4n+4) {
+    width: 380px;
+  }
+  
+  
+  
+  
+  
+  
+  /* 2) CONFIGURATION RESPONSIVE POUR ECRAN PC */
+  @media only screen and (min-width: 1100px)
+  {
+    .cell-gallery .image:hover
+    {
+      width: 32%;
+      height: auto;
+      margin:2% 0%;
+    }
+  }
+  
+  /* POUR ECRAN GSM */
+  @media only screen and (max-width: 700px)
+  {
+    .cell-gallery
+    {
+      margin:12% 4% 0% 4%;
+    }
+  
+    .cell-gallery .image
+    {
+      display: block;
+      width: 98%;
+      height: auto;
+      margin: 10% 0%;
+      border: 1% solid grey;
+    }
+  }
+  

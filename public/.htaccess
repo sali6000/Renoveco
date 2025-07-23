@@ -1,0 +1,19 @@
+# <IfModule mod_rewrite.c>
+    # RewriteEngine On
+    # RewriteBase /MonSite/public/
+
+    # Ne pas réécrire si le chemin demandé correspond à un fichier existant
+    # RewriteCond %{REQUEST_FILENAME} !-f
+
+    # Ne pas réécrire si le chemin demandé correspond à un répertoire existant
+    # RewriteCond %{REQUEST_FILENAME} !-d
+
+    # Rediriger toutes les autres requêtes vers index.php
+    # RewriteRule ^(.*)$ index.php [QSA,L]
+
+# </IfModule>
+
+# <Files .htaccess>
+# Order Allow,Deny
+# Deny from all
+# </Files>

@@ -1,0 +1,29 @@
+# Ignorer les répertoires
+/storage/
+/docker/
+
+# Ignorer les fichiers
+.env
+.env.local
+
+# Fichiers systèmes
+.DS_Store
+Thumbs.db
+
+# Caches
+/cache/
+/var/
+/vendor/
+node_modules/
+
+# Ignorer les fichiers temporaires d’éditeur
+*.swp
+*.swo
+*.tmp
+*.bak
+*.log
+*.odt
+
+# Composer et npm lock
+composer.lock
+package-lock.json

@@ -1,0 +1,102 @@
+{% extends "layout.twig" %}
+
+{% block title %}Liste des produits{% endblock %}
+
+{% block head %}
+<script>
+      loadCss("{{ base_url_assets_css ~ 'galleryStylesheet.css' }}");
+    document.addEventListener("DOMContentLoaded", function() {
+    const cell = document.querySelector('.cell.border-bottom');
+    const navbar = document.querySelector('.full-navbar');
+
+    if (cell) {
+      cell.style.borderBottom = "2px solid white";
+    }
+
+    if (navbar) {
+      navbar.style.position = "fixed";
+    }
+  });
+</script>
+
+<script src="{{ base_url_assets_js ~ 'filter.js' }}"></script>
+<script src="{{ base_url_assets_js ~ 'searchbar.js' }}"></script>
+{% endblock %}
+
+{% block content %}
+{# BARRE DE RECHERCHE #}
+{% if models is defined and models is iterable %}
+<div class="search-container">
+  <b>Rechercher par nom:</b>
+  <input type="text" id="searchInput" placeholder="PF152WG, PE50, PE78N,...">
+  <p id="noResults" style="display: none;">Aucun produit trouvé</p>
+  <ul id="itemList">
+    {% for model in models %}
+    {% set link = 'product/detail/' ~ model.product_id %}
+    <li><a href="{{ link|e('html') }}">> {{ model.name|e }}</a></li>
+    {% endfor %}
+  </ul>
+</div>
+<hr>
+{% endif %}
+
+{# FILTER #}
+<div class="filter-container">
+  <div class="sidebar">
+    <h2>Filtrer par</h2>
+    <hr>
+    <form id="filter-form">
+      <h3>Catégorie:</h3>
+      <label><input type="checkbox" class="filter" value="storefronts"> Devantures ({{ files_storefronts }})</label><br>
+      <label><input type="checkbox" class="filter" value="windows"> Fenêtres ({{ files_windows }})</label><br>
+      <label><input type="checkbox" class="filter" value="slidings"> Coulissantes ({{ files_slidings }})</label><br>
+    </form>
+  </div>
+</div>
+
+{# GALLERY #}
+<div class="div-center">
+  <div class="masonry masonry--h">
+    {% for file in models %}
+    <a href="product/detail/{{ file.product_id|url_encode }}-{{ entreprise_url_seo }}-{{ file.category_name|e }}-{{ file.name|url_encode }}">
+      <div class="masonry-brick masonry-brick--h item" data-category="{{ file.category_name|e('html_attr') }}">
+        <figure>
+          {% if file.isProcural != '0' %}
+          <div class="logo-pro-positionn">
+            <img class="logo-pro lazy-content" data-src="{{ base_url_assets_img_logos ~ 'procural-3.jpg' }}" alt="PROCURAL">
+          </div>
+          <div class="text-centered">VISUALISER</div>
+          <img class="preview-logo lazy-content" data-src="{{ base_url_assets_img_materials ~ file.img_link }}">
+          {% else %}
+          <div class="text-centered">AFFICHER</div>
+          <img class="preview lazy-content" data-src="{{ base_url_assets_img_materials ~ file.img_link }}">
+          {% endif %}
+        </figure>
+        <table>
+          <thead>
+            <tr>
+              <th>Caractéristiques</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Nom:</b></td>
+              <td>{{ file.name }}</td>
+            </tr>
+            <tr>
+              <td><b>Type:</b></td>
+              <td>{{ file.category_name }}</td>
+            </tr>
+            <tr>
+              <td><b>Provenance:</b></td>
+              <td>{{ file.isProcural ? 'PROCURAL' : 'PONZIO' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</div><br><br>
+{% endblock %}

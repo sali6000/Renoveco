@@ -1,0 +1,15 @@
+User-agent: *
+Disallow: /app/
+Disallow: /core/
+Disallow: /config/
+Disallow: /vendor/
+Disallow: /private/
+Disallow: /tmp/
+
+Allow: /public/
+Allow: /public/css/
+Allow: /public/js/
+Allow: /public/images/
+
+# Sitemap location
+Sitemap: http://localhost/monsite/sitemap.xml

@@ -1,0 +1,90 @@
+body {
+    margin-top:6%;
+  }
+
+.hrbis {
+    border: none; /* Remove default border */
+    height: 2px; /* Set height */
+    background-color: rgb(199, 199, 199); /* Set background color */
+    width: 100%; /* Set width */
+    opacity: 0.4; /* Set opacity */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Add shadow */
+}
+  
+
+iframe {
+    border: none;
+    width: 60%;
+    height:800px;
+    cursor: grab;
+    margin: 1% 20%;
+}
+
+.breadcrumb {
+    list-style: none;
+    display: flex;
+    padding: 0;
+    margin-left:25%;
+    background: none;
+    border-left: 2px solid darkgrey;
+    padding-left: 10px;
+    width: max-content;
+}
+
+.breadcrumb-item {
+    font-size: 14px;
+}
+
+.breadcrumb-item + .breadcrumb-item:before {
+    content: ">";
+    padding: 0 0.5em;
+    color: #6c757d;
+}
+
+.breadcrumb-item a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.breadcrumb-item a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb-item.active {
+    color: #6c757d;
+    pointer-events: none;
+}
+
+/* Déroulement */
+.container {
+    width: max-content;
+    background-color: white;
+    padding: 20px;
+}
+
+.parent {
+    cursor: pointer;
+}
+
+.hidden-content {
+    width: 300px;
+    display: none;
+}
+
+.visible-content {
+    display: block;
+}
+
+.title-button {    
+    font-weight: bold;
+    color:grey;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.title-button:hover {
+    background-color: lightgrey; /* Darker gray */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
