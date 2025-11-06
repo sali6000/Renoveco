@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+body {
+    margin: 0%;
+    padding: 0%;
+    background-image: url(../../img/layouts/background.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    font-family: 'Lato', sans-serif;
+}
+
+// Screen reader only (accessible hidden)
+// Permet de cacher un élément visuellement tout en le laissant accessible aux lecteurs d'écran
+// Important également pour que Google le voit. Voir https://www.w3.org/TR/WCAG20-TECHS/H49.html
+// UN SEUL <h1 class="sr-only">Titre</h1> obligatoire sur chaque page (voir layout.twig)
+// et le reste doit être <h2> obligatoirement
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    /* le lien prend la couleur du texte environnant */
+}
+
+a:hover {
+    /* remettre le soulignement au survol */
+    color: #007BFF;
+}
+
+.section__info__wrapper {
+    text-align: center;
+    padding: 1% 1%;
+    margin: 2% auto;
+    max-width: 1200px;
+}
+
+.section__info {
+    text-align: center;
+    padding: 1% 0%;
+    margin: 2% 0%;
+    width: 100%;
+}

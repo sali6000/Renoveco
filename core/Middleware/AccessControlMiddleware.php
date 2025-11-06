@@ -1,40 +1,40 @@
 <?php
 
-namespace App\Core\Middleware;
+namespace Core\Middleware;
 
-use App\Core\Middleware;
-use App\Core\RouteContext;
-use App\Core\Logger\AccessLogger;
-
+use Core\Middleware;
+use Core\RouteContext;
+use Core\Logger\AccessLogger;
+use Config\AppConfig;
 
 class AccessControlMiddleware extends Middleware
 {
     public function handle(): bool
     {
-        // Si l'utilisateur n'a pas de rôle, on le considère comme "guest"
+        // 🔐 1. Détection du rôle utilisateur (default: guest)
         $role = $_SESSION['user']['role'] ?? 'guest';
 
-        // On utilise RouteContext pour obtenir le contrôleur et l'action actuels
-        $route = RouteContext::get(); // ex: ProductController@detail
+        // 📍 2. Récupération du contrôleur + action actuel (ex: ProductController@detail)
+        $route = RouteContext::get();
 
-        // On charge la liste blanche depuis le fichier de configuration
-        $whitelist = require __DIR__ . '/../../Config/access_whitelist.php';
+        // ✅ 3. Chargement de la whitelist via AppConfig
+        $whitelist = AppConfig::getWhitelist();
 
-        // On récupère la liste des routes autorisées pour le rôle de l'utilisateur
+        // 🧾 4. Récupération des routes autorisées pour ce rôle
         $allowedRoutes = $whitelist[$role] ?? [];
 
-        // Log de la route demandée pour le rôle de l'utilisateur
-        AccessLogger::log("➡️ [$role] Route demandée : $route");
+        // 📒 5. Log d’accès (facultatif mais très pro)
+        AccessLogger::log("Tentative d'accès en tant que [$role] pour la route suivante : $route", AccessLogger::LEVEL_INFO);
 
-        // Si la route récupérée n'est pas inscrite dans la liste des routes autorisées pour le rôle de l'utilisateur,
-        // on redirige vers une page d'erreur 403
+        // ⛔ 6. Vérification d’accès
         if (!in_array('*', $allowedRoutes) && !in_array($route, $allowedRoutes)) {
-            echo "⛔ Accès refusé à la route $route pour le rôle $role";
-            AccessLogger::log("⛔ [$role] Accès refusé à la route $route pour le rôle $role");
+            echo "Accès refusé en tant que $role";
+            AccessLogger::log("Accès refusé pour la route $route en tant que [$role]", AccessLogger::LEVEL_WARNING);
+            http_response_code(403);
             exit;
         }
-
-        // Si la route est autorisée, on continue le traitement
+        AccessLogger::log("Accès autorisé pour la route $route en tant que [$role]", AccessLogger::LEVEL_INFO);
+        // ✅ 7. Accès autorisé : continuer la chaîne de middleware
         return true;
     }
 }

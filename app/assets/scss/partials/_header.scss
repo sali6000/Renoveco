@@ -1,0 +1,163 @@
+// Barre de navigation
+// (> par défaut)
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; // Centre verticalement logo, nav et contact
+    width: 100%;
+    padding: 0.3rem 2rem;
+    transition: background-color 0.5s ease, box-shadow 0.5s ease;
+    z-index: 10;
+}
+
+// Barre de navigation 
+// (> si 'home')
+body[data-current-page="home"] .navbar {
+    position: absolute;
+    background-color: transparent;
+    color: white;
+}
+
+// Barre de navigation 
+// (si 'home' + après scroll)
+body[data-current-page="home"] .navbar.scrolled {
+    position: fixed;
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    color: black;
+}
+
+// Barre de navigation 
+// (> si pas 'home')
+body:not([data-current-page="home"]) .navbar {
+    position: relative;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    color: black;
+}
+
+// Barre de navigation : Home > img
+.navbar__home img {
+    height: 50px;
+    width: auto;
+}
+
+// Barre de navigation : nav > ul
+.navbar__menu ul {
+    display: flex;
+    gap: 1.5rem; // Espaces entre les éléments à l'intérieur de ul
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+// Barre de navigation : nav > a
+// (> par défaut)
+.navbar__menu a {
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+// Barre de navigation : nav > a : underscore
+// (> par défaut)
+.navbar__menu a::after {
+    content: ""; // Invisible mais présent
+    position: absolute;
+    left: 0;
+    bottom: -3px; // distance sous le texte
+    width: 0%; // démarre à 0 et s’étend au survol
+    height: 2px;
+    background-color: #ccc;
+    transition: width 0.3s ease;
+}
+
+// Barre de navigation : nav > a 
+// (> si pas 'home') 
+body:not([data-current-page="home"]) .navbar__menu a {
+    color: black;
+}
+
+// Barre de navigation : nav > a 
+// (> si pas 'home' + au survol) 
+body:not([data-current-page="home"]) .navbar__menu a:hover {
+    color: #ccc;
+}
+
+// Barre de navigation : nav > a : underscore 
+// (> après survol)
+.navbar__menu a:hover::after {
+    width: 100%; // Underscore qui s’étend sur toute la largeur du lien
+}
+
+// Barre de navigation : nav > a : underscore 
+// (> si 'home' + après survol) 
+body[data-current-page="home"] .navbar__menu a::after {
+    background-color: white;
+}
+
+// Barre de navigation : nav > a : underscore 
+// (> si 'home' + après survol + après scroll) 
+body[data-current-page="home"] .navbar.scrolled .navbar__menu a::after {
+    background-color: #ccc;
+}
+
+// Barre de navigation : nav > a : underscore 
+// (> si pas 'home' + après survol) 
+body:not([data-current-page="home"]) .navbar__menu a::after {
+    background-color: #ccc;
+}
+
+// Barre de navigation : Contact
+// (> par défaut)
+.navbar__contact {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: opacity 0.3s ease, transform 0.3s ease; // smooth
+}
+
+// Barre de navigation : Contact
+// (> si 'home')
+body[data-current-page="home"] .navbar__contact {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px);
+}
+
+// Barre de navigation : Contact
+// (> si home + après scroll)
+body[data-current-page="home"] .navbar__contact.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+// Barre de navigation : Contact
+// (> si pas home)
+body:not([data-current-page="home"]) .navbar__contact {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+// Barre de navigation : Contact > img
+.navbar__contact img {
+    height: 30px;
+    width: 30px;
+}
+
+// ≈ 768px
+@media (min-width: 48em) {
+
+    // Header__navbar styles
+    .navbar__menu li {
+        max-width: 100px; // Limite la largeur sur grands écrans
+    }
+}

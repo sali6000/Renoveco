@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Core\Middleware;
+namespace Core\Middleware;
 
-use App\Core\Middleware;
+use Core\Middleware;
 
 class AuthMiddleware extends Middleware
 {
     public function handle(): bool
     {
         if (!isset($_SESSION['user'])) {
-            header('Location: /login');
+            header('Location: /auth/login');
             exit;
         }
 

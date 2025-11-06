@@ -1,0 +1,30 @@
+{
+  "license": "MIT",
+  "author": "Sali6000",
+  "version": "1.0.0",
+  "description": "CMS modulaire avec compilation SCSS-JS via Webpack Encore",
+  "scripts": {
+    "dev": "encore dev",
+    "watch": "encore dev --watch",
+    "build": "encore production"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.0",
+    "@babel/preset-env": "^7.28.0",
+    "@symfony/webpack-encore": "^4.6.0",
+    "autoprefixer": "^10.4.21",
+    "babel-loader": "^10.0.0",
+    "css-loader": "^6.8.1",
+    "file-loader": "^6.2.0",
+    "mini-css-extract-plugin": "^2.7.6",
+    "postcss-loader": "^8.1.1",
+    "sass": "^1.73.0",
+    "sass-loader": "^13.3.2",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-notifier": "^1.15.0"
+  },
+  "dependencies": {
+    "jquery": "^3.7.1"
+  }
+}

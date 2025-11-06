@@ -1,2 +1,19 @@
 User-agent: *
-Disallow: /
+Disallow: /app/
+Disallow: /core/
+Disallow: /config/
+Disallow: /docker/
+Disallow: /node_modules/
+Disallow: /secure/
+Disallow: /storage/
+Disallow: /vendor/
+Disallow: /private/
+Disallow: /temp/
+
+Allow: /public/
+Allow: /public/build/
+Allow: /public/build/img/
+Allow: /public/build/webm/
+
+# Sitemap location
+Sitemap: http://localhost/monsite/sitemap.xml

@@ -1,0 +1,55 @@
+{% extends "@Shared/layout/base.twig" %}
+
+{% set current_page = 'admin' %}
+
+{% block title %}Administration - {{ parent() }}{% endblock %}
+
+{% block content %}
+
+{# Début du slider #}
+<form action="/admin/uploadImage" method="POST" enctype="multipart/form-data">
+  <label>Sélectionner une image :</label>
+  <input type="file" name="image" accept="image/*">
+  
+  {# 
+  <label>Largeur (px) :</label>
+  <input type="number" name="width" value="800">
+
+  <label>Hauteur (px, facultatif) :</label>
+  <input type="number" name="height"> 
+  #}
+
+  <label>Format de sortie :</label>
+  <select name="format">
+    <option value="jpg" selected>JPG</option>
+    <option value="png">PNG</option>
+    <option value="webp">WebP</option>
+  </select>
+
+  <button type="submit">Uploader</button>
+</form>
+
+  <form method="POST" action="admin/addCategory">
+    <input type="text" name="name" placeholder="Nom de la catégorie" required />
+    <input type="text" name="slug" placeholder="Slug" required />
+    <input type="number" name="parent_id" placeholder="ID parent (optionnel)" />
+    <button type="submit">Ajouter Catégorie</button>
+</form>
+
+<form method="POST" action="/admin/add-product">
+    <input type="text" name="name" placeholder="Nom du produit" required />
+    <input type="text" name="slug" placeholder="Slug" required />
+    <textarea name="description" placeholder="Description"></textarea>
+    <input type="text" name="composition" placeholder="Composition" />
+    
+    <select name="category_id" required>
+        <option value="">-- Sélectionner une catégorie --</option>
+        {% for category in categories %}
+            <option value="{{ category.id }}">{{ category.name }}</option>
+        {% endfor %}
+    </select>
+    
+    <button type="submit">Ajouter Produit</button>
+</form>
+
+{% endblock content %}

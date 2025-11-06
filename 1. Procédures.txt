@@ -1,0 +1,160 @@
+Index:
+1. CRÉER UN NOUVEAU LIEN/CONTROLLER/ACCES/VUE/CSS/JSS + COMPILATION
+
+_____________________________________________________________________________
+
+--- 1. CRÉER UN NOUVEAU LIEN/CONTROLLER/ACCES/VUE/CSS/JSS + COMPILATION ---
+_____________________________________________________________________________
+________________________________________________________________
+
+1. Créer un lien vers l'action du controller demandé dans l'uri
+________________________________________________________________
+<a href="about"></a> // Si AboutController@index (route par default)
+<a href="about/history"></a> // Si AboutController@history
+
+________________________________________________________________
+
+2. Créer un controller ./app/Controllers/AboutController.php
+________________________________________________________________
+namespace App\Controllers;
+
+if (!defined('SECURE_CHECK')) {
+  die('Direct access not permitted');
+}
+
+use Core\Controller;
+
+class AboutController extends Controller
+{
+  private string $view;
+
+  public function __construct()
+  {
+    // Appeler explicitement le constructeur de la classe parente
+    parent::__construct();
+    $this->view = 'about';
+  }
+
+  /**
+   * Affiche la page par défaut
+   */
+  public function index()
+  {
+    // Définir la valeur de la clé current_page -> 'about'
+    $this->set('current_page', $this->view);
+
+    // Appeller about.twig -> about.scss et about.js (current_page)
+    $this->view($this->view, $this->data);
+  }
+}
+
+________________________________________________________________
+
+3. Créer une autorisation d'accès dans ./config/access_whitelist.php
+________________________________________________________________
+Guest => Autoriser l'accès à AboutController@index
+
+________________________________________________________________
+
+4. Créer une vue twig ./app/Views/about.twig
+________________________________________________________________
+{% extends "layout.twig" %}
+{% block title %}A propos - {{ parent() }}{% endblock %}
+{% block content %}
+***
+<div class="image-auteur">
+    <img src="{{ encore_asset('img/about/entreprise.jpg') }}" alt="img-author">
+  </div>
+***
+{% endblock %}
+
+________________________________________________________________
+
+5. Créer une feuille de style associé à la vue ./app/assets/scss/* :
+(PS: La liaison "current_page" doit être renseigné manuellement dans WebpackConfig (8.))
+________________________________________________________________
+
+-> 5.1 Étape 1: ./partials/_about.scss
+-------------------------------------
+.image-auteur {
+    float: left;
+    width: 46%;
+    height: 25vw;
+    margin: 0% 2%;
+    padding-bottom: 8%;
+}
+
+-> 5.2 Étape 2: ./pages/about.scss
+-------------------------------------
+@use '@scss/partials/about';
+
+________________________________________________________________
+
+6. Ajouter une entrée .scss correspondant à la page spécifique dans ./webpack.config.js 
+________________________________________________________________
+.addStyleEntry('about', './app/assets/scss/pages/about.scss')
+
+________________________________________________________________
+
+(Optionnel) 7. Créer un script associé à la vue ./app/assets/js/* :
+(PS: La liaison "current_page" se fait automatiquement dans app.js)
+________________________________________________________________
+
+-> 7.1 Étape 1: ./components/fixeNavbar.js
+-------------------------------------
+export default function initFixeNavbar() {
+    const navbar = document.querySelector('.full-navbar');
+
+    if (navbar) {
+      navbar.style.position = "fixed";
+    }
+  };
+
+-> 7.2 Étape 2: ./pages/about.js
+-------------------------------------
+import initFixeNavbar from '@js/components/fixeNavbar';
+***
+
+export default function () {
+    initFixeNavbar();     // ← Exécute le code pour fixer la navbar
+    ***
+}
+________________________________________________________________
+
+8. Compiler les assets depuis ./app/assets/* vers ./public/build/*
+________________________________________________________________
+docker exec -it  monsitev24-node-1 npm run dev // Compilation sans optimisation
+docker exec -it  monsitev24-node-1 npm run watch // Compilation auto sans optimisation
+docker exec -it  monsitev24-node-1 npm run build // Compilation avec optimisation
+
+
+
+_____________________________________________________________________________
+
+--- 2. CRÉER UN NOUVEAU MODEL (CRUD BDD) ---
+_____________________________________________________________________________
+________________________________________________________________
+
+1. Créer la requête en SQL et l'exécutée
+________________________________________________________________
+
+________________________________________________________________
+
+2. Créer le repository
+________________________________________________________________
+________________________________________________________________
+
+3. Créer le service
+________________________________________________________________
+________________________________________________________________
+
+4. Créer le modèle
+________________________________________________________________
+________________________________________________________________
+
+5. Établir le lien Vue < Controller < Modèle < Service < Repository < BDD
+________________________________________________________________
+
+Vue  <--  Contrôleur  <--  Service  <--  Repository  <--  BDD
+                ↑
+             Modèle (représente les données manipulées à chaque étape)

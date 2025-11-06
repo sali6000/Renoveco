@@ -1,0 +1,51 @@
+hr
+{
+  height: 0.063em;
+  opacity: 0.7;
+  background-color:grey;
+  border-style: none;
+  text-align: center;
+  width: 100%;
+}
+
+.footerbackground
+{
+  background-color: lightgrey;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+}
+
+.footerstructureleft
+{
+  float:left;
+  width: 48%;
+  padding-right: 2%;
+  height: 150px;
+  border-right: 1px solid grey;
+  opacity: 0.7;
+}
+
+.footerstructureright
+{
+  float:left;
+  width: 47%;
+  padding-left: 2%;
+}
+
+.presentation
+{
+  width: 50%;
+  margin-left: 25%;
+  color:white;
+}
+
+.logoCenter
+{
+  text-align: right;
+}
+
+.logo
+{
+  width: 60px;
+  height: auto;
+}

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Core\Middleware;
+namespace Core\Middleware;
 
 
 if (!defined('SECURE_CHECK'))
     die('Direct access not permitted');
 
-use App\Core\Middleware;
+use Core\Middleware;
 
 class MaintenanceMiddleware extends Middleware
 {

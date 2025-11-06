@@ -1,0 +1,88 @@
+{% extends "@Shared/layout/base.twig" %}
+{% block title %}Conditions Générales d'Utilisation{% endblock %}
+
+{% block content %}
+<div class="container-cgu">
+
+  <h1>Conditions Générales d'Utilisation (CGU)</h1>
+  <h5>Dernière mise à jour : 17/07/2024</h5>
+
+  <p>
+    Bienvenue sur le site web de {{ base_entreprise_title }}. Les présentes Conditions Générales d’Utilisation (ci-après “CGU”) sont conclues entre tout internaute
+    naviguant, ou ayant accès aux fonctionnalités du Site (ci-après dénommé « l’Internaute » ou « le Client » ou
+    à qui il est fait référence par « vous » ou « votre ») et {{ base_entreprise_title }}.
+  </p>
+
+  <p>
+    En accédant et en utilisant notre site web ({{ base_entreprise_http }}), vous acceptez de vous conformer aux présentes conditions générales d'utilisation (CGU).
+    Si vous n'acceptez pas ces CGU, veuillez ne pas utiliser notre site.
+  </p>
+
+  <hr>
+
+  <h3>1. Informations légales</h3>
+  <b>Nom de l'entreprise</b> : {{ base_entreprise_title }}<br>
+  <b>Propriétaire du site</b> : Steven F<br>
+  <b>Adresse</b> : Rue des Brasseries 2, 7170 Manage<br>
+  <b>Email de contact</b> : {{ base_entreprise_mail }}<br>
+  <b>Numéro de téléphone</b> : 064/67.32.00<br>
+  <b>Numéro d'entreprise (TVA)</b> : BE0664544624
+
+  <h3>2. Objet du site</h3>
+  <p>
+    Le site web de {{ base_entreprise_title }} a pour objectif de présenter des produits de châssis en aluminium.
+    Les informations fournies sur ce site sont destinées à des fins d'information générale et ne constituent pas une offre de vente.
+  </p>
+
+  <h3>3. Accès au site</h3>
+  <p>
+    L'accès au site est gratuit. Cependant, les coûts de l'accès à internet et d'utilisation des moyens de communication sont à la charge de l'utilisateur.
+    {{ base_entreprise_title }} se réserve le droit de suspendre, limiter ou interrompre l'accès à tout ou partie du site, sans préavis.
+  </p>
+
+  <h3>4. Propriété intellectuelle</h3>
+  <p>
+    Tout le contenu du site, y compris les textes, images, graphiques, logos, vidéos et autres matériaux, est protégé par les lois belges et internationales
+    sur le droit d'auteur et la propriété intellectuelle. Toute reproduction, distribution ou utilisation non autorisée de ce contenu est strictement interdite.
+  </p>
+
+  <h3>5. Protection des données personnelles</h3>
+  <p>
+    {{ base_entreprise_title }} s'engage à protéger la vie privée de ses utilisateurs. Nous collectons et traitons les données personnelles conformément
+    au Règlement Général sur la Protection des Données (RGPD). Pour plus de détails, veuillez consulter notre
+    <a href="{{ base_url_privacy_policy }}">Politique de confidentialité</a>.
+  </p>
+
+  <h3>6. Limitation de responsabilité</h3>
+  <p>
+    Les informations présentes sur le site sont fournies à titre indicatif et sont réputées correctes au moment de leur publication. Toutefois,
+    {{ base_entreprise_title }} ne peut garantir l'exactitude, la complétude ou la pertinence de ces informations.
+    En conséquence, {{ base_entreprise_title }} décline toute responsabilité en cas d'erreur ou d'omission dans le contenu du site.
+  </p>
+
+  <h3>7. Liens externes</h3>
+  <p>
+    Le site peut contenir des liens vers d'autres sites web. {{ base_entreprise_title }} n'a aucun contrôle sur ces sites et décline toute responsabilité
+    quant à leur contenu, leur sécurité ou leurs pratiques de confidentialité.
+  </p>
+
+  <h3>8. Modification des CGU</h3>
+  <p>
+    {{ base_entreprise_title }} se réserve le droit de modifier les présentes CGU à tout moment.
+    Les utilisateurs sont invités à consulter régulièrement cette page pour prendre connaissance des éventuelles modifications.
+  </p>
+
+  <h3>9. Droit applicable et juridiction compétente</h3>
+  <p>
+    Les présentes CGU sont régies par le droit belge.
+    Tout litige relatif à l'interprétation ou à l'exécution des présentes sera soumis à la compétence exclusive des tribunaux belges.
+  </p>
+
+  <h3>10. Contact</h3>
+  <p>
+    Pour toute question ou demande d'information concernant ces CGU, vous pouvez nous contacter à l'adresse suivante :
+    {{ base_entreprise_mail }}
+  </p>
+
+</div>
+{% endblock %}

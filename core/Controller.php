@@ -1,17 +1,22 @@
 <?php
 
-namespace App\Core;
+namespace Core;
 
 if (!defined('SECURE_CHECK')) {
     die('Direct access not permitted');
 }
 
-class Controller
+use Core\View;
+use Core\Logger\AccessLogger;
+use Core\Support\DebugHelper;
+
+abstract class Controller
 {
     /**
      * @var array $data Holds data to be passed to views.
      */
     protected array $data;
+    protected string $viewBase;
 
     /**
      * Controller constructor.
@@ -19,6 +24,11 @@ class Controller
      */
     public function __construct()
     {
+        if (!property_exists(static::class, 'VIEW') && !defined('static::VIEW')) {
+            throw new \LogicException(static::class . ' doit définir la constante VIEW.');
+        }
+        $this->viewBase = constant(static::class . '::VIEW');
+
         // Initialisation des données ou autres configurations si nécessaire
         $this->data = [];
     }
@@ -67,5 +77,36 @@ class Controller
     protected function get(string $key): mixed
     {
         return $this->data[$key] ?? null;
+    }
+
+    protected function handleException(\Throwable $e, string $context = 'Erreur', string $view = 'error/500')
+    {
+        $errorId = uniqid('err_', true);
+        $errorType = get_class($e);
+
+        AccessLogger::log("[$errorId] ❌ $context → $errorType : " . $e, AccessLogger::LEVEL_ERROR);
+
+        $message = ($_ENV['APP_ENV'] === 'dev')
+            ? $e->getMessage() . '<br><pre>' . $e->getTraceAsString() . '</pre>'
+            : "Une erreur est survenue voir les logs (Code : $errorId)";
+
+        $this->view($view, ['message' => $message]);
+    }
+
+    protected function render(string $action = 'index'): void
+    {
+        // $this->viewBase contient la VIEW définit dans le controller Ex: "Product"
+        // Ex: $page devient donc "Product"/detail" si action contient 'detail', sinon "Product/index par défaut"
+        $assets = strtolower($action == 'index' ? $this->viewBase : $this->viewBase . '-' . $action); // product-detail
+        $view = $this->viewBase . '/' . $action; // Product/detail
+        $this->set('current_page', $assets);
+        $this->view($view, $this->data);
+    }
+
+    protected function setCache(int $seconds = 3600): void
+    {
+        header("Cache-Control: public, max-age=$seconds");
+        header("Pragma: cache");
+        header("Expires: " . gmdate('D, d M Y H:i:s', time() + $seconds) . " GMT");
     }
 }

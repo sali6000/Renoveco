@@ -5,6 +5,7 @@
   "license": "MIT",
   "require": {
     "php": "^8.1",
+    "intervention/image": "^3.11",
     "phpmailer/phpmailer": "^6.10",
     "symfony/polyfill-mbstring": "^1.29",
     "symfony/var-dumper": "^7.0",
@@ -16,12 +17,9 @@
   },
   "autoload": {
     "psr-4": {
-      "App\\Controllers\\": "app/controllers/",
-      "App\\Config\\": "config/",
-      "App\\Core\\": "core/",
-      "App\\Utils\\": "utils/",
-      "App\\Dao\\": "app/dao/",
-      "App\\Services\\": "app/services/"
+      "App\\": "app/",
+      "Core\\": "core/",
+      "Config\\": "config/"
     }
   },
   "autoload-dev": {

@@ -1,0 +1,136 @@
+body {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+}
+
+.quality {
+    width: 100%;
+    background-color: white;
+    justify-content: center;
+    border: 0.5px solid lightgrey;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 
+                0 6px 20px rgba(0, 0, 0, 0.1);
+                text-align: center;
+                font-weight: bold;
+                font-size: 24px;
+}
+
+.image-description img {
+    width: 300px;
+}
+
+.image-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    position: relative;
+    object-fit: contain;
+    width: 600px;
+    height: 600px;
+    overflow: hidden;
+    cursor:grab;
+}
+
+.image-container img {
+    width: 100%;
+    transition: transform 0.25s ease;
+    object-fit: contain;
+    cursor: grab;
+    overflow: hidden;
+}
+
+
+.image-container img.zoomed {
+    transform: scale(1);
+    cursor: zoom-out;
+    overflow: hidden;
+}
+
+
+.image-container img.grab {
+    cursor: url('https://cdn.iconscout.com/icon/free/png-256/grab-242-1122821.png'), grab;
+}
+
+.image-container img.grabbing {
+    cursor: url('https://cdn.iconscout.com/icon/free/png-256/grabbing-241-1122820.png'), grabbing;
+}
+
+.thumbnails {
+    display: flex;
+    gap: 10px;
+}
+
+.thumbnail {
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    align-items: center;
+    border: 5px solid darkgrey;
+    object-fit: contain;
+    display: flex;
+
+}
+
+.left-div, .middle-div, .right-div {
+    color: black;
+    display:inline-block;
+    height: max-content;
+}
+.left-div, .right-div {
+    background-color: white;
+    padding: 50px;
+}
+
+.left-div {
+
+    margin-left:5%;
+    width: 50%;
+
+}
+
+.middle-div {
+width: max-content;    padding: 0px 50px 25px 50px;
+}   
+
+.right-div {
+    margin-right: 5%;
+    width: 50%;
+    border: 0.5px solid lightgrey;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 
+                0 6px 20px rgba(0, 0, 0, 0.1);
+                padding:0px;
+
+}
+
+    .image-container-texte {
+        text-align: center;
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+
+.bottom-div {
+    display:ruby;
+    justify-content: space-between;
+    align-items: stretch;
+    margin: 0 1%;
+    float:left;
+}
+
+.previews {
+   display:flex;
+}
+
+.thumbnail:hover {
+border: 5px solid cyan;
+}
+
+/* Media query for small screens */
+@media (max-width: 600px) {
+    .thumbnails {
+        flex-direction: column;
+    }
+}
