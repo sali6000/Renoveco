@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{{ entrepriseTitle }}{% endblock %}</title> 
+    <meta name="description" content="Description of your page">
+    <meta name="keywords" content="PHP, MVC, SEO, Tutorial">
+    <meta name="author" content="Steven F">
+    <base href="{{ baseUri|e }}">
+    <link rel="shortcut icon" href="{{ encore_asset('img/about/logos/favicon.ico') }}">
+    <link rel="stylesheet" href="{{ encore_asset('global.css') }}">
+
+    {% if current_page is defined %}
+        <link rel="stylesheet" href="{{ encore_asset(current_page ~ '.css') }}">
+    {% endif %}
+
+    {% block head %}{% endblock %}
+</head>
+
+{# data-current-page > document.body.dataset.currentPage; (voir app.js) #}
+<body data-current-page="{{ current_page|default('default') }}">
+    {% include '@Shared/UI/Views/components/header.twig' ignore missing %}
+
+    <main class="{{ current_page }}">
+        <h1 class="sr-only">Présentation de la page {{ current_page }}</h1>
+        {% block content %}{% endblock %}
+    </main>
+
+    {% include '@Shared/UI/Views/components/footer.twig' ignore missing %}
+
+    {% block javascripts %}
+        <script src="{{ encore_asset('runtime.js') }}"></script>
+        <script src="{{ encore_asset('app.js') }}" defer></script>
+    {% endblock %}
+</body>
+</html>

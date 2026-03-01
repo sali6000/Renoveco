@@ -1,14 +1,14 @@
 User-agent: *
 Disallow: /app/
-Disallow: /core/
 Disallow: /config/
+Disallow: /core/
 Disallow: /docker/
 Disallow: /node_modules/
+Disallow: /script/
 Disallow: /secure/
 Disallow: /storage/
+Disallow: /tmp/
 Disallow: /vendor/
-Disallow: /private/
-Disallow: /temp/
 
 Allow: /public/
 Allow: /public/build/

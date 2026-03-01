@@ -1,10 +1,14 @@
+# Fichiers et répertoires à ignorer par Git
+# Uniquement push les dossiers/fichiers nécessaires au projet:
+# app/, core/, config/, docker-compose.yml, webpack-config.js, postcss.config.js, start.sh, 
+
 # Ignorer les répertoires
 /secure/
 /storage/
 /docker/
 /public/
 /.env.*.key
-/temp/*
+/tmp/*
 
 # Ignorer les fichiers
 .env

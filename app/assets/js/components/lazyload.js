@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+export function initLazyLoad() {
     const lazyElements = document.querySelectorAll(".lazy-content");
 
     const observer = new IntersectionObserver((entries) => {
@@ -26,4 +26,4 @@ document.addEventListener("DOMContentLoaded", function () {
     lazyElements.forEach((element) => {
         observer.observe(element);
     });
-});
+};

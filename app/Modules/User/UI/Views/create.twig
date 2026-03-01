@@ -1,0 +1,41 @@
+{% extends "@Shared/UI/Views/layout/base.twig" %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block content %}
+    <section class="section-register">
+        <div class="side-section"></div>
+        {# Inscription #}
+        <section class="form-section reveal slide-up">
+            <h2>Inscrivez-vous via ce formulaire d'inscription:</h2>
+            <form id="auth-register-form">
+
+                {# Récepetion serveur et renvoi du token csrf #}
+                <input type="hidden" class="csrf_token" value="{{ csrf_token }}">
+
+                {# Affichage des messages d'erreur ou de succès en JS #}
+                <div id="form-error" class="alert alert-danger" style="display: none;"></div>
+                <div id="form-success" class="alert alert-success" style="display: none;"></div>
+
+                {# Email #}
+                <label>Email</label>
+                <input type="email" class="email" required autofocus class="form-control">
+                <br><br>
+
+                {# Password #}
+                <label>Mot de passe</label>
+                <input type="password" class="password" required class="form-control">
+                <p>(Minimum 8 lettres avec au moins 1 chiffre et 1 lettre)</p>
+               <br><br>
+
+                {# Conditions générale d'utilisateur #}
+                <h4>Vous avez pris connaissance et acceptez les conditions générales de la platforme E From Inside afin de poursuivre la démarche d'inscription.</h4><br>
+                <br>
+
+                {# Bouton de validation du formulaire #}
+                <button type="submit" class="btn btn-danger">S'inscrire</button>
+            </form>
+        </section>
+        <div class="side-section"></div>
+    </section>
+{% endblock %}

@@ -3,6 +3,12 @@ return [
     'user' => [
         'ProfileController@view',
         'OrderController@list',
+        'HomeIndexController@index',
+        'CguController@index',
+        'HomeIndexController@index',
+        'ProductController@detail',
+        'ProductListController@list',
+        'AuthController@logout',
     ],
     'admin' => [
         '*', // accès total
@@ -11,14 +17,20 @@ return [
         '*', // accès total
     ],
     'guest' => [
-        'CguController@index',
-        'AuthController@login',
-        'AdminController@index',
-        'AuthController@connection',
-        'HomeController@index',
-        'AboutController@index',
-        'ProductController@list',
-        'ProductController@detail',
-        'Manage\ControllersController@index'
+        'AboutIndexController@index',
+        'AdminDashboardController@index',
+        'ContactIndexController@index',
+        'UserIndexController@create',
+        'AuthIndexController@login',
+        'AuthIndexController@registerJson',
+        'CguIndexController@index',
+        'HomeIndexController@index',
+        'ProductDetailController@detail',
+        'ProductListController@list',
+        'AuthLoginController@connection',
+        'AuthLoginController@login',
+        'UserCreateController@registerJson',
+        'ContactIndexController@mailSend',
+        'UserCreateController@create'
     ],
 ];

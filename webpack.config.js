@@ -10,16 +10,27 @@ Encore
     .addEntry('app', './app/assets/js/app.js')
     .addStyleEntry('global', './app/assets/scss/_main.scss')
 
-    // Entrées spécifiques aux pages
-    .addStyleEntry('about', './app/assets/scss/pages/about.scss')
-    .addStyleEntry('admin', './app/assets/scss/pages/admin.scss')
-    .addStyleEntry('home', './app/assets/scss/pages/home.scss')
-    .addStyleEntry('cgu', './app/assets/scss/pages/cgu.scss')
-    .addStyleEntry('product-list', './app/assets/scss/pages/product-list.scss')
-    .addStyleEntry('product-detail', './app/assets/scss/pages/product-detail.scss')
-    .addStyleEntry('auth-login', './app/assets/scss/pages/auth-login.scss')
-    .addStyleEntry('contact', './app/assets/scss/pages/contact.scss')
+    // Entrées spécifiques aux pages =>
+    // => Admin/*.scss :
+    .addStyleEntry('admin-category-index', './app/assets/scss/pages/admin/category/index.scss')
+    .addStyleEntry('admin-laboratory-index', './app/assets/scss/pages/admin/laboratory/index.scss')
+    .addStyleEntry('admin-user-index', './app/assets/scss/pages/admin/user/index.scss')
+    .addStyleEntry('admin-dashboard-index', './app/assets/scss/pages/admin/dashboard/index.scss')
+    .addStyleEntry('admin-product-index', './app/assets/scss/pages/admin/product/index.scss')
 
+    // => Product/*.scss :
+    .addStyleEntry('product-detail', './app/assets/scss/pages/product/detail.scss')
+    .addStyleEntry('product-list', './app/assets/scss/pages/product/list.scss')
+
+    // => User/*.scss :
+    .addStyleEntry('user-create', './app/assets/scss/pages/user/create.scss')
+
+    // => *.scss :
+    .addStyleEntry('about-index', './app/assets/scss/pages/about.scss')
+    .addStyleEntry('auth-login', './app/assets/scss/pages/auth-login.scss')
+    .addStyleEntry('cgu-index', './app/assets/scss/pages/cgu.scss')
+    .addStyleEntry('contact-index', './app/assets/scss/pages/contact.scss')
+    .addStyleEntry('home', './app/assets/scss/pages/home.scss')
 
     // Activer notifications système
     .enableBuildNotifications()
@@ -44,6 +55,12 @@ Encore
 
     // Hashing des fichiers pour le cache busting (uniquement en prod)
     .enableVersioning(Encore.isProduction())
+
+    // Copier les polices
+    .copyFiles({
+        from: './app/assets/fonts',
+        to: 'fonts/[path][name].[hash:8].[ext]'
+    })
 
     // Copier les images
     .copyFiles({

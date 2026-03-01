@@ -1,0 +1,7 @@
+// scss/partials/_home.scss
+@use '@scss/foundations/placeholders';
+@use '@scss/components/form';
+
+.section-login {
+    @extend %section-row;
+}

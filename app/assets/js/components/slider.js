@@ -2,14 +2,14 @@
 export default function initSlider() {
 
     const slider = document.getElementById("slides-js");
-    const slides__slide = slider.getElementsByClassName("slides__slide");
+    const sliderSlide = slider.getElementsByClassName("slider-slide");
     const slide__video = slider.querySelectorAll("video");
     let currentIndex = 0;
 
     if (!slider) return; // ⚠️ Si le slider n'existe pas, on ne fait rien
 
     // Active la première slide et lance la vidéo si elle existe
-    slides__slide[currentIndex].classList.add("active");
+    sliderSlide[currentIndex].classList.add("active");
     if (slide__video[currentIndex]) {
         slide__video[currentIndex].play().catch(err =>
             console.warn("Impossible de lire la première vidéo :", err)
@@ -20,8 +20,8 @@ export default function initSlider() {
     let timerId = setInterval(nextSlide, 5000);
 
     // Boutons next/prev si présents
-    const nextBtn = slider.querySelector(".slides__event--next");
-    const prevBtn = slider.querySelector(".slides__event--prev");
+    const nextBtn = slider.querySelector(".slider--event-next");
+    const prevBtn = slider.querySelector(".slider--event-prev");
 
     if (nextBtn) nextBtn.addEventListener("click", nextSlide);
     if (prevBtn) prevBtn.addEventListener("click", prevSlide);
@@ -63,17 +63,17 @@ export default function initSlider() {
         }
 
         // Désactive la slide actuelle
-        slides__slide[currentIndex].classList.remove("active");
+        sliderSlide[currentIndex].classList.remove("active");
 
         // Change d'index
         if (direction === "next") {
-            currentIndex = (currentIndex + 1) % slides__slide.length;
+            currentIndex = (currentIndex + 1) % sliderSlide.length;
         } else {
-            currentIndex = (currentIndex - 1 + slides__slide.length) % slides__slide.length;
+            currentIndex = (currentIndex - 1 + sliderSlide.length) % sliderSlide.length;
         }
 
         // Active la nouvelle slide
-        slides__slide[currentIndex].classList.add("active");
+        sliderSlide[currentIndex].classList.add("active");
 
         // 🔵 Lance la vidéo de la nouvelle slide si présente
         if (slide__video[currentIndex]) {

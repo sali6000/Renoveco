@@ -7,6 +7,7 @@ export default function initReveal() {
             const isInfinite = entry.target.classList.contains("reveal-infiny");
 
             if (entry.isIntersecting) {
+
                 // Gestion du delay pour les éléments "normaux" uniquement
                 if (!isInfinite) {
                     const siblings = [...entry.target.parentElement.querySelectorAll(".reveal")];

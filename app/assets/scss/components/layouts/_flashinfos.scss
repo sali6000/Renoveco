@@ -1,0 +1,57 @@
+.section-promotion {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+
+    width: 100%;
+    padding: 0.5rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .75rem;
+
+    color: #ff2a2a;
+    /* Rouge moderne */
+    font-size: .95rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+
+    opacity: 0;
+    transform: translateY(-10px);
+    animation: promo-slide 0.45s ease-out forwards;
+
+    &--danger {
+        color: #fff;
+        background: rgba(200, 0, 0, 0.75);
+    }
+
+    &--warning {
+        color: #fff;
+        background: rgba(220, 135, 0, 0.75);
+    }
+
+    &--success {
+        color: #fff;
+        background: rgba(0, 120, 30, 0.75);
+    }
+
+    &--info {
+        color: black;
+        background: rgba(255, 255, 255, 0.9);
+    }
+}
+
+@keyframes promo-slide {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

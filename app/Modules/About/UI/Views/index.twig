@@ -1,0 +1,86 @@
+{% extends "@Shared/UI/Views/layout/base.twig" %}
+
+{% block title %}A propos - {{ parent() }}{% endblock %}
+
+{% block content %}
+<div class="section-about-logo reveal slide-down">
+  <div class="image">
+    <img class="lazy-content" data-src="{{ encore_asset('img/about/logos/efrominsidev3.png') }}" alt="logo-author">
+  </div>
+</div>
+<div class="section-about-presentation reveal slide-down">
+    <div class="image">
+      <img class="lazy-content" data-src="{{ encore_asset('img/home/renoveconstructlittle.jpg') }}" alt="img-author">
+    </div>
+    <div class="texte">
+          <h1 style="text-align: center;">Présentation</h1>
+      <span>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </span>
+      <br><br>
+      <h1 style="text-align: center;">Parcours</h1>
+      <br>
+      <span>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </span>
+      <br>
+      <ul>
+        <li>Texte 1</li>
+        <li>Texte 2</li>
+        <li>Texte 3</li>
+        <li>Texte 4</li>
+        <li>Texte 5</li>
+        <li>Texte 6</li>
+      </ul>
+    </div>
+</div>
+<br><br><br>
+
+{# Section vidéos #}
+<div class="section-about-videos reveal slide-down">
+  <div class="text">
+    <h1 style="text-align: center;">Aperçu des travaux</h1>
+  </div>
+  <br><br>
+  <div class="videos">
+    <div class="video">
+      <video controls preload="auto">
+        <source src="{{ encore_asset('webm/about/video1.webm') }}" type="video/webm" />
+        Votre navigateur ne supporte pas la lecture de vidéos.
+      </video>
+    </div>
+    <div class="video">
+      <video controls preload="auto">
+        <source src="{{ encore_asset('webm/about/video2.webm') }}" type="video/webm" />
+        Votre navigateur ne supporte pas la lecture de vidéos.
+      </video>
+    </div>
+    <div class="video">
+      <video controls preload="auto" width="100%">
+        <source src="{{ encore_asset('webm/about/video3.mp4') }}" type="video/mp4" />
+        Votre navigateur ne supporte pas la lecture de vidéos.
+      </video>
+    </div>
+    <div class="video"></div>
+  </div>
+</div>
+<br><br>
+
+<div class="section-about-localisation">
+  <div class="map">
+    <h2>Localisation du siège:</h2>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2542.450072261545!2d4.45035572561422!3d50.41408558998268!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c2260e1d80eced%3A0xaa4301377e208fe!2sStade%20du%20Pays%20de%20Charleroi!5e0!3m2!1sfr!2sbe!4v1758113735554!5m2!1sfr!2sbe" width="100%" height="400px" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+</div>
+<br><br>
+{% endblock %}

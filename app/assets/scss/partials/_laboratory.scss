@@ -1,0 +1,37 @@
+// ======================================================================================
+//                                      POLICE
+// ======================================================================================
+// Police avec fond animé
+.police1 {
+    font-size: 100px;
+    font-weight: bold;
+    background-image: url(../../img/layouts/background2.jpg);
+    background-size: cover;
+    background-clip: text;
+    color: transparent;
+    animation: animate 20s linear infinite;
+
+}
+
+@keyframes animate {
+    to {
+        background-position-x: -500px;
+    }
+}
+
+// =====================================================================================
+.ring-outer {
+    border-color: red;
+    border-top-color: blue;
+    border-right-color: green;
+    animation: spin-outer 0.9s linear infinite;
+}
+
+.ring-inner {
+    inset: 6px;
+    border-width: 3px;
+    border-color: pink;
+    border-bottom-color: darkblue;
+    border-left-color: aqua;
+    animation: spin-inner 0.9s linear infinite reverse;
+}

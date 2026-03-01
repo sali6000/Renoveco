@@ -2,7 +2,7 @@
 
 namespace Core\Middleware;
 
-use Core\Middleware;
+use Core\Middleware\Middleware;
 
 class AuthMiddleware extends Middleware
 {

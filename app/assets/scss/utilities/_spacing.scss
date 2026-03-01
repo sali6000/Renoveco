@@ -1,9 +1,0 @@
-// app/assets/scss/utils/_spacing.scss
-
-// Importation des variables nécessaires
-@use '@scss/variables' as variables;
-
-// Utilitaires de spacing
-.base-content {
-  padding-top: variables.$navbar-height;
-}

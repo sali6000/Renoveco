@@ -4,21 +4,31 @@
 // ✅ Ce commentaire explique la finalité globale de ce contrôleur : générer un sitemap pour les moteurs de recherche.
 // 🔑 Indispensable pour comprendre l'intention du fichier quand on le lit rapidement.
 
-namespace App\Controllers\Utilities;
+/**
+ * C’est un fichier XML qui liste toutes les pages importantes de ton site.
+ * Il permet aux moteurs de recherche (Google, Bing…) de trouver et indexer toutes tes pages rapidement, même celles qui sont difficiles à atteindre via les liens classiques.
+ * Tu peux y inclure :
+ * URL de la page
+ * Date de dernière modification (<lastmod>)
+ * Priorité de la page (<priority>)
+ * Fréquence de mise à jour (<changefreq>)
+ * ... et d’autres métadonnées utiles pour le SEO.
+ */
+
+namespace App\Modules\Utilities;
 // ✅ Déclare l’espace de nom (namespace) de la classe.
 // 🔑 Utile pour l’organisation et l’autoloading PSR-4. Nécessaire si tu veux un code propre et modulable.
 
-use Core\Controller;
 use Config\AppConfig;
 // ✅ "use" permet d’importer d’autres classes (ici ton contrôleur de base et ta config d’app).
 // 🔑 Obligatoire si tu veux les utiliser sans devoir écrire leur namespace complet.
 
-class SitemapController extends Controller
+class SitemapController
 // ✅ Déclaration de la classe "SitemapController" qui hérite de "Controller".
 // 🔑 Héritage important : permet de bénéficier de fonctionnalités communes (ex: rendering, redirection).
 
 {
-    public function index()
+    public function index(): void
     // ✅ Méthode publique appelée quand l’URL correspond à "/sitemap" (ou ce que ton routeur décide).
     // 🔑 Point d’entrée de la génération du sitemap.
     {
@@ -28,7 +38,7 @@ class SitemapController extends Controller
 
         $urls = [
             [
-                'loc' => AppConfig::getPath('APP_PATH_URL'),
+                'loc' => AppConfig::getConst('URL_PATH'),
                 // ✅ Génère l’URL principale de ton site depuis ta configuration.
                 // 🔑 Permet d’éviter les URL en dur, rend le code portable.
 
@@ -48,9 +58,10 @@ class SitemapController extends Controller
         echo $this->generateSitemap($urls);
         // ✅ Appelle une méthode privée pour générer le XML complet et l'affiche.
         // 🔑 Séparation logique du code (lisibilité et réutilisabilité).
+        exit; // ⚠️ Important pour stopper tout flux supplémentaire
     }
 
-    private function generateSitemap($urls)
+    private function generateSitemap(array $urls): string
     // ✅ Méthode qui construit le fichier XML en se basant sur le tableau d’URLs.
     // 🔑 Bonne pratique : code encapsulé, facile à tester/modifier sans toucher à "index()".
     {

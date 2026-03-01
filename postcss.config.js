@@ -1,8 +1,8 @@
-// postcss.config.js
 module.exports = {
-  plugins: {
-    autoprefixer: {}
-  }
-}
-// This configuration file enables PostCSS with Autoprefixer to automatically add vendor prefixes to CSS rules, ensuring better browser 
-// compatibility.
+  plugins: [
+    require('postcss-import'),      // pour gérer les @import
+    require('postcss-nesting'),     // CSS imbriqué
+    require('autoprefixer'),        // ajout des prefixes
+    require('cssnano')({ preset: 'default' })
+  ].filter(Boolean)
+};

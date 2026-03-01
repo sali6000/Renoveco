@@ -10,7 +10,7 @@ final class KeysManager
 {
     public static function getKeyPath(string $env): ?string
     {
-        $path = "/var/www/secure/env.$env.key";
+        $path = AppConfig::getConst('LOCAL_PATH') . "/secure/env.$env.key";
         return file_exists($path) ? $path : null;
     }
 }

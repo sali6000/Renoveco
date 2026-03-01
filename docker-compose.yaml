@@ -12,9 +12,10 @@ services:
       - ./:/var/www/html # uniquement le backend PHP
       - vendor_data:/var/www/html/vendor # isole le dossier vendor pour éviter les conflits de permissions
       - ./secure:/var/www/secure # // Stockage des fichiers sécurisés. (ex: env.prod.key)
-      - ./temp:/var/www/temp # Monte le dossier de configuration PHP personnalisé.
-      - ./.env.prod.enc:/var/www/.env.prod.enc # Fichier chiffré versionné
+      - ./tmp:/var/www/tmp # Monte le dossier de configuration PHP personnalisé.
       - ./.env.local.enc:/var/www/.env.local.enc # Fichier chiffré local
+      - ./.env.dev.enc:/var/www/.env.dev.enc # Fichier chiffré dev
+      - ./.env.prod.enc:/var/www/.env.prod.enc # Fichier chiffré versionné
       - certs:/etc/ssl/mkcert # Monte le volume contenant les certificats
     ports:
       - "9000:9000" # Expose le port 9000 du conteneur sur le port 9000 de la machine hôte pour les requêtes PHP.
@@ -62,12 +63,10 @@ services:
       dockerfile: docker/node/Dockerfile
     working_dir: /app
     volumes:
-      - ./:/app # ton code
-      - node_modules_data:/app/node_modules # isole node_modules
-
-    command: tail -f /dev/null
-
-# Déclare un volume Docker pour stocker les données MySQL et les rendre persistantes.
+      - ./app/assets:/app/app/assets
+      - ./public:/app/public
+      - ./webpack.config.js:/app/webpack.config.js
+      # Déclare un volume Docker pour stocker les données MySQL et les rendre persistantes.
 volumes:
   db_data: # Déclare un volume pour MySQL
   certs: # Déclare un volume pour les certificats

@@ -2,7 +2,7 @@
 
 namespace Core\Middleware;
 
-use Core\Middleware;
+use Core\Middleware\Middleware;
 use Core\Logger\AccessLogger;
 
 class LoggerMiddleware extends Middleware
@@ -15,7 +15,7 @@ class LoggerMiddleware extends Middleware
     public function handle(): bool
     {
         // Appel du logger centralisé
-        AccessLogger::log("---> Début de la demande de route le " . date('Y-m-d H:i:s') . " :", AccessLogger::LEVEL_INFO);
+        //AccessLogger::log("---> Début de la demande de route le " . date('Y-m-d H:i:s') . " :", AccessLogger::LEVEL_INFO);
         return true;
     }
 }

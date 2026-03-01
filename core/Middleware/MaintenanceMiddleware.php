@@ -6,7 +6,8 @@ namespace Core\Middleware;
 if (!defined('SECURE_CHECK'))
     die('Direct access not permitted');
 
-use Core\Middleware;
+use Config\AppConfig;
+use Core\Middleware\Middleware;
 
 class MaintenanceMiddleware extends Middleware
 {
@@ -18,7 +19,7 @@ class MaintenanceMiddleware extends Middleware
     public function handle(): bool
     {
         // Vérification de l'état de maintenance
-        $maintenance = $_ENV['APP_MAINTENANCE'] === 'true';
+        $maintenance = AppConfig::getEnv('APP_MAINTENANCE') === 'true';
 
         // Exemple : autoriser uniquement l’IP de développement
         $allowedIps = ['127.0.0.1', '::1'];
@@ -27,7 +28,7 @@ class MaintenanceMiddleware extends Middleware
         // on affiche une page de maintenance
         if ($maintenance && !in_array($_SERVER['REMOTE_ADDR'], $allowedIps)) {
             http_response_code(503);
-            echo file_get_contents(__DIR__ . '/../../App/Views/error/503.html');
+            echo file_get_contents(AppConfig::getConst('LOCAL_PATH_APP_MODULES') . 'Error/UI/Views/503.html');
             return false; // Bloque la suite du traitement
         }
 

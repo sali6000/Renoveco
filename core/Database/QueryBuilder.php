@@ -2,136 +2,197 @@
 
 namespace Core\Database;
 
+use Config\AppConfig;
 use PDO;
 use Core\Logger\AccessLogger;
 use Core\Support\DebugHelper;
 
 class QueryBuilder implements QueryBuilderInterface
 {
-
     /*
         Quand tu construis ta requête, pose-toi toujours ces 3 questions :
-        “Est-ce que je veux une seule ligne par entité principale ?” → Oui ⇒ sous-requête possible.
+        “Est-ce que je veux une seule ligne/colonne d'une référence ?” → Oui ⇒ sous-requête possible.
         “Est-ce que je veux toutes les données associées ?” → Oui ⇒ jointure directe.
         “Est-ce que je veux un résumé (liste, moyenne, etc.) ?” → Oui ⇒ jointure + agrégation.
     */
+
+    /** @var string[] Liste des colonnes à sélectionner */
     private array $select = [];
+
+    /** @var string|null Table principale */
     private ?string $from = null;
+
+    /** @var array<string, mixed> Paramètres liés à la condition */
     private array $whereConditions = [];
+
+    /** @var array<string, mixed> Paramètres pour la requête préparée */
     private array $whereParams = [];
+
     private array $joins = [];
+
+    /** @var string[] Liste des colonnes pour GROUP BY */
     private array $groupBy = [];
+
+    /** @var array<int, array{string, string}> Liste des colonnes pour ORDER BY avec direction ('ASC'|'DESC') */
     private array $orderBy = [];
+
+    /** @var int|null Limite de la requête */
     private ?int $limit = null;
+
+    /** @var int|null Offset de la requête */
     private ?int $offset = null;
 
-    /*
-
-        But : stocker l’instance PDO, afin d’exécuter des requêtes.
-
-        Exemple attendu :
-
-        $pdo = new PDO('mysql:host=localhost;dbname=test', 'root', '');
-        $qb = new QueryBuilder($pdo);
-
-    */
     public function __construct(private PDO $pdo)
     {
         $this->pdo = $pdo;
     }
 
-    // products p -> ["p.id", "pi.name"]
-    public function selectFrom(string $tableName, array $columns = ['*']): static
+    // Responses
+    public function toSql(bool $wrapParentheses = false): string
     {
-        $this->from = $tableName; // "products p"
-        $this->select = $columns; // ["p.id", "p.name"]
-        return $this;
+        $sql = $this->buildQuery();
+
+        // ✅ On ne fait PAS de reset ici (sinon la requête est perdue)
+        if ($wrapParentheses) {
+            $sql = "($sql)";
+        }
+        return $sql;
     }
 
-    // product_images pi -> ["pi.id", "pi.file_path"] 
-    public function selectJoinLeft(
-        string $tableTarget,        // Ex: "product_images pi"
-        array $columns = []        // Ex: ["pi.id", "pi.file_path"]
-    ): static {
-        // ✅ Fusionner les colonnes
-        if (!empty($columns)) {
-            $columnsArray = is_array($columns) ? $columns : [$columns];
-            $this->select = array_merge($this->select, $columnsArray);
+    public function execute(): \PDOStatement
+    {
+        $sql = $this->buildQuery();
+
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($this->whereParams);
+
+            // Dev uniquement : log de toutes les requêtes réussies
+            if ((AppConfig::getEnv('APP_DEBUG') ?? false) === true) {
+                DebugHelper::logSQL($sql, $this->whereParams, true);
+            }
+            return $stmt;
+        } catch (\PDOException $e) {
+            // Toujours log l'erreur
+            DebugHelper::logSQL($sql, $this->whereParams, true);
+            AccessLogger::log("SQL Error: " . $e->getMessage(), AccessLogger::LEVEL_ERROR);
+            throw $e;
+        } finally {
+            $this->reset();
         }
-
-        // ✅ Extraire alias du FROM "products p"
-        $fromParts = explode(' ', $this->from); // ["products", "p"]
-        $aliasFrom = trim(end($fromParts)); // "p"
-
-        // ✅ Extraire alias de la target "products_images pi"
-        $targetParts = explode(' ', $tableTarget); // ["product_images", "pi"]
-        $aliasTarget = trim(end($targetParts)); // "pi"
-
-        $prefixParts = explode('_', $targetParts[0]);    // ["product"]
-        $foreignKey ??= "{$prefixParts[0]}_id"; // "product_id"
-
-        // ✅ Construire condition ON
-        $condition = "{$aliasTarget}.{$foreignKey} = {$aliasFrom}.id"; // pi.product_id = p.id
-        $this->leftJoin("{$tableTarget}", $condition); // LEFT JOIN product_images pi ON
-
-        return $this;
     }
 
-    // (table pivot) product_category pc -> categories c -> ["c.id"]["c.name"]
-    public function selectJoinManyToMany(
-        string $tablePivot, // Ex: "product_category pc"
-        string $tableTarget, // Ex: "categories c"
-        array $columns = [], // Ex: ["c.id"]["c.name"]
-        ?string $joinColumn = null, // (optionnel) Ex: "category_id"
-        ?string $inverseJoinColumn = null // (optionnel) Ex: "product_id"
-    ): static {
-
-        // Fusion des colonnes (select) du selectFromManyToMany avec les colonnes du selectFrom
-        if (!empty($columns)) {
-            $columnsArray = is_array($columns) ? $columns : [$columns];
-            $this->select = array_merge($this->select, $columnsArray);
+    // Type of request response
+    public function toSubSql(?string $alias = null): string
+    {
+        $sql = $this->toSql(true); // true → ajoute déjà les parenthèses
+        if ($alias) {
+            $sql .= " AS $alias";
         }
-
-        // Extraire alias
-        $parts = explode(' ', $this->from);
-        $aliasFrom = trim(end($parts)); // Ex: "p"
-        $parts = explode(' ', $tablePivot);
-        $aliasPivot = trim(end($parts)); // Ex: "pca"
-        $parts = explode(' ', $tableTarget);
-        $aliasTarget = trim(end($parts)); // Ex: "pc"
-
-
-        // Auto-détection si pas fournis 
-        if (!$joinColumn || !$inverseJoinColumn) {
-            // Etape 0: $pivotTable = "product_category pc"
-            // Etape 1: explode(' ',$pivotTable); 
-            // Etape 2: ["product_category", "pc"][0]
-            // Etape 4: explode('_', ["product_category"]); 
-            // Résultat: [[0] => "product", [1] => "category"]]
-            $parts = explode('_', explode(' ', $tablePivot)[0]); // [[0] => "product", [1] => "category"]]
-            $inverseJoinColumn = "{$parts[0]}_id" ?? null; // Ex: product_id
-            $joinColumn = "{$parts[1]}_id" ?? null; // Ex: category_id
-        }
-
-        $condition = "{$aliasPivot}.{$joinColumn} = {$aliasFrom}.id"; // ru.user_id = u.id
-        $this->leftJoin("{$tablePivot}", $condition); // LEFT JOIN role_user ru ON
-
-        $condition = "{$aliasPivot}.{$inverseJoinColumn} = {$aliasTarget}.id"; // ru.role_id = r.id
-        $this->leftJoin("{$tableTarget}", $condition); // LEFT JOIN roles r ON
-
-        return $this;
+        return $sql;
     }
 
+    /**
+     * Exécute la requête et retourne le premier champ de la première ligne (id)
+     */
+    public function executeAndFetchColumn(int $numColumn = 0): mixed
+    {
+        $stmt = $this->execute();      // execute() retourne PDOStatement
+        return $stmt->fetchColumn($numColumn);   // récupère directement la valeur
+    }
+
+    /**
+     * Exécute la requête et retourne la première ligne complète
+     */
+    public function executeAndFetchOne(): ?array
+    {
+        $stmt = $this->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row ?: null;
+    }
+
+    /**
+     * Exécute la requête et retourne toutes les lignes
+     */
+    public function executeAndFetchAll(): array
+    {
+        $stmt = $this->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /*
+        But : réinitialiser le QueryBuilder après exécution (pour ne pas polluer la requête suivante).
+    */
+    private function reset(): void
+    {
+        $this->select = [];
+        $this->joins = [];
+        $this->whereConditions = [];
+        $this->whereParams = [];
+        $this->groupBy = [];
+        $this->orderBy = [];
+        $this->limit = null;
+        $this->offset = null;
+    }
+
+    /**
+     * Retourne le dernier ID inséré (après insert)
+     */
+    public function returnInsertId(): int
+    {
+        return (int)$this->pdo->lastInsertId();
+    }
+
+    /**
+     * Met à jour des lignes dans une table SQL de manière sécurisée.
+     *
+     * @param string $table   Nom de la table à mettre à jour.
+     * @param array  $data    Tableau associatif des colonnes et valeurs à mettre à jour.
+     *                        Exemple : ['name' => 'Nouveau nom', 'price' => 19.99]
+     * @param string $where   Condition SQL pour limiter les lignes affectées.
+     *                        Exemple : 'id = :id'
+     * @param array  $params  Paramètres supplémentaires pour la clause WHERE si nécessaire.
+     *                        Exemple : ['id' => 10]
+     *
+     * @return bool           true si la mise à jour a réussi, false sinon.
+     */
+    public function update(string $table, array $data, string $where, array $params = []): bool
+    {
+        // 1️⃣ Construire la partie SET dynamiquement :
+        // transforme ['name'=>'Nouveau nom','price'=>19.99]
+        // en "name = :name, price = :price"
+        $set = implode(', ', array_map(fn($col) => "$col = :$col", array_keys($data)));
+
+        // 2️⃣ Construire la requête SQL complète
+        // Exemple final : "UPDATE products SET name = :name, price = :price WHERE id = :id"
+        $sql = sprintf("UPDATE %s SET %s WHERE %s", $table, $set, $where);
+
+        // 3️⃣ Préparer la requête pour sécuriser les paramètres (PDO)
+        $stmt = $this->pdo->prepare($sql);
+
+        // 4️⃣ Exécuter la requête avec tous les paramètres
+        // array_merge($data, $params) combine :
+        // - les colonnes à mettre à jour
+        // - les paramètres du WHERE
+        return $stmt->execute(array_merge($data, $params));
+    }
+
+    /**********************************************************************************************
+     * 
+     * => ÉXECUTION (Fin): Tous ce qui concerne l'execution (PDO)     
+     *  
+     **********************************************************************************************/
+    /**********************************************************************************************
+     * 
+     * => PRÉPARATION, FORMAT ET INTERPREATION (Début): Tous ce qui concerne la préparation de la query SQL
+     * 
+     **********************************************************************************************/
     public function buildQuery(): string
     {
         $sql = "SELECT " . implode(', ', $this->select) . " FROM {$this->from}";
 
-        // 🔹 JOIN
-        foreach ($this->joins as $join) {
-            $type = strtoupper($join['type']); // [ "INNER", "LEFT", ...]
-            $sql .= " {$type} JOIN " . $this->escapeTableWithAlias($join['table']) .
-                " ON " . $this->escapeCondition($join['condition']);
-        }
+        //JOIN 
+        $sql .= implode('', $this->joins);
 
         // 🔹 WHERE
         if (!empty($this->whereConditions)) {
@@ -165,6 +226,63 @@ class QueryBuilder implements QueryBuilderInterface
         return $sql;
     }
 
+    public function select(array $columns = ['*']): static
+    {
+        $this->select = $columns; // ["p.id", "p.name"]
+        return $this;
+    }
+
+    public function from(string $table): static
+    {
+        $this->from = $table; // "products p"
+        return $this;
+    }
+
+    public function joinLeft(string $toTable, string $toTableFK, string $fromTablePK): static
+    {
+        $this->joins[] = " LEFT JOIN " . $toTable . " ON " . $toTableFK . " = " . $fromTablePK;
+        return $this;
+    }
+
+    public function joinManyToMany(string $toTablePivot, string $fromTablePK, string $toTablePivotFK, string $toTable, string $fromTablePivotFK, string $toTablePK): static
+    {
+        $this->joins[] =
+            " JOIN " . $toTablePivot . " ON " . $toTablePivotFK . " = " . $fromTablePK .
+            " JOIN " . $toTable . " ON " . $toTablePK . " = " . $fromTablePivotFK;
+        return $this;
+    }
+
+    public function insert(string $table, array $data): int
+    {
+        // ✅ 1. Nettoyer les alias dans les clés (ex: "c.name" → "name")
+        $cleanData = [];
+        foreach ($data as $key => $value) {
+            $cleanKey = preg_replace('/^[a-zA-Z0-9_]+\./', '', $key);
+            $cleanData[$cleanKey] = $value;
+        }
+
+        // ✅ 2. Nettoyer un éventuel alias de table (ex: "categories c" → "categories")
+        $table = preg_replace('/\s+[a-zA-Z0-9_]+$/', '', $table);
+
+        // ✅ 3. Construire la requête
+        $columns = array_keys($cleanData);
+        $placeholders = array_map(fn($col) => ':' . $col, $columns);
+
+        $sql = sprintf(
+            "INSERT INTO %s (%s) VALUES (%s)",
+            $table,
+            implode(', ', $columns),
+            implode(', ', $placeholders)
+        );
+
+        // ✅ 4. Exécuter
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($cleanData);
+
+        // ✅ 5. Retourner le dernier ID inséré
+        return $this->returnInsertId();
+    }
+
     public function groupBy(string $column): static
     {
         $this->groupBy[] = $column;
@@ -194,168 +312,6 @@ class QueryBuilder implements QueryBuilderInterface
     {
         $this->offset = $offset;
         return $this;
-    }
-
-    /**
-     * A -> V <- B
-     */
-    public function join(string $table, string $condition, string $type = 'INNER'): static
-    {
-        $this->joins[] = [
-            'table' => $table,
-            'condition' => $condition,
-            'type' => strtoupper($type),
-        ];
-        return $this;
-    }
-
-    /**
-     * -> A & V <- B
-     */
-    public function leftJoin(string $table, string $condition): static
-    {
-        return $this->join($table, $condition, 'LEFT');
-    }
-
-    public function toSql(bool $wrapParentheses = false): string
-    {
-        $sql = $this->buildQuery();
-
-        // ✅ On ne fait PAS de reset ici (sinon la requête est perdue)
-        if ($wrapParentheses) {
-            $sql = "($sql)";
-        }
-
-        return $sql;
-    }
-
-    public function toSubSql(?string $alias = null): string
-    {
-        $sql = $this->toSql(true); // true → ajoute déjà les parenthèses
-        if ($alias) {
-            $sql .= " AS $alias";
-        }
-        return $sql;
-    }
-
-    /*
-        But : préparer, exécuter et retourner le résultat.
-        Relation : utilise $this->whereParams pour sécuriser l’injection SQL.
-
-        Exemple attendu :
-        $stmt = $qb->execute(); => $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    */
-    public function execute(): \PDOStatement
-    {
-        $sql = $this->buildQuery();
-
-        try {
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->execute($this->whereParams);
-
-            // Dev uniquement : log de toutes les requêtes réussies
-            if (($_ENV['APP_DEBUG'] ?? false) === true) {
-                DebugHelper::logSQL($sql, $this->whereParams, true);
-            }
-            return $stmt;
-        } catch (\PDOException $e) {
-            // Toujours log l'erreur
-            DebugHelper::logSQL($sql, $this->whereParams, true);
-            AccessLogger::log("SQL Error: " . $e->getMessage(), AccessLogger::LEVEL_ERROR);
-            throw $e;
-        } finally {
-            $this->reset();
-        }
-    }
-
-    /*
-        But : réinitialiser le QueryBuilder après exécution (pour ne pas polluer la requête suivante).
-    */
-    private function reset(): void
-    {
-        $this->select = [];
-        $this->joins = [];
-        $this->whereConditions = [];
-        $this->whereParams = [];
-        $this->groupBy = [];
-        $this->orderBy = [];
-        $this->limit = null;
-        $this->offset = null;
-    }
-
-    /*
-        escapeColumns() : sécurisent les noms de colonnes (protège contre SQL injection).
-        (applique escapeColumn() sur chaque élément du tableau $columns)
-    */
-    private function escapeColumns(array $columns): string
-    {
-        /**
-         * Exemple:
-         * $columns = ['id', 'name', 'COUNT(order_id) AS order_count'];
-         * $escaped = array_map([$this, 'escapeColumn'], $columns);
-         * $escaped = ['`id`', '`name`', 'COUNT(order_id) AS order_count'] <= Résultat
-         * return => "`id`, `name`, COUNT(order_id) AS order_count"
-         */
-        $escaped = array_map([$this, 'escapeColumn'], $columns);
-        return implode(', ', $escaped);
-    }
-
-    /*
-        escapeColumn() : sécurisent les noms de colonnes (protège contre SQL injection).
-    */
-    private function escapeColumn(mixed $column): string
-    {
-        // Si c'est du RAW, ne rien toucher
-        if (is_array($column) && isset($column['raw'])) {
-            return $column['raw'];
-        }
-
-        // Si s'est une sous-requête SQL, ne rien faire
-        if (preg_match('/^\(SELECT.+\)\s+AS\s+(\w+)$/is', $column, $matches)) {
-            return $column;
-        }
-
-        // Détecte si la colonne est une fonction SQL comme COUNT(id), SUM(price), GROUP_CONCAT(...)
-        if (preg_match('/^(COUNT|SUM|AVG|MIN|MAX|GROUP_CONCAT|LOWER|UPPER|IFNULL|COALESCE|IF)\s*\((.+)\)(?:\s+AS\s+(\w+))?$/i', $column, $matches)) {
-            $func = strtoupper($matches[1]); // COUNT
-            $inner = $matches[2]; // (id)
-            $alias = $matches[3] ?? null; // order_count
-
-            // On n’échappe **que les identifiants simples**, on laisse les CONCAT, etc.
-            $innerEscaped = $inner;
-            $result = "$func($innerEscaped)"; // $result = COUNT (id)
-            if ($alias) {
-                $result .= " AS $alias";
-            }
-            return $result;
-        }
-
-        if (preg_match('/^(.+)\s+AS\s+(\w+)$/i', $column, $matches)) {
-            $colPart = $matches[1];
-            $alias = $matches[2];
-            return $this->escapeIdentifierWithDots($colPart) . " AS $alias";
-        }
-
-        return $this->escapeIdentifierWithDots($column);
-    }
-
-    /*
-        escapeTableWithAlias() : protège les noms de tables + alias.
-    */
-    private function escapeTableWithAlias(string $tableWithAlias): string
-    {
-        if (preg_match('/^(\w+)(?:\s+(\w+))?$/', $tableWithAlias, $matches)) {
-            $table = $matches[1];
-            $alias = $matches[2] ?? null;
-
-            $sql = '`' . str_replace('`', '``', $table) . '`';
-            if ($alias) {
-                $sql .= ' `' . str_replace('`', '``', $alias) . '`';
-            }
-            return $sql;
-        }
-        return $this->escapeIdentifier($tableWithAlias);
     }
 
     /*
@@ -402,48 +358,9 @@ class QueryBuilder implements QueryBuilderInterface
         }, $condition);
     }
 
-    public function insert(string $table, array $data): bool
-    {
-        // ✅ 1. Nettoyer les alias dans les clés (ex: "c.name" → "name")
-        $cleanData = [];
-        foreach ($data as $key => $value) {
-            $cleanKey = preg_replace('/^[a-zA-Z0-9_]+\./', '', $key);
-            $cleanData[$cleanKey] = $value;
-        }
-
-        // ✅ 2. Nettoyer un éventuel alias de table (ex: "categories c" → "categories")
-        $table = preg_replace('/\s+[a-zA-Z0-9_]+$/', '', $table);
-
-        // ✅ 3. Construire la requête
-        $columns = array_keys($cleanData);
-        $placeholders = array_map(fn($col) => ':' . $col, $columns);
-
-        $sql = sprintf(
-            "INSERT INTO %s (%s) VALUES (%s)",
-            $table,
-            implode(', ', $columns),
-            implode(', ', $placeholders)
-        );
-
-        // ✅ 4. Exécuter
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($cleanData);
-
-        // ✅ 5. Retourner le dernier ID inséré
-        return (int)$this->pdo->lastInsertId();
-    }
-
-    public function update(string $table, array $data, string $where, array $params = []): bool
-    {
-        $set = implode(', ', array_map(fn($col) => "$col = :$col", array_keys($data)));
-        $sql = sprintf("UPDATE %s SET %s WHERE %s", $table, $set, $where);
-
-        $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute(array_merge($data, $params));
-    }
-
-    public function lastInsertId(): string
-    {
-        return $this->pdo->lastInsertId();
-    }
+    /**********************************************************************************************
+     * 
+     * => PRÉPARATION, FORMAT ET INTERPREATION (Fin): Tous ce qui concerne la préparation de la query SQL
+     * 
+     **********************************************************************************************/
 }

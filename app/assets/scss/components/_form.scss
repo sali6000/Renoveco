@@ -1,0 +1,69 @@
+@use '@scss/foundations/variables' as variables;
+@use '@scss/foundations/mixins/section' as section-mix;
+
+.form {
+
+    &-section {
+        @include section-mix.section-layout($direction: column,
+            $margins: variables.$space-m,
+            $paddings: variables.$space-m,
+            $backgroundColor: variables.$color-bg-white,
+            $gap: variables.$space-xs,
+            $color: black,
+            $backdropBlur: 10px,
+            $border: 1px solid rgba(255, 255, 255, 0.3),
+            $boxShadow: 0 8px 40px rgb(0 0 0 / 0.1));
+    }
+
+    &-section-x2 {
+        @include section-mix.section-layout($flex: 2,
+            $direction: column,
+            $margins: variables.$space-m,
+            $paddings: variables.$space-m,
+            $backgroundColor: variables.$color-bg-white,
+            $gap: variables.$space-xs,
+            $color: black,
+            $backdropBlur: 10px,
+            $border: 1px solid rgba(255, 255, 255, 0.3),
+            $boxShadow: 0 8px 40px rgb(0 0 0 / 0.1));
+    }
+
+    &-section-x3 {
+        @include section-mix.section-layout($flex: 4,
+            $direction: column,
+            $margins: variables.$space-m,
+            $paddings: variables.$space-m,
+            $backgroundColor: variables.$color-bg-white,
+            $gap: variables.$space-xs,
+            $color: black,
+            $backdropBlur: 10px,
+            $border: 1px solid rgba(255, 255, 255, 0.3),
+            $boxShadow: 0 8px 40px rgb(0 0 0 / 0.1));
+    }
+
+    &-section-x4 {
+        @include section-mix.section-layout($flex: 8,
+            $direction: column,
+            $margins: variables.$space-m,
+            $paddings: variables.$space-m,
+            $backgroundColor: variables.$color-bg-white,
+            $gap: variables.$space-xs,
+            $color: black,
+            $backdropBlur: 10px,
+            $border: 1px solid rgba(255, 255, 255, 0.3),
+            $boxShadow: 0 8px 40px rgb(0 0 0 / 0.1));
+    }
+
+    &-section-x5 {
+        @include section-mix.section-layout($flex: 16,
+            $direction: column,
+            $margins: variables.$space-m,
+            $paddings: variables.$space-m,
+            $backgroundColor: variables.$color-bg-white,
+            $gap: variables.$space-xs,
+            $color: black,
+            $backdropBlur: 10px,
+            $border: 1px solid rgba(255, 255, 255, 0.3),
+            $boxShadow: 0 8px 40px rgb(0 0 0 / 0.1));
+    }
+}

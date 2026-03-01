@@ -1,141 +1,184 @@
-.section__slides {
-    font-family: "Roboto", sans-serif;
-    color: #010101;
-    font-weight: 100;
-    max-height: 100vh;
-    overflow-y: hidden;
-    box-shadow: 0 8px 40px rgb(0 0 0 / 0.1);
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    margin-bottom: 2%;
+@use '@scss/foundations/placeholders/section';
+@use '@scss/foundations/variables' as variables;
+@use '@scss/foundations/mixins/section' as section-mix;
+
+
+// Formation et positionnement du slider
+.section-slider {
+    height: 100vh;
+    overflow: hidden;
 }
 
-.section__slides::-webkit-scrollbar {
+// Comportement pas défaut pour tous les slides (=> display: none)
+.slider-slide {
     display: none;
 }
 
-.slides__slide {
-    display: none;
-}
-
-.slides__slide.active {
+// Apparition (format et positionnement) lorsqu'un slide est actif (=> display: block)
+.slider-slide.active {
     display: block;
     min-width: 100vw;
     width: 100%;
-    font-size: 4rem;
+    font-size: 4vw;
     display: flex;
     justify-content: center;
     align-items: center;
     scroll-snap-align: start;
 }
 
-.slides__slide__texts {
+// Format et positionnement des vidéos dans le slide
+.slider-slide video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     position: absolute;
-    text-align: center;
+    top: 0;
+    left: 0;
 }
 
-.slides__slide__texts h2 {
+// Positionnement du texte dans le slide
+.slide-texts {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 100%;
+}
+
+// Style pour le texte dans le slide
+.slide-texts h2 {
     color: #fff;
     font-size: 5vw;
-    font-weight: 10;
+    font-weight: 200;
     line-height: 1.15;
     text-shadow: 2px 2px 5px rgb(0 0 0 / 0.7);
 }
 
-.slides__slide__texts a {
+// Style pour le texte dans le slide
+.slide-contacts h4 {
+    color: #fff;
+    font-size: 1.5vw;
+    font-weight: 200;
+    line-height: 1.15;
+    text-shadow: 2px 2px 5px rgb(0 0 0 / 0.7);
+}
+
+// Positionnement des éléments "contacts" dans le slide
+.slide-contacts {
+    position: absolute;
+    text-align: center;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%);
+    width: 100%;
+}
+
+.slide-contacts-button {
+    @extend %section-row;
+}
+
+// Style du bouton "Contactez-nous" dans le slide
+.slide-contacts-button a {
     font-size: 1vw;
     border-radius: 1px;
-    padding: 2% 5%;
-    font-weight: 700;
+    padding: 1% 3%;
     border: 0.1vw #fff solid;
     color: #fff;
     text-shadow: 2px 2px 5px rgb(0 0 0 / 0.7);
     transition: background-color 0.2s linear, color 0.2s linear;
 }
 
-.slides__slide__texts a:hover {
+// Style du bouton "Contactez-nous" dans le slide (au survol)
+.slide-contacts a:hover {
     background-color: #fff;
     color: #000;
     text-shadow: none;
 }
 
-.slides__style--arrow_right,
-.slides__style--arrow_left {
+.slide-contacts-social-media {
+    @include section-mix.section-layout($paddings: variables.$space-s);
+}
+
+// Styles pour les flèches de navigation du slider
+.slider--arrow-right,
+.slider--arrow-left {
     opacity: 0.6;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 64px;
-    height: 64px;
+    width: 32px;
+    height: 32px;
     z-index: 2;
     cursor: pointer;
 }
 
-.slides__style--arrow_right {
+.slider--arrow-right {
     right: 1rem;
 }
 
-.slides__style--arrow_left {
+.slider--arrow-left {
     left: 1rem;
 }
 
-.slides__style--arrow_right:hover,
-.slides__style--arrow_left:hover {
+.slider--arrow-right:hover,
+.slider--arrow-left:hover {
     opacity: 1;
 }
 
-.slides__style--arrow_right::before,
-.slides__style--arrow_right::after,
-.slides__style--arrow_left::before,
-.slides__style--arrow_left::after {
+.slider--arrow-right::before,
+.slider--arrow-right::after,
+.slider--arrow-left::before,
+.slider--arrow-left::after {
     box-shadow: rgb(0 0 0 / 0.2) 0 12px 28px 0, rgb(0 0 0 / 0.1) 0 2px 4px 0, rgb(255 255 255 / 0.05) 0 0 0 1px inset;
     content: "";
     position: absolute;
-    width: 64px;
-    height: 16px;
+    width: 32px;
+    opacity: 0.8;
+    height: 4px;
     background-color: #fff;
 }
 
-.slides__style--arrow_right::before {
+.slider--arrow-right::before {
     transform: rotate(45deg);
 }
 
-.slides__style--arrow_right::after {
+.slider--arrow-right::after {
     transform: rotate(-45deg);
-    bottom: 14px;
+    bottom: 7px;
 }
 
-.slides__style--arrow_left::before {
+.slider--arrow-left::before {
     transform: rotate(-45deg);
 }
 
-.slides__style--arrow_left::after {
+.slider--arrow-left::after {
     transform: rotate(45deg);
-    bottom: 14px;
+    bottom: 7px;
 }
 
 @media screen and (max-width: 720px) {
 
-    .slides__style--arrow_right::before,
-    .slides__style--arrow_right::after,
-    .slides__style--arrow_left::before,
-    .slides__style--arrow_left::after {
+    .slider--arrow-right::before,
+    .slider--arrow-right::after,
+    .slider--arrow-left::before,
+    .slider--arrow-left::after {
         width: 32px;
         height: 12px;
     }
 
-    .slides__style--arrow_right::after,
-    .slides__style--arrow_left::after {
+    .slider--arrow-right::after,
+    .slider--arrow-left::after {
         bottom: 16px;
     }
 
-    .slides__style--arrow_right::before,
-    .slides__style--arrow_left::before {
+    .slider--arrow-right::before,
+    .slider--arrow-left::before {
         top: 20px;
     }
 
-    .slides__style--arrow_right::before,
-    .slides__style--arrow_right::after {
+    .slider--arrow-right::before,
+    .slider--arrow-right::after {
         right: 0;
     }
 }

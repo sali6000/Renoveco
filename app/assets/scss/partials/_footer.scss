@@ -1,51 +1,42 @@
-hr
-{
-  height: 0.063em;
-  opacity: 0.7;
-  background-color:grey;
-  border-style: none;
-  text-align: center;
-  width: 100%;
+@use '@scss/foundations/placeholders';
+@use '@scss/foundations/variables' as variables;
+@use '@scss/foundations/mixins/section' as section-mix;
+@use '@scss/foundations/mixins/color' as color-mix;
+
+
+footer {
+  @include color-mix.color-layout($backgroundColor: lightgray, $boxShadow: 0 4px 20px rgba(0, 0, 0, 0.1));
 }
 
-.footerbackground
-{
-  background-color: lightgrey;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+.section-footer-contact {
+  @include section-mix.section-layout($gap: variables.$space-none, $paddings: variables.$space-xs);
 
+  .contact-social-media {
+    @include section-mix.section-layout($flex: variables.$flex-equal, $justify: flex-end, $paddings: variables.$space-xs);
+    border-right: 1px solid grey;
+
+    figcaption {
+      text-align: center;
+      opacity: 0.7;
+    }
+
+    .logo {
+      width: 60px;
+      height: auto;
+      opacity: 0.7;
+    }
+  }
+
+  .contact-adress {
+    @include section-mix.section-layout($direction: column, $flex: variables.$flex-equal, $gap: variables.$space-none, $paddings: variables.$space-xs);
+  }
 }
 
-.footerstructureleft
-{
-  float:left;
-  width: 48%;
-  padding-right: 2%;
-  height: 150px;
-  border-right: 1px solid grey;
-  opacity: 0.7;
-}
+.section-footer-copyright {
+  @extend %section-row;
 
-.footerstructureright
-{
-  float:left;
-  width: 47%;
-  padding-left: 2%;
-}
-
-.presentation
-{
-  width: 50%;
-  margin-left: 25%;
-  color:white;
-}
-
-.logoCenter
-{
-  text-align: right;
-}
-
-.logo
-{
-  width: 60px;
-  height: auto;
+  .copyright {
+    @include section-mix.section-layout($flex: 0 0 variables.$container-xl, $paddings: variables.$space-s, $color: darkgrey);
+    border-top: 1px solid grey;
+  }
 }

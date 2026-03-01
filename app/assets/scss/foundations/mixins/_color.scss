@@ -1,0 +1,14 @@
+@use '@scss/foundations/variables' as variables;
+
+@mixin color-layout($backgroundColor: variables.$color-bg-white,
+    $color: black,
+    $backdropBlur: 10px,
+    $boxShadow: none,
+    $border: none) {
+    background-color: $backgroundColor; // blanc semi-transparent
+    color: $color; // police noir
+    backdrop-filter: blur($backdropBlur); // Flou d’arrière-plan pour l’effet glassmorphism
+    -webkit-backdrop-filter: blur($backdropBlur); // support Safari
+    box-shadow: $boxShadow; // Pas d'ombrage
+    border: $border; // Pas de bordures
+}

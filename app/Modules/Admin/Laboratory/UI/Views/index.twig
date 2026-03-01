@@ -1,0 +1,246 @@
+{% extends "@Admin/Shared/UI/Views/Layout/admin_base.twig" %}
+
+{% block title %}Laboratoire{% endblock %}
+
+{% block content %} {# ... {% endblock content %} #}
+{{ block('admin_subnav') }}
+<section class="section--row">
+    <section class="box--lg">
+        <h2 class="police1" style="font-size:100px;">LABORATOIRE</h2>
+    </section>
+</section>
+
+<div class="ring-outer">
+<div class="ring-inner"></div>
+</div>
+
+{# Test 1 #}
+<div><br><br>
+    <h3>Test1</h3> 
+    <div style="
+    display:flex; 
+    flex-wrap:wrap;"> 
+        <div style="
+        background-color:red; 
+        flex-grow:1;">item</div>
+        <div style="background-color:blue; flex-grow:1;">item</div>
+        <div style="background-color:red; flex-grow:1;">item</div>
+        <div style="background-color:blue; flex-grow:1;">item</div>
+    </div><br><br>
+</div>
+
+{# Test 2 #}
+<div><br><br>
+    <h3>Test2</h3> 
+    <div style="
+    display:flex; {# Rend les enfants flexibles #}
+    flex-wrap:wrap;"> {# Fait descendre l'enfant d'une ligne si plus de place #}
+        <div style="
+        background-color:red;  {# L'élément une couleur d'arrière plan #}
+        flex-grow:1; {# L'élément prend toute la largeur disponible #}
+        flex-basis:200px; {# L'élément a une taille minimum à respecter #}
+        ">item</div>
+        <div style="background-color:blue; flex-grow:1; flex-basis:200px;">item</div>
+        <div style="background-color:red; flex-grow:1; flex-basis:200px;">item</div>
+        <div style="background-color:blue; flex-grow:1; flex-basis:200px;">item</div>
+    </div><br><br>
+</div>
+
+
+<div class="section--row">
+    <div class="box--xxs">
+        box--xxs
+    </div>
+</div>
+<div class="section--row">
+    <div class="box--xs">
+        box--xs
+    </div>
+</div>
+<div class="section--row">
+    <div class="box--s">
+        box--s
+    </div>
+</div>
+<div class="section--row">
+    <div class="box--m">
+        box--m
+    </div>
+</div>
+<div class="section--row">
+    <div class="box--l">
+        box--l
+    </div>
+</div>
+<div class="section--row">
+    <div class="box--xl">
+        box--xl
+    </div>
+</div>
+<div class="section--row">
+    <div class="box--xxl">
+        box--xxl
+    </div>
+</div>
+<div class="section--row">
+    <div class="box--full">
+        box--full
+    </div>
+</div>
+
+<div class="section--row">
+    <div class="box--s">
+        box--s
+    </div>
+        <div class="box--s">
+        box--s
+    </div>
+        <div class="box--s">
+        box--s
+    </div>
+        <div class="box--s">
+        box--s
+    </div>
+</div>
+
+
+<div class="section--row">
+    <div class="box--rest">
+        box--rest adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+                lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+        lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+    </div>
+    <div class="box--rest">
+        box--rest adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+                lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+        lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+    </div>
+</div>
+
+<div class="section--row">
+    <div class="box--xs">
+        box--xs section--row adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+                lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    </div>
+    <div class="box--rest">
+        box--rest adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+                lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+        lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+    </div>
+</div>
+
+<div class="section--row">
+    <div class="box--s">
+        box--s adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+                lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    </div>
+    <div class="box--rest">
+        box--rest adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+                lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+        lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+    </div>
+</div>
+
+<div class="section--row">
+    <div class="box--m">
+        box--m
+    </div>
+    <div class="box--rest">
+        box--rest adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+                lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+        lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+    </div>
+</div>
+
+<div class="section--row">
+    <div class="box--l">
+        box--xl
+    </div>
+    <div class="box--rest">
+        box--rest adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+                lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+        lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+    </div>
+</div>
+
+<div class="section--row">
+    <div class="box--full">
+        box--very-full-large
+    </div>
+    <div class="box--rest">
+        box--rest adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+                lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+        lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+    </div>
+</div>
+
+<div class="section--row">
+    <div class="box--s">
+        box--s
+    </div>
+    <div class="box--rest">
+        box--rest adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+                lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+        lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+    </div>
+    <div class="box--s">
+        box--s
+    </div>
+</div>
+
+<div class="section--row">
+    <div class="box--rest">
+        section--row box--rest adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+                lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+        lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+    </div>
+    <div class="box--xs">
+        section--row box--s
+    </div>
+</div>
+
+<div class="section--row">
+    <div class="box--full">
+        box--very-full-large
+    </div>
+    <div class="box--rest">
+        box--rest adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+                lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+        lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sit amet accumsan arcu. Proin ac consequat arcu. Maecenas at dui ut lacus dictum fermentum. Nulla facilisi. Sed nec eros euismod, tincidunt nunc at, gravida urna. Donec vel turpis nec leo facilisis tincidunt. Vivamus euismod, nisi vel consectetur interdum, nisl nisi aliquet nunc, a facilisis libero justo nec erat. Curabitur non felis massa. Sed a ligula quis sapien lacinia egestas. Integer non dui vitae urna efficitur tincidunt. Suspendisse potenti. Phasellus euismod, justo at facilisis cursus, urna erat ultricies libero, in convallis erat felis nec erat.
+    </div>
+</div>
+
+
+<div class="section--row" style="background-color: red;">
+    <div class="box--s" style="background-color: green;">
+        <div class="box--s" style="background-color: green;">
+            box--s
+        </div>
+        <div class="box--s" style="background-color: green;">
+            box--s
+        </div>
+        <div class="box--s" style="background-color: green;">
+            box--s
+        </div>
+    </div>
+    <div class="box--xl" style="background-color: white;">
+        <div class="section--row" style="background-color: orange;">
+        <div class="box--equal box--center" style="background-color: brown;">
+        </div>
+        <div class="box--equal box--center" style="background-color: brown;">
+        <div class="section--row" style="background-color: pink;">
+            <div class="box--equal box--center" style="background-color: blue;">
+                se
+            </div>
+            <div class="box--equal box--center" style="background-color: blue;">
+                se
+            </div>
+            <div class="box--equal box--center" style="background-color: blue;">
+                se
+            </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

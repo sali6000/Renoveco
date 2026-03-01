@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Services\Schema;
+namespace App\Services\Schema;
 
 class ShippingSchemaBuilder
 {

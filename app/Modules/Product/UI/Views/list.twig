@@ -1,0 +1,98 @@
+{% extends "@Shared/UI/Views/layout/base.twig" %}
+
+{% block title %}Liste des produits - {{ parent() }}{% endblock %}
+
+{% block content %}
+<div class="shop-layout">
+  {# FILTRE #}
+  <aside class="filters">
+    <h3>Filtres:</h3>
+    <hr><br>
+    <!-- Catégories -->
+    <div class="filter-group">
+      <h4><b>Catégories:</b></h4>
+      <ul>
+      {% for category in categories %}
+        <li><label><input type="checkbox" name="category" value="{{ category.name ?? '' }}"> {{ category.name ?? '' }}</label></li>
+      {% endfor %}
+      </ul>
+    </div>
+    <br>
+    <!-- Marques -->
+    <div class="filter-group">
+      <h4><b>Marques:</b></h4>
+      <ul>
+        <li><label><input type="checkbox" name="brand" value="ponzio"> Ponzio</label></li>
+        <li><label><input type="checkbox" name="brand" value="procural"> Procural</label></li>
+      </ul>
+    </div>
+    <br>
+    <!-- Prix -->
+    <div class="filter-group">
+      <h4><b>Prix:</b></h4>
+      <ul>
+        <li><label><input type="radio" name="price" value="0-100"> 0 - 100€</label></li>
+        <li><label><input type="radio" name="price" value="100-300"> 100 - 300€</label></li>
+        <li><label><input type="radio" name="price" value="300-9999"> 300€+</label></li>
+      </ul>
+    </div>
+  </aside>
+
+  {# TITRE #}
+  <section class="section__products">
+    <div class="info">
+      <h2>Nos produits</h2>
+      <p>
+        Découvrez notre large gamme de produits en aluminium, adaptés à tous vos besoins en construction et rénovation.
+        Que vous recherchiez des fenêtres, des portes, des façades ou des solutions sur mesure, nous avons ce qu'il vous faut.
+        Parcourez notre catalogue pour trouver les produits qui allient qualité, durabilité et design moderne.
+      </p>
+    </div>
+    
+    {# BARRE DE RECHERCHE #}
+    <section class="section__searchbar">
+      {% if products is defined and products is iterable %}
+        <label for="searchInput" class="search-label">🔍 Rechercher par nom :</label>
+        <input type="text" id="searchInput" placeholder="PF152WG, PE50, PE78N,...">
+        <p id="searchResults" class="no-results" style="display: none;">Aucun produit trouvé</p>
+      {% endif %}
+    </section>
+    <hr>
+
+    {# PRODUITS #}
+    <div class="products">
+      {% for product in products %}
+          <article class="products__product"
+          data-category="{{ product.categories[0].name ?? '' }}"
+          data-brand="ponzio" 
+          data-price="120">
+            <p>{{ product.categories[0].name ?? '' }}</p>
+            <figure>
+        <a href="product/detail/{{ product.slug }}">
+              <img 
+              class="preview lazy-content"
+              data-src="/uploads/img/products/medium/{{ product.images[0].filePath ?? 'placeholder.jpg' }}"
+              alt="{{ product.name }} - {{ product.categories[0].name }}">
+                {% if product.supplier_name %}
+                  <p class="note"><b>Note :</b> Produit fourni par <strong>PROCURAL</strong>, garantissant une qualité et une fiabilité exceptionnelles.</p>
+                {% endif %}
+        </a>
+            </figure>
+            <br>
+            <h3 class="product__description__title">Fiche technique:</h3>
+            <dl>
+              <dt>Nom :</dt>
+              <dd>{{ product.name }}</dd>
+              <dt>Type :</dt>
+              <dd>{{ product.categories[0].name }}</dd>
+              <dt>Provenance :</dt>
+              <dd>{{ product.isProcural ? 'PROCURAL' : 'PONZIO' }}</dd>
+            </dl>
+          </article>
+      {% endfor %}
+    </div>
+  </section>
+</div>
+
+<script type="application/ld+json">{{ jsonLd|raw }}</script>
+{% endblock %}

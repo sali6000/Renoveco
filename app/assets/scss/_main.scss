@@ -1,16 +1,19 @@
 // app/assets/scss/main.scss
 
 // Importation des variables
-@use 'variables';
+@use 'foundations/variables';
 
-// Importation des utilitaires
-@use 'utilities/spacing';
+// Importation des modules de base
+@use 'base/fonts';
+@use 'base/global'; // Polices, etc.
+@use 'base/reset';
 
-// Importation des modules
-@use 'components/reset';
-@use 'components/global'; // Polices, etc.
-@use 'components/wrapper'; // Centralise le contenu de la page si pas Home
-@use 'components/lazyload';
+// Importation des modules de layout
+@use 'components/layouts/flashinfos';
+
+// Importation des composants utilitaires
+@use 'components/effects/lazyload';
+@use 'components/effects/reveal';
 
 // Importation des parties
 @use 'partials/header';

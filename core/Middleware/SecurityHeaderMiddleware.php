@@ -1,7 +1,8 @@
 <?php
+
 namespace Core\Middleware;
 
-use Core\Middleware;
+use Core\Middleware\Middleware;
 use Core\Support\DebugHelper;
 
 class SecurityHeaderMiddleware extends Middleware
@@ -36,7 +37,7 @@ class SecurityHeaderMiddleware extends Middleware
             "frame-ancestors 'none'"
         ];
         header("Content-Security-Policy: " . implode("; ", $cspDirectives));
-        
+
         // ---- Autres headers de sécurité ----
 
         // Interdit l'affichage dans un iframe (anti-clickjacking)
@@ -50,14 +51,14 @@ class SecurityHeaderMiddleware extends Middleware
 
         // Enforce Referrer-Policy pour éviter les fuites d'URL
         header("Referrer-Policy: strict-origin-when-cross-origin");
-        
+
         // Ajoute un header "Permissions-Policy" pour désactiver certaines APIs navigateur
         header("Permissions-Policy: geolocation=(), microphone=(), camera=()");
-        
+
         // Strict-Transport-Security (HSTS) : force HTTPS pour 1 an
         if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
             header("Strict-Transport-Security: max-age=31536000; includeSubDomains");
         }
-    return true;
+        return true;
     }
 }

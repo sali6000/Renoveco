@@ -1,103 +1,131 @@
 // scss/partials/_home.scss
+@use '@scss/foundations/placeholders';
+@use '@scss/foundations/variables' as variables;
+@use '@scss/foundations/mixins/section' as section-mix;
+@use '@scss/foundations/mixins/size' as size-mix;
 
-body {
-    overflow-x: hidden;
+.section-home-categories {
+    @extend %section-column;
+
+    .title {
+        @extend %section-column;
+        padding: 0 auto;
+    }
+
+    .image {
+        @extend %section-column;
+    }
+
+    .categories {
+        @extend %section-row;
+
+        .category {
+            text-align: center;
+
+            img {
+                width: 200px;
+                border-radius: 12px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                transition: transform 0.4s ease, opacity 0.4s ease;
+            }
+
+            &:hover img {
+                transform: scale(1.05);
+                opacity: 0.85;
+            }
+        }
+    }
 }
 
-.section__info__wrapper .texte1 {
-    color: grey;
-    font-size: 40px;
+.section-home-history {
+    @include section-mix.section-layout($paddings: variables.$space-l, $backgroundColor: variables.$color-bg-white, $backdropBlur: 20px);
+
+    .image,
+    .texte {
+        flex: 1;
+    }
+
+    img {
+        @include size-mix.size-layout($width: 100%);
+    }
 }
 
-.section__info__wrapper .texte2 {
-    color: black;
-    font-size: 30px;
+.section-home-images {
+    @include section-mix.section-layout($gap: variables.$container-none, $margins: variables.$space-s auto);
+
+    .image {
+        height: variables.$container-xs;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+
+        /* Overlay noir */
+        &::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom,
+                    rgba(0, 0, 0, 0.15),
+                    rgba(0, 0, 0, 0.6));
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        &:hover::before {
+            opacity: 1;
+        }
+
+        img {
+            display: block;
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            will-change: transform;
+            pointer-events: none;
+        }
+
+        &:hover img {
+            transform: scale(1.1);
+        }
+
+        .overlay {
+            position: absolute;
+            inset: 0; // 👈 couvre toute l’image
+            z-index: 2;
+            display: flex; // 👈 permet centrage propre
+            flex-direction: column;
+            justify-content: center; // 👈 centrage vertical
+            align-items: center; // 👈 centrage horizontal
+            text-align: center;
+            color: white;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        &:hover .overlay {
+            opacity: 1;
+        }
+    }
 }
 
-.section__info__wrapper .texte3 {
-    color: black;
-    font-size: 20px;
+.section-home-contactus,
+.section-home-whyus {
+    @include section-mix.section-layout($direction: column, $align: center, $paddings: variables.$space-l, $backgroundColor: variables.$color-bg-white, $color: black, $backdropBlur: 10px);
+
+    img {
+        height: 500px;
+        width: auto;
+    }
 }
 
-.section__info__wrapper .categories {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    /* espace entre les items */
-    flex-wrap: wrap;
-    /* pour que ça passe sur mobile */
-}
+.section-home-avis {
+    @include section-mix.section-layout($gap: variables.$space-xs, $maxWidth: variables.$container-wrapper, $margins: 0 auto);
 
-.section__info__wrapper .categories a {
-    text-decoration: none;
-    color: inherit;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 200px;
-    transition: transform 0.3s ease;
-}
-
-.section__info__wrapper .categories img {
-    width: 100%;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.categories p {
-    margin-top: 0.8rem;
-    font-weight: 600;
-    font-size: 1rem;
-}
-
-.categories img {
-    transition: transform 0.4s ease, opacity 0.4s ease;
-}
-
-.categories img:hover {
-    transform: scale(1.05);
-    opacity: 0.3;
-}
-
-
-.about {
-    margin: 2% 0%;
-    display: flex;
-    justify-content: center;
-    /* centre horizontalement le tout */
-    align-items: stretch;
-    /* chaque colonne prend la même hauteur */
-    gap: 2rem;
-    /* espace automatique entre img et texte */
-    background-color: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(8px);
-    /* floute le fond, effet "glassmorphism" */
-    box-shadow: 0 8px 40px rgb(0 0 0 / 0.1);
-    padding: 2rem;
-    border-radius: 1rem;
-}
-
-.about img {
-    height: 400px;
-    width: 400px;
-    object-fit: cover;
-    display: block;
-    border-radius: 0.5rem;
-}
-
-.about .description {
-    height: 400px;
-    width: 400px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    /* centre verticalement le texte */
-    text-align: left;
-    font-size: clamp(1rem, 1.5vw, 1.5rem);
-    /* s’adapte automatiquement */
-}
-
-.about .description h2,
-.about .description h3 {
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    .avi {
+        @include section-mix.section-layout($display: block, $flex: 1 0 300px, $justify: flex-start, $height: 200px, $backgroundColor: variables.$color-bg-white, $color: black, $paddings: variables.$space-s, $margins: variables.$space-s, $border: 1px solid rgba(255, 255, 255, 0.3), $boxShadow: 0 8px 40px rgb(0 0 0 / 0.1));
+    }
 }

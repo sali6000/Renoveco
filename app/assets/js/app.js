@@ -1,28 +1,27 @@
 // app/assets/js/app.js
 
 // Modules globaux
-import '@js/components/header';
 import { initLazyLoad } from '@js/components/lazyload';
-import autoResizeText from '@js/utilities/autoResizeText';
+import initReveal from '@js/components/reveal';
 
 // Modules spécifiques à la "current_page" appellée
 async function initApp() {
   const page = document.body.dataset.currentPage;
+  const pagePath = page.split('-').join('/'); // "admin/category/index"
 
   // ✅ Appliquer la fonction dès que le DOM est prêt
-  autoResizeText();
+  initReveal();
 
   if (page) {
     try {
-      const module = await import(`@js/pages/${page}`);
+      const module = await import(`@js/pages/${pagePath}.js`);// product-list => @js/pages/product/list.js
       if (module.default) module.default();
-      // ✅ Appliquer la fonction dès que le DOM est prêt
-      initLazyLoad();
-      autoResizeText();
     } catch (e) {
       console.warn(`Aucun module JS pour la page "${page}"`);
     }
   }
+  // ✅ Appliquer la fonction dès que le DOM est prêt
+  initReveal();
   // Pour les pages sans module spécifique
   initLazyLoad();
 }

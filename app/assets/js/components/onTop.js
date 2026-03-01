@@ -1,5 +1,5 @@
 export default function initOnTop() {
-    const header = document.querySelector('.navbar');
+    const header = document.querySelector('.section-navbar');
 
     if (!header) return;
 
@@ -13,7 +13,7 @@ export default function initOnTop() {
             }
         });
     } else {
-        // Sur les autres pages, navbar__contact est déjà visible, rien à faire
+        // Sur les autres pages, navbar-contact est déjà visible, rien à faire
         header.classList.add('scrolled'); // optionnel si tu veux que le header soit fixe dès le départ
     }
 }

@@ -10,7 +10,7 @@ class ProductSchemaBuilder
 
     public function build(object $product, int $index): array
     {
-        $appUrl = AppConfig::getPath('APP_PATH_URL');
+        $appUrl = AppConfig::getConst('URL_PATH');
 
         return [
             "@type" => "ListItem",
@@ -20,7 +20,7 @@ class ProductSchemaBuilder
                 "url" => $appUrl . "product/detail/" . $product->slug,
                 "name" => trim($product->name),
                 "image" => isset($product->images[0])
-                    ? $appUrl . "build/img/products/" . $product->images[0]->path
+                    ? $appUrl . "build/img/products/" . $product->images[0]->filePath
                     : null,
                 "description" => $product->description ?? "Description du produit " . $product->name,
                 "category" => $product->categories[0]->name ?? null,

@@ -1,163 +1,240 @@
-// Barre de navigation
-// (> par défaut)
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center; // Centre verticalement logo, nav et contact
+// header.scss
+
+@use '@scss/foundations/variables' as variables;
+
+// =====================================================================================
+//                                   BARRE DE NAVIGATION
+// =====================================================================================
+
+// Barre de navigation :
+.section-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 40;
     width: 100%;
-    padding: 0.3rem 2rem;
+
+    padding: 5px;
+    height: 55px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
     transition: background-color 0.5s ease, box-shadow 0.5s ease;
-    z-index: 10;
 }
 
-// Barre de navigation 
-// (> si 'home')
-body[data-current-page="home"] .navbar {
-    position: absolute;
-    background-color: transparent;
+
+// Barre de navigation (si 'home') :
+body[data-current-page="home"] .section-navbar {
+
+    // Barre de navigation : Positionnement
+    position: sticky;
+
+    // Barre de navigation : Couleurs
     color: white;
+    background-color: transparent;
 }
 
-// Barre de navigation 
-// (si 'home' + après scroll)
-body[data-current-page="home"] .navbar.scrolled {
+
+// Barre de navigation (si 'home' + après scroll) :
+body[data-current-page="home"] .section-navbar.scrolled {
+
+    // Barre de navigation : Positionnement
     position: fixed;
-    background-color: rgba(255, 255, 255, 0.95);
+
+    // Barre de navigation : Couleurs
+    color: inherit;
+    background-color: variables.$color-bg-white;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    color: black;
 }
 
-// Barre de navigation 
-// (> si pas 'home')
-body:not([data-current-page="home"]) .navbar {
+// Barre de navigation (si pas 'home') :
+body:not([data-current-page="home"]) .section-navbar {
+
+    // Barre de navigation : Positionnement
     position: relative;
+
+    // Barre de navigation : Couleurs
     background-color: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    color: black;
 }
 
-// Barre de navigation : Home > img
-.navbar__home img {
-    height: 50px;
+// =====================================================================================
+//                          BARRE DE NAVIGATION : LOGO
+// =====================================================================================
+
+// Barre de navigation - Logo :
+.section-navbar-logo {
+
+    // Logo : Positionnement
+    flex: none; // L’élément ne comblera pas le vide
+    align-self: stretch; // Étirement vertical dans le conteneur flex parent
+}
+
+// Barre de navigation - Logo img:
+.section-navbar-logo img {
+
+    // Logo img : Forme et taille
+    height: 100%;
     width: auto;
 }
 
-// Barre de navigation : nav > ul
-.navbar__menu ul {
-    display: flex;
-    gap: 1.5rem; // Espaces entre les éléments à l'intérieur de ul
-    list-style: none;
-    margin: 0;
-    padding: 0;
+// =====================================================================================
+//                          BARRE DE NAVIGATION : MENU
+// =====================================================================================
+
+//  Barre de navigation - Menu:
+.section-navbar-menu {
+
+    // Menu : Enfants
+    display: flex; // Les enfants deviennent flexible
+    flex-direction: row; // Les enfants sont en ligne
+    justify-content: center; // Les enfants sont centrés horizontalement (axe principale)
+    align-items: center; // Les enfants sont centré veticalement (axe secondaire)    
+    flex-grow: 1; // Les enfants comblent l’espace disponible (dépend de la taille du contenu)
+    gap: 15px; // Les enfants seront séparés d'un espace
 }
 
-// Barre de navigation : nav > a
-// (> par défaut)
-.navbar__menu a {
-    position: relative;
+//  Barre de navigation - Menu li:
+.section-navbar-menu li {
+
+    // Menu li : Enfants
+    display: flex; // Les enfants deviennent flexible
+    flex-direction: row; // Les enfants sont en ligne
+    justify-content: center; // Les enfants sont centrés horizontalement (axe principale)
+    align-items: center; // Les enfants sont centré veticalement (axe secondaire)    
+    flex: 1; // Les enfants comblent l’espace disponible (dépend de la taille du parent)
+}
+
+//  Barre de navigation (Menu) li a:
+.section-navbar-menu li a {
+
+    // Menu li a : Positionnement
+    position: relative; // Les effets associés (::after) se positionneront sur cette élément
+
+    // Menu li a : Enfants
+    display: inline-flex; // Les enfants deviennent flexible horizontalement
+    justify-content: center; // Les enfants sont centrés horizontalement (axe principale)
+    align-items: center; // Les enfants sont centré veticalement (axe secondaire)    
+    flex: 1; // Les enfants comblent l’espace disponible (dépend de la taille du parent)
+
+    // Menu li a : Forme et taille
+    padding: 10px 20px;
     text-decoration: none;
-    color: inherit;
-    display: flex;
-    align-items: center;
-    height: 100%;
-    padding: 0.5rem 1rem;
-    font-weight: 600;
-    transition: background 0.2s;
 }
 
-// Barre de navigation : nav > a : underscore
-// (> par défaut)
-.navbar__menu a::after {
-    content: ""; // Invisible mais présent
+// (après survol) Barre de navigation (Menu) a:
+.section-navbar-menu a::after {
+
+    // Contenu invisible mais présent (pour l'effet)
+    content: "";
+
+    // Position
     position: absolute;
     left: 0;
     bottom: -3px; // distance sous le texte
+
+    // Forme et style
     width: 0%; // démarre à 0 et s’étend au survol
     height: 2px;
+    border-radius: 1px;
+
+    // Couleurs
     background-color: #ccc;
     transition: width 0.3s ease;
 }
 
-// Barre de navigation : nav > a 
-// (> si pas 'home') 
-body:not([data-current-page="home"]) .navbar__menu a {
+// (si pas 'home') Barre de navigation (Menu) a:
+body:not([data-current-page="home"]) .section-navbar-menu a {
     color: black;
 }
 
-// Barre de navigation : nav > a 
-// (> si pas 'home' + au survol) 
-body:not([data-current-page="home"]) .navbar__menu a:hover {
+// (si pas 'home' + au survol) Barre de navigation (Menu) a:
+body:not([data-current-page="home"]) .section-navbar-menu a:hover {
     color: #ccc;
 }
 
-// Barre de navigation : nav > a : underscore 
-// (> après survol)
-.navbar__menu a:hover::after {
+// (après survol) Barre de navigation (Menu) a:
+.section-navbar-menu a:hover::after {
     width: 100%; // Underscore qui s’étend sur toute la largeur du lien
 }
 
-// Barre de navigation : nav > a : underscore 
-// (> si 'home' + après survol) 
-body[data-current-page="home"] .navbar__menu a::after {
+// (si pas 'home' + au survol) Barre de navigation (Menu) a:
+body[data-current-page="home"] .section-navbar-menu a:hover {
+    color: #ccc;
+}
+
+// (si 'home' + après survol) Barre de navigation (Menu) a:
+body[data-current-page="home"] .section-navbar-menu a::after {
     background-color: white;
 }
 
-// Barre de navigation : nav > a : underscore 
-// (> si 'home' + après survol + après scroll) 
-body[data-current-page="home"] .navbar.scrolled .navbar__menu a::after {
+// (si 'home' + après survol + après scroll) Barre de navigation (Menu) a: 
+body[data-current-page="home"] .section-navbar.scrolled .section-navbar-menu a::after {
     background-color: #ccc;
 }
 
-// Barre de navigation : nav > a : underscore 
-// (> si pas 'home' + après survol) 
-body:not([data-current-page="home"]) .navbar__menu a::after {
+// (si pas 'home' + après survol) Barre de navigation (Menu) a:
+body:not([data-current-page="home"]) .section-navbar-menu a::after {
     background-color: #ccc;
 }
 
-// Barre de navigation : Contact
-// (> par défaut)
-.navbar__contact {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+// =====================================================================================
+//                          BARRE DE NAVIGATION : CONTACT
+// =====================================================================================
+
+// (par défaut) Barre de navigation (Contact):
+.section-navbar-contact {
+
+    // Barre de navigation - Contact : Enfants
+    display: flex; // Les enfants deviennent flexible
+    align-items: center; // Les enfants sont centrés verticalement (axe secondaire)
+    gap: 0.5rem; // Les enfants seront séparés d'un espace
+
+    // Barre de navigation - Contact : Textes
+    font-weight: 300;
+    font-size: smaller;
+
+    // Barre de navigation - Contact : Effets
     transition: opacity 0.3s ease, transform 0.3s ease; // smooth
 }
 
-// Barre de navigation : Contact
-// (> si 'home')
-body[data-current-page="home"] .navbar__contact {
+// (si 'home') Barre de navigation (Contact):
+body[data-current-page="home"] .section-navbar-contact {
     opacity: 0;
     pointer-events: none;
     transform: translateY(-10px);
 }
 
-// Barre de navigation : Contact
-// (> si home + après scroll)
-body[data-current-page="home"] .navbar__contact.show {
+// (si home + après scroll)  Barre de navigation (Contact):
+body[data-current-page="home"] .section-navbar-contact.show {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0);
 }
 
-// Barre de navigation : Contact
-// (> si pas home)
-body:not([data-current-page="home"]) .navbar__contact {
+// (si pas home)  Barre de navigation (Contact):
+body:not([data-current-page="home"]) .section-navbar-contact {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0);
 }
 
-// Barre de navigation : Contact > img
-.navbar__contact img {
+// Barre de navigation (Contact) img:
+.section-navbar-contact img {
     height: 30px;
     width: 30px;
 }
 
+// =====================================================================================
+//                       (RESPONSIVE) BARRE DE NAVIGATION : MENU
+// =====================================================================================
 // ≈ 768px
 @media (min-width: 48em) {
 
-    // Header__navbar styles
-    .navbar__menu li {
+    // (Si tablette) Barre de navigation (Menu) li:
+    .section-navbar-menu li {
         max-width: 100px; // Limite la largeur sur grands écrans
     }
 }

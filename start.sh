@@ -52,10 +52,5 @@ if [[ "$START_AT" -le 5 ]]; then
     bash "$SCRIPT_DIR/step5.sh"
 fi
 
-if [[ "$START_AT" -le 6 ]]; then
-    log "▶️  Étape build production"
-    bash "$SCRIPT_DIR/prod.sh"
-fi
-
 log "🎉 Toutes les étapes terminées !"
 pause

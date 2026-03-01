@@ -4,31 +4,55 @@ namespace Core;
 
 use Config\EnvLoader;
 use Core\Logger\AccessLogger;
-use Core\Router;
+use Core\Routing\Router;
 use Config\AppConfig;
 
 class AppKernel
 {
-    /**
-     * Point d'entrée principal de l'application.
-     * Exécute la chaîne complète : sécurité, chargement env, gestion des erreurs, routage, logging.
-     */
-    public function handle(): void
+    private Container $container;
+
+    public function __construct($container)
     {
-        $this->secureBootstrap();       // 🔒 Sécurise le démarrage (sessions, constantes, ID requête)
-        $this->loadEnvironment();       // 🌱 Charge l'environnement (.env, autoload)
-        $this->checkWritableDirectories(); // ✅ Vérifie que les répertoires critiques sont bien configurés
-        $this->registerGlobalErrorHandlers(); // 🛠️ Active les handlers d'erreurs / exceptions globales
-        $this->executeRequest();        // 🚦 Lance le routeur pour traiter la requête
-        $this->logRequestDuration();    // ⏱️ Log du temps d'exécution
+        $this->container = $container;
     }
 
-    /**
-     * Initialise les éléments critiques pour la sécurité et le débogage.
-     * - Active un drapeau SECURE_CHECK (permet de détecter un accès direct non autorisé dans d'autres fichiers)
-     * - Démarre la session en mode sécurisé
-     * - Sauvegarde le timestamp de début de requête et un identifiant unique
-     */
+    // Point d'entrée
+    public function handle(): void
+    {
+        try {
+            $this->initialization();
+            $this->executeRequest();                // 🚀 Exécution du routeur et du contrôleur
+        } catch (\Throwable $e) {
+            // En cas d'erreur critique lors du bootstrap, on log et affiche un message simple
+            AccessLogger::log("❌ Erreur critique lors du bootstrap : " . $e, AccessLogger::LEVEL_ERROR);
+            if ((AppConfig::getEnv('APP_ENV') ?? '') === 'dev') {
+                echo "<h1>Erreur critique lors du démarrage (dev)</h1><pre>$e</pre>";
+            } else {
+                echo "Une erreur technique est survenue lors du démarrage de l'application. Veuillez contacter l'administrateur.";
+            }
+        }
+    }
+
+    private function initialization()
+    {
+        $this->secureLogs();
+        $this->secureBootstrap();               // 🔐 Initialisation des éléments de sécurité
+        $this->loadEnvironment();               // 🌐 Chargement des variables d'environnement
+        $this->registerGlobalErrorHandlers();   // 🚨 Enregistrement des handlers d'erreurs globaux
+
+    }
+
+    private function secureLogs()
+    {
+        // En prod, On log. On affiche rien à utilisateur.
+        ini_set('display_errors', 0);
+        ini_set('log_errors', 1);
+        error_reporting(E_ALL);
+    }
+
+    // --------------------------------------------------
+    // Bootstrap sécurisé
+    // --------------------------------------------------
     private function secureBootstrap(): void
     {
         define('SECURE_CHECK', true); // ✅ Empêche le chargement direct de certains fichiers sans passer par AppKernel
@@ -37,10 +61,9 @@ class AppKernel
         define('REQUEST_ID', $this->getRequestId());   // 🆔 Génère un identifiant unique de requête pour corrélation dans les logs
     }
 
-    /**
-     * Démarre la session avec des paramètres sécurisés (HTTP Only, Secure, SameSite)
-     * => ⚠️ Si tu as des problèmes de session, c'est ici que ça se passe.
-     */
+    // --------------------------------------------------
+    // Démarrage d'une session sécurisée
+    // --------------------------------------------------
     private function startSessionSecurely(): void
     {
         if (session_status() === PHP_SESSION_NONE) {
@@ -67,129 +90,85 @@ class AppKernel
         session_start(); // 🚀 Lance la session
     }
 
-    /**
-     * Retourne l'ID unique de requête (utilisé pour tracer les logs).
-     */
+    // --------------------------------------------------
+    // Chargement des variables d'environnement
+    // --------------------------------------------------
+    private function loadEnvironment(): void
+    {
+        $envLoader = new EnvLoader(realpath(__DIR__ . '/../'));
+        $envLoader->load(); // Charge les variables .env
+    }
+
+    // --------------------------------------------------
+    // Handlers globaux
+    // --------------------------------------------------
+    private function registerGlobalErrorHandlers(): void
+    {
+        // Erreurs PHP classiques → converties en Throwable
+        set_error_handler(function ($errno, $errstr, $errfile, $errline) {
+            $e = new \ErrorException($errstr, 0, $errno, $errfile, $errline);
+            $this->handleFatalError($e);
+        });
+
+        // Erreurs fatales au shutdown
+        register_shutdown_function(function () {
+            $error = error_get_last();
+            if ($error && in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR])) {
+                $e = new \ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']);
+                $this->handleFatalError($e);
+            }
+        });
+
+        // Exceptions non catchées
+        set_exception_handler(function (\Throwable $e) {
+            $this->handleFatalError($e);
+        });
+    }
+
+    // --------------------------------------------------
+    // Gestion centralisée des erreurs / exceptions
+    // --------------------------------------------------
+    private function handleFatalError(\Throwable $e): void
+    {
+        $errorId = uniqid('fatal_', true);
+
+        // Logging complet
+        AccessLogger::log(
+            "[$errorId] Erreur critique: " . get_class($e) . " - " . $e->getMessage() .
+                " dans {$e->getFile()}:{$e->getLine()}\nStack trace:\n" . $e->getTraceAsString(),
+            AccessLogger::LEVEL_ERROR
+        );
+
+        // Retour HTTP
+        http_response_code(500);
+
+        // Affichage selon environnement
+        if ((AppConfig::getEnv('APP_ENV') ?? '') === 'dev') {
+            echo "<h1>Erreur système (dev)</h1>";
+            echo "<pre>[$errorId] " . htmlspecialchars((string)$e) . "</pre>";
+        } else {
+            echo "Une erreur technique est survenue (Code : $errorId).";
+        }
+
+        exit();
+    }
+
+    // --------------------------------------------------
+    // Exécution du routeur
+    // --------------------------------------------------
+    private function executeRequest(): void
+    {
+        $uri = $_GET['index'] ?? $_SERVER['REQUEST_URI'];
+        $router = new Router($uri, $this->container);
+        $router->route();
+    }
+
+    // --------------------------------------------------
+    // Générer un identifiant unique pour la requête
+    // --------------------------------------------------
     private function getRequestId(): string
     {
         // Si un proxy / reverse-proxy fournit un X-Request-ID, on l'utilise
         return $_SERVER['HTTP_X_REQUEST_ID'] ?? bin2hex(random_bytes(8));
-    }
-
-    /**
-     * Charge l'autoload et les variables d'environnement (.env)
-     * => ⚠️ Si APP_ENV ou d'autres variables sont absentes, vérifier ici.
-     */
-    private function loadEnvironment(): void
-    {
-        require_once realpath(__DIR__ . '/../vendor/autoload.php'); // Composer autoload
-        $envLoader = new EnvLoader(realpath(__DIR__ . '/../'));
-        $envLoader->load(); // Charge les variables .env dans $_ENV
-    }
-
-    /**
-     * Enregistre des handlers globaux pour :
-     * - Les erreurs fatales (register_shutdown_function)
-     * - Les erreurs PHP classiques (set_error_handler)
-     * - Les exceptions non catchées (set_exception_handler)
-     *
-     * Cela permet de :
-     *  - Logger chaque erreur
-     *  - Afficher un message plus clair en mode dev
-     *  - Empêcher l'affichage brut d'erreurs en production
-     */
-    private function registerGlobalErrorHandlers(): void
-    {
-        // Gestion des erreurs fatales (ex: E_ERROR, E_PARSE...)
-        register_shutdown_function(function () {
-            $error = error_get_last();
-            if ($error && in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR])) {
-                $message = "[SHUTDOWN] Erreur fatale : {$error['message']} dans {$error['file']} à la ligne {$error['line']}";
-                AccessLogger::log($message, AccessLogger::LEVEL_ERROR);
-
-                if (($_ENV['APP_ENV'] ?? '') === 'dev') {
-                    echo "<pre style='color:red;'>$message</pre>";
-                } else {
-                    echo "Une erreur critique est survenue. Contactez l'administrateur.";
-                }
-            }
-        });
-
-        // Gestion des warnings, notices, etc.
-        set_error_handler(function (int $errno, string $errstr, string $errfile, int $errline) {
-            $levels = [
-                E_ERROR             => 'Erreur',
-                E_WARNING           => 'Warning',
-                E_PARSE             => 'Parse Error',
-                E_NOTICE            => 'Notice',
-                E_DEPRECATED        => 'Deprecated',
-                E_USER_WARNING      => 'User Warning',
-                E_USER_NOTICE       => 'User Notice'
-            ];
-
-            $levelName = $levels[$errno] ?? 'Unknown';
-            $message = sprintf("[%s] %s dans %s:%d", $levelName, $errstr, $errfile, $errline);
-
-            AccessLogger::log($message, AccessLogger::LEVEL_ERROR);
-
-            if (($_ENV['APP_ENV'] ?? '') === 'dev') {
-                echo "<pre style='color:orange;'>$message</pre>";
-            }
-            return true; // ✅ Empêche l'affichage par défaut de PHP
-        });
-
-        // Gestion des exceptions non attrapées
-        set_exception_handler(function (\Throwable $e) {
-            $errorId = uniqid('fatal_', true); // 🆔 Génère un identifiant d'erreur unique pour retrouver dans les logs
-            AccessLogger::log("[$errorId] ❌ Erreur globale: " . $e, AccessLogger::LEVEL_ERROR);
-            http_response_code(500); // Renvoie HTTP 500
-
-            if (($_ENV['APP_ENV'] ?? '') === 'dev') {
-                echo "<h1>Erreur système (dev)</h1><pre>$e</pre><p>Code : $errorId</p>";
-            } else {
-                echo "Une erreur technique est survenue (Code : $errorId).";
-            }
-        });
-    }
-
-    /**
-     * Exécute le routeur et déclenche le contrôleur correspondant à l'URI.
-     * => ⚠️ Si la page ne se charge pas correctement, vérifier que l'URI est bien transmise ici.
-     */
-    private function executeRequest(): void
-    {
-        $uri = $_GET['index'] ?? $_SERVER['REQUEST_URI'];
-        $router = new Router($uri);
-        $router->route();
-    }
-
-    /**
-     * Calcule le temps d'exécution total et l'écrit dans les logs.
-     * => Pratique pour détecter les pages lentes.
-     */
-    private function logRequestDuration(): void
-    {
-        $duration = microtime(true) - REQUEST_START_TIME;
-        AccessLogger::log(sprintf("Durée de la requête : %.3f secondes", $duration), AccessLogger::LEVEL_PERF);
-    }
-
-    private function checkWritableDirectories(): void
-    {
-        // Liste des répertoires critiques qui doivent être accessibles en écriture
-        $dirs = [
-            AppConfig::getPath('APP_PATH_LOCAL_PUBLIC_UPLOADS'),
-        ];
-
-        foreach ($dirs as $dir) {
-            if ($dir === false || !is_dir($dir)) {
-                AccessLogger::log("⚠️ Dossier manquant : $dir", AccessLogger::LEVEL_ERROR);
-                throw new \RuntimeException("Le dossier $dir est introuvable.");
-            }
-
-            if (!is_writable($dir)) {
-                AccessLogger::log("⛔ Permission refusée sur : $dir", AccessLogger::LEVEL_ERROR);
-                throw new \RuntimeException("Le dossier $dir n’est pas accessible en écriture.");
-            }
-        }
     }
 }

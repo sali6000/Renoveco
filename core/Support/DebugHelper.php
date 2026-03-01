@@ -1,21 +1,54 @@
 <?php
+// Core/Support/DebugHelper
 
 namespace Core\Support;
 
 use Config\AppConfig;
+use Core\Logger\AccessLogger;
 
 final class DebugHelper
 {
+    /**
+     * Log technique très verbeux dans le fichier DEBUG (<date>-debug.log).
+     *
+     * @param mixed $data Donnée à logger
+     * @param bool $show Si false, ignore silencieusement le log
+     */
+    public static function verboseServer(mixed $data, bool $show = true): void
+    {
+        if (!$show) {
+            return;
+        }
+
+        // Préfixe utile pour repérer les logs de debug "dev"
+        $prefix = "[DEBUGHELPER] => ";
+
+        // Convertir en string propre
+        if (is_array($data) || is_object($data)) {
+            $str = print_r($data, true);
+        } elseif (is_bool($data)) {
+            $str = $data ? 'true' : 'false';
+        } elseif ($data === null) {
+            $str = 'null';
+        } else {
+            $str = (string)$data;
+        }
+
+        AccessLogger::log(
+            message: $prefix . $str,
+            level: AccessLogger::LEVEL_DEBUG,
+            includeHttpContext: false // tu veux souvent un debug "pur"
+        );
+    }
 
     /**
-     * DebugHelper::verbose('NomDeLaVariable: ', $maVariable); // exemple d'appel à cette méthode
-     * Affiche une analyse complète d'une variable au format HTML.
-     * @param string $name Nom de la variable pour affichage.
-     * @param mixed $value La valeur à analyser.
+     * Permet de debugger et d'afficher le résultat sur l'écran directement au format HTML.
+     * 
+     * @param array<string, mixed> $values Valeurs à parcourir 
      */
-    public static function verboseHtml(string $name, array $values, bool $show = true, int $depth = 0): void
+    public static function verboseHtml(array $values, string $name = "Résultat:",  bool $show = true, int $depth = 0): void
     {
-        $debug = filter_var($_ENV['DEBUG_VERBOSE'] ?? false, FILTER_VALIDATE_BOOL);
+        $debug = filter_var(AppConfig::getEnv('DEBUG_VERBOSE') ?? false, FILTER_VALIDATE_BOOL);
 
         if (!$debug || !$show) {
             return;
@@ -28,41 +61,36 @@ final class DebugHelper
             echo "------ DEBUG CONTEXTE => <span style='color:red;font-weight:bold;'>" . strtoupper($name) . "</span> ------<br>";
         }
 
-        if (is_array($values)) {
-            foreach ($values as $key => $value) {
-                echo "<span style='color:orange;font-weight:bold;'>" . $key . "</span> => " . gettype($value) . " => ";
-                // --- Types de base ---
-                if (is_string($value)) {;
-                    echo "<span style='color:green;font-weight:bold;'>" . $value . "</span><br>";
-                } elseif (is_array($value)) {
-                    echo $indent . "(<span style='color:green;font-weight:bold;'>" . count($value) . "</span> éléments):<br>";
-                    if (count($value) > 0) echo "[------------------------ Array (debut) ------------------------]<br>";
-                    foreach ($value as $key2 => $val) {
-                        echo $key . "<span style='color:orange;font-weight:bold;'>[" . $key2 . "]</span> => ";
-                        if (is_array($val) || is_object($val)) {
-                            echo "<br>";
-                            self::verboseHtml($name . "[$key2]", $val, $depth + 1);
-                        } else {
-                            echo  "<span style='color:green;font-weight:bold;'>" . htmlspecialchars(print_r($val, true)) . "</span><br>";
-                        }
+        foreach ($values as $key => $value) {
+            echo "<span style='color:orange;font-weight:bold;'>" . $key . "</span> => " . gettype($value) . " => ";
+            // --- Types de base ---
+            if (is_string($value)) {;
+                echo "<span style='color:green;font-weight:bold;'>" . $value . "</span><br>";
+            } elseif (is_array($value)) {
+                echo $indent . "(<span style='color:green;font-weight:bold;'>" . count($value) . "</span> éléments):<br>";
+                if (count($value) > 0) echo "[------------------------ Array (debut) ------------------------]<br>";
+                foreach ($value as $key2 => $val) {
+                    echo $key . "<span style='color:orange;font-weight:bold;'>[" . $key2 . "]</span> => ";
+                    if (is_array($val) || is_object($val)) {
+                        echo "<br>";
+                        self::verboseHtml($val, $name . "[$key2]", true, $depth + 1);
+                    } else {
+                        echo  "<span style='color:green;font-weight:bold;'>" . htmlspecialchars(print_r($val, true)) . "</span><br>";
                     }
-                    if (count($value) > 0) echo "[------------------------ Array (fin) ----------------------------]<br>";
-                } elseif (is_bool($value)) {
-                    $color = $value ? 'green' : 'red';
-                    echo $indent . "<span style='color:$color;font-weight:bold;'>" . ($value ? 'true' : 'false') . "</span><br>";
-                } elseif (is_object($value)) {
-                    $className = get_class($value);
-                    echo $indent . "=> Classe : <b>$className</b><br>";
-                } elseif ($value === null) {
-                    echo $indent . "<span style='color:red;font-weight:bold;'>NULL</span><br>";
-                } else {
-                    echo $indent . "<span style='color:red;font-weight:bold;'>";
-                    echo htmlspecialchars(print_r($value, true)) . "</span><br>";
                 }
+                if (count($value) > 0) echo "[------------------------ Array (fin) ----------------------------]<br>";
+            } elseif (is_bool($value)) {
+                $color = $value ? 'green' : 'red';
+                echo $indent . "<span style='color:$color;font-weight:bold;'>" . ($value ? 'true' : 'false') . "</span><br>";
+            } elseif (is_object($value)) {
+                $className = get_class($value);
+                echo $indent . "=> Classe : <b>$className</b><br>";
+            } elseif ($value === null) {
+                echo $indent . "<span style='color:red;font-weight:bold;'>NULL</span><br>";
+            } else {
+                echo $indent . "<span style='color:red;font-weight:bold;'>";
+                echo htmlspecialchars(print_r($value, true)) . "</span><br>";
             }
-            echo "<br>";
-        } else {
-            echo "<span style='color:orange;font-weight:bold;'>" . $name . "</span> => " . gettype($values) . " => <span style='color:green;font-weight:bold;'>" . $values . "</span><br><br>";
         }
     }
 
@@ -74,7 +102,7 @@ final class DebugHelper
      */
     public static function verboseJS(string $name, $value): void
     {
-        if (!($_ENV['DEBUG_VERBOSE'] ?? false)) return;
+        if (!(AppConfig::getEnv('DEBUG_VERBOSE') ?? false)) return;
 
         $js = "<script>console.groupCollapsed('🧠 DEBUG: " . addslashes($name) . "');";
 
@@ -260,7 +288,7 @@ final class DebugHelper
      */
     private static function logToFile(string $query, array $params, string $interpolated): void
     {
-        $logDir = AppConfig::getPath('APP_PATH_LOCAL_STORAGE_LOGS');
+        $logDir = AppConfig::getConst('LOCAL_PATH_STORAGE_LOGS');
         $logFile = $logDir . 'sql.log';
 
         $log = "---------------------\n";

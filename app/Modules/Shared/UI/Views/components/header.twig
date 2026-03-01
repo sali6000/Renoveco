@@ -1,0 +1,52 @@
+<header>
+
+  {# PROMOS #}
+  {% if promo and current_page == "home" %}
+    <div class="section-promotion section-promotion--{{ promo.type }}">
+      {{ promo.text }}
+    </div>
+  {% endif %}
+
+  <div class="section-navbar">
+
+    {# LOGO #}
+    <div class="section-navbar-logo">
+      <a href="/" aria-label="Accueil">
+        <img src="{{ encore_asset('img/about/logos/efrominsidev1.png') }}" alt="EFromInside - Accueil">
+      </a>
+    </div>
+
+    {# MENU #}
+    <nav aria-label="Navigation principale">
+      <ul class="section-navbar-menu">
+        <li><a href="product/list">Produits</a></li>
+        <li><a href="about">Société</a></li>
+        <li><a href="contact">Contact</a></li>
+        {% if userSession %}
+          {% if userSession.role is same as('superadmin') %}
+            <li><a href="admin/dashboard">Admin</a></li>
+          {% endif %}
+          {% if userSession.role is same as('user') %}
+            <li>Bienvenu <a href="profil">user</a></li>
+          {% endif %}
+          <li><a href="auth/logout">Déconnection</a></li>
+        {% else %}
+          <li><a href="auth/login">Connection</a></li>
+          <li><a href="user/register">Inscription</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+
+    {# CONTACT #}
+    <div class="section-navbar-contact">
+      <img src="{{ encore_asset('img/layouts/emoticons/phone.png') }}" alt="Téléphone">
+      <span>0492/75.95.77<br><b>Horaire:</b> Lun - Ven 8h - 16h</span>
+        <a href="#">
+          <img style="width:30px;" src="{{ encore_asset('img/layouts/logos/instagram.png') }}" alt="instagram-logo">
+        </a>
+        <a href="#">
+          <img style="width:30px;" src="{{ encore_asset('img/layouts/logos/facebook.png') }}" alt="facebook-logo">
+        </a>
+    </div>
+  </div>
+</header>

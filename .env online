@@ -1,0 +1,71 @@
+# .env (versionné, non chiffré))
+# Fichier de configuration des variables d'environnement de l'application.
+# Ne pas y mettre d'informations sensibles (mots de passe, clés API, etc.).
+APP_DATAS_SOURCE=mysql
+
+# Dans mon cas:
+# APP_DEBUG : Permet d'activer un mode debug normal (ET de désactiver le cache Twig).
+# DEBUG_VERBOSE : Permet d'activer un mode debug ULTRA si nécessaire (infos sensibles, sql, routeur,...).
+# APP_MAINTENANCE : Permet d'activer un mode maintenance global si nécessaire.
+# APP_ENV : inutile dans mon cas actuel.
+
+# APP_ENV sert à décrire le contexte global d’exécution de ton application : dev, prod, test, staging, local,...
+# Exemples d'utilisation :
+# Configuration automatique : charger une BDD différente selon dev ou prod.
+# Activation d’outils de dev : profiler, debug toolbar, cache différent.
+# Sécurisation automatique : ne pas afficher les erreurs sur prod. 
+# Comportements conditionnels : API sandbox vs réelle.
+# charger des configs différentes
+# utiliser une base de données différente
+# activer un mode maintenance
+# configurer un cluster
+# activer des proxys / CDN
+# activer un système de cache global
+APP_ENV=prod # prod ou dev
+
+# APP_DEBUG Permet de voir tout ce qui se passe dans ton application.
+# C’est ton “mode observation totale” sans modifier le comportement métier de ton code.
+# Concrètement (si true), cela provoque :
+# désactivation du cache Twig (app/cache/twig) → tu vois tes changements de templates immédiatement
+# affichage des erreurs PHP / exceptions avec stack trace
+# profiler / bar de debug si tu en as une
+# logs de base activés pour dev
+APP_DEBUG=false # true ou false
+MAIL_DEBUG=OFF
+
+# DEBUG_VERBOSE (extension de APP_DEBUG) (PS: Si APP_DEBUG=false, DEBUG_VERBOSE peut être ignoré)
+# Affiche les détails “ultra sensibles” qui ne sont pas nécessaires pour le debug normal
+# Concrètement (si true), cela provoque :
+# logs internes détaillés (ex : routeur, query SQL, validation, services internes)
+# informations sensibles uniquement visibles pour toi en dev
+# souvent utilisé pour investigation ciblée ou développement sur des parties complexes
+DEBUG_VERBOSE=false
+
+# APP_MAINTENANCE (verrouillage): indiquer si l’application est en mode maintenance ou non.
+# Concrètement (si true), cela provoque :
+# Bloquer l'accès au site avec un message indiquant une maintenance.
+APP_MAINTENANCE=false
+
+# ----------------------------------------------------------------------------------
+
+# Configuration générale de l'application
+# Ces variables sont utilisées pour configurer les paramètres globaux de l'application
+# APP_NAME=MonSite
+# CACHE_DRIVER=file
+# QUEUE_DRIVER=sync
+# SESSION_DRIVER=file
+
+# Configuration de l'entreprise
+# Ces variables sont utilisées pour configurer les informations de l'entreprise
+MAIL_SUBJECT='Renove Construct SPRL - Contact depuis le site web'
+BASE_ENTREPRISE_TITLE="Renove Construct SPRL"
+BASE_ENTREPRISE_NAME="Renove Construct"
+BASE_ENTREPRISE_DESCRIPTION="Expert en solutions web modernes"
+BASE_ENTREPRISE_PHONE="+32 123 456 789"
+BASE_ENTREPRISE_MAIL="contact@renoveconstruct.be"
+BASE_ENTREPRISE_ADDRESS="123 Rue Exemple, Bruxelles"
+BASE_ENTREPRISE_WEBSITE="https://www.renoveconstruct.be"
+BASE_ENTREPRISE_SOCIAL_FACEBOOK="https://facebook.com/renoveconstruct"
+BASE_ENTREPRISE_SOCIAL_TWITTER="https://twitter.com/renoveconstruct"
+
+# ----------------------------------------------------------------------------------

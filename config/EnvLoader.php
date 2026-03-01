@@ -19,53 +19,62 @@ final class EnvLoader
     {
         $this->basePath = rtrim($basePath, DIRECTORY_SEPARATOR);
 
-        // Étape 1 : charger le .env (par défaut, non chiffré)
+        // Charger .env
         Dotenv::createImmutable($this->basePath)->safeLoad();
 
-        // Étape 2 : maintenant, on peut lire APP_ENV, etc...
+        // Récupérer l'environnement APP_ENV définit dans .env  
         $this->environment = $this->detectEnvironment();
     }
 
     public function load(): void
     {
-        // Étape 2a : déchiffrement automatique du .env.{env}.enc (ex: .env.prod.enc)
-        $encryptedFile = "/var/www/.env.{$this->environment}.enc";
-        $keyFilePath = KeysManager::getKeyPath($this->environment);
-        $decryptedFile = "/var/www/temp/.env.{$this->environment}";
+        // Chargement des variables d'environnement
+        $this->loadEnvs();
+    }
 
-        if (file_exists($encryptedFile) && $keyFilePath) {
-            $cmd = "openssl enc -aes-256-cbc -pbkdf2 -d -in \"$encryptedFile\" -out \"$decryptedFile\" -pass file:$keyFilePath";
-            exec($cmd, $output, $returnCode);
+    private function loadEnvs()
+    {
+        $envsRepository = AppConfig::getConst('LOCAL_PATH');
+        $tempRepository = $envsRepository . '/tmp';
+        $scopes = ['local', $this->environment]; // local, prod/local
 
-            if ($returnCode !== 0) {
-                throw new \RuntimeException("Échec du déchiffrement de $encryptedFile");
+        foreach ($scopes as $scope) {
+            $file = $envsRepository . "/.env.{$scope}.enc";
+            $dest = $tempRepository . "/.env.{$scope}";
+            $key = KeysManager::getKeyPath($scope);
+            if (file_exists($file) && $key) {
+                $this->decryptFile($file, $key, $dest);
+                $this->loadEnvTempByScope($tempRepository, $scope);
+                $this->deleteFile($dest);
             }
-
-            Dotenv::createUnsafeMutable('/var/www/temp', [".env.{$this->environment}"])->safeLoad();
-            unlink($decryptedFile);
         }
+    }
 
-        // Étape 2b : déchiffrement automatique du .env.local.enc SI la clé est là
-        $localEncryptedFile = "/var/www/.env.local.enc";
-        $localKeyPath = KeysManager::getKeyPath('local');
-        $localDecrypted = "/var/www/temp/.env.local";
+    private function loadEnvTempByScope($tempRepository, $scope)
+    {
+        // Charger le fichier d'environnement
+        Dotenv::createUnsafeMutable($tempRepository, ['.env.' . $scope])->safeLoad();
+    }
 
-        if (file_exists($localEncryptedFile) && $localKeyPath) {
-            $cmd = "openssl enc -aes-256-cbc -pbkdf2 -d -in \"$localEncryptedFile\" -out \"$localDecrypted\" -pass file:$localKeyPath";
-            exec($cmd, $output, $returnCode);
+    private function deleteFile($file)
+    {
+        // Supprime le fichier d'enfironnement
+        unlink($file);
+    }
 
-            if ($returnCode !== 0) {
-                throw new \RuntimeException("Échec du déchiffrement de $localEncryptedFile");
-            }
+    private function decryptFile($file, $key, $destination)
+    {
+        $cmd = "openssl enc -aes-256-cbc -pbkdf2 -d -in \"$file\" -out \"$destination\" -pass file:$key";
+        exec($cmd, $output, $returnCode);
 
-            Dotenv::createUnsafeMutable('/var/www/temp', ['.env.local'])->safeLoad();
-            unlink($localDecrypted);
+        if ($returnCode !== 0) {
+            throw new \RuntimeException("Échec du déchiffrement de $file");
         }
     }
 
     private function detectEnvironment(): string
     {
-        return $_ENV['APP_ENV'] ?? $_SERVER['APP_ENV'] ?? 'local';
+        return AppConfig::getEnv('APP_ENV');
     }
 
     public function getEnvironment(): string

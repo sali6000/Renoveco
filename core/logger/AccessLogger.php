@@ -1,4 +1,5 @@
 <?php
+// core/Logger/AccessLogger.php
 
 namespace Core\Logger;
 
@@ -63,8 +64,8 @@ class AccessLogger
             $context = sprintf(
                 "[%s][%s][%s]",
                 $_SERVER['REMOTE_ADDR'] ?? 'n/a',
-                $_SERVER['REQUEST_METHOD'] ?? 'n/a',
-                $_SERVER['REQUEST_URI'] ?? 'n/a'
+                $_SERVER['REQUEST_METHOD'],
+                $_SERVER['REQUEST_URI']
             );
             $message = "$context $message"; // Multiligne
         }
