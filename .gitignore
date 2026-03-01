@@ -2,6 +2,18 @@
 # Uniquement push les dossiers/fichiers nécessaires au projet:
 # app/, core/, config/, docker-compose.yml, webpack-config.js, postcss.config.js, start.sh, 
 
+# Ignorer les fichiers
+.env
+.env.*
+*.key
+start.sh
+webpack.config.js
+postcss.config.js
+package-lock.json
+composer.lock
+.DS_Store
+Thumbs.db
+
 # Ignorer les répertoires
 /secure/
 /storage/
@@ -9,25 +21,10 @@
 /public/
 /.env.*.key
 /tmp/*
-
-# Ignorer les fichiers
-.env
-.env.local
-.env.prod
-.env.local.enc
-.env.*.dec
-.env.*.decrypted
-*.key
-
-# Fichiers systèmes
-.DS_Store
-Thumbs.db
-
-# Caches
+/app/cache/
 /cache/
-/var/
-/vendor/
 /node_modules/
+/vendor/
 
 # Ignorer les fichiers temporaires d’éditeur
 *.swp
@@ -36,7 +33,3 @@ Thumbs.db
 *.bak
 *.log
 *.odt
-
-# Composer et npm lock
-composer.lock
-package-lock.json
