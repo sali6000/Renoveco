@@ -12,7 +12,7 @@ define('LOCAL_PATH_STORAGE_CACHES', LOCAL_PATH . '/storage/cache/');
 define('LOCAL_PATH_STORAGE_LOGS', LOCAL_PATH . '/storage/logs/' . date('Y-m-d') . '-');
 define('LOCAL_PATH_CONFIG', LOCAL_PATH . '/config/');
 
-// Public : public/ ou public_html/
+// Public : localhost/public/ ou renoveconstruct.be/public_html/
 define('PUBLIC_PATH', getPublicPathContext(LOCAL_PATH));
 define('PUBLIC_PATH_BUILD', PUBLIC_PATH . '/build/');
 define('PUBLIC_PATH_UPLOADS', PUBLIC_PATH . '/uploads/');

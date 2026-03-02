@@ -53,7 +53,7 @@ services:
     environment:
       # Définit les variables d'environnement pour PhpMyAdmin.
       PMA_HOST: mysql # Indique que le service MySQL est l'hôte de la base de données.
-      MYSQL_ROOT_PASSWORD: rootpassword # Mot de passe root pour accéder à toutes les bases de données.
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD} # Mot de passe root pour accéder à toutes les bases de données.
     ports:
       - "8081:80" # Expose le port 80 du conteneur sur le port 8081 de la machine hôte.
 

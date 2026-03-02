@@ -15,6 +15,7 @@ composer.lock
 Thumbs.db
 
 # Ignorer les répertoires
+/script/
 /secure/
 /storage/
 /docker/
