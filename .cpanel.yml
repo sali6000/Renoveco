@@ -1,6 +1,0 @@
-deployment:
-  tasks:
-    - export DEPLOYPATH=/home/renoveco/releases/$(date +%Y%m%d%H%M%S)
-    - /bin/mkdir -p $DEPLOYPATH
-    - /bin/cp -R . $DEPLOYPATH
-    - /bin/ln -sfn $DEPLOYPATH /home/renoveco/current
