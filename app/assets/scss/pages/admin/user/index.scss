@@ -1,9 +1,0 @@
-// scss/pages/admin/dashboard/index.scss
-
-@use '@scss/partials/subnavbar';
-@use '@scss/foundations/placeholders';
-@use '@scss/components/form';
-
-.section-admin-read-users {
-    @extend %section-row;
-}
