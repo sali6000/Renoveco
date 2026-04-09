@@ -1,0 +1,132 @@
+@use '@scss/foundations/variables' as variables;
+@use '@scss/foundations/mixins/section' as section-mix;
+
+// =====================================================================================
+//                       (RESPONSIVE) BARRE DE NAVIGATION : MENU HAMBURGER
+// =====================================================================================
+.menu-hamburger {
+    display: block;
+    width: 30px;
+    height: 25px;
+    cursor: pointer;
+    position: fixed;
+    z-index: 1100;
+}
+
+.menu-hamburger button {
+    width: 30px;
+    height: 22px;
+    position: relative;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 20px;
+}
+
+/* Lignes */
+.menu-hamburger span {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background: #1a1a1a;
+    border-radius: 2px;
+    position: absolute;
+    left: 0;
+    transition: all 0.3s ease;
+}
+
+/* états */
+.menu-hamburger span.dark-mode {
+    background: #1a1a1a;
+}
+
+.menu-hamburger span.light-mode {
+    background: #ffffff;
+}
+
+/* Position des lignes */
+.menu-hamburger span:nth-child(1) {
+    top: 0;
+}
+
+.menu-hamburger span:nth-child(2) {
+    top: 9px;
+}
+
+.menu-hamburger span:nth-child(3) {
+    top: 18px;
+}
+
+/* CROIX (open) */
+.menu-hamburger.open span:nth-child(1) {
+    transform: rotate(45deg);
+    top: 9px;
+    background: #fff;
+}
+
+.menu-hamburger.open span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-hamburger.open span:nth-child(3) {
+    transform: rotate(-45deg);
+    top: 9px;
+    background: #fff;
+}
+
+/* MENU MOBILE */
+.mobile-menu {
+    @include section-mix.section-layout($direction: column,
+        $paddings: variables.$space-m,
+        $background: #111827,
+        $color: white,
+        $align: flex-start);
+
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 70%;
+    height: 100vh;
+    transition: left 0.3s ease;
+    z-index: 1000;
+}
+
+/* OPEN */
+.mobile-menu.open {
+    left: 0;
+}
+
+/* LIENS */
+.mobile-menu a {
+    @include section-mix.section-layout($justify: flex-start, $gap: variables.$space-2xs);
+    color: #e5e7eb;
+    font-size: 18px;
+    text-decoration: none;
+}
+
+.mobile-menu a:hover {
+    color: white;
+}
+
+/* OVERLAY PROPRE */
+.mobile-menu::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    opacity: 0;
+    background: rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+    transition: 0.3s;
+}
+
+.mobile-menu.open::after {
+    opacity: 1;
+}
+
+/* RESPONSIVE */
+@media (min-width: 48em) {
+    .menu-hamburger {
+        display: none;
+    }
+}

@@ -1,0 +1,33 @@
+# Fichiers et répertoires à ignorer par Git
+# Uniquement push les dossiers/fichiers nécessaires au projet:
+# src/, core/, config/, docker-compose.yml, webpack-config.js, postcss.config.js, start.sh, 
+
+# Ignorer les fichiers
+.env
+.env.*
+*.key
+start.sh
+webpack.config.js
+postcss.config.js
+package-lock.json
+composer.lock
+.DS_Store
+Thumbs.db
+
+# Ignorer les répertoires
+/script/
+/storage/
+/docker/
+/public/
+/.env.*.key
+/tmp/*
+/node_modules/
+/vendor/
+
+# Ignorer les fichiers temporaires d’éditeur
+*.swp
+*.swo
+*.tmp
+*.bak
+*.log
+*.odt

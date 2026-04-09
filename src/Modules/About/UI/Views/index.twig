@@ -1,0 +1,59 @@
+{% extends "@Shared/layout/base.twig" %}
+
+{% block title %}A propos - {{ parent() }}{% endblock %}
+
+{% block content %}
+<div class="section-about-logo reveal slide-down">
+  <div class="image">
+    <img loading="lazy" src="{{ encore_asset('img/about/logos/rclogo-02-dark.png') }}" alt="logo-author">
+  </div>
+</div>
+<div class="section-about-presentation reveal slide-down">
+    <div class="image">
+      <img loading="lazy" src="{{ encore_asset('img/home/renoveconstructlittle.avif') }}" alt="img-author">
+    </div>
+    <div class="texte">
+          <h1 style="text-align: center;">Présentation</h1>
+      <span>
+        Depuis plus de 37 ans, notre entreprise accompagne particuliers et professionnels en Belgique dans leurs projets de construction et de rénovation. <br><br>Spécialisés dans la fabrication et la pose de châssis sur mesure, l’installation de vitrages double et triple performance ainsi que dans les solutions photovoltaïques, nous mettons notre expertise au service de la qualité et de la durabilité.
+        <br><br>Notre priorité est simple : proposer des solutions fiables, esthétiques et performantes sur le long terme. Chaque projet est étudié avec rigueur afin de garantir une isolation optimale, une sécurité renforcée et une intégration harmonieuse à votre bâtiment.
+        <br><br>Nous travaillons avec des matériaux certifiés et des techniques éprouvées, en respectant les normes belges en vigueur. Notre équipe assure un accompagnement personnalisé, du premier conseil jusqu’à la finalisation du chantier.
+      </span>
+      <br><br>
+      <h1 style="text-align: center;">Parcours</h1>
+      <br>
+      <span>
+      Fondée il y a 37 ans, notre entreprise s’est construite autour de valeurs fortes : professionnalisme, précision et engagement. Au fil des années, nous avons su évoluer avec les technologies et les exigences du marché.
+        <br><br>Nous avons réalisé de nombreux projets à travers la Belgique, allant de maisons individuelles à des bâtiments professionnels, en passant par des rénovations énergétiques complètes.
+        <br><br>Notre savoir-faire s’est élargi pour intégrer les nouvelles solutions énergétiques, notamment l’installation de panneaux photovoltaïques, permettant à nos clients de réduire leur consommation et d’investir dans un avenir durable.
+      </span>
+    </div>
+</div>
+<br><br><br>
+
+{# Section vidéos #}
+<div class="section-about-videos reveal slide-down">
+  <div class="videos">
+    <div class="video">
+      <video controls preload="auto">
+        <source src="{{ encore_asset('webm/about/video1.webm') }}" type="video/webm" />
+        Votre navigateur ne supporte pas la lecture de vidéos.
+      </video>
+    </div>
+    <div class="video">
+      <video controls preload="auto">
+        <source src="{{ encore_asset('webm/about/video2.webm') }}" type="video/webm" />
+        Votre navigateur ne supporte pas la lecture de vidéos.
+      </video>
+    </div>
+    <div class="video">
+      <video controls preload="auto" width="100%">
+        <source src="{{ encore_asset('webm/about/video3.mp4') }}" type="video/mp4" />
+        Votre navigateur ne supporte pas la lecture de vidéos.
+      </video>
+    </div>
+    <div class="video"></div>
+  </div>
+</div>
+<br><br>
+{% endblock %}

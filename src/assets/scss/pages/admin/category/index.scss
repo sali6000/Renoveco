@@ -1,0 +1,10 @@
+// scss/pages/admin/dashboard/index.scss
+
+@use '@scss/partials/admin/subnavbar';
+@use '@scss/foundations/placeholders';
+@use '@scss/foundations/variables' as variables;
+@use '@scss/foundations/mixins/section' as section-mix;
+
+.section-admin-categories {
+    @extend %section-row;
+}

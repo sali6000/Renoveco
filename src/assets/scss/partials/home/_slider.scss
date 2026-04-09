@@ -1,0 +1,155 @@
+@use '@scss/foundations/placeholders/section';
+@use '@scss/foundations/variables' as variables;
+@use '@scss/foundations/mixins/section' as section-mix;
+
+.section-home-hero {
+    height: 100dvh;
+}
+
+.section-home-hero .hero-content {
+    @include section-mix.section-layout($direction: column, $paddings: variables.$space-l variables.$space-m variables.$space-m);
+    overflow: hidden;
+    height: 100%;
+}
+
+.section-home-hero .hero-content p {
+    color: #fff;
+    text-shadow: 2px 2px 5px rgb(0 0 0 / 0.7);
+}
+
+.section-home-hero .hero-content .content-texte {
+    @include section-mix.section-layout($direction: column, $gap: variables.$space-xs);
+}
+
+.section-home-hero .hero-content .content-texte h1,
+.section-home-hero .hero-content .content-texte h2 {
+    text-align: center;
+    color: #fff;
+    font-weight: 200;
+    line-height: 1.15;
+    text-shadow: 2px 2px 5px rgb(0 0 0 / 0.9)
+}
+
+.section-home-hero .hero-content .content-texte h1 {
+    font-size: 3vw;
+    margin: variables.$space-none variables.$space-m;
+}
+
+.section-home-hero .hero-content .content-texte h2 {
+    font-size: 2vw;
+}
+
+.section-home-hero .hero-content .content-cta {
+    @include section-mix.section-layout($direction: column);
+}
+
+.section-home-hero .hero-content .content-cta .cta-button {
+    @include section-mix.section-layout($gap: variables.$space-s);
+}
+
+.section-home-hero .hero-content .content-cta .cta-social-media {
+    @include section-mix.section-layout($display: inline-flex,
+        $gap: variables.$space-s,
+        $color: #fff);
+    font-weight: 300;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.section-home-hero .hero-content .content-cta .cta-social-media .media-facebook,
+.section-home-hero .hero-content .content-cta .cta-social-media .media-phone {
+    @include section-mix.section-layout($gap: variables.$space-s);
+
+    img {
+        width: 30px;
+        height: 30px;
+        object-fit: cover;
+    }
+}
+
+.section-home-hero .hero-content .content-cta .cta-social-media .media-facebook {
+    justify-content: flex-end;
+}
+
+.section-home-hero .hero-content .content-cta .cta-social-media .media-phone {
+    justify-content: flex-start;
+}
+
+.section-home-hero .hero-background {
+    video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+}
+
+.section-home-hero .hero-background-mobile {
+    display: none;
+    justify-content: center;
+}
+
+.section-home-hero .hero-background-mobile .logo {
+    @include section-mix.section-layout($flex: 0 0 variables.$container-2xs);
+}
+
+.section-home-hero .hero-background-mobile .background img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+@media (max-width: 768px) {
+
+    .section-home-hero .hero-background {
+        display: none;
+    }
+
+    .section-home-hero .hero-background-mobile {
+        display: flex;
+        padding: variables.$space-xs;
+    }
+
+    .section-home-hero .hero-content {
+        padding: variables.$space-none;
+    }
+
+    .section-home-hero .hero-content .content-texte {
+        gap: variables.$space-s;
+    }
+
+    .section-home-hero .hero-content .content-texte h1 {
+        font-size: 6vw;
+        margin: variables.$space-none;
+        font-weight: 300;
+    }
+
+    .section-home-hero .hero-content .content-texte h2 {
+        font-size: 3vw;
+    }
+
+    .section-home-hero .hero-content .content-texte p {
+        font-size: 3vw;
+    }
+
+    .section-home-hero .hero-content .content-cta .cta-button {
+        @include section-mix.section-layout($paddings: variables.$space-none variables.$space-s, $gap: variables.$space-none variables.$space-xs);
+    }
+
+    .section-home-hero .hero-content .content-cta .cta-social-media {
+        padding: variables.$space-s variables.$space-none;
+        gap: variables.$space-none;
+        align-items: flex-start;
+    }
+
+    .section-home-hero .hero-content .content-cta .cta-social-media .media-facebook,
+    .section-home-hero .hero-content .content-cta .cta-social-media .media-phone {
+        @include section-mix.section-layout($gap: variables.$space-xs);
+    }
+}

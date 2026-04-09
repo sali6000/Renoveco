@@ -1,0 +1,109 @@
+<header>
+
+  {# PROMOS #}
+  {% if information and current_page == "home-index" %}
+    <div class="section-promotion section-promotion--{{ information.type }}">
+      {{ information.text }}
+    </div>
+  {% endif %}
+
+{# NAVBAR > 764px #}
+  <div class="section-navbar">
+
+    {# LOGO #}
+    <div class="section-navbar-logo">
+      <a href="/" aria-label="Accueil">
+    
+        <img class="logo logo-light"
+             src="{{ encore_asset('img/about/logos/rclogo-02-light.png') }}"
+             alt="Renove construct logo 1">
+    
+        <img class="logo logo-dark"
+             src="{{ encore_asset('img/about/logos/rclogo-02-dark.png') }}"
+             alt="Renove construct logo 2">
+    
+      </a>
+    </div>
+
+    {# MENU #}
+    <nav class="section-navbar-menu-zone" aria-label="Navigation principale">
+      <ul class="section-navbar-menu">
+        {% if env == "dev" %}
+          <li><a href="product/list">Produits</a></li>
+        {% endif %}
+        <li><a href="about">Société</a></li>
+        <li><a href="contact">Contact</a></li>
+        {% if userSession %}
+          {% if userSession.role is same as('superadmin') %}
+            <li><a href="admin/dashboard">Admin</a></li>
+          {% endif %}
+          {% if userSession.role is same as('user') %}
+            <li>Bienvenu <a href="profil">user</a></li>
+          {% endif %}
+          <li><a href="auth/logout">Déconnection</a></li>
+        {% else %}
+          <li><a href="auth/login">Connection</a></li>
+          <li><a href="user/register">Inscription</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+
+    {# CONTACT #}
+    <div class="section-navbar-contact">
+      <img src="{{ encore_asset('img/layouts/emoticons/phone-2.png') }}" alt="Téléphone">
+      <span>0492/75.95.77<br><b>Horaire:</b> Lun - Ven 8h - 16h</span>
+        <a href="https://wa.me/32492759577">
+          <img style="width:30px;" src="{{ encore_asset('img/layouts/logos/whatsapp.png') }}" alt="whatsapp-logo">
+        </a>
+        <a href="https://www.facebook.com/profile.php?id=61580757421154">
+          <img style="width:30px;" src="{{ encore_asset('img/layouts/logos/facebook.png') }}" alt="facebook-logo">
+        </a>
+    </div>
+  </div>
+
+{# NAVBAR < 764px #}
+<div class="menu-hamburger" id="menu-hamburger">
+  <button
+    id="hamburger-btn"
+    aria-expanded="false"
+    aria-controls="mobile-menu"
+    aria-label="Ouvrir le menu"
+  >
+   <span class="ctaButton"></span>
+  <span class="ctaButton"></span>
+  <span class="ctaButton"></span>
+  </button>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu">
+  <a href="/">Accueil</a>
+  {% if env == "dev" %}
+    <a href="/product/list">Produits</a>
+  {% endif %}
+  <a href="/about">Société</a>
+  <a href="/contact">Contact</a>
+  {% if userSession %}
+    {% if userSession.role is same as('superadmin') %}
+      <a href="/admin/dashboard">Admin</a>
+    {% endif %}
+    {% if userSession.role is same as('user') %}
+        <a href="profil">User</a>
+    {% endif %}
+      <a href="/auth/logout">Déconnection</a>
+    {% else %}
+      <a href="/auth/login">Connection</a>
+      <a href="/user/register">Inscription</a>
+    {% endif %}
+      <a href="tel:+3249275.95.77">Tél: +32 492/75.95.77</a>
+      <a href="https://www.facebook.com/profile.php?id=61580757421154">
+          <img style="width:30px;" src="{{ encore_asset('img/layouts/logos/facebook.png') }}" alt="Facebook Renove Construct Belgique"></img>
+        <figcaption>Facebook</figcaption>
+      </a>
+      <a href="https://wa.me/32492759577">
+        <img style="width:30px;" src="{{ encore_asset('img/layouts/logos/whatsapp.png') }}" alt="Contact WhatsApp entreprise photovoltaïque Belgique"></img>
+        <figcaption>WhatsApp</figcaption>
+      </a>
+      <a></a>
+      <a></a>
+  </nav>
+</header>

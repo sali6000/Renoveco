@@ -1,0 +1,205 @@
+{% extends "@Shared/layout/base.twig" %}
+
+{% block title %}Renove Construct | Châssis & Panneaux Photovoltaïques en Belgique{% endblock %}
+
+{% block content %}
+<section class="section-home-hero">
+
+  {# Vidéos #}
+  <div class="hero-background">
+    <video autoplay muted loop playsinline preload="none" poster="{{ encore_asset('img/layouts/background.avif') }}">
+      <source src="{{ encore_asset('webm/home/videoloop3.webm') }}" type="video/webm" />
+    </video>
+  </div>
+  <div class="hero-background-mobile">
+    <div class="logo">
+      <img loading="lazy" src="{{ encore_asset('img/about/logos/rclogo-02-dark.png') }}" alt="logo de l'entreprise">
+    </div>
+    <div class="background">
+      <img loading="lazy" src="{{ encore_asset('img/home/background-mobile-light.png') }}" alt="background de fenêtres et panneaux photovoltaïques en Belgique">
+    </div>
+  </div>
+
+  {# Textes #}
+  <div class="hero-content">
+    <div class="content-texte"> 
+      <h1 class="reveal slide-up">Entreprise de rénovation en <b>Wallonie</b> – Devis gratuit</h1>
+      <h2 class="reveal slide-up">Pose de <b>fenêtres, panneaux photovoltaïques et isolation</b></h2>
+      <p class="reveal slide-up">Depuis 1989, notre équipe réalise des rénovations complètes pour particuliers et entreprises…</p>
+    </div>
+    <div class="content-cta">  
+      <div class="cta-button reveal slide-up">
+        <a class="btn-info" href="/contact" title="Contact mail Renove Construct fenêtres et panneaux photovoltaïques">
+          Demandez votre devis gratuit
+        <img style="width:30px;" src="{{ encore_asset('img/layouts/emoticons/direction-right-light.png') }}" alt="Whatsapp Renove Construct Belgique"></img>
+        </a>
+        <a class="btn-whatsapp" href="https://wa.me/32492759577" title="Contact Whatsapp fenêtres et panneaux photovoltaïques">
+          <img style="width:30px;" src="{{ encore_asset('img/layouts/emoticons/phone-1.png') }}" alt="Whatsapp Renove Construct Belgique"></img>
+          WhatsApp
+          <img style="width:30px;" src="{{ encore_asset('img/layouts/emoticons/discussion.png') }}" alt="Whatsapp Renove Construct Belgique"></img>
+        </a>
+      </div>
+      <div class="cta-social-media">
+        <div class="media-facebook">
+          <a href="https://www.facebook.com/profile.php?id=61580757421154">
+            <img style="width:30px;" src="{{ encore_asset('img/layouts/logos/facebook.png') }}" alt="Facebook Renove Construct Belgique"></img>
+          </a>
+          <a href="https://www.facebook.com/profile.php?id=61580757421154">Facebook</a>
+        </div>
+        <div class="media-phone">
+        <a href="tel:+3249275.95.77">
+          <img style="width:30px;" src="{{ encore_asset('img/layouts/emoticons/phone-1.png') }}" alt="Téléphone entreprise fenêtres Belgique"></img>
+        </a>
+        <a href="tel:+3249275.95.77">Tél: +32 492/75.95.77</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-home-presentation">
+  <div class="presentation-seo">
+    <div class="seo-logo">
+        <img src="{{ encore_asset('img/about/logos/rclogo-02-dark.png') }}" alt="logo-author">
+    </div>
+    <div class="seo-content"> 
+      <h2>
+        Votre partenaire de confiance pour vos projets de rénovation énergétique en Belgique
+      </h2>
+
+      <p>
+        <strong>Spécialiste en installation de fenêtres et panneaux photovoltaïques</strong>,
+        notre entreprise accompagne particuliers et professionnels dans leurs projets de rénovation énergétique.
+      </p>
+
+      <p>
+        Nous proposons <strong>des solutions sur mesure pour améliorer l'isolation de votre habitation
+        et réduire votre consommation d'énergie.</strong> Grâce à notre expertise, nous garantissons
+        <strong>des installations durables, conformes aux normes actuelles,
+        avec un excellent rapport qualité-prix</strong>.
+      </p>
+
+      <p><strong>Nous intervenons dans toute la Belgique, notamment à Bruxelles et en Wallonie</strong>.
+        Demandez dès maintenant votre devis gratuit pour vos travaux de fenêtres ou panneaux solaires.
+      </p>
+    </div>
+  </div>
+  <div class="presentation-image">
+    <div class="image-zone">
+      <img loading="lazy" src="{{ encore_asset('img/home/renoveconstructlittle.avif') }}" alt="entreprise de fenêtres et panneaux photovoltaïques en Belgique">
+    </div>
+  </div>
+</section>
+
+{# Section images #}
+<section class="section-home-images reveal slide-up">
+  <div class="image-big">
+    <img loading="lazy" src="{{ encore_asset('img/home/image3.avif') }}" alt="Installation panneaux photovoltaïques sur toiture en Belgique">
+    <div class="img-overlay-content">
+        <h3>Pose de panneaux photovoltaïques pour produire votre propre énergie</h3>
+    </div>
+  </div>
+  <div class="image-big">
+    <img loading="lazy" src="{{ encore_asset('img/home/image1.avif') }}"alt="Pose de châssis PVC sur mesure Belgique">
+    <div class="img-overlay-content">
+      <h3>Installation de fenêtres sur mesure: en PVC, aluminium ou bois</h3>
+    </div>
+  </div>
+</section>
+<section class="section-home-images reveal slide-down">
+  <div class="image">
+    <img loading="lazy" src="{{ encore_asset('img/home/image9.avif') }}" alt="Réalisation de châssis sur mesure en Belgique">
+    <div class="img-overlay-content">
+        <h3>Double et triple vitrage</h3>
+    </div>
+  </div>
+  <div class="image">
+    <img loading="lazy" src="{{ encore_asset('img/home/image2.avif') }}" alt="Entreprise fenêtres et portes Belgique">
+    <div class="img-overlay-content">
+        <h3>Devis gratuit et personnalisé pour votre projet</h3>
+    </div>
+  </div>
+  <div class="image">
+    <img loading="lazy" src="{{ encore_asset('img/home/image8.avif') }}"  alt="Entreprise fenêtres et portes Belgique">
+    <div class="img-overlay-content">
+        <h3>Intervention rapide dans toute la Belgique</h3>
+    </div>
+  </div>
+    <div class="image">
+    <img loading="lazy" src="{{ encore_asset('img/home/image18.avif') }}" alt="Entreprise fenêtres et portes Belgique">
+    <div class="img-overlay-content">
+        <h3>Durabilité des matériaux</h3>
+    </div>
+  </div>
+</section>
+
+{# Section contact us #}
+<section class="section-home-contactus">
+    <p>Des questions ? <b>Demandez un devis gratuit</b> par téléphone au <b>0492/75.95.77</b></p>
+      <a href="/contact"><p> ou bien via <b><u>le formulaire de contact en cliquant ici.</u></b></p></a>
+    <p>Nos experts sont à votre disposition pour toute demande d'information.</p>
+</section>
+
+<section class="section-home-information-light">
+  <div class="left">
+    <div class="image">
+      <img class="image" loading="lazy" src="{{ encore_asset('img/home/image19.avif') }}" alt="entreprise de fenêtres et panneaux photovoltaïques en Belgique">
+    </div>
+  </div>
+  <div class="right">
+    <div class="texte">
+      <h2>Nos projets d'installations et rénovation</h2><br><br>
+      <p>
+        Rénovation d'une maison en 2025 : remplacement de 10 fenêtres en PVC double vitrage, installation de 20 panneaux photovoltaïques sur la toiture, amélioration de l'isolation thermique et acoustique.
+      </p>
+    </div>
+  </div>
+</section>
+<section class="section-home-information-dark">
+  <div class="left">
+    <div class="texte">
+      <h2>Finitions réalisés par nos experts</h2>
+      <p>
+        Résultat économique et esthétique : nos clients bénéficient de fenêtres modernes, d'une meilleure isolation et de panneaux solaires performants, contribuant à réduire leur facture énergétique et à valoriser leur bien immobilier.
+      </p>
+        <a class="btn-light" href="/contact" title="Contact entreprise fenêtres Belgique">
+        <b>Demandez un devis gratuit</b>
+        <img style="width:30px;" src="{{ encore_asset('img/layouts/emoticons/direction-right-dark.png') }}" alt="Whatsapp Renove Construct Belgique"></img>
+        </a>
+    </div>
+  </div>
+  <div class="right">
+    <div class="image">
+      <img class="image" loading="lazy" src="{{ encore_asset('img/home/image10.avif') }}" alt="entreprise de fenêtres et panneaux photovoltaïques en Belgique">
+    </div>
+  </div>
+</section>
+
+<section class="section-home-information-light">
+  <div class="left">
+    <div class="image">
+      <img class="image" loading="lazy" src="{{ encore_asset('img/home/image16.avif') }}" alt="entreprise de fenêtres et panneaux photovoltaïques en Belgique">
+    </div>
+  </div>
+  <div class="right">
+    <div class="texte-no-gap">
+      <h2>Pourquoi nous choisir ?</h2><br><br>
+      <p>
+        Dans un contexte de hausse des coûts énergétiques, il est essentiel de choisir des solutions fiables et durables.
+        Notre entreprise vous propose des installations performantes, conçues avec des matériaux de qualité,
+        garantissant confort et économies d'énergie sur le long terme.
+      </p><br><br>
+      <ul>
+        <li>✔ Expertise en fenêtres et panneaux solaires</li>
+        <li>✔ Intervention rapide dans toute la Belgique</li>
+        <li>✔ Devis gratuit et personnalisé</li>
+        <li>✔ Matériaux de haute qualité</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section-home-localisation">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2538.001014704153!2d4.230119175848953!3d50.49693887160111!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c236c050039989%3A0x596184a46876f52d!2sRue%20des%20Brasseries%202%2C%207170%20Manage!5e0!3m2!1sfr!2sbe!4v1772579237974!5m2!1sfr!2sbe" width="100%" height="400px" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+</section>
+{% endblock %}

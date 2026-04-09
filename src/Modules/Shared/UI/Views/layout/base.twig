@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{{ entrepriseTitle }}{% endblock %}</title> 
+    <meta name="description" content="Installation de fenêtres et panneaux photovoltaïques en Belgique. Devis gratuit sous 24h. Travail rapide et soigné. Contactez nos experts pour plus d'informations." />
+    <meta name="author" content="Steven F">
+    <base href="{{ baseUri|e }}">
+    <link rel="shortcut icon" href="{{ encore_asset('img/about/logos/favicon-v2.ico') }}">
+    <link rel="stylesheet" href="{{ encore_asset('global.css') }}">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HomeAndConstructionBusiness",
+  "name": "Renove Construct SPRL",
+  "areaServed": "Belgique",
+  "telephone": "+32492759577",
+  "url": "https://renoveconstruct.be"
+}
+</script>
+    {# current_page <= Ex: product-detail (./src/assets/scss/pages/product/detail.scss' : webpack.config.js) #}
+    {% if current_page is defined %} 
+        <link rel="stylesheet" href="{{ encore_asset(current_page ~ '.css') }}">
+    {% endif %}
+
+    {% block head %}{% endblock %}
+</head>
+
+{# data-current-page > document.body.dataset.currentPage; (voir app.js) #}
+<body data-current-page="{{ current_page|default('default') }}">
+    {% include '@Shared/components/header.twig' ignore missing %}
+    <main class="{{ current_page }}">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+    {% include '@Shared/components/footer.twig' ignore missing %}
+    {% block javascripts %}
+        <script src="{{ encore_asset('runtime.js') }}"></script>
+        <script src="{{ encore_asset('app.js') }}" defer></script>
+    {% endblock %}
+</body>
+</html>

@@ -1,0 +1,20 @@
+// src/assets/scss/main.scss
+
+// Importation des variables
+@use 'foundations/variables' as variables;
+
+// Importation des modules de base
+@use 'base/fonts';
+@use 'base/global'; // Polices, etc.
+@use 'base/reset';
+
+// Importation des modules de layout
+@use 'components/layouts/wrapper'; // Regroupe le contenu du site dans un wrapper
+@use 'components/layouts/flashinfos'; // Affiche une bannière d'information
+
+// Importation des composants utilitaires
+@use 'components/effects/reveal';
+
+// Importation des parties
+@use 'pages/shared/header';
+@use 'pages/shared/footer';

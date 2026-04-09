@@ -1,0 +1,74 @@
+{% extends "@Admin/Shared/UI/Views/Layout/admin_base.twig" %}
+
+{% block title %}Gestion des produits{% endblock %}
+
+{% block content %} {# ... {% endblock content %} #}
+{{ block('admin_subnav') }}
+
+<div class="section-admin-create-product">
+    <div class="form-section">
+        <h2>Création d'un produit</h2>
+        <form method="POST" action="/admin/add-product">
+            <label for="name">Nom du produit:</label>
+            <input type="text" name="name" placeholder="Nom du produit" required />
+            <br><br>
+            <label for="slug">Slug du produit:</label>
+            <input type="text" name="slug" placeholder="Slug" required />
+            <br><br>
+            <label for="description">Description:</label>
+            <br>
+            <textarea name="description" placeholder="Description"></textarea>
+            <br><br>
+            <label for="composition">Composition:</label>
+            <input type="text" name="composition" placeholder="Composition" />
+            <br><br>
+            <label for="category_id">Catégorie:</label>
+            <select name="category_id" required>
+                <option value="">-- Sélectionner une catégorie --</option>
+                {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
+            <br><br>
+            <button type="submit">Ajouter Produit</button>
+        </form>
+        <form action="/admin/uploadImage" method="POST" enctype="multipart/form-data">
+            <label>Sélectionner une image :</label>
+            <input type="file" name="image" accept="image/*">
+            <label>Format de sortie :</label>
+            <select name="format">
+                <option value="jpg" selected>JPG</option>
+                <option value="png">PNG</option>
+                <option value="webp">WebP</option>
+            </select>
+            <button type="submit">Uploader</button>
+        </form>
+    </div>
+   <div class="form-section">
+        <h2>Prévisualisation finale</h2>
+        <br><br>
+    </div>
+</div>
+
+ {# PRODUITS #}
+<div class="section-admin-read-products">
+    {% for product in products %}
+        <div class="product">
+            <a href="product/detail/{{ product.slug }}">
+                <p>Nom: <b>{{ product.name }}</b></p>
+                <p>Référence: <b>{{ product.reference }}</b></p>
+                <p>Slug: <b>{{ product.slug }}</b></p>
+                <p>Catégories: {{ product.categories[0].name ?? 'Pas de catégorie associées' }}</p>
+                <p>Image: {{ product.images[0].filePath }}</p>
+                <p>Description: {{ product.description }}</p>
+                <p>Composition: {{ product.composition }}</p>
+                <p>Utilisé pour: {{ product.useFOr ?? 'Non précisé' }}</p>
+                <p>Fournisseur (par défaut): {{ product.defaultSupplierId ?? 'Aucun' }}</p>
+                <p>Créé le: {{ product.createdAt|date("d/m/Y H:i") }}</p> 
+                <p>Mis à jour le: {{ product.updatedAt|date("d/m/Y H:i") }}</p> 
+                <p>État: {{ product.isActive ? "Activé" : "Désactivé" }}</p>
+            </a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock content %}

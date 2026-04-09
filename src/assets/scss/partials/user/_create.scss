@@ -1,0 +1,16 @@
+@use '@scss/foundations/variables' as variables;
+@use '@scss/foundations/mixins/section' as section-mix;
+
+
+form {
+    @include section-mix.section-layout($direction: column,
+        $width: variables.$container-m,
+        $margins: variables.$space-s,
+        $paddings: variables.$space-m,
+        $background: variables.$color-bg-white,
+        $gap: variables.$space-xs,
+        $color: black,
+        $backdropBlur: 10px,
+        $border: 1px solid rgba(255, 255, 255, 0.3),
+        $boxShadow: 0 8px 40px rgb(0 0 0 / 0.1));
+}

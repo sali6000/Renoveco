@@ -1,0 +1,15 @@
+// scss/partials/cgu/_policy.scss
+
+@use '@scss/foundations/variables' as variables;
+@use '@scss/foundations/mixins/section' as section-mix;
+
+.section-cgu-index-presentation {
+    @include section-mix.section-layout($direction: column,
+        $align: flex-start,
+        $textAlign: left,
+        $gap: variables.$space-xs,
+        $paddings: variables.$space-s,
+        $margins: variables.$space-s);
+
+
+}

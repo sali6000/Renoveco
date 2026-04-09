@@ -1,0 +1,8 @@
+// scss/partials/faq/_index.scss
+
+@use '@scss/foundations/variables' as variables;
+@use '@scss/foundations/mixins/section' as section-mix;
+
+.section-faq-index-presentation {
+    @include section-mix.section-layout($paddings: variables.$space-s, $margins: variables.$space-s);
+}
