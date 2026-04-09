@@ -1,0 +1,22 @@
+# --- Rewrite pour front controller ---
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Si ce n'est pas un fichier ou dossier existant, passe par index.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [QSA,L]
+</IfModule>
+
+# --- Interdire l'accès aux dossiers sensibles ---
+RedirectMatch 403 ^/(core|config|app|storage)/
+
+# --- Protection des fichiers .env ---
+<FilesMatch "\.env">
+    Require all denied
+</FilesMatch>
+
+# --- Gzip minimal ---
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
