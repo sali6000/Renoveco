@@ -17,11 +17,17 @@ final class EnvLoader
 
     public function __construct()
     {
-        // Charger ./.env
+        // Charger ./.env (pour Github)
         Dotenv::createImmutable(AppConfig::getConst('ROOT_PATH'))->safeLoad();
 
         // Récupérer l'environnement APP_ENV définit dans .env  
         $this->environment = $this->detectEnvironment();
+    }
+
+    private function detectEnvironment(): string
+    {
+        // Récupérer l'environnement APP_ENV définit dans .env  
+        return AppConfig::getEnv('APP_ENV');
     }
 
     public function load(): void
@@ -34,7 +40,7 @@ final class EnvLoader
     {
         $envsRepository = AppConfig::getConst('ROOT_PATH_STORAGE_SECURE');
         $tempRepository = AppConfig::getConst('ROOT_PATH_TMP');
-        $scopes = ['local', $this->environment]; // local, prod/dev
+        $scopes = ['local', $this->environment]; // local + prod ou dev
 
         foreach ($scopes as $scope) {
             $file = $envsRepository . ".env.{$scope}.enc";
@@ -48,18 +54,6 @@ final class EnvLoader
         }
     }
 
-    private function loadEnvTempByScope($tempRepository, $scope)
-    {
-        // Charger le fichier d'environnement
-        Dotenv::createUnsafeMutable($tempRepository, ['.env.' . $scope])->safeLoad();
-    }
-
-    private function deleteFile($file)
-    {
-        // Supprime le fichier d'enfironnement
-        unlink($file);
-    }
-
     private function decryptFile($file, $key, $destination)
     {
         $cmd = "openssl enc -aes-256-cbc -pbkdf2 -d -in \"$file\" -out \"$destination\" -pass file:$key";
@@ -70,13 +64,15 @@ final class EnvLoader
         }
     }
 
-    private function detectEnvironment(): string
+    private function loadEnvTempByScope($tempRepository, $scope)
     {
-        return AppConfig::getEnv('APP_ENV');
+        // Charger le fichier d'environnement
+        Dotenv::createUnsafeMutable($tempRepository, ['.env.' . $scope])->safeLoad();
     }
 
-    public function getEnvironment(): string
+    private function deleteFile($file)
     {
-        return $this->environment;
+        // Supprime le fichier d'enfironnement
+        unlink($file);
     }
 }
