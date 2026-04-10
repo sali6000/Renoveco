@@ -1,5 +1,6 @@
+---
 deployment:
   tasks:
-    - echo "Deploy started"
-    - /bin/rsync -av --delete /home/renoveco/repositories/Renoveco/public/ /home/renoveco/public_html/
-    - echo "Deploy finished"
+    - export DEPLOYPATH=/home/renoveco/public_html/
+    - /bin/cp -rf public/* $DEPLOYPATH
+    - /bin/cp -f .htaccess $DEPLOYPATH (si vous en avez un à la racine)
