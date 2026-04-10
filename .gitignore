@@ -9,7 +9,6 @@
 /storage/cache/
 /storage/logs/
 /storage/secure/*.key
-/tmp/
 /vendor/
 
 # Ignorer les fichiers racine
