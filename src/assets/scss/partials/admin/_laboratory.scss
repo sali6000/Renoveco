@@ -1,0 +1,39 @@
+// scss/partials/_home.scss
+@use '@scss/foundations/placeholders/section';
+@use '@scss/foundations/values' as values;
+@use '@scss/foundations/mixins' as mixins;
+
+.container {
+    gap: values.$space-s;
+}
+
+// Simples
+.section-row {
+    @include mixins.section-layout($background: red);
+}
+
+.section-column {
+    @include mixins.section-layout($background: green,
+        $direction: column);
+}
+
+// (Big section)
+.section-row-big {
+    @include mixins.section-layout($flex: 2);
+}
+
+// (Very Big section)
+.section-row-big {
+    @include mixins.section-layout($flex: 4);
+}
+
+// (Menu)
+.section-hori {
+    @include mixins.section-layout($background: pink, $align: flex-start);
+}
+
+// (Bouton)
+.button {
+    @include mixins.section-layout($background: red,
+        $paddings: values.$space-xs);
+}

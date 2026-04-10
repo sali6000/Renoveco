@@ -1,0 +1,21 @@
+// scss/partials/gallery/_index.scss
+
+@use '@scss/foundations/values' as values;
+@use '@scss/foundations/mixins' as mixins;
+
+.section-gallery-index-content {
+    @include mixins.section-layout($paddings: values.$space-s);
+}
+
+.section-gallery-index-images {
+    @include mixins.section-layout($flex: 0 0 auto, $paddings: values.$space-s, $justify: flex-start);
+
+    .image {
+        @include mixins.section-layout($flex: 0 0 values.$container-2xs);
+
+        img {
+            width: 100%;
+            height: auto;
+        }
+    }
+}

@@ -1,0 +1,30 @@
+@use '@scss/foundations/values' as bp;
+@use 'sass:map';
+
+@mixin media-up($size) {
+    @media (min-width: breakpoint($size)) {
+        @content;
+    }
+}
+
+@mixin media-down($size) {
+    @media (max-width: (breakpoint($size) - 1px)) {
+        @content;
+    }
+}
+
+@mixin media-between($min, $max) {
+    @media (min-width: breakpoint($min)) and (max-width: (breakpoint($max) - 1px)) {
+        @content;
+    }
+}
+
+@function breakpoint($size) {
+    $bp: map.get(bp.$breakpoints, $size);
+
+    @if $bp {
+        @return $bp;
+    }
+
+    @error "Breakpoint #{$size} does not exist.";
+}

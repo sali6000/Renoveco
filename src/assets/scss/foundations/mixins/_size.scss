@@ -1,0 +1,32 @@
+@use '@scss/foundations/values' as values;
+
+//  Définition de la largeur et la hauteur.
+//  Valeurs disponibles:
+//      - auto (la taille s'adaptera par rapport à son contenu) 
+//      - 100% (la taille s'adaptera  par rapport à la taille du parent)
+@mixin size-layout($height: auto, $width: auto) {
+    height: $height;
+    width: $width;
+}
+
+@mixin size-paddings($size: values.$space-none) {
+    padding: $size;
+}
+
+@mixin size-margins($size: values.$space-none) {
+    margin: $size;
+}
+
+@mixin size-max-width($size: values.$container-wrapper) {
+    max-width: $size;
+}
+
+
+@mixin size-min-width($size: values.$container-wrapper) {
+    min-width: $size;
+}
+
+@mixin size-width-wrapper($max-width: values.$container-wrapper, $margin: 0 auto) {
+    max-width: $max-width;
+    margin: $margin;
+}

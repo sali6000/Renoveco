@@ -1,0 +1,43 @@
+@use '@scss/foundations/placeholders/section';
+@use '@scss/foundations/values' as values;
+@use '@scss/foundations/mixins' as mixins;
+
+
+footer {
+  background: #364c61;
+  color: #FFFFFF;
+  border-top: 1px solid lightgrey;
+}
+
+.section-footer-contact {
+  @include mixins.section-layout($gap: values.$space-none, $paddings: values.$space-xs);
+
+  .contact-social-media {
+    @include mixins.section-layout($flex: values.$flex-equal, $justify: flex-end, $paddings: values.$space-xs);
+    border-right: 1px solid grey;
+
+    figcaption {
+      text-align: center;
+      opacity: 0.7;
+    }
+
+    .logo {
+      width: 60px;
+      height: auto;
+      opacity: 0.7;
+    }
+  }
+
+  .contact-adress {
+    @include mixins.section-layout($direction: column, $flex: values.$flex-equal, $gap: values.$space-none, $align: flex-start, $paddings: values.$space-xs);
+  }
+}
+
+.section-footer-copyright {
+  @extend %section-row;
+
+  .copyright {
+    @include mixins.section-layout($paddings: values.$space-s, $color: darkgrey);
+    border-top: 1px solid grey;
+  }
+}

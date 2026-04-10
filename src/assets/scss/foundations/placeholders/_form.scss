@@ -1,0 +1,19 @@
+// scss/foundations/layout/_sections.placeholders.scss
+@use '@scss/foundations/values' as values;
+@use '@scss/foundations/mixins' as mixins;
+
+%form-light {
+    @include mixins.section-layout($direction: column,
+        $width: values.$container-m,
+        $paddings: values.$space-m,
+        $background: values.$color-bg-white,
+        $gap: values.$space-xs,
+        $color: black,
+        $backdropBlur: 10px,
+        $border: 1px solid rgba(255, 255, 255, 0.3),
+        $boxShadow: 0 8px 40px rgb(0 0 0 / 0.1));
+
+    @include mixins.media-down(sm) {
+        margin: values.$space-none;
+    }
+}
