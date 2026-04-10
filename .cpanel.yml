@@ -1,7 +1,5 @@
 deployment:
   tasks:
-    - export REPO=/home/renoveco/repositories/Renoveco
-    - export DEPLOYPATH=/home/renoveco/public_html
-
-    # Déploiement du dossier public uniquement
-    - /bin/rsync -av --delete $REPO/public/ $DEPLOYPATH/
+    - echo "Deploy started"
+    - /bin/rsync -av --delete /home/renoveco/repositories/Renoveco/public/ /home/renoveco/public_html/
+    - echo "Deploy finished"
