@@ -1,3 +1,16 @@
+🧠 💡 FLOW COMPLET SIMPLE À RETENIR
+1. git pull origin main
+2. git status
+3. git add .
+4. git commit -m "message"
+5. git push origin main
+6. (serveur) git pull / cPanel sync
+7. deploy automatique (.cpanel.yml)
+
+
+
+
+
 🧠 🔥 WORKFLOW GIT STANDARD (LOCAL → ONLINE)
 🥇 1. TOUJOURS commencer par récupérer l’état du serveur
 git pull origin main
@@ -50,11 +63,3 @@ cPanel exécute automatiquement :
 Ex :
 
 rsync /public → public_html
-🧠 💡 FLOW COMPLET SIMPLE À RETENIR
-1. git pull origin main
-2. git status
-3. git add .
-4. git commit -m "message"
-5. git push origin main
-6. (serveur) git pull / cPanel sync
-7. deploy automatique (.cpanel.yml)
