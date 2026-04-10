@@ -3,6 +3,7 @@
 # src/, core/, config/, docker-compose.yml, webpack-config.js, postcss.config.js, start.sh, 
 
 # Ignorer les répertoires
+/docker/mysql/
 /node_modules/
 /script/
 /src/assets/
