@@ -1,9 +1,9 @@
-@use '@scss/foundations/placeholders';
-@use '@scss/foundations/variables' as variables;
-@use '@scss/foundations/mixins/section' as section-mix;
+@use '@scss/foundations/placeholders/section';
+@use '@scss/foundations/values' as values;
+@use '@scss/foundations/mixins' as mixins;
 
 .section-detail-link {
-    @include section-mix.section-layout($paddings: variables.$space-xs);
+    @include mixins.section-layout($paddings: values.$space-xs);
 
     .link {
         @extend %section-row-left;
@@ -46,17 +46,17 @@
 }
 
 .section-detail-product {
-    @include section-mix.section-layout($gap: none, $align: flex-start);
+    @include mixins.section-layout($gap: none, $align: flex-start);
 
     .description {
-        @include section-mix.section-layout($display: grid, $gap: variables.$space-xs, $direction: column, $margins: 0 auto, $paddings: variables.$space-s, $background: variables.$color-bg-white, $backdropBlur: 10px);
+        @include mixins.section-layout($display: grid, $gap: values.$space-xs, $direction: column, $margins: 0 auto, $paddings: values.$space-s, $background: values.$color-bg-white, $backdropBlur: 10px);
     }
 
     .images {
-        @include section-mix.section-layout($direction: column, $gap: variables.$space-xs, $paddings: variables.$space-xs);
+        @include mixins.section-layout($direction: column, $gap: values.$space-xs, $paddings: values.$space-xs);
 
         .image-principal {
-            @include section-mix.section-layout($height: variables.$container-xs, $width: variables.$container-xs, $paddings: variables.$space-xs);
+            @include mixins.section-layout($height: values.$container-xs, $width: values.$container-xs, $paddings: values.$space-xs);
 
             img {
                 width: 100%;
@@ -67,16 +67,16 @@
         }
 
         .gallery {
-            @include section-mix.section-layout($display: grid, $direction: column, $paddings: variables.$space-s, $background: variables.$color-bg-white,
+            @include mixins.section-layout($display: grid, $direction: column, $paddings: values.$space-s, $background: values.$color-bg-white,
                 $backdropBlur: 10px,
                 $border: 1px solid rgba(255, 255, 255, 0.3),
                 $boxShadow: 0 8px 40px rgb(0 0 0 / 0.1));
 
             .previews {
-                @include section-mix.section-layout($gap: variables.$space-2xs);
+                @include mixins.section-layout($gap: values.$space-2xs);
 
                 .preview {
-                    @include section-mix.section-layout($height: variables.$container-4xs, $width: variables.$container-4xs, $paddings: 3px, $border: 2px solid lightgrey);
+                    @include mixins.section-layout($height: values.$container-4xs, $width: values.$container-4xs, $paddings: 3px, $border: 2px solid lightgrey);
 
                     img {
                         width: 100%;
@@ -91,10 +91,10 @@
     }
 
     .details {
-        @include section-mix.section-layout($direction: column, $gap: variables.$space-s);
+        @include mixins.section-layout($direction: column, $gap: values.$space-s);
 
         .infos {
-            @include section-mix.section-layout($display: grid, $direction: column, $gap: variables.$space-xs, $paddings: variables.$space-s, $background: variables.$color-bg-white, $backdropBlur: 10px,
+            @include mixins.section-layout($display: grid, $direction: column, $gap: values.$space-xs, $paddings: values.$space-s, $background: values.$color-bg-white, $backdropBlur: 10px,
                 $border: 1px solid rgba(255, 255, 255, 0.3),
                 $boxShadow: 0 8px 40px rgb(0 0 0 / 0.1));
         }

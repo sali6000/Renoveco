@@ -1,11 +1,11 @@
-@use '@scss/foundations/variables' as variables;
+@use '@scss/foundations/values' as values;
 
 @mixin text-layout( // Valeurs par défaut:
 
     // Size
-    $minFontSize: variables.$font-size-xs,
-    $fontSize: variables.$font-size-s,
-    $maxFontSize: variables.$font-size-xl,
+    $minFontSize: values.$font-size-xs,
+    $fontSize: values.$font-size-s,
+    $maxFontSize: values.$font-size-xl,
 
     // Comportement
     $textAlign: left, // Le texte est commence depuis la gauche

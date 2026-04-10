@@ -1,4 +1,4 @@
-@use '@scss/foundations/variables' as variables;
+@use '@scss/foundations/values' as values;
 
 //  Définition de la largeur et la hauteur.
 //  Valeurs disponibles:
@@ -9,24 +9,24 @@
     width: $width;
 }
 
-@mixin size-paddings($size: variables.$space-none) {
+@mixin size-paddings($size: values.$space-none) {
     padding: $size;
 }
 
-@mixin size-margins($size: variables.$space-none) {
+@mixin size-margins($size: values.$space-none) {
     margin: $size;
 }
 
-@mixin size-max-width($size: variables.$container-wrapper) {
+@mixin size-max-width($size: values.$container-wrapper) {
     max-width: $size;
 }
 
 
-@mixin size-min-width($size: variables.$container-wrapper) {
+@mixin size-min-width($size: values.$container-wrapper) {
     min-width: $size;
 }
 
-@mixin size-width-wrapper($max-width: variables.$container-wrapper, $margin: 0 auto) {
+@mixin size-width-wrapper($max-width: values.$container-wrapper, $margin: 0 auto) {
     max-width: $max-width;
     margin: $margin;
 }

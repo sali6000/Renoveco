@@ -1,6 +1,6 @@
 // header.scss
 
-@use '@scss/foundations/variables' as variables;
+@use '@scss/foundations/values' as values;
 // =====================================================================================
 //                                   BARRE DE NAVIGATION
 // =====================================================================================
@@ -49,7 +49,7 @@ body[data-current-page="home-index"] .section-navbar.scrolled {
 
     // Barre de navigation : Couleurs
     color: inherit;
-    background-color: variables.$color-bg-white;
+    background-color: values.$color-bg-white;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
     .logo-light {
@@ -105,7 +105,7 @@ body:not([data-current-page="home-index"]) .section-navbar {
     img {
 
         // Logo img : Forme et taille
-        height: variables.$container-4xs;
+        height: values.$container-4xs;
         width: auto;
     }
 }
@@ -256,7 +256,7 @@ body:not([data-current-page="home-index"]) .section-navbar-contact {
 // Barre de navigation (Contact) img:
 .section-navbar-contact img {
     height: auto;
-    width: variables.$container-5xs;
+    width: values.$container-5xs;
 }
 
 

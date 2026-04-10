@@ -1,6 +1,5 @@
-@use '@scss/foundations/placeholders/section';
-@use '@scss/foundations/variables' as variables;
-@use '@scss/foundations/mixins/section' as section-mix;
+@use '@scss/foundations/values' as values;
+@use '@scss/foundations/mixins' as mixins;
 
 
 // #314068 bleu fonce
@@ -9,11 +8,11 @@
 // #F5B400 jaune clair
 
 @mixin btn-base {
-    @include section-mix.section-layout($flex: none,
+    @include mixins.section-layout($flex: none,
         $width: none,
         $color: #ffffff,
-        $gap: variables.$space-xs,
-        $paddings: variables.$space-2xs variables.$space-s);
+        $gap: values.$space-xs,
+        $paddings: values.$space-2xs values.$space-s);
     border-radius: 50px;
     font-size: 15px;
     font-weight: 500;

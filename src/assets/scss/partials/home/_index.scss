@@ -1,40 +1,39 @@
 // scss/partials/_home.scss
-@use '@scss/foundations/placeholders';
-@use '@scss/foundations/variables' as variables;
-@use '@scss/foundations/mixins/section' as section-mix;
-@use '@scss/foundations/mixins/size' as size-mix;
+@use '@scss/foundations/placeholders/section';
+@use '@scss/foundations/values' as values;
+@use '@scss/foundations/mixins' as mixins;
 
 .section-home-presentation {
-    @include section-mix.section-layout($maxWidth: variables.$container-wrapper, $paddings: variables.$space-m);
+    @include mixins.section-layout($maxWidth: values.$container-wrapper, $paddings: values.$space-m);
 
     .presentation-seo {
-        @include section-mix.section-layout($flex: 2,
+        @include mixins.section-layout($flex: 2,
             $direction: column,
-            $gap: variables.$space-s,
-            $paddings: variables.$space-s);
+            $gap: values.$space-s,
+            $paddings: values.$space-s);
 
         .seo-logo {
             img {
-                width: variables.$container-xs;
+                width: values.$container-xs;
                 height: auto;
                 border-bottom: 1px solid rgba(100, 100, 100, 0.5);
             }
         }
 
         .seo-content {
-            @include section-mix.section-layout($direction: column,
-                $gap: variables.$space-xs,
+            @include mixins.section-layout($direction: column,
+                $gap: values.$space-xs,
 
                 $textAlign: left);
         }
     }
 
     .presentation-image {
-        @include section-mix.section-layout($direction: column,
-            $paddings: variables.$space-s);
+        @include mixins.section-layout($direction: column,
+            $paddings: values.$space-s);
 
         .image-zone {
-            height: variables.$container-s;
+            height: values.$container-s;
             overflow: hidden;
 
             img {
@@ -49,19 +48,19 @@
 }
 
 .section-home-images {
-    @include section-mix.section-layout();
+    @include mixins.section-layout();
 
     .image-big {
-        height: variables.$container-xs;
+        height: values.$container-xs;
     }
 
     .image {
-        height: variables.$container-2xs;
+        height: values.$container-2xs;
     }
 
     .image,
     .image-big {
-        @include section-mix.section-layout();
+        @include mixins.section-layout();
         overflow: hidden;
         position: relative;
 
@@ -112,20 +111,20 @@
 }
 
 .section-home-contactus {
-    @include section-mix.section-layout($direction: column,
-        $paddings: variables.$space-m,
-        $gap: variables.$space-s);
+    @include mixins.section-layout($direction: column,
+        $paddings: values.$space-m,
+        $gap: values.$space-s);
 }
 
 .section-home-information-light {
-    @include section-mix.section-layout($paddings: variables.$space-m variables.$space-none,
+    @include mixins.section-layout($paddings: values.$space-m values.$space-none,
         $background: linear-gradient(180deg,
             #ffffff 0%,
             #e6edf3 100%));
 }
 
 .section-home-information-dark {
-    @include section-mix.section-layout($paddings: variables.$space-m variables.$space-none,
+    @include mixins.section-layout($paddings: values.$space-m values.$space-none,
         $background: linear-gradient(135deg,
             #364c61 0%,
             #b0bcc9 100%),
@@ -137,31 +136,31 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 
     .texte {
-        @include section-mix.section-layout($direction: column,
-            $gap: variables.$space-s,
+        @include mixins.section-layout($direction: column,
+            $gap: values.$space-s,
             $align: flex-start,
             $textAlign: left);
     }
 
     .texte-no-gap {
-        @include section-mix.section-layout($direction: column,
+        @include mixins.section-layout($direction: column,
             $align: flex-start,
             $textAlign: left);
     }
 
     h2 {
-        padding-bottom: variables.$space-s;
+        padding-bottom: values.$space-s;
         border-bottom: 1px solid rgba(100, 100, 100, 0.5);
     }
 
     .left,
     .right {
-        @include section-mix.section-layout($direction: column,
+        @include mixins.section-layout($direction: column,
             $textAlign: left,
-            $paddings: variables.$space-m);
+            $paddings: values.$space-m);
 
         .image {
-            height: variables.$container-s;
+            height: values.$container-s;
             overflow: hidden;
 
             img {
@@ -184,9 +183,9 @@
 
         .left,
         .right {
-            @include section-mix.section-layout($direction: column,
+            @include mixins.section-layout($direction: column,
                 $textAlign: left,
-                $paddings: variables.$space-s);
+                $paddings: values.$space-s);
         }
     }
 
@@ -201,19 +200,19 @@
 
         .image-big,
         .image {
-            height: variables.$container-2xs;
+            height: values.$container-2xs;
         }
     }
 
     .section-home-presentation {
-        padding: variables.$space-none;
+        padding: values.$space-none;
 
         .presentation-image,
         .presentation-seo {
-            @include section-mix.section-layout($direction: column,
+            @include mixins.section-layout($direction: column,
                 $textAlign: left,
-                $gap: variables.$space-m,
-                $paddings: variables.$space-s);
+                $gap: values.$space-m,
+                $paddings: values.$space-s);
         }
     }
 }

@@ -1,19 +1,19 @@
 // scss/foundations/layout/_sections.placeholders.scss
-@use '@scss/foundations/variables' as variables;
-@use '@scss/foundations/mixins/section' as section-mix;
+@use '@scss/foundations/values' as values;
+@use '@scss/foundations/mixins' as mixins;
 
 %section-row {
-    @include section-mix.section-layout();
+    @include mixins.section-layout();
 }
 
 %section-row-left {
-    @include section-mix.section-layout($justify: flex-start);
+    @include mixins.section-layout($justify: flex-start);
 }
 
 %section-column {
-    @include section-mix.section-layout($direction: column, $paddings: variables.$space-xs);
+    @include mixins.section-layout($direction: column, $paddings: values.$space-xs);
 }
 
 %section-wrapper {
-    @include section-mix.section-layout($maxWidth: variables.$container-wrapper, $margins: 0 auto)
+    @include mixins.section-layout($maxWidth: values.$container-wrapper, $margins: 0 auto)
 }

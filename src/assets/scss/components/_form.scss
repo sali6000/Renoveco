@@ -1,16 +1,15 @@
-@use '@scss/foundations/variables' as variables;
-@use '@scss/foundations/mixins/section' as section-mix;
+@use '@scss/foundations/values' as values;
+@use '@scss/foundations/mixins' as mixins;
 
 .form-section {
 
-
     &-auto {
-        @include section-mix.section-layout($flex: 0 0 auto,
+        @include mixins.section-layout($flex: 0 0 auto,
             $direction: column,
-            $margins: variables.$space-s,
-            $paddings: variables.$space-m,
-            $background: variables.$color-bg-white,
-            $gap: variables.$space-xs,
+            $margins: values.$space-s,
+            $paddings: values.$space-m,
+            $background: values.$color-bg-white,
+            $gap: values.$space-xs,
             $color: black,
             $backdropBlur: 10px,
             $border: 1px solid rgba(255, 255, 255, 0.3),
@@ -18,11 +17,11 @@
     }
 
     &-full {
-        @include section-mix.section-layout($direction: column,
-            $margins: variables.$space-s,
-            $paddings: variables.$space-m,
-            $background: variables.$color-bg-white,
-            $gap: variables.$space-xs,
+        @include mixins.section-layout($direction: column,
+            $margins: values.$space-s,
+            $paddings: values.$space-m,
+            $background: values.$color-bg-white,
+            $gap: values.$space-xs,
             $color: black,
             $backdropBlur: 10px,
             $border: 1px solid rgba(255, 255, 255, 0.3),
@@ -30,12 +29,12 @@
     }
 
     &-m {
-        @include section-mix.section-layout($flex: 0 0 variables.$container-m,
+        @include mixins.section-layout($flex: 0 0 values.$container-m,
             $direction: column,
-            $margins: variables.$space-s,
-            $paddings: variables.$space-m,
-            $background: variables.$color-bg-white,
-            $gap: variables.$space-xs,
+            $margins: values.$space-s,
+            $paddings: values.$space-m,
+            $background: values.$color-bg-white,
+            $gap: values.$space-xs,
             $color: black,
             $backdropBlur: 10px,
             $border: 1px solid rgba(255, 255, 255, 0.3),
@@ -43,12 +42,12 @@
     }
 
     &-l {
-        @include section-mix.section-layout($flex: 0 0 variables.$container-l,
+        @include mixins.section-layout($flex: 0 0 values.$container-l,
             $direction: column,
-            $margins: variables.$space-s,
-            $paddings: variables.$space-m,
-            $background: variables.$color-bg-white,
-            $gap: variables.$space-xs,
+            $margins: values.$space-s,
+            $paddings: values.$space-m,
+            $background: values.$color-bg-white,
+            $gap: values.$space-xs,
             $color: black,
             $backdropBlur: 10px,
             $border: 1px solid rgba(255, 255, 255, 0.3),
@@ -56,12 +55,12 @@
     }
 
     &-section-x2 {
-        @include section-mix.section-layout($flex: 2,
+        @include mixins.section-layout($flex: 2,
             $direction: column,
-            $margins: variables.$space-s,
-            $paddings: variables.$space-m,
-            $background: variables.$color-bg-white,
-            $gap: variables.$space-xs,
+            $margins: values.$space-s,
+            $paddings: values.$space-m,
+            $background: values.$color-bg-white,
+            $gap: values.$space-xs,
             $color: black,
             $backdropBlur: 10px,
             $border: 1px solid rgba(255, 255, 255, 0.3),
@@ -69,12 +68,12 @@
     }
 
     &-section-x3 {
-        @include section-mix.section-layout($flex: 4,
+        @include mixins.section-layout($flex: 4,
             $direction: column,
-            $margins: variables.$space-s,
-            $paddings: variables.$space-m,
-            $background: variables.$color-bg-white,
-            $gap: variables.$space-xs,
+            $margins: values.$space-s,
+            $paddings: values.$space-m,
+            $background: values.$color-bg-white,
+            $gap: values.$space-xs,
             $color: black,
             $backdropBlur: 10px,
             $border: 1px solid rgba(255, 255, 255, 0.3),
@@ -82,12 +81,12 @@
     }
 
     &-section-x4 {
-        @include section-mix.section-layout($flex: 8,
+        @include mixins.section-layout($flex: 8,
             $direction: column,
-            $margins: variables.$space-s,
-            $paddings: variables.$space-m,
-            $background: variables.$color-bg-white,
-            $gap: variables.$space-xs,
+            $margins: values.$space-s,
+            $paddings: values.$space-m,
+            $background: values.$color-bg-white,
+            $gap: values.$space-xs,
             $color: black,
             $backdropBlur: 10px,
             $border: 1px solid rgba(255, 255, 255, 0.3),
@@ -95,12 +94,12 @@
     }
 
     &-section-x5 {
-        @include section-mix.section-layout($flex: 16,
+        @include mixins.section-layout($flex: 16,
             $direction: column,
-            $margins: variables.$space-s,
-            $paddings: variables.$space-m,
-            $background: variables.$color-bg-white,
-            $gap: variables.$space-xs,
+            $margins: values.$space-s,
+            $paddings: values.$space-m,
+            $background: values.$color-bg-white,
+            $gap: values.$space-xs,
             $color: black,
             $backdropBlur: 10px,
             $border: 1px solid rgba(255, 255, 255, 0.3),

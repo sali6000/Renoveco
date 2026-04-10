@@ -1,7 +1,6 @@
-@use '@scss/foundations/placeholders';
-@use '@scss/foundations/variables' as variables;
-@use '@scss/foundations/mixins/section' as section-mix;
-@use '@scss/foundations/mixins/color' as color-mix;
+@use '@scss/foundations/placeholders/section';
+@use '@scss/foundations/values' as values;
+@use '@scss/foundations/mixins' as mixins;
 
 
 footer {
@@ -11,10 +10,10 @@ footer {
 }
 
 .section-footer-contact {
-  @include section-mix.section-layout($gap: variables.$space-none, $paddings: variables.$space-xs);
+  @include mixins.section-layout($gap: values.$space-none, $paddings: values.$space-xs);
 
   .contact-social-media {
-    @include section-mix.section-layout($flex: variables.$flex-equal, $justify: flex-end, $paddings: variables.$space-xs);
+    @include mixins.section-layout($flex: values.$flex-equal, $justify: flex-end, $paddings: values.$space-xs);
     border-right: 1px solid grey;
 
     figcaption {
@@ -30,7 +29,7 @@ footer {
   }
 
   .contact-adress {
-    @include section-mix.section-layout($direction: column, $flex: variables.$flex-equal, $gap: variables.$space-none, $align: flex-start, $paddings: variables.$space-xs);
+    @include mixins.section-layout($direction: column, $flex: values.$flex-equal, $gap: values.$space-none, $align: flex-start, $paddings: values.$space-xs);
   }
 }
 
@@ -38,7 +37,7 @@ footer {
   @extend %section-row;
 
   .copyright {
-    @include section-mix.section-layout($paddings: variables.$space-s, $color: darkgrey);
+    @include mixins.section-layout($paddings: values.$space-s, $color: darkgrey);
     border-top: 1px solid grey;
   }
 }

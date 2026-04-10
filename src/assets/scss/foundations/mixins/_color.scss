@@ -1,6 +1,6 @@
-@use '@scss/foundations/variables' as variables;
+@use '@scss/foundations/values' as values;
 
-@mixin color-layout($background: variables.$color-bg-white,
+@mixin color-layout($background: values.$color-bg-white,
     $color: black,
     $backdropBlur: 10px,
     $boxShadow: none,

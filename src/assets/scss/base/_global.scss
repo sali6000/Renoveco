@@ -1,7 +1,7 @@
 // _global.scss
-@use '@scss/foundations/placeholders';
-@use '@scss/foundations/variables' as variables;
-@use '@scss/foundations/mixins/section' as section-mix;
+@use '@scss/foundations/placeholders/section';
+@use '@scss/foundations/values' as values;
+@use '@scss/foundations/mixins' as mixins;
 
 body {
     margin: 0;
@@ -14,7 +14,7 @@ body {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    font-family: variables.$font-family-base;
+    font-family: values.$font-family-base;
 }
 
 // Screen reader only (accessible hidden)
@@ -49,8 +49,8 @@ textarea {
 }
 
 input:not([type="checkbox"]) {
-    padding: variables.$space-xs;
-    border-radius: variables.$radius-m;
+    padding: values.$space-xs;
+    border-radius: values.$radius-m;
     border: 1px solid #ccc;
 }
 
@@ -67,17 +67,17 @@ hr {
 
 
 h1 {
-    font-weight: variables.$font-weight-600;
+    font-weight: values.$font-weight-600;
 }
 
 h2 {
-    font-weight: variables.$font-weight-300;
+    font-weight: values.$font-weight-300;
 }
 
 h3,
 p,
 label {
-    font-weight: variables.$font-weight-300;
+    font-weight: values.$font-weight-300;
 }
 
 // ================================================================================================

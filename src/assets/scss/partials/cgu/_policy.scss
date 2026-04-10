@@ -1,15 +1,15 @@
 // scss/partials/cgu/_policy.scss
 
-@use '@scss/foundations/variables' as variables;
-@use '@scss/foundations/mixins/section' as section-mix;
+@use '@scss/foundations/values' as values;
+@use '@scss/foundations/mixins' as mixins;
 
 .section-cgu-policy-presentation {
-    @include section-mix.section-layout($direction: column,
+    @include mixins.section-layout($direction: column,
         $align: flex-start,
         $textAlign: left,
-        $gap: variables.$space-xs,
-        $paddings: variables.$space-s,
-        $margins: variables.$space-s);
+        $gap: values.$space-xs,
+        $paddings: values.$space-s,
+        $margins: values.$space-s);
 
 
 }

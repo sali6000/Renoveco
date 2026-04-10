@@ -1,28 +1,28 @@
 // scss/pages/about.scss
-@use '@scss/foundations/placeholders';
-@use '@scss/foundations/variables' as variables;
-@use '@scss/foundations/mixins/section' as section-mix;
+@use '@scss/foundations/placeholders/section';
+@use '@scss/foundations/values' as values;
+@use '@scss/foundations/mixins' as mixins;
 
 .section-about-logo {
-    @include section-mix.section-layout($paddings: variables.$space-s, $margins: variables.$space-s);
+    @include mixins.section-layout($paddings: values.$space-s, $margins: values.$space-s);
     border-bottom: 1px solid lightgrey;
 
     .image {
-        @include section-mix.section-layout($flex: 0 0 variables.$container-xs);
+        @include mixins.section-layout($flex: 0 0 values.$container-xs);
     }
 }
 
 .section-about-presentation {
-    @include section-mix.section-layout($align: flex-start);
+    @include mixins.section-layout($align: flex-start);
 
     .image {
-        @include section-mix.section-layout($flex: 0 0 variables.$container-s,
+        @include mixins.section-layout($flex: 0 0 values.$container-s,
             $gap: none,
             $margins: 0 auto);
     }
 
     .texte {
-        @include section-mix.section-layout($flex: 0 0 variables.$container-s, $textAlign: left);
+        @include mixins.section-layout($flex: 0 0 values.$container-s, $textAlign: left);
     }
 }
 
@@ -32,7 +32,7 @@
         @extend %section-row;
 
         .video {
-            @include section-mix.section-layout($flex: 1 1 variables.$container-xs, $minWidth: variables.$container-2xs, $margins: variables.$space-s, $boxShadow: 0 20px 60px rgba(0, 0, 0, 0.08));
+            @include mixins.section-layout($flex: 1 1 values.$container-xs, $minWidth: values.$container-2xs, $margins: values.$space-s, $boxShadow: 0 20px 60px rgba(0, 0, 0, 0.08));
 
             video {
                 aspect-ratio: 16 / 9;

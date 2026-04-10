@@ -1,7 +1,7 @@
 // scss/pages/admin/product/index.scss
-@use '@scss/foundations/placeholders';
-@use '@scss/foundations/variables' as variables;
-@use '@scss/foundations/mixins/section' as section-mix;
+@use '@scss/foundations/placeholders/section';
+@use '@scss/foundations/values' as values;
+@use '@scss/foundations/mixins' as mixins;
 @use '@scss/partials/admin/subnavbar';
 
 .section-admin-create-product {
@@ -12,6 +12,6 @@
     @extend %section-row;
 
     .product {
-        @include section-mix.section-layout($flex: 0 0 variables.$container-m, $justify: flex-start, $paddings: variables.$space-s, $background: variables.$color-bg-white, $backdropBlur: 10px);
+        @include mixins.section-layout($flex: 0 0 values.$container-m, $justify: flex-start, $paddings: values.$space-s, $background: values.$color-bg-white, $backdropBlur: 10px);
     }
 }

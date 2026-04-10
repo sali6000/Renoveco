@@ -1,13 +1,13 @@
 @use '@scss/foundations/placeholders/section';
-@use '@scss/foundations/variables' as variables;
-@use '@scss/foundations/mixins/section' as section-mix;
+@use '@scss/foundations/values' as values;
+@use '@scss/foundations/mixins' as mixins;
 
 .section-home-hero {
     height: 100dvh;
 }
 
 .section-home-hero .hero-content {
-    @include section-mix.section-layout($direction: column, $paddings: variables.$space-l variables.$space-m variables.$space-m);
+    @include mixins.section-layout($direction: column, $paddings: values.$space-l values.$space-m values.$space-m);
     overflow: hidden;
     height: 100%;
 }
@@ -18,7 +18,7 @@
 }
 
 .section-home-hero .hero-content .content-texte {
-    @include section-mix.section-layout($direction: column, $gap: variables.$space-xs);
+    @include mixins.section-layout($direction: column, $gap: values.$space-xs);
 }
 
 .section-home-hero .hero-content .content-texte h1,
@@ -32,7 +32,7 @@
 
 .section-home-hero .hero-content .content-texte h1 {
     font-size: 3vw;
-    margin: variables.$space-none variables.$space-m;
+    margin: values.$space-none values.$space-m;
 }
 
 .section-home-hero .hero-content .content-texte h2 {
@@ -40,16 +40,16 @@
 }
 
 .section-home-hero .hero-content .content-cta {
-    @include section-mix.section-layout($direction: column);
+    @include mixins.section-layout($direction: column);
 }
 
 .section-home-hero .hero-content .content-cta .cta-button {
-    @include section-mix.section-layout($gap: variables.$space-s);
+    @include mixins.section-layout($gap: values.$space-s);
 }
 
 .section-home-hero .hero-content .content-cta .cta-social-media {
-    @include section-mix.section-layout($display: inline-flex,
-        $gap: variables.$space-s,
+    @include mixins.section-layout($display: inline-flex,
+        $gap: values.$space-s,
         $color: #fff);
     font-weight: 300;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
@@ -57,7 +57,7 @@
 
 .section-home-hero .hero-content .content-cta .cta-social-media .media-facebook,
 .section-home-hero .hero-content .content-cta .cta-social-media .media-phone {
-    @include section-mix.section-layout($gap: variables.$space-s);
+    @include mixins.section-layout($gap: values.$space-s);
 
     img {
         width: 30px;
@@ -92,7 +92,7 @@
 }
 
 .section-home-hero .hero-background-mobile .logo {
-    @include section-mix.section-layout($flex: 0 0 variables.$container-2xs);
+    @include mixins.section-layout($flex: 0 0 values.$container-2xs);
 }
 
 .section-home-hero .hero-background-mobile .background img {
@@ -113,20 +113,20 @@
 
     .section-home-hero .hero-background-mobile {
         display: flex;
-        padding: variables.$space-xs;
+        padding: values.$space-xs;
     }
 
     .section-home-hero .hero-content {
-        padding: variables.$space-none;
+        padding: values.$space-none;
     }
 
     .section-home-hero .hero-content .content-texte {
-        gap: variables.$space-s;
+        gap: values.$space-s;
     }
 
     .section-home-hero .hero-content .content-texte h1 {
         font-size: 6vw;
-        margin: variables.$space-none;
+        margin: values.$space-none;
         font-weight: 300;
     }
 
@@ -139,17 +139,17 @@
     }
 
     .section-home-hero .hero-content .content-cta .cta-button {
-        @include section-mix.section-layout($paddings: variables.$space-none variables.$space-s, $gap: variables.$space-none variables.$space-xs);
+        @include mixins.section-layout($paddings: values.$space-none values.$space-s, $gap: values.$space-none values.$space-xs);
     }
 
     .section-home-hero .hero-content .content-cta .cta-social-media {
-        padding: variables.$space-s variables.$space-none;
-        gap: variables.$space-none;
+        padding: values.$space-s values.$space-none;
+        gap: values.$space-none;
         align-items: flex-start;
     }
 
     .section-home-hero .hero-content .content-cta .cta-social-media .media-facebook,
     .section-home-hero .hero-content .content-cta .cta-social-media .media-phone {
-        @include section-mix.section-layout($gap: variables.$space-xs);
+        @include mixins.section-layout($gap: values.$space-xs);
     }
 }
