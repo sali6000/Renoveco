@@ -12,8 +12,8 @@ if (!defined('SECURE_CHECK'))
  * - Production <= ./
  * */
 define('ROOT_PATH', realPath(__DIR__ . '/..') . '/'); // Remonte à la racine (chemin relatif)
-define('ROOT_PATH_SRC_MODULES', ROOT_PATH . 'src/Modules/');
 define('ROOT_PATH_CONFIG', ROOT_PATH . 'config/');
+define('ROOT_PATH_SRC_MODULES', ROOT_PATH . 'src/Modules/');
 define('ROOT_PATH_STORAGE_SECURE', ROOT_PATH . 'storage/secure/');
 define('ROOT_PATH_STORAGE_CACHE', ROOT_PATH . 'storage/cache/');
 define('ROOT_PATH_STORAGE_LOGS', ROOT_PATH . 'storage/logs/' . date('Y-m-d') . '-');
