@@ -1,8 +1,0 @@
-// scss/partials/faq/_index.scss
-
-@use '@scss/foundations/values' as values;
-@use '@scss/foundations/mixins' as mixins;
-
-.section-faq-index-presentation {
-    @include mixins.section-layout($paddings: values.$space-s, $margins: values.$space-s);
-}
