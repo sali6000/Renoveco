@@ -3,4 +3,3 @@ deployment:
   tasks:
     - export DEPLOYPATH=/home/renoveco/public_html/
     - /bin/cp -rf public/* $DEPLOYPATH
-    - /bin/cp -f .htaccess $DEPLOYPATH
