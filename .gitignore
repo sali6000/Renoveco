@@ -4,7 +4,6 @@
 
 # Ignorer les répertoires
 /node_modules/
-/public/build/
 /script/
 /src/assets/
 /storage/cache/
