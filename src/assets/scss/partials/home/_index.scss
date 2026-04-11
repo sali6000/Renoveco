@@ -7,7 +7,10 @@
     @include mixins.section-layout($maxWidth: values.$container-wrapper, $paddings: values.$space-m);
 
     .presentation-seo {
-        @include mixins.section-layout();
+        @include mixins.section-layout($flex: 2,
+            $direction: column,
+            $gap: values.$space-s,
+            $paddings: values.$space-s);
 
         .seo-logo {
             img {
