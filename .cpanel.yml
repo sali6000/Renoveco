@@ -1,5 +1,8 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/renoveco/public_html/
-    - /bin/cp -rf public/* $DEPLOYPATH
+    - export DEPLOYPATH=/home/renoveco/
+    - /bin/cp -rf app $DEPLOYPATH
+    - /bin/cp -rf modules $DEPLOYPATH
+    - /bin/cp -rf src $DEPLOYPATH
+    - /bin/cp -rf public $DEPLOYPATH/public_html
