@@ -1,0 +1,8 @@
+// scss/partials/steven/_fernando.scss
+
+@use '@scss/foundations/values' as values;
+@use '@scss/foundations/mixins' as mixins;
+
+.section-steven-fernando-presentation {
+    @include mixins.section-layout($paddings: values.$space-s, $margins: values.$space-s);
+}
