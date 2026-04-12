@@ -46,14 +46,6 @@
         "/build/contact-index.de17588d.css"
       ]
     },
-    "faq-index": {
-      "js": [
-        "/build/runtime.e1789bf9.js"
-      ],
-      "css": [
-        "/build/faq-index.e606c446.css"
-      ]
-    },
     "gallery-index": {
       "js": [
         "/build/runtime.e1789bf9.js"
