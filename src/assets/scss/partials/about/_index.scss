@@ -5,7 +5,7 @@
 
 .section-about-logo {
     @include mixins.section-layout($paddings: values.$space-s, $margins: values.$space-s);
-    border-bottom: 1px solid lightgrey;
+    border-bottom: 80px solid lightgrey;
 
     .image {
         @include mixins.section-layout($flex: 0 0 values.$container-xs);
