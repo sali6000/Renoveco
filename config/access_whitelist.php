@@ -38,7 +38,6 @@ return [
         'BonjourUnefoisController@unefois',
         'DerniereFoisController@fois',
         'VoitureDetailController@detail',
-        'StevenFernandoController@fernando',
         // -- new-line-generate-by-make-module --
     ],
 ];
