@@ -157,21 +157,15 @@ class RouteCompiler
         // Normaliser le chemin
         // Supprimer .php
         // Et valider le classPath en tant que Class
-        DebugHelper::verboseServer('-1 ' . $file);
-
         $normalized = str_replace('\\', '/', $file);
-        DebugHelper::verboseServer('0 ' . $normalized);
         $relative = str_replace(AppConfig::getConst('ROOT_PATH_SRC_MODULES'), '', $normalized);
-        DebugHelper::verboseServer('1 ' . $relative);
         $relative = str_replace('.php', '', $relative);
-        DebugHelper::verboseServer('2 ' . $relative);
         $classPath = 'Src\\Modules\\' . str_replace('/', '\\', ltrim($relative, '/'));
-        DebugHelper::verboseServer('3 ' . $classPath);
 
 
         if (!class_exists($classPath)) {
             if (AppConfig::getBool('APP_DEBUG')) {
-                DebugHelper::verboseServer('X La class ' . $classPath . ' n\'existe pas.');
+                DebugHelper::verboseServer('X La class ' . $classPath . ' n\'existe pas. Le souci vient du namespace ou bien du chemin.');
             }
             AccessLogger::log("⚠️ Warning: Class not found: $classPath", AccessLogger::LEVEL_WARNING);
             throw new Exception('Erreur dans la validation de la classe');

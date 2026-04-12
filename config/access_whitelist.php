@@ -35,7 +35,9 @@ return [
         'SitemapController@index',
         'GalleryIndexController@index',
         'CguPolicyController@policy',
+        'BonjourUnefoisController@unefois',
+        'DerniereFoisController@fois',
+        'VoitureDetailController@detail',
         // -- new-line-generate-by-make-module --
     ],
 ];
-

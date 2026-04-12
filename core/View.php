@@ -5,6 +5,7 @@ namespace Core;
 
 use Src\Modules\Shared\Interface\Http\Controllers\HeaderController;
 use Config\AppConfig;
+use Core\Support\DebugHelper;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use Twig\TwigFunction;
@@ -64,7 +65,6 @@ class View
 
     private static function compileCacheRoute($modulesPath, $cacheFile)
     {
-
         // Sinon on scanne
         $modules = [];
 
@@ -72,11 +72,14 @@ class View
             if ($moduleName === '.' || $moduleName === '..')
                 continue;
 
-            $viewsPath = $modulesPath . $moduleName . "/UI/Views";
-            // Ex: $viewsPath = "/var/www/html/src/Modules/" + "Product" + "/UI/Views" 
+            $viewsPath = $modulesPath . $moduleName . "/UI/Views"; // Ex: "/var/www/html/src/Modules/" + "Product" + "/UI/Views" 
 
-            if (is_dir($viewsPath))
+            if (is_dir($viewsPath)) {
+                DebugHelper::verboseServer($viewsPath . " trouvé et inscrit dans le cache des vues.");
                 $modules[$moduleName] = $viewsPath;
+            } else {
+                DebugHelper::verboseServer($viewsPath . " n'est pas un répertoire accessible.");
+            }
         }
 
         // On génère le cache

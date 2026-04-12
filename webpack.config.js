@@ -1,41 +1,41 @@
 const Encore = require('@symfony/webpack-encore');
+const fs = require('fs');
 const path = require('path');
+const pagesPath = path.resolve(__dirname, 'src/assets/scss/pages');
+
+fs.readdirSync(pagesPath).forEach(module => {
+
+    const modulePath = path.join(pagesPath, module);
+
+    if (!fs.statSync(modulePath).isDirectory()) {
+        return;
+    }
+
+    fs.readdirSync(modulePath).forEach(file => {
+
+        if (!file.endsWith('.scss') || file.startsWith('_')) {
+            return;
+        }
+
+        const entryName = `${module}-${file.replace('.scss', '')}`;
+
+        Encore.addStyleEntry(
+            entryName,
+            path.join(modulePath, file)
+        );
+
+        console.log(`✅ Auto SCSS: ${entryName}`);
+    });
+});
 
 Encore
-    // Dossier de build (le CSS compilé ira dans public_html/build/)
+    // Dossier de build (le CSS compilé ira dans public/build/)
     .setOutputPath('public/build/')
     .setPublicPath('/build')
 
     // Entrée globale (CSS + JS)
     .addEntry('app', './src/assets/js/app.js')
     .addStyleEntry('global', './src/assets/scss/_main.scss')
-
-    // New entries:
-    .addStyleEntry('gallery-index', './src/assets/scss/pages/gallery/index.scss')
-    .addStyleEntry('cgu-policy', './src/assets/scss/pages/cgu/policy.scss')
-    // -- new-line-generate-by-make-module --
-
-    // Entrées spécifiques aux pages =>
-    // => Admin/*.scss :
-    .addStyleEntry('admin-category-index', './src/assets/scss/pages/admin/category/index.scss')
-    .addStyleEntry('admin-laboratory-index', './src/assets/scss/pages/admin/laboratory/index.scss')
-    .addStyleEntry('admin-user-index', './src/assets/scss/pages/admin/user/index.scss')
-    .addStyleEntry('admin-dashboard-index', './src/assets/scss/pages/admin/dashboard/index.scss')
-    .addStyleEntry('admin-product-index', './src/assets/scss/pages/admin/product/index.scss')
-
-    // => Product/*.scss :
-    .addStyleEntry('product-detail', './src/assets/scss/pages/product/detail.scss')
-    .addStyleEntry('product-list', './src/assets/scss/pages/product/list.scss')
-
-    // => User/*.scss :
-    .addStyleEntry('user-create', './src/assets/scss/pages/user/create.scss')
-
-    // => *.scss :
-    .addStyleEntry('about-index', './src/assets/scss/pages/about/index.scss')
-    .addStyleEntry('auth-login', './src/assets/scss/pages/auth/login.scss')
-    .addStyleEntry('cgu-index', './src/assets/scss/pages/cgu/index.scss')
-    .addStyleEntry('contact-index', './src/assets/scss/pages/contact/index.scss')
-    .addStyleEntry('home-index', './src/assets/scss/pages/home/index.scss')
 
     // Activer notifications système
     .enableBuildNotifications()

@@ -6,94 +6,6 @@
         "/build/app.aec45567.js"
       ]
     },
-    "global": {
-      "js": [
-        "/build/runtime.e1789bf9.js"
-      ],
-      "css": [
-        "/build/global.f737c4b1.css"
-      ]
-    },
-    "gallery-index": {
-      "js": [
-        "/build/runtime.e1789bf9.js"
-      ],
-      "css": [
-        "/build/gallery-index.d857676b.css"
-      ]
-    },
-    "cgu-policy": {
-      "js": [
-        "/build/runtime.e1789bf9.js"
-      ],
-      "css": [
-        "/build/cgu-policy.153d7fd4.css"
-      ]
-    },
-    "admin-category-index": {
-      "js": [
-        "/build/runtime.e1789bf9.js"
-      ],
-      "css": [
-        "/build/admin-category-index.4a83f2a3.css"
-      ]
-    },
-    "admin-laboratory-index": {
-      "js": [
-        "/build/runtime.e1789bf9.js"
-      ],
-      "css": [
-        "/build/admin-laboratory-index.572e1bee.css"
-      ]
-    },
-    "admin-user-index": {
-      "js": [
-        "/build/runtime.e1789bf9.js"
-      ],
-      "css": [
-        "/build/admin-user-index.8902e604.css"
-      ]
-    },
-    "admin-dashboard-index": {
-      "js": [
-        "/build/runtime.e1789bf9.js"
-      ],
-      "css": [
-        "/build/admin-dashboard-index.bf626155.css"
-      ]
-    },
-    "admin-product-index": {
-      "js": [
-        "/build/runtime.e1789bf9.js"
-      ],
-      "css": [
-        "/build/admin-product-index.ca5bb474.css"
-      ]
-    },
-    "product-detail": {
-      "js": [
-        "/build/runtime.e1789bf9.js"
-      ],
-      "css": [
-        "/build/product-detail.fe9cd7d4.css"
-      ]
-    },
-    "product-list": {
-      "js": [
-        "/build/runtime.e1789bf9.js"
-      ],
-      "css": [
-        "/build/product-list.c068dadb.css"
-      ]
-    },
-    "user-create": {
-      "js": [
-        "/build/runtime.e1789bf9.js"
-      ],
-      "css": [
-        "/build/user-create.de17588d.css"
-      ]
-    },
     "about-index": {
       "js": [
         "/build/runtime.e1789bf9.js"
@@ -118,6 +30,14 @@
         "/build/cgu-index.e23780f9.css"
       ]
     },
+    "cgu-policy": {
+      "js": [
+        "/build/runtime.e1789bf9.js"
+      ],
+      "css": [
+        "/build/cgu-policy.153d7fd4.css"
+      ]
+    },
     "contact-index": {
       "js": [
         "/build/runtime.e1789bf9.js"
@@ -126,12 +46,76 @@
         "/build/contact-index.de17588d.css"
       ]
     },
+    "faq-index": {
+      "js": [
+        "/build/runtime.e1789bf9.js"
+      ],
+      "css": [
+        "/build/faq-index.e606c446.css"
+      ]
+    },
+    "gallery-index": {
+      "js": [
+        "/build/runtime.e1789bf9.js"
+      ],
+      "css": [
+        "/build/gallery-index.d857676b.css"
+      ]
+    },
     "home-index": {
       "js": [
         "/build/runtime.e1789bf9.js"
       ],
       "css": [
         "/build/home-index.64147480.css"
+      ]
+    },
+    "product-detail": {
+      "js": [
+        "/build/runtime.e1789bf9.js"
+      ],
+      "css": [
+        "/build/product-detail.fe9cd7d4.css"
+      ]
+    },
+    "product-list": {
+      "js": [
+        "/build/runtime.e1789bf9.js"
+      ],
+      "css": [
+        "/build/product-list.c068dadb.css"
+      ]
+    },
+    "shared-footer": {
+      "js": [
+        "/build/runtime.e1789bf9.js"
+      ],
+      "css": [
+        "/build/shared-footer.e9f0e43d.css"
+      ]
+    },
+    "shared-header": {
+      "js": [
+        "/build/runtime.e1789bf9.js"
+      ],
+      "css": [
+        "/build/shared-header.9cfc69f2.css"
+      ]
+    },
+    "user-create": {
+      "js": [
+        "/build/runtime.e1789bf9.js"
+      ],
+      "css": [
+        "/build/user-create.de17588d.css"
+      ]
+    },
+    "global": {
+      "js": [
+        "/build/runtime.e1789bf9.js"
+      ],
+      "css": [
+        "/build/global.f737c4b1.css"
       ]
     }
   }
