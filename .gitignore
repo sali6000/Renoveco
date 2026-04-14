@@ -3,18 +3,20 @@
 # src/, core/, config/, docker-compose.yml, webpack-config.js, postcss.config.js, start.sh, 
 
 # Ignorer les répertoires et fichiers suivants
+# Liés au serveur online:
+# (Car partager manuellement sur le serveur)
 .env
-phpstan.neon
-version.txt
-/docker/mysql/
 /scripts/
 /storage/
 
-# Ignorer les fichiers temporaires
+# Liés au conteneurs mysql:
+/docker/mysql/
+
+# Autres:
+phpstan.neon
+version.txt
 .DS_Store
 Thumbs.db
-
-# Ignorer les fichiers temporaires d’éditeur
 *.swp
 *.swo
 *.tmp
