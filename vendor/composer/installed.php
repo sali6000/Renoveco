@@ -3,7 +3,7 @@
         'name' => 'salieri/cms',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'bd3b5d771de3e58904ff0728f4de2333d3e57305',
+        'reference' => 'b7ae4c2b7c6f4b3c5384d739c3359ce7c4311bfe',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -184,7 +184,7 @@
         'salieri/cms' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'bd3b5d771de3e58904ff0728f4de2333d3e57305',
+            'reference' => 'b7ae4c2b7c6f4b3c5384d739c3359ce7c4311bfe',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
