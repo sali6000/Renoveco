@@ -75,10 +75,8 @@ class View
             $viewsPath = $modulesPath . $moduleName . "/UI/Views"; // Ex: "/var/www/html/src/Modules/" + "Product" + "/UI/Views" 
 
             if (is_dir($viewsPath)) {
-                DebugHelper::verboseServer($viewsPath . " trouvé et inscrit dans le cache des vues.");
                 $modules[$moduleName] = $viewsPath;
             } else {
-                DebugHelper::verboseServer($viewsPath . " n'est pas un répertoire accessible.");
             }
         }
 

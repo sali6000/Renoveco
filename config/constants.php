@@ -1,5 +1,9 @@
 <?php
 // config/constants.php
+
+use Config\AppConfig;
+use Core\Support\DebugHelper;
+
 if (!defined('SECURE_CHECK'))
     die('access denied');
 
@@ -11,16 +15,18 @@ if (!defined('SECURE_CHECK'))
  * - Conteneur PHP <= ./var/www/html/
  * - Production <= ./
  * */
-define('ROOT_PATH', realPath(__DIR__ . '/..') . '/'); // Remonte à la racine (chemin relatif)
+define('ROOT_PATH', realPath(__DIR__ . '/..') . '/'); // ./ (chemin relatif à partir de ../config)
 define('ROOT_PATH_CONFIG', ROOT_PATH . 'config/');
 define('ROOT_PATH_SRC_MODULES', ROOT_PATH . 'src/Modules/');
-define('ROOT_PATH_STORAGE_SECURE', ROOT_PATH . 'storage/secure/');
-define('ROOT_PATH_STORAGE_CACHE', ROOT_PATH . 'storage/cache/');
-define('ROOT_PATH_STORAGE_LOGS', ROOT_PATH . 'storage/logs/' . date('Y-m-d') . '-');
-define('ROOT_PATH_TMP', ROOT_PATH . 'tmp/');
+define('SHARED_PATH', rtrim(AppConfig::getEnv('SHARED_PATH') ?: ROOT_PATH, '/') . '/'); // ./ (chemin relatif selon le SHARED_PATH .env)
+define('ROOT_PATH_STORAGE_SECURE', SHARED_PATH . 'storage/secure/');
+define('ROOT_PATH_STORAGE_CACHE', SHARED_PATH . 'storage/cache/');
+define('ROOT_PATH_STORAGE_LOGS', SHARED_PATH . 'storage/logs/' . date('Y-m-d') . '-');
+define('ROOT_PATH_TMP', SHARED_PATH . 'storage/tmp/');
 define('ROOT_PATH_PUBLIC', getPublicPathContext(ROOT_PATH));
 define('ROOT_PATH_PUBLIC_BUILD', ROOT_PATH_PUBLIC . 'build/');
 define('ROOT_PATH_PUBLIC_UPLOADS', ROOT_PATH_PUBLIC . 'uploads/');
+
 
 /**
  * Chemin externe (à partir du host).

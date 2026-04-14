@@ -1,6 +1,8 @@
 <?php
+define('BASE_PATH', realpath(__DIR__ . '/..'));
+
 try {
-    $kernel = require __DIR__ . '/../config/bootstrap.php';
+    $kernel = require BASE_PATH . '/config/bootstrap.php';
 
     if (!is_object($kernel) || !method_exists($kernel, 'handle')) {
         throw new \RuntimeException('Bootstrap did not return a valid kernel instance.');
@@ -12,6 +14,6 @@ try {
     if ($env === 'dev') {
         echo "<h1>Erreur critique (index.php)</h1><pre>" . htmlspecialchars((string)$e) . "</pre>";
     } else {
-        echo "Une erreur technique est survenue. Veuillez contacter l'administrateur.";
+        echo "Une erreur technique est survenue. Veuillez contacter l'administrateur." . htmlspecialchars((string)$e);
     }
 }

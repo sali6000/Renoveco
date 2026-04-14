@@ -3,6 +3,7 @@
 namespace Core\Routing;
 
 use Config\AppConfig;
+use Core\Support\DebugHelper;
 
 class RouteCache
 {

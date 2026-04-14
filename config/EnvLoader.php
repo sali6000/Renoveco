@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Config;
 
-use Core\Support\DebugHelper;
 use Dotenv\Dotenv;
 
 if (!defined('SECURE_CHECK')) {
@@ -18,7 +17,7 @@ final class EnvLoader
     public function __construct()
     {
         // Charger ./.env (pour Github)
-        Dotenv::createImmutable(AppConfig::getConst('ROOT_PATH'))->safeLoad();
+        Dotenv::createImmutable(AppConfig::getConst('SHARED_PATH'))->safeLoad();
 
         // Récupérer l'environnement APP_ENV définit dans .env  
         $this->environment = $this->detectEnvironment();
@@ -56,11 +55,12 @@ final class EnvLoader
 
     private function decryptFile($file, $key, $destination)
     {
-        $cmd = "openssl enc -aes-256-cbc -pbkdf2 -d -in \"$file\" -out \"$destination\" -pass file:$key";
+        $cmd = "openssl enc -aes-256-cbc -pbkdf2 -d -in \"$file\" -out \"$destination\" -pass file:$key 2>&1";
+
         exec($cmd, $output, $returnCode);
 
         if ($returnCode !== 0) {
-            throw new \RuntimeException("Échec du déchiffrement de $file");
+            throw new \RuntimeException("Échec du déchiffrement: " . implode("\n", $output));
         }
     }
 

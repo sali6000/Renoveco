@@ -11,7 +11,5 @@ RUN npm install --include=dev
 COPY src/assets ./src/assets
 COPY webpack.config.js ./
 
-RUN npm run build
-
 # Conteneur tourne en arrière-plan (optionnel si tu veux exec dedans)
 CMD ["tail", "-f", "/dev/null"]

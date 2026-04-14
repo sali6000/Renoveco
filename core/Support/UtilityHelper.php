@@ -4,7 +4,7 @@
 namespace Core\Support;
 
 
-final class SecurityHelper
+final class UtilityHelper
 {
 
     static function getAfterDot(string $value): string

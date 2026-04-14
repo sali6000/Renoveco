@@ -5,6 +5,7 @@ namespace Config;
 if (!defined('SECURE_CHECK')) {
     die('Direct access not permitted');
 }
+define('BASE_PATH', realpath(__DIR__ . '/..'));
 
 class AppConfig
 {
@@ -21,7 +22,7 @@ class AppConfig
     public static function getWhitelist(): array
     {
         if (self::$whitelist === null) {
-            self::$whitelist = require __DIR__ . '/access_whitelist.php';
+            self::$whitelist = require BASE_PATH . '/config/access_whitelist.php';
         }
         return self::$whitelist;
     }
@@ -38,7 +39,8 @@ class AppConfig
     private static function loadConfig(): void
     {
         if (!self::$configLoaded) {
-            require_once __DIR__ . '/constants.php';
+
+            require_once BASE_PATH . '/config/constants.php';
             self::$configLoaded = true;
         }
     }

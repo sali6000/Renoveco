@@ -3,6 +3,8 @@
 
 namespace Core\Logger;
 
+use Config\AppConfig;
+
 class AccessLogger
 {
     public const LEVEL_ERROR   = 'error';
@@ -72,7 +74,7 @@ class AccessLogger
 
         $formattedMessage = "[$timestamp][$level][RID:$requestId] $message" . PHP_EOL;
 
-        $logDir = $customPath ?? __DIR__ . '/../../storage/logs';
+        $logDir = $customPath ?? AppConfig::getConst('SHARED_PATH') . 'storage/logs';
         if (!is_dir($logDir)) {
             mkdir($logDir, 0777, true);
         }

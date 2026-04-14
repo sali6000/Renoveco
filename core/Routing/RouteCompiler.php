@@ -102,7 +102,7 @@ class RouteCompiler
 
     private static function getCacheFilePath(): string
     {
-        return realpath(__DIR__ . '/../../storage') . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'routesControllers.php';
+        return AppConfig::getConst('ROOT_PATH_STORAGE_CACHE') . 'routesControllers.php';
     }
 
     private static function computeFilesHash(array $files): string
@@ -121,10 +121,12 @@ class RouteCompiler
         if (AppConfig::getBool('APP_DEBUG')) return false;
 
         if (!file_exists($cacheFile)) {
+            DebugHelper::verboseServer("cache non valide car le fichier" . $cacheFile . " n'existe pas");
             return false;
         }
         $data = @include $cacheFile;
         if (!is_array($data) || !isset($data['hash']) || !isset($data['routes'])) {
+            DebugHelper::verboseServer("cache non valide car il manque des données");
             return false;
         }
         $controllers = self::getControllersPath();

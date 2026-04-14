@@ -1,9 +1,4 @@
-# Ce fichier docker-compose.yaml orchestre tous les services nécessaires à une application Symfony complète : 
-# -> un conteneur PHP pour le back-end, MySQL pour les données, Nginx pour servir les requêtes, et PhpMyAdmin pour l'administration des bases. 
-# Grâce à Docker, tout est isolé et portable, simplifiant le développement et la gestion du projet.
-
 services:
-  # Service PHP : Définit un conteneur pour exécuter le code PHP.
   app:
     build:
       context: .
@@ -12,7 +7,6 @@ services:
     ports:
       - "443:443" # HTTPS via FrankenPHP (Caddy intégré)
     volumes:
-      # Dossiers et fichiers montés pour le code source et les dépendances PHP.
       - ./:/app
 
   node:
@@ -31,7 +25,7 @@ services:
     image: mysql:latest # Utilise l'image officielle MySQL version (ex: 8.0.39).
     environment:
       # Définit les variables d'environnement pour configurer la base de données.
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD} # Mot de passe pour l'utilisateur root (administrateur de la base).
+      MYSQL_ROOT_PASSWORD: ${INIT_DB_ROOT_PASSWORD} # Mot de passe pour l'utilisateur root.
     volumes:
       - db_data:/var/lib/mysql # Stocke les données de la base dans un volume nommé 'db_data' pour la persistance.
       - ./docker/mysql/init:/docker-entrypoint-initdb.d # Monte le dossier d'initialisation pour exécuter des scripts SQL au démarrage.
