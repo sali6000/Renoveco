@@ -6,11 +6,9 @@
 .env
 phpstan.neon
 version.txt
-/public/build/
 /docker/mysql/
 /scripts/
 /storage/
-/vendor/
 
 # Ignorer les fichiers temporaires
 .DS_Store
