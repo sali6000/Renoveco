@@ -8,7 +8,7 @@
 
     .presentation-seo {
         @include mixins.section-layout($flex: 2,
-            $direction: column,
+            $direction: row,
             $gap: values.$space-s,
             $paddings: values.$space-s);
 
