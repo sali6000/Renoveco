@@ -8,6 +8,9 @@
 .env
 /scripts/
 /storage/
+/public/.htaccess
+/public/info.php
+/public/robots.txt
 
 # Liés au conteneurs mysql:
 /docker/mysql/
