@@ -1,6 +1,5 @@
 // scss/foundations/layout/_sections.placeholders.scss
-@use '@scss/foundations/values' as values;
-@use '@scss/foundations/mixins' as mixins;
+@use '@scss/foundations/mixins';
 
 %section-row {
     @include mixins.section-layout();
@@ -11,9 +10,9 @@
 }
 
 %section-column {
-    @include mixins.section-layout($direction: column, $paddings: values.$space-xs);
+    @include mixins.section-layout($direction: column, $paddings: var(--space-xs));
 }
 
 %section-wrapper {
-    @include mixins.section-layout($maxWidth: values.$container-wrapper, $margins: 0 auto)
+    @include mixins.section-layout($maxWidth: var(--container-wrapper), $margins: 0 auto);
 }

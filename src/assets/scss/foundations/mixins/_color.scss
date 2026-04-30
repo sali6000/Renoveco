@@ -1,7 +1,5 @@
-@use '@scss/foundations/values' as values;
-
-@mixin color-layout($background: values.$color-bg-white,
-    $color: black,
+@mixin color-layout($background: var(--color-bg-base),
+    $color: var(--color-text-default),
     $backdropBlur: 10px,
     $boxShadow: none,
     $border: none) {

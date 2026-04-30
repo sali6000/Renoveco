@@ -1,0 +1,7 @@
+Est-ce que cet élément pourrait exister sur une autre page ?
+├── OUI → components/ ou layout/
+└── NON → pages/
+
+Est-ce que c'est juste du positionnement ?
+├── OUI → layout/
+└── NON → components/ ou pages/

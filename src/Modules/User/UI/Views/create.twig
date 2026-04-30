@@ -3,23 +3,71 @@
 {% block title %}Inscription{% endblock %}
 
 {% block content %}
-<form id="auth-register-form">
-    <h2>Inscrivez-vous via ce formulaire d'inscription:</h2>
-    {# Récepetion serveur et renvoi du token csrf #}
+<div class="container stack stack--gap-xl stack--p-5xl">
+<form class="form" id="auth-register-form">
+
+    <div class="form__header">
+        <h2>Créer un compte</h2>
+        <p>Remplissez le formulaire pour vous inscrire</p>
+    </div>
+
+    <div class="form__divider"></div>
+
     <input type="hidden" class="csrf_token" value="{{ csrf_token }}">
-    {# Affichage des messages d'erreur ou de succès en JS #}
-    <div id="form-error" class="alert alert-danger" style="display: none;"></div>
-    <div id="form-success" class="alert alert-success" style="display: none;"></div>
-    {# Email #}
-    <label>Email</label>
-    <input type="email" class="email" required autofocus class="form-control">
-    {# Password #}
-    <label>Mot de passe</label>
-    <input type="password" class="password" required class="form-control">
-    <p>(Minimum 8 lettres avec au moins 1 chiffre et 1 lettre)</p>
-    {# Conditions générale d'utilisateur #}
-    <h4>Vous avez pris connaissance et acceptez les conditions générales de la platforme E From Inside afin de poursuivre la démarche d'inscription.</h4><br>
-    {# Bouton de validation du formulaire #}
-    <button type="submit" class="btn btn-danger">S'inscrire</button>
+    <div id="form-error" class="alert alert--danger" style="display: none;"></div>
+    <div id="form-success" class="alert alert--success" style="display: none;"></div>
+
+    <div class="form__field">
+        <label class="form__label" for="register-email">Adresse email</label>
+        <input
+            class="form__input"
+            type="email"
+            id="register-email"
+            name="email"
+            autocomplete="email"
+            required
+            autofocus
+            placeholder="vous@exemple.com"
+        >
+    </div>
+
+    <div class="form__field">
+        <label class="form__label" for="register-password">Mot de passe</label>
+        <input
+            class="form__input"
+            type="password"
+            id="register-password"
+            name="password"
+            autocomplete="new-password"
+            required
+            placeholder="••••••••"
+        >
+        <p class="form__hint">Minimum 8 caractères avec au moins 1 chiffre et 1 lettre</p>
+    </div>
+
+    <div class="form__field form__field--checkbox">
+        <input
+            class="form__checkbox"
+            type="checkbox"
+            id="register-cgu"
+            name="cgu"
+            required
+        >
+        <label class="form__label" for="register-cgu">
+            J'ai lu et j'accepte les <a href="/cgu">conditions générales d'utilisation</a>
+        </label>
+    </div>
+
+    <button type="submit" class="btn btn--primary">
+        S'inscrire
+    </button>
+
+    <div class="form__divider"></div>
+
+    <p class="form__footer">
+        Déjà un compte ? <a href="/login">Se connecter</a>
+    </p>
+
 </form>
+</div>
 {% endblock %}

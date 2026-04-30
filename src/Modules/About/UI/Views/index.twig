@@ -3,57 +3,52 @@
 {% block title %}A propos - {{ parent() }}{% endblock %}
 
 {% block content %}
-<div class="section-about-logo reveal slide-down">
-  <div class="image">
+<div class="container stack stack--centered stack--gap-2xl stack--p-5xl">
+  <div class="image image--w-s reveal slide-down">
     <img loading="lazy" src="{{ encore_asset('img/about/logos/rclogo-02-dark.png') }}" alt="logo-author">
   </div>
-</div>
-<div class="section-about-presentation reveal slide-down">
-    <div class="image">
-      <img loading="lazy" src="{{ encore_asset('img/home/renoveconstructlittle.avif') }}" alt="img-author">
+  <div class="split split--equal-2 split--gap-xl reveal slide-down">
+    <div class="stack stack--align-end">
+      <div class="image image--w-s">
+        <img loading="lazy" src="{{ encore_asset('img/home/renoveconstructlittle.avif') }}" alt="img-author">
+      </div>
     </div>
-    <div class="texte">
-          <h1 style="text-align: center;">Présentation</h1>
-      <span>
+    <div class="stack stack--gap-l  stack--align-start">
+        <span>
+        <b>Renove Construct SPRL</b> est une entreprise belge spécialisée dans la fabrication et la pose de châssis sur mesure, l’installation de vitrages double et triple performance ainsi que dans les solutions photovoltaïques. Avec plus de 37 ans d’expérience, nous accompagnons particuliers et professionnels dans leurs projets de construction et de rénovation à travers toute la Belgique.
+        </span>
+              <span>
         Depuis plus de 37 ans, notre entreprise accompagne particuliers et professionnels en Belgique dans leurs projets de construction et de rénovation. <br><br>Spécialisés dans la fabrication et la pose de châssis sur mesure, l’installation de vitrages double et triple performance ainsi que dans les solutions photovoltaïques, nous mettons notre expertise au service de la qualité et de la durabilité.
-        <br><br>Notre priorité est simple : proposer des solutions fiables, esthétiques et performantes sur le long terme. Chaque projet est étudié avec rigueur afin de garantir une isolation optimale, une sécurité renforcée et une intégration harmonieuse à votre bâtiment.
-        <br><br>Nous travaillons avec des matériaux certifiés et des techniques éprouvées, en respectant les normes belges en vigueur. Notre équipe assure un accompagnement personnalisé, du premier conseil jusqu’à la finalisation du chantier.
-      </span>
-      <br><br>
-      <h1 style="text-align: center;">Parcours</h1>
-      <br>
-      <span>
-      Fondée il y a 37 ans, notre entreprise s’est construite autour de valeurs fortes : professionnalisme, précision et engagement. Au fil des années, nous avons su évoluer avec les technologies et les exigences du marché.
-        <br><br>Nous avons réalisé de nombreux projets à travers la Belgique, allant de maisons individuelles à des bâtiments professionnels, en passant par des rénovations énergétiques complètes.
-        <br><br>Notre savoir-faire s’est élargi pour intégrer les nouvelles solutions énergétiques, notamment l’installation de panneaux photovoltaïques, permettant à nos clients de réduire leur consommation et d’investir dans un avenir durable.
+        </span>
+              <span>
+        
+        Notre priorité est simple : proposer des solutions fiables, esthétiques et performantes sur le long terme. Chaque projet est étudié avec rigueur afin de garantir une isolation optimale, une sécurité renforcée et une intégration harmonieuse à votre bâtiment.
+        </span>
+              <span>
+        Nous travaillons avec des matériaux certifiés et des techniques éprouvées, en respectant les normes belges en vigueur. Notre équipe assure un accompagnement personnalisé, du premier conseil jusqu’à la finalisation du chantier.
       </span>
     </div>
 </div>
-<br><br><br>
 
-{# Section vidéos #}
-<div class="section-about-videos reveal slide-down">
-  <div class="videos">
-    <div class="video">
-      <video controls preload="auto">
-        <source src="{{ encore_asset('webm/about/video1.webm') }}" type="video/webm" />
-        Votre navigateur ne supporte pas la lecture de vidéos.
-      </video>
-    </div>
-    <div class="video">
-      <video controls preload="auto">
-        <source src="{{ encore_asset('webm/about/video2.webm') }}" type="video/webm" />
-        Votre navigateur ne supporte pas la lecture de vidéos.
-      </video>
-    </div>
-    <div class="video">
-      <video controls preload="auto" width="100%">
-        <source src="{{ encore_asset('webm/about/video3.mp4') }}" type="video/mp4" />
-        Votre navigateur ne supporte pas la lecture de vidéos.
-      </video>
-    </div>
-    <div class="video"></div>
+<div class="stack stack--gap-l reveal slide-down">
+<h2>Découvrez notre savoir-faire en vidéo</h2>
+  <div class="video video--ratio-16-9">
+    <video controls preload="auto">
+      <source src="{{ encore_asset('webm/about/video1.webm') }}" type="video/webm" />
+      Votre navigateur ne supporte pas la lecture de vidéos.
+    </video>
+  </div>
+  <div class="video video--ratio-16-9">
+    <video controls preload="auto">
+      <source src="{{ encore_asset('webm/about/video2.webm') }}" type="video/webm" />
+      Votre navigateur ne supporte pas la lecture de vidéos.
+    </video>
+  </div>
+  <div class="video video--ratio-16-9">
+    <video controls preload="auto">
+      <source src="{{ encore_asset('webm/about/video3.mp4') }}" type="video/mp4" />
+      Votre navigateur ne supporte pas la lecture de vidéos.
+    </video>
   </div>
 </div>
-<br><br>
 {% endblock %}

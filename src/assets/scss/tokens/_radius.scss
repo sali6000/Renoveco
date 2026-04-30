@@ -1,0 +1,14 @@
+$radiuses: (
+    // 4px  — quasi carré
+    'xs': 0.25rem,
+    // 6px  — très léger
+    's': 0.375rem,
+    // 8px  — léger, inputs et boutons
+    'm': 0.5rem,
+    // 12px — cards, formulaires
+    'l': 0.75rem,
+    // 16px — modales, grands blocs
+    'xl': 1rem,
+    // cercle parfait
+    'full': 9999px,
+);

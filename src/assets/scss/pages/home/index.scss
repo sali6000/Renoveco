@@ -1,5 +1,16 @@
 // scss/pages/home/index.scss
+@use '@scss/pages/home/hero';
 
-@use '@scss/partials/home/slider';
-@use '@scss/partials/home/index';
-@use '@scss/components/layouts/button';
+[data-section="info-1"],
+[data-section="info-3"] {
+    background: var(--color-bg-base);
+    padding-block: var(--space-5xl);
+}
+
+[data-section="info-2"] {
+    background: linear-gradient(135deg,
+            var(--color-gradient-dark-start) 0%,
+            var(--color-gradient-dark-end) 100%);
+    color: var(--color-text-inverse);
+    padding-block: var(--space-5xl);
+}

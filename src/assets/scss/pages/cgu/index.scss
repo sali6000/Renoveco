@@ -1,3 +1,5 @@
 // src/assets/scss/pages/cgu.scss
-
-@use '@scss/partials/cgu/index';
+[data-section="cgu"] a {
+    color: var(--color-brand-primary);
+    text-decoration: none;
+}

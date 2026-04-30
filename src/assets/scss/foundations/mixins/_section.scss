@@ -1,4 +1,6 @@
-@use '@scss/foundations/values' as values;
+@use '@scss/tokens/typography';
+@use '@scss/tokens/flex' as flexs;
+
 @use './flex' as flex;
 @use './size' as size;
 @use './color' as color;
@@ -13,13 +15,13 @@
     $align: center, // Les enfants sont centrés verticalement (axe secondaire)
     $flex: 1, // Les enfants prennent l'espace disponible, se compressent à l'infini si besoin
     $wrap: wrap, // Les enfants descendent à la ligne en dessous si plus de places disponibles
-    $gap: values.$space-none, // Il y a un espacement entre les enfants
+    $gap: var(--space-none), // Il y a un espacement entre les enfants
 
     // Sizes
     $maxWidth: none,
     $minWidth: none,
-    $paddings: values.$space-none, // Il y a un espace entre le bord et le contenu intérieur
-    $margins: values.$space-none, // full : Remplis tous l'espace, auto : S'adapte au contenu
+    $paddings: var(--space-none), // Il y a un espace entre le bord et le contenu intérieur
+    $margins: var(--space-none), // full : Remplis tous l'espace, auto : S'adapte au contenu
     $height: null,
     $width: 100%,
 
@@ -31,9 +33,9 @@
     $border: none,
 
     // Texts
-    $fontSize: values.$font-size-s,
-    $minFontSize: values.$font-size-xs,
-    $maxFontSize: values.$font-size-xl,
+    $fontSize: var(--font-size-s),
+    $minFontSize: var(--font-size-xs),
+    $maxFontSize: var(--font-size-xl),
     $textAlign: center, // Le texte est commence depuis la gauche
     $textSizeMode: fixed, // fixed | fluid | clamp
     $textFlow: wrap, // wrap | nowrap
@@ -43,7 +45,7 @@
 
     // Si height ET width sont définis, fixer flex
     @if $height !=null and $width !=null {
-        $flex: values.$flex-fix;
+        $flex: flexs.$flex-fix;
     }
 
     @if $height !=null {

@@ -1,0 +1,184 @@
+// base/_global.scss
+@use '@scss/foundations/mixins';
+
+// ================================================================================================
+// BODY
+// ================================================================================================
+body {
+    font-family: var(--font-family-base), system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    color: var(--color-text-default);
+    background: var(--color-bg-base);
+    margin: 0;
+    padding: 0;
+}
+
+// ================================================================================================
+// RESET DE BASE
+// ================================================================================================
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+img,
+video {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+input,
+textarea,
+select,
+button {
+    font-family: inherit;
+    font-size: inherit;
+}
+
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+// ================================================================================================
+// TYPOGRAPHIE
+// ================================================================================================
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+ul {
+    margin: 0;
+    padding: 0;
+    color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+h1 {
+    font-size: var(--font-size-3xl); // 2.5rem
+    font-weight: var(--font-weight-bold);
+}
+
+h2 {
+    font-size: var(--font-size-2xl); // 2rem
+    font-weight: var(--font-weight-semibold);
+}
+
+h3 {
+    font-size: var(--font-size-xl); // 1.5rem
+    font-weight: var(--font-weight-semibold);
+}
+
+h4 {
+    font-size: var(--font-size-l); // 1.25rem
+    font-weight: var(--font-weight-medium);
+}
+
+h5 {
+    font-size: var(--font-size-m); // 1.125rem
+    font-weight: var(--font-weight-medium);
+}
+
+p,
+ul {
+    font-size: var(--font-size-s); // 1rem
+    line-height: 1.6;
+}
+
+hr {
+    border: none;
+    height: 0.5px;
+    background: var(--color-border-default);
+}
+
+// ================================================================================================
+// FORMULAIRES
+// ================================================================================================
+input:not([type="checkbox"]),
+textarea,
+select {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+textarea {
+    height: 200px;
+    resize: none;
+}
+
+input,
+textarea,
+select,
+button {
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(24, 74, 158, 0.15);
+    }
+}
+
+// ================================================================================================
+// ACCESSIBILITÉ
+// ================================================================================================
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+// ================================================================================================
+// ALERTES
+// ================================================================================================
+.alert {
+    padding: var(--space-m) var(--space-l);
+    border-radius: var(--radius-m);
+    font-size: var(--font-size-s);
+    font-weight: var(--font-weight-medium);
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+
+    &--danger {
+        background: rgba(255, 107, 107, 0.1);
+        border: 0.5px solid var(--color-danger);
+        color: var(--color-danger);
+
+        &::before {
+            content: "❗";
+            font-size: var(--font-size-m);
+        }
+    }
+
+    &--success {
+        background: rgba(81, 207, 102, 0.1);
+        border: 0.5px solid var(--color-success);
+        color: var(--color-success);
+
+        &::before {
+            content: "✓";
+            font-size: var(--font-size-m);
+        }
+    }
+}

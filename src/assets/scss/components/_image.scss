@@ -1,0 +1,108 @@
+// components/_image.scss
+@use '@scss/foundations/config';
+
+.image {
+    position: relative;
+    overflow: hidden;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    &--overlay {
+        img {
+            transform: scale(1.08);
+            transition: transform var(--transition-slow);
+        }
+
+        // Un seul ::before propre
+        &::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.35);
+            transition: opacity var(--transition-base);
+            z-index: 1;
+        }
+
+        &:hover {
+            img {
+                transform: scale(1);
+            }
+
+            &::before {
+                opacity: 0;
+            }
+        }
+    }
+
+    // --- Contenu interne (texte sur image) ---
+    &__content {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        padding: var(--space-m);
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        color: var(--color-text-inverse);
+        text-align: center;
+    }
+
+    // --- Tailles ---
+    &--square-s {
+        width: var(--container-m);
+        height: var(--container-m);
+    }
+
+    &--square-m {
+        width: var(--container-l);
+        height: var(--container-l);
+    }
+
+    &--w-xs {
+        width: var(--container-s);
+        height: auto;
+    }
+
+    &--w-s {
+        width: var(--container-m);
+        height: auto;
+    }
+
+    &--w-m {
+        width: var(--container-l);
+        height: auto;
+    }
+
+    &--h-xs {
+        width: auto;
+        height: var(--container-s);
+    }
+
+    &--h-s {
+        width: auto;
+        height: var(--container-m);
+    }
+
+    &--h-m {
+        width: auto;
+        height: var(--container-l);
+    }
+
+    &--full {
+        width: 100%;
+        height: 100%;
+    }
+
+    @each $size in config.$space-sizes {
+        &--p-#{$size} {
+            padding: var(--space-#{$size});
+        }
+    }
+}

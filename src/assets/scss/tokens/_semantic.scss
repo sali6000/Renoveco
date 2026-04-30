@@ -1,0 +1,63 @@
+// _semantic.scss
+@use 'sass:map';
+@use '@scss/tokens/colors' as c;
+@use '@scss/tokens/radius' as r;
+@use '@scss/tokens/sizes' as s;
+@use '@scss/tokens/typography' as t;
+
+
+:root {
+    //------------------------------------------------------
+    // Valeurs uniques non générées à partir des tokens :
+    //-------------------------------------------------------
+
+    --font-family-base: #{t.$font-family-montserrat}; // 'Montserrat', sans-serif
+    --transition-fast: 150ms ease;
+    --transition-base: 250ms ease;
+    --transition-slow: 400ms ease;
+
+    //------------------------------------------------------
+    // Valeurs multiples générées à partir des tokens (tailles, radius, couleurs, etc.) :
+    //-------------------------------------------------------
+
+    // Génère --space-none, --space-xs, --space-s...  (voir tokens/_sizes.scss)
+    @each $name, $value in s.$spaces {
+        --space-#{$name}: #{$value};
+    }
+
+    // Génère --container-xs, --container-s... (voir tokens/_sizes.scss)
+    @each $name, $value in s.$containers {
+        --container-#{$name}: #{$value};
+    }
+
+    // Génère --font-size-2xs, --font-size-s... (voir tokens/_typography.scss)
+    @each $name, $value in t.$font-sizes {
+        --font-size-#{$name}: #{$value};
+    }
+
+    // Génère --font-weight-light, --font-weight-regular... (voir tokens/_typography.scss)
+    @each $name, $value in t.$font-weights {
+        --font-weight-#{$name}: #{$value};
+    }
+
+    // Génère --radius-xs, --radius-s...
+    @each $name, $value in r.$radiuses {
+        --radius-#{$name}: #{$value};
+    }
+
+    // Génère --color-bg-base, --color-text-default...
+    @each $name, $value in c.$semantics {
+        --#{$name}: #{$value};
+    }
+}
+
+//------------------------------------------------------
+// Thèmes (<body data-theme="dark">) :
+//-------------------------------------------------------
+
+// Thème dark — tu surcharges uniquement ce qui change
+[data-theme="dark"] {
+    @each $name, $value in c.$semantics-dark {
+        --#{$name}: #{$value};
+    }
+}

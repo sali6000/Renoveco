@@ -1,10 +1,9 @@
 // scss/partials/_home.scss
 @use '@scss/foundations/placeholders/section';
-@use '@scss/foundations/values' as values;
-@use '@scss/foundations/mixins' as mixins;
+@use '@scss/foundations/mixins';
 
 .container {
-    gap: values.$space-s;
+    gap: var(--space-s);
 }
 
 // Simples
@@ -35,5 +34,5 @@
 // (Bouton)
 .button {
     @include mixins.section-layout($background: red,
-        $paddings: values.$space-xs);
+        $paddings: var(--space-xs));
 }

@@ -1,55 +1,59 @@
 import ApiHelper from '@js/helpers/ApiHelper';
 
-const form = document.querySelector('#auth-register-form');
+export default function initUserCreate() {
+    const form = document.querySelector('#auth-register-form');
 
-form.addEventListener('submit', async function (e) {
-    e.preventDefault();
+    if (!form) return; // Sort si le formulaire n'existe pas
 
-    const email = form.querySelector('.email').value.trim();
-    const password = form.querySelector('.password').value;
-    const csrf_token = form.querySelector('.csrf_token').value;
+    form.addEventListener('submit', async function (e) {
+        e.preventDefault();
 
-    // Validation côté front
-    const emailError = validateEmail(email);
-    const passwordError = validatePassword(password);
+        const email = form.querySelector('.email').value.trim();
+        const password = form.querySelector('.password').value;
+        const csrf_token = form.querySelector('.csrf_token').value;
+
+        // Validation côté front
+        const emailError = validateEmail(email);
+        const passwordError = validatePassword(password);
 
 
-    if (emailError) {
-        displayFormError(emailError);
-        return;
-    }
-    if (passwordError) {
-        displayFormError(passwordError);
-        return;
-    }
+        if (emailError) {
+            displayFormError(emailError);
+            return;
+        }
+        if (passwordError) {
+            displayFormError(passwordError);
+            return;
+        }
 
-    // Envoi JSON
-    const response = await ApiHelper.fetch('/user/registerJson', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            email,
-            password,
-            csrf_token
-        })
+        // Envoi JSON
+        const response = await ApiHelper.fetch('/user/registerJson', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                email,
+                password,
+                csrf_token
+            })
+        });
+
+        if (response.success) {
+            displayFormSuccess(response.message ?? "Inscription réussie.");
+            setTimeout(() => {
+                window.location.href = '/auth/login';
+            }, 5000); // 1000ms = 1 secondes
+        } else {
+            displayFormError(response.message ?? "Erreur inconnue.");
+        }
     });
 
-    if (response.success) {
-        displayFormSuccess(response.message ?? "Inscription réussie.");
-        setTimeout(() => {
-            window.location.href = '/auth/login';
-        }, 5000); // 1000ms = 1 secondes
-    } else {
-        displayFormError(response.message ?? "Erreur inconnue.");
-    }
-});
-
-form.addEventListener('input', () => {
-    const errorDiv = document.querySelector('#form-error');
-    if (errorDiv.style.display === 'block') {
-        errorDiv.style.display = 'none';
-    }
-});
+    form.addEventListener('input', () => {
+        const errorDiv = document.querySelector('#form-error');
+        if (errorDiv.style.display === 'block') {
+            errorDiv.style.display = 'none';
+        }
+    });
+}
 
 function validateEmail(email) {
     if (!email) return "L'email ne peut pas être vide.";

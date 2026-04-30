@@ -49,6 +49,11 @@ class View
         self::$twig->addFunction(new TwigFunction('encore_asset', function (string $asset): string {
             return self::resolveEncoreAsset($asset);
         }));
+
+        // ✅ Ajout de la fonction encore_asset_optional dans Twig (retourne '' si absent)
+        self::$twig->addFunction(new TwigFunction('encore_asset_optional', function (string $asset): string {
+            return self::tryResolveEncoreAsset($asset) ?? '';
+        }));
     }
 
     private static function getCacheRoutesViews(): array
@@ -89,25 +94,35 @@ class View
     }
 
     /**
-     * Résout le chemin d'un asset depuis manifest.json
+     * Résout un asset, lance une exception si absent (obligatoire)
      */
     private static function resolveEncoreAsset(string $asset): string
+    {
+        $resolved = self::tryResolveEncoreAsset($asset);
+
+        if ($resolved === null) {
+            throw new \RuntimeException("Asset $asset not found in manifest.json");
+        }
+
+        return $resolved;
+    }
+
+    /**
+     * Résout un asset, retourne null si absent (optionnel)
+     */
+    private static function tryResolveEncoreAsset(string $asset): ?string
     {
         static $manifest = null;
 
         if ($manifest === null) {
             $manifestPath = AppConfig::getConst('ROOT_PATH_PUBLIC_BUILD') . 'manifest.json';
             if (!file_exists($manifestPath)) {
-                throw new \RuntimeException("Manifest not found: $manifestPath");
+                return null;
             }
             $manifest = json_decode(file_get_contents($manifestPath), true);
         }
 
-        if (!isset($manifest['build/' . $asset])) {
-            throw new \RuntimeException("Asset $asset not found in manifest.json, if it's SCSS, verify webpack.config.js Entries");
-        }
-
-        return $manifest['build/' . $asset];
+        return $manifest['build/' . $asset] ?? null;
     }
 
     /**

@@ -1,0 +1,54 @@
+// scss/foundations/placeholders/_button.scss
+
+%button-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px 18px;
+    border-radius: 12px;
+
+    background: #1f5bbd;
+    color: #fff;
+
+    font-weight: 600;
+    font-size: 14px;
+
+    border: none;
+    cursor: pointer;
+
+    transition:
+        transform .15s ease,
+        box-shadow .2s ease,
+        background .2s ease;
+
+    box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.08),
+        0 8px 20px rgba(24, 74, 158, 0.25);
+
+    &:hover {
+        background: #1f5bbd;
+        transform: translateY(-1px);
+        box-shadow:
+            0 4px 10px rgba(0, 0, 0, 0.10),
+            0 12px 28px rgba(24, 74, 158, 0.35);
+    }
+
+    &:active {
+        transform: translateY(0px);
+        box-shadow:
+            0 2px 6px rgba(0, 0, 0, 0.08),
+            0 6px 16px rgba(24, 74, 158, 0.25);
+    }
+
+    &:focus {
+        outline: 2px solid rgba(24, 74, 158, 0.3);
+        outline-offset: 3px;
+    }
+
+    &:disabled {
+        opacity: .6;
+        cursor: not-allowed;
+        box-shadow: none;
+    }
+}

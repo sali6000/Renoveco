@@ -1,0 +1,12 @@
+// foundations/_config.scss
+@use 'sass:map';
+@use '@scss/tokens/sizes' as s;
+@use '@scss/tokens/typography' as t;
+@use '@scss/tokens/radius' as r;
+
+// Les clés des maps — utilisées dans les @each des layouts
+$space-sizes: map.keys(s.$spaces);
+$container-sizes: map.keys(s.$containers);
+$font-sizes: map.keys(t.$font-sizes);
+$font-weights: map.keys(t.$font-weights);
+$radiuses: map.keys(r.$radiuses);

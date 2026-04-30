@@ -1,0 +1,24 @@
+// Font style
+$font-family-montserrat: 'Montserrat', sans-serif;
+
+// Font sizes
+$font-sizes: (
+    '2xs': 0.75rem,
+    'xs': 0.875rem,
+    's': 1rem,
+    'm': 1.125rem,
+    'l': 1.25rem,
+    'xl': 1.5rem,
+    '2xl': 2rem,
+    '3xl': 2.5rem,
+    '4xl': 3rem,
+);
+
+// Font weights
+$font-weights: (
+    'light': 300,
+    'regular': 400,
+    'medium': 500,
+    'semibold': 600,
+    'bold': 700,
+);

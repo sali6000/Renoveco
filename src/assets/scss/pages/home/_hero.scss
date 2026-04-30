@@ -1,0 +1,103 @@
+// pages/home/_hero.scss
+@use '@scss/foundations/mixins';
+
+[data-section="hero"] {
+    position: relative;
+    height: 100dvh;
+    --hero-title-size: clamp(2.5rem, 3.5vw, 4rem);
+    --hero-subtitle-size: clamp(1.5rem, 2.2vw, 2.4rem);
+}
+
+.hero-content {
+    height: 100%;
+    padding: var(--container-xs) var(--space-5xl) var(--space-5xl);
+    overflow: hidden;
+}
+
+.hero-title,
+.hero-subtitle,
+.hero-description {
+    text-align: center;
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-light);
+    line-height: 1.15;
+    text-shadow: 2px 2px 5px rgb(0 0 0 / 0.9);
+}
+
+.hero-title {
+    font-size: var(--hero-title-size);
+}
+
+.hero-subtitle {
+    font-size: var(--hero-subtitle-size);
+}
+
+.hero-background {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+
+    video,
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    &--video {
+        display: block;
+
+        @include mixins.media-down(md) {
+            display: none;
+        }
+    }
+
+    &--mobile {
+        display: none;
+
+        @include mixins.media-down(md) {
+            display: block;
+        }
+    }
+}
+
+.hero-logo {
+    position: absolute;
+    top: var(--space-m);
+    left: 50%;
+    transform: translateX(-50%);
+    width: var(--container-xs);
+}
+
+.hero-social {
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-light);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+
+    &__link {
+        color: inherit;
+        text-decoration: none;
+        transition: opacity var(--transition-fast);
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+
+    &__icon {
+        width: 30px;
+        height: 30px;
+        object-fit: cover;
+    }
+}
+
+@include mixins.media-down(md) {
+    [data-section="hero"] {
+        --hero-title-size: clamp(2rem, 6vw, 3.5rem);
+        --hero-subtitle-size: clamp(1.2rem, 3vw, 2rem);
+    }
+
+    .hero-content {
+        padding: var(--space-none);
+    }
+}

@@ -1,9 +1,8 @@
 @use '@scss/foundations/placeholders/section';
-@use '@scss/foundations/values' as values;
-@use '@scss/foundations/mixins' as mixins;
+@use '@scss/foundations/mixins';
 
 .section-detail-link {
-    @include mixins.section-layout($paddings: values.$space-xs);
+    @include mixins.section-layout($paddings: var(--space-xs));
 
     .link {
         @extend %section-row-left;
@@ -49,14 +48,14 @@
     @include mixins.section-layout($gap: none, $align: flex-start);
 
     .description {
-        @include mixins.section-layout($display: grid, $gap: values.$space-xs, $direction: column, $margins: 0 auto, $paddings: values.$space-s, $background: values.$color-bg-white, $backdropBlur: 10px);
+        @include mixins.section-layout($display: grid, $gap: var(--space-xs), $direction: column, $margins: 0 auto, $paddings: var(--space-s), $background: var(--color-bg-base), $backdropBlur: 10px);
     }
 
     .images {
-        @include mixins.section-layout($direction: column, $gap: values.$space-xs, $paddings: values.$space-xs);
+        @include mixins.section-layout($direction: column, $gap: var(--space-xs), $paddings: var(--space-xs));
 
         .image-principal {
-            @include mixins.section-layout($height: values.$container-xs, $width: values.$container-xs, $paddings: values.$space-xs);
+            @include mixins.section-layout($height: var(--container-m), $width: var(--container-m), $paddings: var(--space-xs));
 
             img {
                 width: 100%;
@@ -67,16 +66,16 @@
         }
 
         .gallery {
-            @include mixins.section-layout($display: grid, $direction: column, $paddings: values.$space-s, $background: values.$color-bg-white,
+            @include mixins.section-layout($display: grid, $direction: column, $paddings: var(--space-s), $background: var(--color-bg-base),
                 $backdropBlur: 10px,
                 $border: 1px solid rgba(255, 255, 255, 0.3),
                 $boxShadow: 0 8px 40px rgb(0 0 0 / 0.1));
 
             .previews {
-                @include mixins.section-layout($gap: values.$space-2xs);
+                @include mixins.section-layout($gap: var(--space-2xs));
 
                 .preview {
-                    @include mixins.section-layout($height: values.$container-4xs, $width: values.$container-4xs, $paddings: 3px, $border: 2px solid lightgrey);
+                    @include mixins.section-layout($height: var(--space-3xl), $width: var(--space-3xl), $paddings: 3px, $border: 2px solid lightgrey);
 
                     img {
                         width: 100%;
@@ -91,10 +90,10 @@
     }
 
     .details {
-        @include mixins.section-layout($direction: column, $gap: values.$space-s);
+        @include mixins.section-layout($direction: column, $gap: var(--space-s));
 
         .infos {
-            @include mixins.section-layout($display: grid, $direction: column, $gap: values.$space-xs, $paddings: values.$space-s, $background: values.$color-bg-white, $backdropBlur: 10px,
+            @include mixins.section-layout($display: grid, $direction: column, $gap: var(--space-xs), $paddings: var(--space-s), $background: var(--color-bg-base), $backdropBlur: 10px,
                 $border: 1px solid rgba(255, 255, 255, 0.3),
                 $boxShadow: 0 8px 40px rgb(0 0 0 / 0.1));
         }

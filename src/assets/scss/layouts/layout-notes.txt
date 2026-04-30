@@ -1,0 +1,6 @@
+Layout (la structure) répond à la question "où et comment ça se place ?".
+
+- split (grid)
+- cluster (flex row)
+- stake (flex column)
+- ...

@@ -3,21 +3,52 @@
 {% block title %}Connexion{% endblock %}
 
 {% block content %}
-<form method="post" action="/auth/connection">
-    <h2>Connectez-vous</h2>
+<div class="container stack stack--gap-xl stack--p-5xl">
+<form class="form" method="post" action="/auth/connection">
+
+    <div class="form__header">
+        <h2>Connectez-vous</h2>
+        <p>Entrez vos identifiants pour accéder à votre compte</p>
+    </div>
+
+    <div class="form__divider"></div>
+
     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    
     {% if flash_error %}
-        <div class="alert alert-danger">{{ flash_error }}</div>
+        <div class="alert alert--danger">{{ flash_error }}</div>
     {% endif %}
-    <label for="email">Email</label>
-    <input type="email" id="email" name="email" placeholder="email@mail.com" maxlength="30" required autofocus>
-    <label for="password">Mot de passe</label>
-    <input type="password" id="password" name="password" placeholder="password" maxlength="30" required>
-    <button type="submit" class="btn btn-primary">Se connecter</button>
+    
+    <div class="form__field">
+        <label class="form__label" for="email-login">Adresse email</label>
+        <input
+            class="form__input"
+            type="email"
+            id="email-login"
+            name="email"
+            autocomplete="username"
+            placeholder="Votre email"
+            maxlength="30"
+            required
+            autofocus>
+    </div>
+    <div class="form__field">
+        <label class="form__label" for="password">Mot de passe</label>
+        <input
+            class="form__input"
+            type="password"
+            id="password"
+            name="password"
+            autocomplete="current-password"
+            placeholder="Votre mot de passe"
+            maxlength="30"
+            required>
+    </div>
+    <button type="submit" class="btn btn--primary">Se connecter</button>
 </form>
-<form method="post" action="/auth/forgot-password">
-    <label for="email">Mot de passe oublié ? </label>
-    <input type="email" id="email" name="email" placeholder="email@mail.com" maxlength="30" required autofocus>
-    <button type="submit" class="btn btn-primary">Envoyer sur la boite mail</button>
-</form>
+
+<div class="form__footer">
+    <p>Pas encore de compte ? <a href="/auth/register">Inscrivez-vous</a></p>
+    <p><a href="/auth/forgot-password">Mot de passe oublié ?</a></p>
+</div>
 {% endblock %}

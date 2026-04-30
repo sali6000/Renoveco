@@ -1,5 +1,4 @@
-@use '@scss/foundations/values' as values;
-@use '@scss/foundations/mixins' as mixins;
+@use '@scss/foundations/mixins';
 
 // =====================================================================================
 //                       (RESPONSIVE) BARRE DE NAVIGATION : MENU HAMBURGER
@@ -78,7 +77,7 @@
 /* MENU MOBILE */
 .mobile-menu {
     @include mixins.section-layout($direction: column,
-        $paddings: values.$space-m,
+        $paddings: var(--space-m),
         $background: #111827,
         $color: white,
         $align: flex-start);
@@ -99,7 +98,7 @@
 
 /* LIENS */
 .mobile-menu a {
-    @include mixins.section-layout($justify: flex-start, $gap: values.$space-2xs);
+    @include mixins.section-layout($justify: flex-start, $gap: var(--space-2xs));
     color: #e5e7eb;
     font-size: 18px;
     text-decoration: none;

@@ -1,5 +1,3 @@
-@use '@scss/foundations/values' as values;
-
 // ==================================================================================
 //                                      mixins (avec paramètres)
 // ==================================================================================
@@ -13,7 +11,7 @@
     $align: center, // Les enfants sont centrés verticalement
     $flex: 1, // Les enfants prennent l'espace disponible, se compressent à l'infini si besoin
     $wrap: wrap, // Les enfants descendent à la ligne en dessous si plus de places disponibles
-    $gap: values.$space-s, // Il y a un espacement entre les enfants
+    $gap: var(--space-s) // Il y a un espacement entre les enfants
 
 ) {
     display: $display;

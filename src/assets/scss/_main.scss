@@ -1,20 +1,29 @@
 // src/assets/scss/main.scss
 
-// Importation des variables
-@use 'foundations/values/variables' as values;
+// Réinitialisation des styles de base (reset, normalize, etc.)
+@use 'base/reset'; // Reset CSS (normalize, etc.)
 
-// Importation des modules de base
-@use 'base/fonts';
-@use 'base/global'; // Polices, etc.
-@use 'base/reset';
+// Définition des valeurs globales (couleurs, tailles, etc.)
+@use 'tokens/semantic'; // Les tokens (couleurs, tailles, etc.)
 
-// Importation des modules de layout
-@use 'components/layouts/wrapper'; // Regroupe le contenu du site dans un wrapper
-@use 'components/layouts/flashinfos'; // Affiche une bannière d'information
+// Définition des styles de base (body, font, h1, h2, etc.)
+@use 'base/fonts'; // Les polices de caractères (font-family, font-size, etc.)
+@use 'base/root'; // Valeurs par défauts
 
-// Importation des composants utilitaires
-@use 'components/effects/reveal';
+// Définition des styles de layout (grids, flex, etc.)
+@use 'layouts/container'; // Conteneur (container-wrapper)
+@use 'layouts/cluster'; // Cluster (flex row)
+@use 'layouts/stack'; // Stack (flex column)
+@use 'layouts/split'; // Split (grid)
 
-// Importation des parties
+// Définition des styles de composants (buttons, cards, etc.)
+@use 'components/button'; // Boutons (btn, btn--primary, etc.)
+@use 'components/form'; // Formulaires (form, form-group, etc.)
+@use 'components/image'; // Image utilities (image, image--lg, etc.)
+@use 'components/video'; // Vidéo utilities (video, video--ratio-16-9, etc.)
+
+// Définition des styles d'animations
+@use 'animations/reveal'; // Animations de révélation (slide-up, slide-left, etc.)
+
 @use 'pages/shared/header';
 @use 'pages/shared/footer';

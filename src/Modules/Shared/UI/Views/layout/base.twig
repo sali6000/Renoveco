@@ -21,20 +21,16 @@
 }
 </script>
     {# current_page <= Ex: product-detail (./src/assets/scss/pages/product/detail.scss' : webpack.config.js) #}
-    {% if current_page is defined %} 
-        <link rel="stylesheet" href="{{ encore_asset(current_page ~ '.css') }}">
-    {% endif %}
-
+    {% set pageStyle = encore_asset_optional(current_page|default('') ~ '.css') %}
+    {% if pageStyle %}<link rel="stylesheet" href="{{ pageStyle }}">{% endif %}
     {% block head %}{% endblock %}
 </head>
 
 {# data-current-page > document.body.dataset.currentPage; (voir app.js) #}
 <body data-current-page="{{ current_page|default('default') }}">
     {% include '@Shared/components/header.twig' ignore missing %}
-    <main class="{{ current_page }}">
-        <div class="container">
-            {% block content %}{% endblock %}
-        </div>
+    <main class="{{ current_page }} wrapper">
+        {% block content %}{% endblock %}
     </main>
     {% include '@Shared/components/footer.twig' ignore missing %}
     {% block javascripts %}

@@ -1,0 +1,67 @@
+// tokens/_colors.scss
+@use 'sass:map';
+
+$primitives: (
+    'blue': #184A9E,
+    'blue-light': #339af0,
+    'white': #ffffff,
+    'black': #222222,
+    'orange': #ff6b00,
+    'gray': #dee2e6,
+    'gray-100': #f8f9fa,
+    'gray-200': #e9ecef,
+    'gray-300': #dee2e6,
+    'gray-400': #ced4da,
+    'gray-500': #6c757d,
+    'green': #51cf66,
+    'yellow': #fcc419,
+    'red': #ff6b6b,
+    'slate-dark': #364c61,
+    'slate-light': #b0bcc9,
+);
+
+$semantics: (
+    // Backgrounds
+    'color-bg-base': map.get($primitives, 'white'),
+    'color-bg-subtle': map.get($primitives, 'gray-100'),
+    'color-bg-inverse': map.get($primitives, 'black'),
+
+    // Text
+    'color-text-default': map.get($primitives, 'black'),
+    'color-text-muted': map.get($primitives, 'gray-500'),
+    'color-text-inverse': map.get($primitives, 'white'),
+    'color-text-on-accent':map.get($primitives, 'white'),
+
+    // Brand
+    'color-brand-primary': map.get($primitives, 'blue'),
+    'color-accent': map.get($primitives, 'orange'),
+
+    // Border
+    'color-border-default':map.get($primitives, 'gray-300'),
+    'color-border-focus': map.get($primitives, 'blue'),
+
+    // States
+    'color-success': map.get($primitives, 'green'),
+    'color-warning': map.get($primitives, 'yellow'),
+    'color-danger': map.get($primitives, 'red'),
+    'color-info': map.get($primitives, 'blue-light'),
+
+    // Gradients
+    'color-gradient-dark-start': map.get($primitives, 'slate-dark'),
+    'color-gradient-dark-end': map.get($primitives, 'slate-light'),
+);
+
+$semantics-dark: (
+    // Backgrounds
+    'color-bg-base': #222222,
+    'color-bg-subtle': #2d2d2d,
+    'color-bg-inverse': #ffffff,
+
+    // Text
+    'color-text-default': #ffffff,
+    'color-text-muted': #adb5bd,
+    'color-text-inverse': #222222,
+
+    // Border
+    'color-border-default': #444444,
+);

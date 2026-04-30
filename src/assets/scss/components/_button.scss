@@ -1,0 +1,115 @@
+// components/_button.scss
+.btn {
+    // Base commune à TOUS les boutons
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+
+    padding: var(--space-s) var(--space-m);
+    border-radius: var(--radius-m);
+    border: none;
+    cursor: pointer;
+
+    font-family: var(--font-family-base);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-s);
+
+    transition:
+        transform var(--transition-fast),
+        box-shadow var(--transition-base),
+        background var(--transition-base);
+
+    &:hover {
+        transform: translateY(-1px);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-border-focus);
+        outline-offset: 3px;
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
+    // --- Variantes de couleur ---
+    &--primary {
+        background: var(--color-brand-primary);
+        color: var(--color-text-inverse);
+        box-shadow:
+            0 2px 4px rgba(0, 0, 0, 0.08),
+            0 8px 20px rgba(24, 74, 158, 0.25);
+
+        &:hover {
+            box-shadow:
+                0 4px 10px rgba(0, 0, 0, 0.10),
+                0 12px 28px rgba(24, 74, 158, 0.35);
+        }
+    }
+
+    &--whatsapp {
+        background: #25d366;
+        color: var(--color-text-inverse);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+
+        &:hover {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+    }
+
+    &--success {
+        background: var(--color-success);
+        color: var(--color-text-inverse);
+    }
+
+    &--danger {
+        background: var(--color-danger);
+        color: var(--color-text-inverse);
+    }
+
+    &--neutral {
+        background: transparent;
+        color: var(--color-text-default);
+        border: 1px solid var(--color-border-default);
+
+        &:hover {
+            background: var(--color-bg-subtle);
+        }
+    }
+
+    &--ghost {
+        background: transparent;
+        color: var(--color-text-inverse);
+        border: 1px solid var(--color-text-inverse);
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+    }
+
+    // Icône dans un bouton
+    &__icon {
+        width: 24px;
+        height: 24px;
+        object-fit: contain;
+        flex-shrink: 0; // évite que l'icône se compresse
+    }
+
+    // --- Variantes de taille ---
+    &--sm {
+        font-size: var(--font-size-xs);
+        padding: var(--space-xs) var(--space-s);
+    }
+
+    &--lg {
+        font-size: var(--font-size-m);
+        padding: var(--space-m) var(--space-xl);
+    }
+}

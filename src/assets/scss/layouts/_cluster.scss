@@ -1,0 +1,45 @@
+        @use '@scss/foundations/config';
+
+        .cluster {
+            display: flex;
+            flex-direction: row;
+
+            &--centered {
+                align-items: center;
+                justify-content: center;
+            }
+
+            &--align-start {
+                align-items: flex-start;
+            }
+
+            &--align-centered {
+                align-items: center;
+            }
+
+            &--align-end {
+                align-items: flex-end;
+            }
+
+            &--justify-start {
+                justify-content: flex-start;
+            }
+
+            &--justify-centered {
+                justify-content: center;
+            }
+
+            &--justify-end {
+                justify-content: flex-end;
+            }
+
+            @each $size in config.$space-sizes {
+                &--gap-#{$size} {
+                    gap: var(--space-#{$size});
+                }
+
+                &--p-#{$size} {
+                    padding: var(--space-#{$size});
+                }
+            }
+        }
