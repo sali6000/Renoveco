@@ -1,1 +1,4 @@
-@use '@scss/partials/shared/footer';
+[data-section="footer"] {
+    background-color: var(--color-gradient-dark-start);
+    color: var(--color-text-inverse);
+}

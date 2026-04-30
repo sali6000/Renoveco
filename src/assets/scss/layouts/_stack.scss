@@ -9,28 +9,54 @@
             justify-content: center;
         }
 
-        &--align-start {
+        &--left {
             align-items: flex-start;
         }
 
-        &--align-centered {
+        &--center {
             align-items: center;
         }
 
-        &--align-end {
+        &--right {
             align-items: flex-end;
         }
 
-        &--justify-start {
+        &--up {
             justify-content: flex-start;
         }
 
-        &--justify-centered {
+        &--middle {
             justify-content: center;
         }
 
-        &--justify-end {
+        &--down {
             justify-content: flex-end;
+        }
+
+        &--border-left {
+            border-left: 1px solid var(--color-border-default);
+        }
+
+        &--border-right {
+            border-right: 1px solid var(--color-border-default);
+        }
+
+        &--border-top {
+            border-top: 1px solid var(--color-border-default);
+        }
+
+        &--border-bottom {
+            border-bottom: 1px solid var(--color-border-default);
+        }
+
+        @each $size in config.$space-sizes {
+            &--gap-#{$size} {
+                gap: var(--space-#{$size});
+            }
+
+            &--p-#{$size} {
+                padding: var(--space-#{$size});
+            }
         }
 
         @each $size in config.$space-sizes {

@@ -9,28 +9,44 @@
                 justify-content: center;
             }
 
-            &--align-start {
+            &--up {
                 align-items: flex-start;
             }
 
-            &--align-centered {
+            &--middle {
                 align-items: center;
             }
 
-            &--align-end {
+            &--down {
                 align-items: flex-end;
             }
 
-            &--justify-start {
+            &--left {
                 justify-content: flex-start;
             }
 
-            &--justify-centered {
+            &--center {
                 justify-content: center;
             }
 
-            &--justify-end {
+            &--right {
                 justify-content: flex-end;
+            }
+
+            &--border-left {
+                border-left: 1px solid var(--color-border-default);
+            }
+
+            &--border-right {
+                border-right: 1px solid var(--color-border-default);
+            }
+
+            &--border-top {
+                border-top: 1px solid var(--color-border-default);
+            }
+
+            &--border-bottom {
+                border-bottom: 1px solid var(--color-border-default);
             }
 
             @each $size in config.$space-sizes {

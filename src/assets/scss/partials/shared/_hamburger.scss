@@ -10,52 +10,51 @@
     cursor: pointer;
     position: fixed;
     z-index: 1100;
+
+    button {
+        width: 30px;
+        height: 22px;
+        position: relative;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        margin: 20px;
+    }
+
+    span {
+        display: block;
+        height: 3px;
+        width: 100%;
+        background: #1a1a1a;
+        border-radius: 2px;
+        position: absolute;
+        left: 0;
+        transition: all 0.3s ease;
+    }
+
+    span.dark-mode {
+        background: #1a1a1a;
+    }
+
+    span.light-mode {
+        background: #ffffff;
+    }
+
+    /* Position des lignes */
+    span:nth-child(1) {
+        top: 0;
+    }
+
+    span:nth-child(2) {
+        top: 9px;
+    }
+
+    span:nth-child(3) {
+        top: 18px;
+    }
 }
 
-.menu-hamburger button {
-    width: 30px;
-    height: 22px;
-    position: relative;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    margin: 20px;
-}
-
-/* Lignes */
-.menu-hamburger span {
-    display: block;
-    height: 3px;
-    width: 100%;
-    background: #1a1a1a;
-    border-radius: 2px;
-    position: absolute;
-    left: 0;
-    transition: all 0.3s ease;
-}
-
-/* états */
-.menu-hamburger span.dark-mode {
-    background: #1a1a1a;
-}
-
-.menu-hamburger span.light-mode {
-    background: #ffffff;
-}
-
-/* Position des lignes */
-.menu-hamburger span:nth-child(1) {
-    top: 0;
-}
-
-.menu-hamburger span:nth-child(2) {
-    top: 9px;
-}
-
-.menu-hamburger span:nth-child(3) {
-    top: 18px;
-}
 
 /* CROIX (open) */
 .menu-hamburger.open span:nth-child(1) {
@@ -89,38 +88,37 @@
     height: 100vh;
     transition: left 0.3s ease;
     z-index: 1000;
-}
 
-/* OPEN */
-.mobile-menu.open {
-    left: 0;
-}
+    /* OPEN */
+    &.open {
+        left: 0;
 
-/* LIENS */
-.mobile-menu a {
-    @include mixins.section-layout($justify: flex-start, $gap: var(--space-2xs));
-    color: #e5e7eb;
-    font-size: 18px;
-    text-decoration: none;
-}
+        &::after {
+            opacity: 1;
+        }
+    }
 
-.mobile-menu a:hover {
-    color: white;
-}
+    /* LIENS */
+    a {
+        @include mixins.section-layout($justify: flex-start, $gap: var(--space-2xs));
+        color: #e5e7eb;
+        font-size: 18px;
+        text-decoration: none;
+    }
 
-/* OVERLAY PROPRE */
-.mobile-menu::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    opacity: 0;
-    background: rgba(0, 0, 0, 0.4);
-    pointer-events: none;
-    transition: 0.3s;
-}
+    a:hover {
+        color: white;
+    }
 
-.mobile-menu.open::after {
-    opacity: 1;
+    &::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        opacity: 0;
+        background: rgba(0, 0, 0, 0.4);
+        pointer-events: none;
+        transition: 0.3s;
+    }
 }
 
 /* RESPONSIVE */

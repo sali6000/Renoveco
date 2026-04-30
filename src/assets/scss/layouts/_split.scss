@@ -24,6 +24,10 @@
         grid-template-columns: repeat(2, 1fr); // 2/2 de la largeur disponible
     }
 
+    &--equal-3 {
+        grid-template-columns: repeat(3, 1fr); // 3/3 de la largeur disponible
+    }
+
     &--equal-4 {
         grid-template-columns: repeat(4, 1fr); // 4/4 de la largeur disponible
     }
