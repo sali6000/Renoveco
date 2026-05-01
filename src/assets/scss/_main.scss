@@ -1,20 +1,17 @@
 // src/assets/scss/main.scss
 
-// Réinitialisation des styles de base (reset, normalize, etc.)
-@use 'base/reset'; // Reset CSS (normalize, etc.)
-
 // Définition des valeurs globales (couleurs, tailles, etc.)
 @use 'tokens/semantic'; // Les tokens (couleurs, tailles, etc.)
 
-// Définition des styles de base (body, font, h1, h2, etc.)
-@use 'base/fonts'; // Les polices de caractères (font-family, font-size, etc.)
-@use 'base/root'; // Valeurs par défauts
+// Redéfinition des styles de base (body, font, h1, h2, etc.)
+@use 'base/reset';
+@use 'base/root';
 
 // Définition des styles de layout (grids, flex, etc.)
-@use 'layouts/container'; // Conteneur (container-wrapper)
-@use 'layouts/cluster'; // Cluster (flex row)
-@use 'layouts/stack'; // Stack (flex column)
-@use 'layouts/split'; // Split (grid)
+@use 'layouts/cluster'; // (flex row)
+@use 'layouts/container'; // (wrapper)
+@use 'layouts/split'; // (grid)
+@use 'layouts/stack'; // (flex column)
 
 // Définition des styles de composants (buttons, cards, etc.)
 @use 'components/button'; // Boutons (btn, btn--primary, etc.)

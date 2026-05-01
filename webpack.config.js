@@ -61,12 +61,6 @@ Encore
     // Hashing des fichiers pour le cache busting (uniquement en prod)
     .enableVersioning(Encore.isProduction())
 
-    // Copier les polices
-    .copyFiles({
-        from: './src/assets/fonts',
-        to: 'fonts/[path][name].[hash:8].[ext]'
-    })
-
     // Copier les images
     .copyFiles({
         from: './src/assets/img',

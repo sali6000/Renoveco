@@ -11,7 +11,7 @@
     // Valeurs uniques non générées à partir des tokens :
     //-------------------------------------------------------
 
-    --font-family-base: #{t.$font-family-montserrat}; // 'Montserrat', sans-serif
+    --font-family-base: #{t.$font-family-base};
     --transition-fast: 150ms ease;
     --transition-base: 250ms ease;
     --transition-slow: 400ms ease;
