@@ -45,6 +45,12 @@ class View
             self::$twig->addGlobal($key, $value);
         }
 
+        // Ajout du global 'app' (permet dans base d'obtenir la route)
+        $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+        $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+        $schemeAndHttpHost = $scheme . '://' . $host;
+        self::$twig->addGlobal('app', (object)['request' => (object)['schemeAndHttpHost' => $schemeAndHttpHost]]);
+
         // ✅ Ajout de la fonction encore_asset dans Twig
         self::$twig->addFunction(new TwigFunction('encore_asset', function (string $asset): string {
             return self::resolveEncoreAsset($asset);

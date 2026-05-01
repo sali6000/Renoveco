@@ -1,0 +1,33 @@
+// pages/_about.scss
+.about-highlight {
+    padding: var(--space-m) var(--space-l);
+    border-left: 3px solid var(--color-brand-primary);
+    background: var(--color-bg-subtle);
+    border-radius: 0 var(--radius-m) var(--radius-m) 0;
+
+    p {
+        font-size: var(--font-size-m);
+        font-weight: var(--font-weight-medium);
+        color: var(--color-text-default);
+        line-height: 1.6;
+        margin: 0;
+    }
+}
+
+.about-videos {
+
+    &__header {
+        text-align: center;
+
+        p {
+            color: var(--color-text-muted);
+            font-size: var(--font-size-m);
+            margin-top: var(--space-xs);
+        }
+    }
+
+    &__featured {
+        width: min(100%, 640px);
+        margin-inline: auto;
+    }
+}

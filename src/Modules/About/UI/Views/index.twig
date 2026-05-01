@@ -7,48 +7,63 @@
   <div class="image image--w-s reveal slide-down">
     <img loading="lazy" src="{{ encore_asset('img/about/logos/rclogo-02-dark.png') }}" alt="logo-author">
   </div>
-  <div class="split split--equal-2 split--gap-xl reveal slide-down">
-    <div class="stack stack--align-end">
-      <div class="image image--w-s">
-        <img loading="lazy" src="{{ encore_asset('img/home/renoveconstructlittle.avif') }}" alt="img-author">
-      </div>
-    </div>
-    <div class="stack stack--gap-l  stack--align-start">
-        <span>
-        <b>Renove Construct SPRL</b> est une entreprise belge spécialisée dans la fabrication et la pose de châssis sur mesure, l’installation de vitrages double et triple performance ainsi que dans les solutions photovoltaïques. Avec plus de 37 ans d’expérience, nous accompagnons particuliers et professionnels dans leurs projets de construction et de rénovation à travers toute la Belgique.
-        </span>
-              <span>
-        Depuis plus de 37 ans, notre entreprise accompagne particuliers et professionnels en Belgique dans leurs projets de construction et de rénovation. <br><br>Spécialisés dans la fabrication et la pose de châssis sur mesure, l’installation de vitrages double et triple performance ainsi que dans les solutions photovoltaïques, nous mettons notre expertise au service de la qualité et de la durabilité.
-        </span>
-              <span>
-        
-        Notre priorité est simple : proposer des solutions fiables, esthétiques et performantes sur le long terme. Chaque projet est étudié avec rigueur afin de garantir une isolation optimale, une sécurité renforcée et une intégration harmonieuse à votre bâtiment.
-        </span>
-              <span>
-        Nous travaillons avec des matériaux certifiés et des techniques éprouvées, en respectant les normes belges en vigueur. Notre équipe assure un accompagnement personnalisé, du premier conseil jusqu’à la finalisation du chantier.
-      </span>
-    </div>
-</div>
+  <div class="split split--equal-2 split--gap-xl reveal slide-up">
 
-<div class="stack stack--gap-l reveal slide-down">
-<h2>Découvrez notre savoir-faire en vidéo</h2>
-  <div class="video video--ratio-16-9">
-    <video controls preload="auto">
-      <source src="{{ encore_asset('webm/about/video1.webm') }}" type="video/webm" />
-      Votre navigateur ne supporte pas la lecture de vidéos.
-    </video>
+    {# Image #}
+    <div class="stack stack--centered">
+        <div class="image image--w-s">
+            <img loading="lazy" 
+                src="{{ encore_asset('img/home/renoveconstructlittle.avif') }}" 
+                alt="Renove Construct équipe">
+        </div>
+    </div>
+
+    {# Texte #}
+    <div class="stack stack--gap-l stack--align-start">
+
+        {# Accroche mis en valeur #}
+        <div class="about-highlight">
+            <p>Depuis <strong>plus de 37 ans</strong>, Renove Construct accompagne particuliers et professionnels en Belgique dans leurs projets de construction et de rénovation.</p>
+        </div>
+
+        <p>Spécialisés dans la fabrication et la pose de châssis sur mesure, l'installation de vitrages double et triple performance ainsi que dans les solutions photovoltaïques, nous mettons notre expertise au service de la qualité et de la durabilité.</p>
+
+        <p>Notre priorité est simple : proposer des solutions fiables, esthétiques et performantes sur le long terme. Chaque projet est étudié avec rigueur afin de garantir une isolation optimale, une sécurité renforcée et une intégration harmonieuse à votre bâtiment.</p>
+
+        <p>Nous travaillons avec des matériaux certifiés et des techniques éprouvées, en respectant les normes belges en vigueur. Notre équipe assure un accompagnement personnalisé, du premier conseil jusqu'à la finalisation du chantier.</p>
+
+    </div>
   </div>
-  <div class="video video--ratio-16-9">
-    <video controls preload="auto">
-      <source src="{{ encore_asset('webm/about/video2.webm') }}" type="video/webm" />
-      Votre navigateur ne supporte pas la lecture de vidéos.
-    </video>
-  </div>
-  <div class="video video--ratio-16-9">
-    <video controls preload="auto">
-      <source src="{{ encore_asset('webm/about/video3.mp4') }}" type="video/mp4" />
-      Votre navigateur ne supporte pas la lecture de vidéos.
-    </video>
-  </div>
+
+<div class="stack stack--gap-xl reveal slide-up">
+
+    <div class="about-videos__header">
+        <h2>Découvrez notre savoir-faire en vidéo</h2>
+        <p>Nos réalisations en fenêtres, châssis et panneaux photovoltaïques</p>
+    </div>
+
+    {# Deux vidéos côte à côte #}
+    <div class="split split--equal-2 split--gap-l">
+        <div class="video video--ratio-16-9">
+            <video controls preload="none" poster="{{ encore_asset('img/about/poster1.avif') }}">
+                <source src="{{ encore_asset('webm/about/video1.webm') }}" type="video/webm">
+            </video>
+        </div>
+        <div class="video video--ratio-16-9">
+            <video controls preload="none" poster="{{ encore_asset('img/about/poster2.avif') }}">
+                <source src="{{ encore_asset('webm/about/video2.webm') }}" type="video/webm">
+            </video>
+        </div>
+    </div>
+
+    {# Troisième vidéo centrée #}
+    <div class="about-videos__featured">
+        <div class="video video--ratio-16-9">
+            <video controls preload="none" poster="{{ encore_asset('img/about/poster3.avif') }}">
+                <source src="{{ encore_asset('webm/about/video3.webm') }}" type="video/webm">
+            </video>
+        </div>
+    </div>
+
 </div>
 {% endblock %}

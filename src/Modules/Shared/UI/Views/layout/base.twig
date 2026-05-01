@@ -17,10 +17,10 @@
 {
   "@context": "https://schema.org",
   "@type": "HomeAndConstructionBusiness",
-  "name": "Renove Construct SPRL",
-  "areaServed": "Belgique",
-  "telephone": "+32492759577",
-  "url": "https://renoveconstruct.be"
+  "name": {{ company_name|json_encode|raw }},
+  "areaServed": { "@type": "Country", "name": "Belgium" },
+  "telephone": "{{ company_phone }}",
+  "url": "{{ app.request.schemeAndHttpHost }}"
 }
 </script>
     {# current_page <= Ex: product-detail (./src/assets/scss/pages/product/detail.scss' : webpack.config.js) #}
@@ -32,12 +32,12 @@
 {# data-current-page > document.body.dataset.currentPage; (voir app.js) #}
 <body data-current-page="{{ current_page|default('default') }}">
     {% include '@Shared/components/header.twig' ignore missing %}
-    <main class="{{ current_page }} wrapper">
+    <main class="{{ current_page }}">
         {% block content %}{% endblock %}
     </main>
     {% include '@Shared/components/footer.twig' ignore missing %}
     {% block javascripts %}
-        <script src="{{ encore_asset('runtime.js') }}"></script>
+        <script src="{{ encore_asset('runtime.js') }}" defer></script>
         <script src="{{ encore_asset('app.js') }}" defer></script>
     {% endblock %}
 </body>

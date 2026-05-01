@@ -6,6 +6,14 @@
         "/build/app.752e9046.js"
       ]
     },
+    "about-index": {
+      "js": [
+        "/build/runtime.28bf1e10.js"
+      ],
+      "css": [
+        "/build/about-index.92ace7a7.css"
+      ]
+    },
     "auth-login": {
       "js": [
         "/build/runtime.28bf1e10.js"
@@ -43,7 +51,7 @@
         "/build/runtime.28bf1e10.js"
       ],
       "css": [
-        "/build/home-index.69eae11d.css"
+        "/build/home-index.d5dba396.css"
       ]
     },
     "product-detail": {

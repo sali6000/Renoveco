@@ -1,4 +1,5 @@
 // scss/pages/home/index.scss
+@use '@scss/foundations/mixins';
 @use '@scss/pages/home/hero';
 
 [data-section="info-1"],
@@ -13,4 +14,13 @@
             var(--color-gradient-dark-end) 100%);
     color: var(--color-text-inverse);
     padding-block: var(--space-5xl);
+}
+
+
+
+@include mixins.media-down(md) {
+
+    .split--p-5xl {
+        padding: var(--space-m);
+    }
 }
