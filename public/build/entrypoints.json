@@ -67,7 +67,7 @@
         "/build/runtime.28bf1e10.js"
       ],
       "css": [
-        "/build/shared-footer.9fc6d41a.css"
+        "/build/shared-footer.bbb931e0.css"
       ]
     },
     "shared-header": {
@@ -83,7 +83,7 @@
         "/build/runtime.28bf1e10.js"
       ],
       "css": [
-        "/build/global.6ceae6c6.css"
+        "/build/global.39f76f06.css"
       ]
     }
   }

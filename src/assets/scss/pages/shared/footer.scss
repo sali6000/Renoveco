@@ -6,11 +6,9 @@
 
     .footer__column--divider-left {
         border-left: 1px solid var(--color-border-default);
-        padding-left: var(--space-l);
 
         @include mixins.media-down(md) {
             border-left: none;
-            padding-left: 0;
         }
     }
 
