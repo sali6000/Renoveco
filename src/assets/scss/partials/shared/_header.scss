@@ -200,6 +200,11 @@ body[data-current-page="home-index"] .section-navbar-menu a::after {
     background-color: white;
 }
 
+// Lorsque la barre est affichée en scroll (fond blanc) : mettre la ligne de survol en gris foncé
+body[data-current-page="home-index"] .section-navbar.scrolled .section-navbar-menu a::after {
+    background-color: #ccc;
+}
+
 // (si pas 'home' + après survol) Barre de navigation (Menu) a:
 body:not([data-current-page="home-index"]) .section-navbar-menu a::after {
     background-color: #ccc;

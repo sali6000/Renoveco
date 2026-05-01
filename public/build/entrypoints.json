@@ -2,13 +2,13 @@
   "entrypoints": {
     "app": {
       "js": [
-        "/build/runtime.28bf1e10.js",
-        "/build/app.752e9046.js"
+        "/build/runtime.595b0392.js",
+        "/build/app.1e6711eb.js"
       ]
     },
     "about-index": {
       "js": [
-        "/build/runtime.28bf1e10.js"
+        "/build/runtime.595b0392.js"
       ],
       "css": [
         "/build/about-index.92ace7a7.css"
@@ -16,7 +16,7 @@
     },
     "auth-login": {
       "js": [
-        "/build/runtime.28bf1e10.js"
+        "/build/runtime.595b0392.js"
       ],
       "css": [
         "/build/auth-login.31d6cfe0.css"
@@ -24,7 +24,7 @@
     },
     "cgu-index": {
       "js": [
-        "/build/runtime.28bf1e10.js"
+        "/build/runtime.595b0392.js"
       ],
       "css": [
         "/build/cgu-index.86d2695a.css"
@@ -32,7 +32,7 @@
     },
     "contact-index": {
       "js": [
-        "/build/runtime.28bf1e10.js"
+        "/build/runtime.595b0392.js"
       ],
       "css": [
         "/build/contact-index.31d6cfe0.css"
@@ -40,7 +40,7 @@
     },
     "gallery-index": {
       "js": [
-        "/build/runtime.28bf1e10.js"
+        "/build/runtime.595b0392.js"
       ],
       "css": [
         "/build/gallery-index.a0d04440.css"
@@ -48,7 +48,7 @@
     },
     "home-index": {
       "js": [
-        "/build/runtime.28bf1e10.js"
+        "/build/runtime.595b0392.js"
       ],
       "css": [
         "/build/home-index.d5dba396.css"
@@ -56,7 +56,7 @@
     },
     "product-detail": {
       "js": [
-        "/build/runtime.28bf1e10.js"
+        "/build/runtime.595b0392.js"
       ],
       "css": [
         "/build/product-detail.04ef9d5e.css"
@@ -64,7 +64,7 @@
     },
     "product-list": {
       "js": [
-        "/build/runtime.28bf1e10.js"
+        "/build/runtime.595b0392.js"
       ],
       "css": [
         "/build/product-list.c068dadb.css"
@@ -72,7 +72,7 @@
     },
     "shared-footer": {
       "js": [
-        "/build/runtime.28bf1e10.js"
+        "/build/runtime.595b0392.js"
       ],
       "css": [
         "/build/shared-footer.1d8af68c.css"
@@ -80,18 +80,18 @@
     },
     "shared-header": {
       "js": [
-        "/build/runtime.28bf1e10.js"
+        "/build/runtime.595b0392.js"
       ],
       "css": [
-        "/build/shared-header.5eb85e0a.css"
+        "/build/shared-header.101d4024.css"
       ]
     },
     "global": {
       "js": [
-        "/build/runtime.28bf1e10.js"
+        "/build/runtime.595b0392.js"
       ],
       "css": [
-        "/build/global.52f2d5e8.css"
+        "/build/global.630cf3aa.css"
       ]
     }
   }

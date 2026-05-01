@@ -20,8 +20,6 @@ async function initApp() {
       console.warn(`Aucun module JS pour la page "${page}"`);
     }
   }
-  // ✅ Appliquer la fonction dès que le DOM est prêt
-  initReveal();
 }
 
 // Exécute initApp lorsque le DOM est complètement chargé
