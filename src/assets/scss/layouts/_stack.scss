@@ -9,27 +9,27 @@
             justify-content: center;
         }
 
-        &--left {
+        &--align-left {
             align-items: flex-start;
         }
 
-        &--center {
+        &--align-center {
             align-items: center;
         }
 
-        &--right {
+        &--align-right {
             align-items: flex-end;
         }
 
-        &--up {
+        &--align-top {
             justify-content: flex-start;
         }
 
-        &--middle {
+        &--align-middle {
             justify-content: center;
         }
 
-        &--down {
+        &--align-bottom {
             justify-content: flex-end;
         }
 
@@ -56,6 +56,10 @@
 
             &--p-#{$size} {
                 padding: var(--space-#{$size});
+            }
+
+            &--m-#{$size} {
+                margin: var(--space-#{$size});
             }
         }
 
