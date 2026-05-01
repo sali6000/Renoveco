@@ -64,10 +64,22 @@ class AppConfig
     {
         self::loadConfig();
         return [
-            'entrepriseTitle' => self::getEnv('BASE_ENTREPRISE_TITLE'),
-            'entrepriseMail'  => self::getEnv('BASE_ENTREPRISE_MAIL'),
-            'entrepriseHttp'  => self::getEnv('BASE_ENTREPRISE_WEBSITE'),
-            // ...
+            // Identité
+            'company_name'        => self::getEnv('BASE_ENTREPRISE_NAME'),
+            'company_title'       => self::getEnv('BASE_ENTREPRISE_TITLE'),
+            'company_description' => self::getEnv('BASE_ENTREPRISE_DESCRIPTION'),
+            'company_tva' => self::getEnv('BASE_ENTREPRISE_TVA'),
+            'developper_copyright' => self::getEnv('BASE_DEV_COPYRIGHT'),
+
+            // Contact
+            'company_phone'       => self::getEnv('BASE_ENTREPRISE_PHONE'),
+            'company_mail'        => self::getEnv('BASE_ENTREPRISE_MAIL'),
+            'company_address'     => self::getEnv('BASE_ENTREPRISE_ADDRESS'),
+            'company_website'     => self::getEnv('BASE_ENTREPRISE_WEBSITE'),
+            'company_whatsapp'     => self::getEnv('BASE_ENTREPRISE_WHATSAPP'),
+
+            // Réseaux sociaux
+            'company_facebook'    => self::getEnv('BASE_ENTREPRISE_SOCIAL_FACEBOOK'),
         ];
     }
 }
