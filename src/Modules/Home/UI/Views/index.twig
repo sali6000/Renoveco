@@ -91,7 +91,7 @@
 <section class="container">
   <div class="split split--2x1 split--gap-3xl split--p-5xl">
     <div class="stack stack--centered stack--gap-m">
-      <div class="image image--w-s">
+      <div class="image image--w-l">
           <img src="{{ encore_asset('img/about/logos/rclogo-02-dark.png') }}" alt="logo-author">
       </div>
         <h2>
@@ -111,7 +111,7 @@
           Demandez dès maintenant votre devis gratuit pour vos travaux de fenêtres ou panneaux solaires.
         </p>
       </div>
-      <div class="image">
+      <div class="image image--rounded">
         <img loading="lazy" src="{{ encore_asset('img/home/renoveconstructlittle.avif') }}" alt="entreprise de fenêtres et panneaux photovoltaïques en Belgique">
       </div>
   </div>
@@ -181,14 +181,30 @@
 <section data-section="info-1">
   <div class="container">
     <div class="split split--equal-2 split--gap-xl split--p-5xl">
-      <div class="image image--h-s">
+      <div class="image image--h-m image--rounded">
         <img loading="lazy" src="{{ encore_asset('img/home/image19.avif') }}" alt="entreprise de fenêtres et panneaux photovoltaïques en Belgique">
       </div>
-      <div class="stack stack--gap-xs stack--centered reveal slide-up">
-        <h2>Nos projets d'installations et rénovation</h2><br><br>
-        <p>
-          Rénovation d'une maison en 2025 : remplacement de 10 fenêtres en PVC double vitrage, installation de 20 panneaux photovoltaïques sur la toiture, amélioration de l'isolation thermique et acoustique.
-        </p>
+      <div class="stack stack--gap-l stack--centered reveal slide-up">
+        <div class="info-highlight">
+          <h2>Nos projets d'installations et rénovation</h2>
+        </div>
+        <p>Rénovation d'une maison en 2025 : remplacement de la façade avant.</p>
+
+        {# Stats visuelles #}
+        <div class="cluster cluster--gap-xl info-stats">
+            <div class="info-stat">
+                <span class="info-stat__number">37</span>
+                <span class="info-stat__label">ans d'expérience</span>
+            </div>
+            <div class="info-stat">
+                <span class="info-stat__number">50+</span>
+                <span class="info-stat__label">projets réalisés</span>
+            </div>
+            <div class="info-stat">
+                <span class="info-stat__number">100%</span>
+                <span class="info-stat__label">satisfaction client</span>
+            </div>
+        </div>
       </div>
     </div>
   </div>
@@ -198,22 +214,29 @@
 <section data-section="info-2">
   <div class="container">
     <div class="split split--equal-2 split--gap-xl split--p-5xl">
-      <div class="stack stack--gap-xl stack--centered reveal slide-up">
-        <h2>Finitions réalisés par nos experts</h2>
-        <p>
-          Résultat économique et esthétique : nos clients bénéficient de fenêtres modernes, d'une meilleure isolation et de panneaux solaires performants, contribuant à réduire leur facture énergétique et à valoriser leur bien immobilier.
-        </p>
+      <div class="stack stack--gap-l stack--centered reveal slide-up">
 
-        {# Bouton contact : Contact #}
-        <a href="/contact" class="btn btn--primary" title="Contact">Demandez votre devis gratuit
-          <img 
-            class="btn__icon"
-            src="{{ encore_asset('img/layouts/emoticons/direction-right-light.png') }}" 
-            alt="">
+        <div class="info-highlight info-highlight--inverse">
+            <h2>Finitions réalisées par nos experts</h2>
+        </div>
+
+        <p>Nos clients bénéficient de fenêtres modernes, d'une meilleure isolation et de panneaux solaires performants, contribuant à réduire leur facture énergétique et à valoriser leur bien immobilier.</p>
+
+        {# Badges de réassurance #}
+        <div class="cluster cluster--gap-s info-badges">
+            <span class="info-badge">✓ Certifié</span>
+            <span class="info-badge">✓ Garanti</span>
+            <span class="info-badge">✓ Belge</span>
+        </div>
+
+        <a href="/contact" class="btn btn--ghost" title="Contact">
+            Demandez votre devis gratuit
+            <img class="btn__icon" src="{{ encore_asset('img/layouts/emoticons/direction-right-light.png') }}" alt="">
         </a>
+
       </div>
-      <div class="image image--h-s">
-        <img loading="lazy" src="{{ encore_asset('img/home/image10.avif') }}" alt="entreprise de fenêtres et panneaux photovoltaïques en Belgique">
+      <div class="image image--h-m image--rounded reveal slide-up">
+        <img loading="lazy" src="{{ encore_asset('img/home/image10.avif') }}" alt="Finitions Renove Construct">
       </div>
     </div>
   </div>
@@ -222,23 +245,50 @@
 {# Informations 3 #}
 <section data-section="info-3">
   <div class="container">
-    <div class="split split--equal-2 split--gap-xl split--p-5xl">
-      <div class="image image--h-s">
-        <img loading="lazy" src="{{ encore_asset('img/home/image16.avif') }}" alt="entreprise de fenêtres et panneaux photovoltaïques en Belgique">
+    <div class="split split--equal-2 split--top split--gap-l split--p-5xl">
+      <div class="image image--h-l image--rounded reveal slide-up">
+        <img loading="lazy" src="{{ encore_asset('img/home/image16.avif') }}" alt="Pourquoi choisir Renove Construct">
       </div>
-      <div class="stack stack--gap-xs stack--centered reveal slide-up">
-        <h2>Pourquoi nous choisir ?</h2><br><br>
-        <p>
-        Dans un contexte de hausse des coûts énergétiques, il est essentiel de choisir des solutions fiables et durables.
-        Notre entreprise vous propose des installations performantes, conçues avec des matériaux de qualité,
-        garantissant confort et économies d'énergie sur le long terme.
-        </p><br><br>
-        <ul>
-          <li>✔ Expertise en fenêtres et panneaux solaires</li>
-          <li>✔ Intervention rapide dans toute la Belgique</li>
-          <li>✔ Devis gratuit et personnalisé</li>
-          <li>✔ Matériaux de haute qualité</li>
-        </ul>
+      <div class="stack stack--gap-l reveal slide-up">
+
+        <div class="info-highlight">
+            <h2>Pourquoi nous choisir ?</h2>
+        </div>
+
+        <p>Dans un contexte de hausse des coûts énergétiques, choisir des solutions fiables et durables est essentiel. Nous vous proposons des installations performantes, conçues avec des matériaux de qualité.</p>
+
+        {# Liste visuelle #}
+        <div class="stack stack--gap-l info-checklist">
+            <div class="info-checklist__item">
+                <span class="info-checklist__icon">✓</span>
+                <div class="stack stack--gap-xs">
+                    <strong>Expertise reconnue</strong>
+                    <span class="info-checklist__desc">37 ans en fenêtres et panneaux solaires</span>
+                </div>
+            </div>
+            <div class="info-checklist__item">
+                <span class="info-checklist__icon">✓</span>
+                <div class="stack stack--gap-xs">
+                    <strong>Intervention rapide</strong>
+                    <span class="info-checklist__desc">Dans toute la Belgique</span>
+                </div>
+            </div>
+            <div class="info-checklist__item">
+                <span class="info-checklist__icon">✓</span>
+                <div class="stack stack--gap-xs">
+                    <strong>Devis gratuit</strong>
+                    <span class="info-checklist__desc">Personnalisé selon votre projet</span>
+                </div>
+            </div>
+            <div class="info-checklist__item">
+                <span class="info-checklist__icon">✓</span>
+                <div class="stack stack--gap-xs">
+                    <strong>Matériaux certifiés</strong>
+                    <span class="info-checklist__desc">Haute qualité et durabilité garantie</span>
+                </div>
+            </div>
+        </div>
+
       </div>
     </div>
   </div>

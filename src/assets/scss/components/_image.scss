@@ -6,18 +6,19 @@
     overflow: hidden;
 
     img {
+        display: block;
         width: 100%;
         height: 100%;
         object-fit: cover;
     }
 
+    // --- Overlay ---
     &--overlay {
         img {
             transform: scale(1.08);
             transition: transform var(--transition-slow);
         }
 
-        // Un seul ::before propre
         &::before {
             content: "";
             position: absolute;
@@ -44,62 +45,105 @@
         inset: 0;
         z-index: 2;
         padding: var(--space-m);
-
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-
         color: var(--color-text-inverse);
         text-align: center;
     }
 
-    // --- Tailles ---
-    &--square-s {
-        width: var(--container-m);
-        height: var(--container-m);
+    // --- Modificateurs visuels ---
+    &--rounded {
+        border-radius: var(--radius-l);
+
+        img {
+            border-radius: var(--radius-l);
+        }
     }
 
-    &--square-m {
-        width: var(--container-l);
-        height: var(--container-l);
+    &--centered {
+        margin-inline: auto;
     }
 
+    // --- Tailles fixes (largeur définie, hauteur auto) ---
+    // max-width: 100% → ne dépasse jamais le conteneur
     &--w-xs {
-        width: var(--container-s);
+        width: var(--container-2xs);
         height: auto;
+        max-width: 100%;
     }
 
     &--w-s {
-        width: var(--container-m);
+        width: var(--container-xs);
         height: auto;
+        max-width: 100%;
     }
 
     &--w-m {
-        width: var(--container-l);
+        width: var(--container-s);
         height: auto;
+        max-width: 100%;
     }
 
+    &--w-l {
+        width: var(--container-m);
+        height: auto;
+        max-width: 100%;
+    }
+
+    // --- Tailles fixes (hauteur définie, largeur auto) ---
+    // max-width: 100% → évite le débordement horizontal
     &--h-xs {
-        width: auto;
-        height: var(--container-s);
+        height: var(--container-xs);
+        width: 100%; // ← 100% plutôt que auto pour occuper l'espace
+        max-width: 100%;
     }
 
     &--h-s {
-        width: auto;
-        height: var(--container-m);
+        height: var(--container-s);
+        width: 100%;
+        max-width: 100%;
     }
 
     &--h-m {
-        width: auto;
-        height: var(--container-l);
+        height: var(--container-m);
+        width: 100%;
+        max-width: 100%;
     }
 
+    &--h-l {
+        height: var(--container-l);
+        width: 100%;
+        max-width: 100%;
+    }
+
+    // --- Carré (largeur = hauteur) ---
+    &--square-s {
+        width: var(--container-xs);
+        height: var(--container-xs);
+        max-width: 100%;
+    }
+
+    &--square-m {
+        width: var(--container-s);
+        height: var(--container-s);
+        max-width: 100%;
+    }
+
+    &--square-l {
+        width: var(--container-m);
+        height: var(--container-m);
+        max-width: 100%;
+    }
+
+    // --- Pleine taille (pour backgrounds) ---
     &--full {
         width: 100%;
         height: 100%;
     }
 
+    // --- Padding interne ---
     @each $size in config.$space-sizes {
         &--p-#{$size} {
             padding: var(--space-#{$size});
