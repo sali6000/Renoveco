@@ -1,5 +1,5 @@
 // _container.scss — uniquement contenir et centrer
-.container {
+.wrapper {
     width: min(100%, var(--container-wrapper));
     margin-inline: auto;
     padding-inline: var(--space-m); // ← ce padding est crucial
