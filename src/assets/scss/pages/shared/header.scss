@@ -95,6 +95,10 @@
         padding-inline: var(--space-xl);
         max-width: var(--container-wrapper);
         margin-inline: auto;
+
+        @include mixins.media-down(md) {
+            display: none;
+        }
     }
 
     // --- Logo ---
@@ -328,9 +332,5 @@
             background: var(--color-danger);
             color: var(--color-text-inverse);
         }
-    }
-
-    @include mixins.media-down(md) {
-        display: none;
     }
 }

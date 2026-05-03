@@ -13,11 +13,11 @@
     border-radius: var(--radius-m);
     position: fixed;
     top: var(--space-m);
-    right: var(--space-m);
+    left: var(--space-m);
     z-index: 200;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(0, 0, 0, 0.5);
+    border: 0.5px solid var(--color-border-default);
     backdrop-filter: blur(8px);
-    border: 0.5px solid rgba(255, 255, 255, 0.2);
     transition: background var(--transition-fast);
 
     &:hover {
@@ -26,7 +26,7 @@
 
     &__line {
         display: block;
-        height: 1.5px;
+        height: 2px;
         width: 100%;
         background: var(--color-text-inverse);
         border-radius: var(--radius-full);
@@ -37,34 +37,12 @@
             top var(--transition-base);
     }
 
-    // État ouvert — croix
-    &--open {
-        .hamburger__line:nth-child(1) {
-            transform: translateY(6.5px) rotate(45deg);
-        }
-
-        .hamburger__line:nth-child(2) {
-            opacity: 0;
-            transform: scaleX(0);
-        }
-
-        .hamburger__line:nth-child(3) {
-            transform: translateY(-6.5px) rotate(-45deg);
-        }
-    }
-
-    // Sur pages non-home — lignes sombres
-    .navbar--solid~& {
-        background: rgba(0, 0, 0, 0.05);
-        border-color: var(--color-border-default);
-
-        .hamburger__line {
-            background: var(--color-text-default);
-        }
-    }
-
     @include mixins.media-down(md) {
         display: flex;
+
+        &--open {
+            display: none; // ← même spécificité que le display: flex
+        }
     }
 }
 

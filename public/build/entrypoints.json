@@ -51,7 +51,7 @@
         "/build/runtime.820a2368.js"
       ],
       "css": [
-        "/build/home-index.6dd7c743.css"
+        "/build/home-index.712b3717.css"
       ]
     },
     "product-detail": {
@@ -91,7 +91,7 @@
         "/build/runtime.820a2368.js"
       ],
       "css": [
-        "/build/shared-header.d2701356.css"
+        "/build/shared-header.cd4182fa.css"
       ]
     },
     "global": {
@@ -99,7 +99,7 @@
         "/build/runtime.820a2368.js"
       ],
       "css": [
-        "/build/global.73747d7e.css"
+        "/build/global.a3911b7e.css"
       ]
     }
   }
