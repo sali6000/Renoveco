@@ -32,6 +32,7 @@
           <li><a href="product/list">Produits</a></li>
         {% endif %}
         <li><a href="about">Société</a></li>
+        {# <li><a href="about">Services</a></li> #}
         <li><a href="contact">Contact</a></li>
         {% if userSession %}
           {% if userSession.role is same as('superadmin') %}

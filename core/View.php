@@ -144,8 +144,13 @@ class View
         // Fusionne les données du contrôleur avec celles du header (s'il y a des données à traiter ex: barre de recherche)
         $mergedData = array_merge($data, self::getHeaderData());
 
-        // Charger la vue Twig à l'aide du cacheViews correspondant au template appellé
-        $result = self::$twig->render('@' . $template, $mergedData); # Cache views
+        // Capitaliser le premier segment pour matcher les namespaces (ex. : 'services/...' -> 'Services/...')
+        $parts = explode('/', $template, 2);
+        $parts[0] = ucfirst($parts[0]);  // Majuscule sur le premier mot
+        $capitalizedTemplate = implode('/', $parts);
+
+        // Charger la vue Twig
+        $result = self::$twig->render('@' . $capitalizedTemplate, $mergedData);
 
         // Afficher la vue Twig
         echo $result;

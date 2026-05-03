@@ -47,6 +47,18 @@ abstract class BaseController
         return strtolower($module . '-' . $file); // "product-detail"
     }
 
+    protected static function validateSlug(string $slug): void
+    {
+        if (!preg_match('/^[a-zA-Z0-9-]{1,50}$/', $slug)) {
+            throw new \Exception("Slug invalide : seuls les lettres, chiffres et tirets sont autorisés (max 50 caractères).");
+        }
+    }
+
+    protected static function normalizeViewSlug(string $slug): string
+    {
+        return strtolower($slug);
+    }
+
     protected function redirect(string $url, int $statusCode = 302)
     {
         http_response_code($statusCode);

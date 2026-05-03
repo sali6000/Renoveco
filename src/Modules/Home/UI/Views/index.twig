@@ -1,6 +1,6 @@
 {% extends "@Shared/layout/base.twig" %}
 
-{% block title %}Renove Construct | Châssis & Panneaux Photovoltaïques en Belgique{% endblock %}
+{% block title %}{{ parent() }}{% endblock %}
 
 {% block content %}
 
@@ -88,7 +88,7 @@
 </section>
 
 {# Présentation #}
-<section class="container">
+<section class="wrapper">
   <div class="split split--2x1 split--gap-3xl split--p-5xl">
     <div class="stack stack--centered stack--gap-m">
       <div class="image image--w-l">
@@ -118,7 +118,7 @@
 </section>
 
 {# Images 1 #}
-<section class="container">
+<section class="wrapper">
   <div class="split split--equal-2">
     <div class="image image--overlay image--h-s reveal slide-up">
       <img loading="lazy" src="{{ encore_asset('img/home/image3.avif') }}" alt="Installation panneaux photovoltaïques sur toiture en Belgique">
@@ -136,7 +136,7 @@
 </section>
 
 {# Images 2 #}
-<section class="container">
+<section class="wrapper">
   <div class="split split--equal-4">
     <div class="image image--overlay image--h-s reveal slide-up">
       <img loading="lazy" src="{{ encore_asset('img/home/image9.avif') }}" alt="Réalisation de châssis sur mesure en Belgique">
@@ -167,7 +167,7 @@
 
 {# Contact #}
 <section>
-  <div class="container">
+  <div class="wrapper">
     <div class="stack stack--gap-s stack--centered stack--p-5xl reveal slide-up">
       <h2>Contactez-nous pour votre projet de rénovation énergétique</h2>
       <p>Des questions ? <b>Demandez un devis gratuit</b> par téléphone au <b>0492/75.95.77</b></p>
@@ -179,7 +179,7 @@
 
 {# Informations 1 #}
 <section data-section="info-1">
-  <div class="container">
+  <div class="wrapper">
     <div class="split split--equal-2 split--gap-xl split--p-5xl">
       <div class="image image--h-m image--rounded">
         <img loading="lazy" src="{{ encore_asset('img/home/image19.avif') }}" alt="entreprise de fenêtres et panneaux photovoltaïques en Belgique">
@@ -212,7 +212,7 @@
 
 {# Informations 2 #}
 <section data-section="info-2">
-  <div class="container">
+  <div class="wrapper">
     <div class="split split--equal-2 split--gap-xl split--p-5xl">
       <div class="stack stack--gap-l stack--centered reveal slide-up">
 
@@ -235,7 +235,7 @@
         </a>
 
       </div>
-      <div class="image image--h-m image--rounded reveal slide-up">
+      <div class="image image--h-m image--rounded">
         <img loading="lazy" src="{{ encore_asset('img/home/image10.avif') }}" alt="Finitions Renove Construct">
       </div>
     </div>
@@ -244,9 +244,9 @@
 
 {# Informations 3 #}
 <section data-section="info-3">
-  <div class="container">
+  <div class="wrapper">
     <div class="split split--equal-2 split--top split--gap-l split--p-5xl">
-      <div class="image image--h-l image--rounded reveal slide-up">
+      <div class="image image--h-l image--rounded">
         <img loading="lazy" src="{{ encore_asset('img/home/image16.avif') }}" alt="Pourquoi choisir Renove Construct">
       </div>
       <div class="stack stack--gap-l reveal slide-up">

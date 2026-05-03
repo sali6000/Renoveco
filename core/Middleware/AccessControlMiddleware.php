@@ -14,8 +14,8 @@ class AccessControlMiddleware extends Middleware
         // 🔐 1. Détection du rôle utilisateur (default: guest)
         $role = $_SESSION['user']['role'] ?? 'guest';
 
-        // 📍 2. Récupération du contrôleur + action actuel (ex: ProductController@detail)
-        $route = RouteContext::getInstance()->getController() . '@' . RouteContext::getInstance()->getAction();
+        // 📍 2. Récupération du contrôleur + action actuel (ex: Services\ServiceDetailController@detail)
+        $route = RouteContext::getInstance()->getModule() . '\\' . RouteContext::getInstance()->getController() . '@' . RouteContext::getInstance()->getAction();
 
         // ✅ 3. Chargement de la whitelist via AppConfig
         $whitelist = AppConfig::getWhitelist();

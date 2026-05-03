@@ -76,6 +76,16 @@ class Router
             $params,
             $method
         );
+
+        // Définir le module à partir de la classe
+        RouteContext::getInstance()->setModule($this->convertClassToModuleName($cache['class']));
+    }
+
+    private function convertClassToModuleName(string $classPath): string
+    {
+        // 'Services' <= 'Src\Modules\Services\Interface\Http\Controllers\ServiceDetailController'
+        preg_match('#Modules\\\\([^\\\\]+)#', $classPath, $m);
+        return $m[1] ?? 'App';
     }
 
     private function loadRoutesCache()

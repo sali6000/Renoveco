@@ -9,9 +9,9 @@
 
 // Définition des styles de layout (grids, flex, etc.)
 @use 'layouts/cluster'; // (flex row)
-@use 'layouts/container'; // (wrapper)
 @use 'layouts/split'; // (grid)
 @use 'layouts/stack'; // (flex column)
+@use 'layouts/wrapper'; // (wrapper)
 
 // Définition des styles de composants (buttons, cards, etc.)
 @use 'components/button'; // Boutons (btn, btn--primary, etc.)

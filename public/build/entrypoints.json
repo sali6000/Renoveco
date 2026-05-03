@@ -70,6 +70,14 @@
         "/build/product-list.c068dadb.css"
       ]
     },
+    "services-detail": {
+      "js": [
+        "/build/runtime.595b0392.js"
+      ],
+      "css": [
+        "/build/services-detail.31d6cfe0.css"
+      ]
+    },
     "shared-footer": {
       "js": [
         "/build/runtime.595b0392.js"
@@ -91,7 +99,7 @@
         "/build/runtime.595b0392.js"
       ],
       "css": [
-        "/build/global.e97597a4.css"
+        "/build/global.8b591ebf.css"
       ]
     }
   }
