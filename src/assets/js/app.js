@@ -2,7 +2,7 @@
 
 // Modules globaux
 import initReveal from '@js/components/reveal';
-import initHamburger from '@js/pages/shared/header';
+import initHeader from '@js/pages/shared/header';
 
 // Modules spécifiques à la "current_page" appellée
 async function initApp() {
@@ -11,7 +11,7 @@ async function initApp() {
 
   // ✅ Appliquer la fonction dès que le DOM est prêt
   initReveal();
-  initHamburger();
+  initHeader();
   if (page) {
     try {
       const module = await import(`@js/pages/${pagePath}.js`);// product-list => @js/pages/product/list.js

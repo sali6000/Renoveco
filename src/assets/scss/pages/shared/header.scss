@@ -1,2 +1,336 @@
-@use '@scss/partials/shared/header';
-@use '@scss/partials/shared/hamburger';
+// shared/header.scss
+@use '@scss/foundations/mixins';
+@use '@scss/components/hamburger';
+
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    transition:
+        background-color var(--transition-base),
+        box-shadow var(--transition-base);
+
+    // --- État transparent (home au top) ---
+    &--transparent {
+        color: var(--color-text-inverse);
+        background: transparent;
+
+        .navbar__logo-img--light {
+            opacity: 1;
+        }
+
+        .navbar__logo-img--dark {
+            opacity: 0;
+        }
+
+        .navbar__link {
+            color: var(--color-text-inverse);
+        }
+
+        .navbar__contact {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-8px);
+        }
+    }
+
+    // --- État scrollé (fond blanc) ---
+    &--scrolled {
+        background: var(--color-bg-base);
+        box-shadow: 0 1px 0 var(--color-border-default);
+
+        .navbar__logo-img--light {
+            opacity: 0;
+        }
+
+        .navbar__logo-img--dark {
+            opacity: 1;
+        }
+
+        .navbar__link {
+            color: var(--color-text-default);
+        }
+
+        .navbar__contact {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+    }
+
+    // --- État solide (autres pages) ---
+    &--solid {
+        position: relative;
+        background: var(--color-bg-base);
+        box-shadow: 0 1px 0 var(--color-border-default);
+
+        .navbar__logo-img--light {
+            opacity: 0;
+        }
+
+        .navbar__logo-img--dark {
+            opacity: 1;
+        }
+
+        .navbar__link {
+            color: var(--color-text-default);
+        }
+
+        .navbar__contact {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+    }
+
+    // --- Barre principale ---
+    &__bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 64px;
+        padding-inline: var(--space-xl);
+        max-width: var(--container-wrapper);
+        margin-inline: auto;
+    }
+
+    // --- Logo ---
+    &__logo {
+        position: relative;
+        flex-shrink: 0;
+        height: var(--space-3xl); // ← token existant, cohérent avec ton système
+        aspect-ratio: 4 / 1; // ← adapte selon le ratio réel de ton logo
+        display: block;
+    }
+
+    &__logo-img {
+        position: absolute;
+        height: 100%; // ← suit la hauteur du parent
+        width: auto; // ← ratio préservé automatiquement
+        top: 0;
+        left: 0;
+        transition: opacity var(--transition-base);
+
+        &--light {
+            opacity: 0;
+        }
+
+        &--dark {
+            opacity: 1;
+        }
+    }
+
+    // --- Navigation ---
+    &__nav {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+    }
+
+    &__menu {
+        display: flex;
+        align-items: center;
+        gap: var(--space-xs);
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    &__item {
+        position: relative;
+
+        // Sous-menu visible au hover
+        &--dropdown:hover .navbar__dropdown {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+    }
+
+    &__item--dropdown {
+        position: relative;
+
+        // Pseudo-élément qui comble le gap invisible entre bouton et dropdown
+        &::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            height: var(--space-s); // ← même valeur que le gap du dropdown
+        }
+
+        &:hover .navbar__dropdown {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0);
+        }
+    }
+
+    &__link {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-xs);
+        padding: var(--space-xs) var(--space-m);
+        font-size: var(--font-size-s);
+        font-weight: var(--font-weight-medium);
+        border-radius: var(--radius-m);
+        border: none;
+        background: none;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: background var(--transition-fast), color var(--transition-fast);
+
+        &:hover {
+            background: rgba(128, 128, 128, 0.1);
+        }
+
+        &--dropdown {
+            font-family: var(--font-family-base);
+        }
+    }
+
+    &__chevron {
+        transition: transform var(--transition-fast);
+
+        .navbar__item--dropdown:hover & {
+            transform: rotate(180deg);
+        }
+    }
+
+    // --- Sous-menu dropdown ---
+    &__dropdown {
+        position: absolute;
+        top: calc(100% + var(--space-s));
+        left: 50%;
+        transform: translateX(-50%) translateY(8px);
+        min-width: 220px;
+        list-style: none;
+        margin: 0;
+        padding: var(--space-xs);
+        background: var(--color-bg-base);
+        border: 0.5px solid var(--color-border-default);
+        border-radius: var(--radius-l);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(-50%) translateY(4px);
+        transition:
+            opacity var(--transition-fast),
+            transform var(--transition-fast);
+
+        // Délai à la fermeture uniquement
+        transition-delay: 0s;
+
+        .navbar__item--dropdown:not(:hover) & {
+            transition-delay: 150ms; // ← laisse le temps de traverser
+        }
+    }
+
+    &__dropdown-link {
+        display: block;
+        padding: var(--space-s) var(--space-m);
+        font-size: var(--font-size-s);
+        color: var(--color-text-default);
+        border-radius: var(--radius-m);
+        transition: background var(--transition-fast);
+        white-space: nowrap;
+
+        &:hover {
+            background: var(--color-bg-subtle);
+            color: var(--color-brand-primary);
+        }
+    }
+
+    // --- Contact ---
+    &__contact {
+        display: flex;
+        align-items: center;
+        gap: var(--space-m);
+        flex-shrink: 0;
+        transition:
+            opacity var(--transition-base),
+            transform var(--transition-base);
+    }
+
+    &__contact-phone {
+        display: flex;
+        align-items: center;
+        gap: var(--space-s);
+        color: inherit;
+    }
+
+    &__contact-icon {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+    }
+
+    &__contact-info {
+        display: flex;
+        flex-direction: column;
+        font-size: var(--font-size-xs);
+        line-height: 1.3;
+
+        strong {
+            font-weight: var(--font-weight-semibold);
+        }
+
+        small {
+            color: var(--color-text-muted);
+            font-size: var(--font-size-2xs);
+        }
+    }
+
+    &__social-link {
+        display: flex;
+        align-items: center;
+        opacity: 0.8;
+        transition: opacity var(--transition-fast);
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    &__social-icon {
+        width: 24px;
+        height: 24px;
+        object-fit: contain;
+    }
+
+    // --- Promo ---
+    &__promo {
+        text-align: center;
+        padding: var(--space-xs) var(--space-m);
+        font-size: var(--font-size-xs);
+        font-weight: var(--font-weight-medium);
+
+        &--info {
+            background: var(--color-info);
+            color: var(--color-text-inverse);
+        }
+
+        &--success {
+            background: var(--color-success);
+            color: var(--color-text-inverse);
+        }
+
+        &--warning {
+            background: var(--color-warning);
+            color: var(--color-text-default);
+        }
+
+        &--danger {
+            background: var(--color-danger);
+            color: var(--color-text-inverse);
+        }
+    }
+
+    @include mixins.media-down(md) {
+        display: none;
+    }
+}

@@ -1,0 +1,272 @@
+// components/_hamburger.scss
+@use '@scss/foundations/mixins';
+
+// --- Bouton hamburger ---
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    padding: var(--space-xs);
+    border-radius: var(--radius-m);
+    position: fixed;
+    top: var(--space-m);
+    right: var(--space-m);
+    z-index: 200;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    border: 0.5px solid rgba(255, 255, 255, 0.2);
+    transition: background var(--transition-fast);
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.25);
+    }
+
+    &__line {
+        display: block;
+        height: 1.5px;
+        width: 100%;
+        background: var(--color-text-inverse);
+        border-radius: var(--radius-full);
+        transform-origin: center;
+        transition:
+            transform var(--transition-base),
+            opacity var(--transition-base),
+            top var(--transition-base);
+    }
+
+    // État ouvert — croix
+    &--open {
+        .hamburger__line:nth-child(1) {
+            transform: translateY(6.5px) rotate(45deg);
+        }
+
+        .hamburger__line:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+
+        .hamburger__line:nth-child(3) {
+            transform: translateY(-6.5px) rotate(-45deg);
+        }
+    }
+
+    // Sur pages non-home — lignes sombres
+    .navbar--solid~& {
+        background: rgba(0, 0, 0, 0.05);
+        border-color: var(--color-border-default);
+
+        .hamburger__line {
+            background: var(--color-text-default);
+        }
+    }
+
+    @include mixins.media-down(md) {
+        display: flex;
+    }
+}
+
+// --- Overlay ---
+.mobile-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    z-index: 150;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-base);
+
+    &--visible {
+        opacity: 1;
+        pointer-events: auto;
+    }
+}
+
+// --- Panneau mobile ---
+.mobile-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: min(320px, 85vw);
+    height: 100dvh;
+    z-index: 160;
+    background: #0f172a; // sombre profond
+    display: flex;
+    flex-direction: column;
+    transform: translateX(-100%);
+    transition: transform var(--transition-base);
+    overflow-y: auto;
+
+    &--open {
+        transform: translateX(0);
+    }
+
+    // --- Header ---
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--space-l) var(--space-l) var(--space-m);
+        border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
+    }
+
+    &__logo {
+        height: 32px;
+        width: auto;
+    }
+
+    &__close {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: var(--radius-m);
+        color: rgba(255, 255, 255, 0.6);
+        transition:
+            background var(--transition-fast),
+            color var(--transition-fast);
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--color-text-inverse);
+        }
+    }
+
+    // --- Menu ---
+    &__menu {
+        flex: 1;
+        list-style: none;
+        margin: 0;
+        padding: var(--space-m) var(--space-s);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-xs);
+    }
+
+    &__item {
+        border-radius: var(--radius-m);
+        overflow: hidden;
+    }
+
+    &__link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: var(--space-m) var(--space-m);
+        font-size: var(--font-size-m);
+        font-weight: var(--font-weight-medium);
+        color: rgba(255, 255, 255, 0.75);
+        border-radius: var(--radius-m);
+        transition:
+            background var(--transition-fast),
+            color var(--transition-fast);
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--color-text-inverse);
+        }
+
+        &--accordion {
+            font-family: var(--font-family-base);
+            border: none;
+            background: none;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        &--cta {
+            color: var(--color-accent);
+            font-weight: var(--font-weight-semibold);
+
+            &:hover {
+                color: var(--color-accent);
+            }
+        }
+    }
+
+    &__chevron {
+        transition: transform var(--transition-fast);
+        flex-shrink: 0;
+
+        .mobile-nav__item--accordion.is-open & {
+            transform: rotate(180deg);
+        }
+    }
+
+    // --- Sous-menu accordéon ---
+    &__submenu {
+        list-style: none;
+        margin: 0;
+        padding: 0 0 0 var(--space-m);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height var(--transition-base);
+
+        .mobile-nav__item--accordion.is-open & {
+            max-height: 300px;
+        }
+    }
+
+    &__sublink {
+        display: block;
+        padding: var(--space-s) var(--space-m);
+        font-size: var(--font-size-s);
+        color: rgba(255, 255, 255, 0.5);
+        border-left: 1px solid rgba(255, 255, 255, 0.15);
+        transition: color var(--transition-fast), border-color var(--transition-fast);
+
+        &:hover {
+            color: var(--color-text-inverse);
+            border-color: var(--color-accent);
+        }
+    }
+
+    // --- Footer ---
+    &__footer {
+        padding: var(--space-l);
+        border-top: 0.5px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__contact-link {
+        display: flex;
+        align-items: center;
+        gap: var(--space-s);
+        color: rgba(255, 255, 255, 0.7);
+        font-size: var(--font-size-s);
+        transition: color var(--transition-fast);
+
+        &:hover {
+            color: var(--color-text-inverse);
+        }
+    }
+
+    &__contact-icon {
+        width: 18px;
+        height: 18px;
+        object-fit: contain;
+        opacity: 0.7;
+    }
+
+    &__social {
+        opacity: 0.7;
+        transition: opacity var(--transition-fast);
+
+        img {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}
