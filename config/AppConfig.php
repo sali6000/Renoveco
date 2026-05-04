@@ -64,12 +64,15 @@ class AppConfig
     {
         self::loadConfig();
         return [
+            // Program
+            'app_debug'    => self::getBool('APP_DEBUG'),
+            'developper_copyright' => self::getEnv('BASE_DEV_COPYRIGHT'),
+
             // Identité
             'company_name'        => self::getEnv('BASE_ENTREPRISE_NAME'),
             'company_title'       => self::getEnv('BASE_ENTREPRISE_TITLE'),
             'company_description' => self::getEnv('BASE_ENTREPRISE_DESCRIPTION'),
             'company_tva' => self::getEnv('BASE_ENTREPRISE_TVA'),
-            'developper_copyright' => self::getEnv('BASE_DEV_COPYRIGHT'),
 
             // Contact
             'company_phone'       => self::getEnv('BASE_ENTREPRISE_PHONE'),

@@ -1,0 +1,122 @@
+{
+  "src/assets/js/app.js": {
+    "file": "assets/app-DH4ZYOLc.js",
+    "name": "app",
+    "src": "src/assets/js/app.js",
+    "isEntry": true
+  },
+  "src/assets/scss/_main.scss": {
+    "file": "assets/global-DxYB6iZd.css",
+    "name": "global",
+    "names": [
+      "global.css"
+    ],
+    "src": "src/assets/scss/_main.scss",
+    "isEntry": true
+  },
+  "src/assets/scss/pages/about/index.scss": {
+    "file": "assets/about-index-CG_BFVVe.css",
+    "name": "about-index",
+    "names": [
+      "about-index.css"
+    ],
+    "src": "src/assets/scss/pages/about/index.scss",
+    "isEntry": true
+  },
+  "src/assets/scss/pages/auth/login.scss": {
+    "file": "assets/auth-login-x1XGuNl0.css",
+    "name": "services-detail",
+    "names": [
+      "auth-login.css",
+      "contact-index.css",
+      "services-detail.css"
+    ],
+    "src": "src/assets/scss/pages/auth/login.scss",
+    "isEntry": true
+  },
+  "src/assets/scss/pages/cgu/index.scss": {
+    "file": "assets/cgu-index-Ccyt6QCu.css",
+    "name": "cgu-index",
+    "names": [
+      "cgu-index.css"
+    ],
+    "src": "src/assets/scss/pages/cgu/index.scss",
+    "isEntry": true
+  },
+  "src/assets/scss/pages/contact/index.scss": {
+    "file": "assets/auth-login-x1XGuNl0.css",
+    "name": "services-detail",
+    "names": [
+      "auth-login.css",
+      "contact-index.css",
+      "services-detail.css"
+    ],
+    "src": "src/assets/scss/pages/auth/login.scss",
+    "isEntry": true
+  },
+  "src/assets/scss/pages/gallery/index.scss": {
+    "file": "assets/gallery-index-CHn_d9FP.css",
+    "name": "gallery-index",
+    "names": [
+      "gallery-index.css"
+    ],
+    "src": "src/assets/scss/pages/gallery/index.scss",
+    "isEntry": true
+  },
+  "src/assets/scss/pages/home/index.scss": {
+    "file": "assets/home-index-BfGQYhVG.css",
+    "name": "home-index",
+    "names": [
+      "home-index.css"
+    ],
+    "src": "src/assets/scss/pages/home/index.scss",
+    "isEntry": true
+  },
+  "src/assets/scss/pages/product/detail.scss": {
+    "file": "assets/product-detail-DZSKjHih.css",
+    "name": "product-detail",
+    "names": [
+      "product-detail.css"
+    ],
+    "src": "src/assets/scss/pages/product/detail.scss",
+    "isEntry": true
+  },
+  "src/assets/scss/pages/product/list.scss": {
+    "file": "assets/product-list-CwZD0RjL.css",
+    "name": "product-list",
+    "names": [
+      "product-list.css"
+    ],
+    "src": "src/assets/scss/pages/product/list.scss",
+    "isEntry": true
+  },
+  "src/assets/scss/pages/services/detail.scss": {
+    "file": "assets/auth-login-x1XGuNl0.css",
+    "name": "services-detail",
+    "names": [
+      "auth-login.css",
+      "contact-index.css",
+      "services-detail.css"
+    ],
+    "src": "src/assets/scss/pages/auth/login.scss",
+    "isEntry": true
+  },
+  "src/assets/scss/pages/shared/footer.scss": {
+    "file": "assets/shared-footer-huqbEWTx.css",
+    "name": "shared-footer",
+    "names": [
+      "shared-footer.css"
+    ],
+    "src": "src/assets/scss/pages/shared/footer.scss",
+    "isEntry": true
+  },
+  "src/assets/scss/pages/shared/header.scss": {
+    "file": "assets/shared-header-CkBHDxxx.css",
+    "name": "shared-header",
+    "names": [
+      "shared-header.css"
+    ],
+    "src": "src/assets/scss/pages/shared/header.scss",
+    "isEntry": true
+  }
+}

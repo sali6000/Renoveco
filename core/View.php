@@ -98,7 +98,6 @@ class View
             LOCK_EX
         );
     }
-
     /**
      * Résout un asset, lance une exception si absent (obligatoire)
      */
@@ -107,28 +106,48 @@ class View
         $resolved = self::tryResolveEncoreAsset($asset);
 
         if ($resolved === null) {
-            throw new \RuntimeException("Asset $asset not found in manifest.json");
+            // Désormais, on ne lance l'exception que si le fichier n'existe VRAIMENT pas sur le disque
+            throw new \RuntimeException("Asset $asset non trouvé dans le manifest ou sur le disque.");
         }
 
         return $resolved;
     }
 
-    /**
-     * Résout un asset, retourne null si absent (optionnel)
-     */
     private static function tryResolveEncoreAsset(string $asset): ?string
     {
         static $manifest = null;
+        $buildPath = AppConfig::getConst('ROOT_PATH_PUBLIC_BUILD');
 
+        // 1. Chargement du Manifest de Vite
         if ($manifest === null) {
-            $manifestPath = AppConfig::getConst('ROOT_PATH_PUBLIC_BUILD') . 'manifest.json';
+            $manifestPath = $buildPath . '.vite/manifest.json';
             if (!file_exists($manifestPath)) {
-                return null;
+                $manifestPath = $buildPath . 'manifest.json';
             }
-            $manifest = json_decode(file_get_contents($manifestPath), true);
+            $manifest = file_exists($manifestPath)
+                ? json_decode(file_get_contents($manifestPath), true)
+                : [];
         }
 
-        return $manifest['build/' . $asset] ?? null;
+        // 2. Recherche dans le manifest
+        foreach ($manifest as $key => $data) {
+            // Par nom court : 'global.css', 'home-index.css', 'app.js'
+            if (isset($data['names']) && in_array($asset, $data['names'])) {
+                return '/build/' . $data['file'];
+            }
+            // Par fin de clé source : 'src/assets/scss/_main.scss'
+            if (str_ends_with($key, $asset)) {
+                return '/build/' . $data['file'];
+            }
+        }
+
+        // 3. Fallback fichiers statiques copiés (img, webm...)
+        $staticPath = $buildPath . $asset;
+        if (file_exists($staticPath)) {
+            return '/build/' . $asset;
+        }
+
+        return null;
     }
 
     /**

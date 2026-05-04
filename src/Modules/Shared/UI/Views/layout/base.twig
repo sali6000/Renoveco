@@ -1,44 +1,62 @@
 <!DOCTYPE html>
 <html lang="fr">
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}{{ company_title }}{% endblock %}</title> 
-    <meta name="description" content="Installation de fenêtres et panneaux photovoltaïques en Belgique. Devis gratuit sous 24h. Travail rapide et soigné. Contactez nos experts pour plus d'informations." />
-    <meta name="author" content="Steven Ferlazzo">
-    <base href="{{ baseUri|e }}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="shortcut icon" href="{{ encore_asset('img/about/logos/favicon-v2.ico') }}">
-    <link rel="stylesheet" href="{{ encore_asset('global.css') }}">
-    <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "HomeAndConstructionBusiness",
-  "name": {{ company_name|json_encode|raw }},
-  "areaServed": { "@type": "Country", "name": "Belgium" },
-  "telephone": "{{ company_phone }}",
-  "url": "{{ app.request.schemeAndHttpHost }}"
-}
-</script>
-    {# current_page <= Ex: product-detail (./src/assets/scss/pages/product/detail.scss' : webpack.config.js) #}
-    {% set pageStyle = encore_asset_optional(current_page|default('') ~ '.css') %}
-    {% if pageStyle %}<link rel="stylesheet" href="{{ pageStyle }}">{% endif %}
-    {% block head %}{% endblock %}
-</head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{% block title %}{{ company_title }}{% endblock %}</title> 
+        <meta name="description" content="Installation de fenêtres et panneaux photovoltaïques en Belgique. Devis gratuit sous 24h. Travail rapide et soigné. Contactez nos experts pour plus d'informations." />
+        <meta name="author" content="Steven Ferlazzo">
+        <base href="{{ baseUri|e }}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+         <link rel="shortcut icon" href="{{ encore_asset('img/about/logos/favicon-v2.ico') }}">
+        {% if not app_debug %}
+            <link rel="stylesheet" href="{{ encore_asset('global.css') }}">
+            {% set pageAsset = encore_asset_optional(current_page ~ '.css') %}
+            {% if pageAsset %}
+                <link rel="stylesheet" href="{{ pageAsset }}">
+            {% endif %}
+        {% endif %}
 
-{# data-current-page > document.body.dataset.currentPage; (voir app.js) #}
-<body data-current-page="{{ current_page|default('default') }}">
-    {% include '@Shared/components/header.twig' ignore missing %}
-    <main class="{{ current_page }}">
-        {% block content %}{% endblock %}
-    </main>
-    {% include '@Shared/components/footer.twig' ignore missing %}
-    {% block javascripts %}
-        <script src="{{ encore_asset('runtime.js') }}" defer></script>
-        <script src="{{ encore_asset('app.js') }}" defer></script>
-    {% endblock %}
-</body>
+        {% if app_debug %}
+            <script type="module" src="http://localhost:5173/@vite/client"></script>
+            <script type="module" src="http://localhost:5173/src/assets/scss/_main.scss"></script>
+            {% if current_page is defined %}
+                <script type="module" src="http://localhost:5173/src/assets/scss/pages/{{ current_page|replace({'-': '/'}) }}.scss"></script>
+            {% endif %}
+        {% endif %}
+
+        <script type="application/ld+json">
+            {
+              "@context": "https://schema.org",
+              "@type": "HomeAndConstructionBusiness",
+              "name": {{ company_name|json_encode|raw }},
+              "areaServed": { "@type": "Country", "name": "Belgium" },
+              "telephone": "{{ company_phone }}",
+              "url": "{{ app.request.schemeAndHttpHost }}"
+            }
+        </script>
+
+        {% block head %}{% endblock %}
+    </head>
+
+    <body data-current-page="{{ current_page|default('default') }}">
+        {% include '@Shared/components/header.twig' ignore missing %}
+
+        <main class="{{ current_page }}">
+            {% block content %}{% endblock %}
+        </main>
+
+        {% include '@Shared/components/footer.twig' ignore missing %}
+
+        {% block javascripts %}
+            {% if app_debug %}
+                <script type="module" src="http://localhost:5173/src/assets/js/app.js"></script>
+            {% else %}
+                <script type="module" src="{{ encore_asset('app.js') }}"></script>
+            {% endif %}
+        {% endblock %}
+    </body>
 </html>

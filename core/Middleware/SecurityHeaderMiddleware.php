@@ -2,6 +2,7 @@
 
 namespace Core\Middleware;
 
+use Config\AppConfig;
 use Core\Middleware\Middleware;
 use Core\Support\DebugHelper;
 
@@ -26,13 +27,32 @@ class SecurityHeaderMiddleware extends Middleware
          * frame-ancestors 'none' → interdit l’intégration de ton site dans des iframes (protection clickjacking).
          * report-to /security/log-csp → Logger les violations de sécurité (via accessLogger)
          */
+        $isDev = (AppConfig::getEnv('APP_ENV') ?? '') === 'dev';
+
+        $scriptSrc = "'self' https://js.stripe.com";
+        $connectSrc = "'self'";
+        $workerSrc  = "'self'";
+
+        if ($isDev) {
+            // Autorise le script client de Vite et les blobs (nécessaires pour les Workers de Vite)
+            $scriptSrc  .= " http://localhost:5173 'unsafe-eval' blob:";
+
+            // Autorise la connexion WebSocket (ws) pour le HMR sur localhost et 127.0.0.1
+            $connectSrc .= " ws://localhost:5173 http://localhost:5173 ws://127.0.0.1:5173";
+
+            // Autorise Vite à créer des Workers à partir de données binaires (blobs)
+            $workerSrc  .= " blob:";
+        }
+
         $cspDirectives = [
-            "frame-src 'self' https://www.google.com https://maps.google.com",
             "default-src 'self'",
+            "frame-src 'self' https://www.google.com https://maps.google.com",
             "font-src 'self' https://fonts.gstatic.com",
             "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
             "img-src 'self' data:",
-            "script-src 'self' https://js.stripe.com",
+            "script-src $scriptSrc",
+            "connect-src $connectSrc",
+            "worker-src $workerSrc",
             "object-src 'none'",
             "frame-ancestors 'none'"
         ];

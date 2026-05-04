@@ -9,7 +9,7 @@ COPY package*.json ./
 RUN npm install --include=dev
 
 COPY src/assets ./src/assets
-COPY webpack.config.js ./
+COPY vite.config.js ./
 
 # Conteneur tourne en arrière-plan (optionnel si tu veux exec dedans)
 CMD ["tail", "-f", "/dev/null"]
