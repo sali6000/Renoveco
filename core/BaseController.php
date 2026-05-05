@@ -21,7 +21,7 @@ abstract class BaseController
      * Retourne la vue Product/Ui/Views/detail.twig avec 'Henri' et 'product-detail' acessibles
      * 
      * Le current_page sert d'identifiant pour:
-     * - Déterminer quel page scss appeller (depuis Webpack.config.js),
+     * - Déterminer quel page scss appeller (depuis vite.config.js),
      * - Appeller la page scss correspondante (depuis base.twig),
      * - Appeller la page js correspondante (depuis app.js),
      * - Établir des conditions (dans les vues et les assets).
@@ -29,7 +29,7 @@ abstract class BaseController
     protected function render(string $viewPath, array $datas = []): void
     {
         $assetsPath = $this->convertViewPathToScssPath($viewPath); # "product-detail" <= "Product/detail.twig"
-        $datas['current_page'] = $assetsPath; # Pour Webpack Encore
+        $datas['current_page'] = $assetsPath; # Pour Vite 
         View::render($viewPath, $datas);
     }
 

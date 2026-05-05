@@ -28,7 +28,7 @@ export default defineConfig(({ command }) => ({
         rollupOptions: {
             input: {
                 app: './src/assets/js/app.js',
-                global: './src/assets/scss/_main.scss',
+                main: './src/assets/scss/_main.scss',
                 ...scssEntries,
             }
         }

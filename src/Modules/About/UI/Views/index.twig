@@ -5,7 +5,7 @@
 {% block content %}
 <div class="wrapper stack stack--centered stack--gap-2xl stack--p-5xl">
   <div class="image image--w-l reveal slide-down">
-    <img loading="lazy" src="{{ encore_asset('img/about/logos/rclogo-02-dark.png') }}" alt="logo-author">
+    <img loading="lazy" src="{{ vite_asset('img/about/logos/rclogo-02-dark.png') }}" alt="logo-author">
   </div>
   <div class="split split--top split--equal-2 split--gap-xl reveal slide-up">
 
@@ -13,7 +13,7 @@
     <div class="stack stack--centered">
         <div class="image image--w-l">
             <img loading="lazy" 
-                src="{{ encore_asset('img/home/renoveconstructlittle.avif') }}" 
+                src="{{ vite_asset('img/home/renoveconstructlittle.avif') }}" 
                 alt="Renove Construct équipe">
         </div>
     </div>
@@ -45,13 +45,13 @@
     {# Deux vidéos côte à côte #}
     <div class="split split--equal-2 split--gap-l">
         <div class="video video--ratio-16-9">
-            <video controls preload="none" poster="{{ encore_asset('img/about/poster1.avif') }}">
-                <source src="{{ encore_asset('webm/about/video1.webm') }}" type="video/webm">
+            <video controls preload="none" poster="{{ vite_asset('img/about/poster1.avif') }}">
+                <source src="{{ vite_asset('webm/about/video1.webm') }}" type="video/webm">
             </video>
         </div>
         <div class="video video--ratio-16-9">
-            <video controls preload="none" poster="{{ encore_asset('img/about/poster2.avif') }}">
-                <source src="{{ encore_asset('webm/about/video2.webm') }}" type="video/webm">
+            <video controls preload="none" poster="{{ vite_asset('img/about/poster2.avif') }}">
+                <source src="{{ vite_asset('webm/about/video2.webm') }}" type="video/webm">
             </video>
         </div>
     </div>
@@ -59,8 +59,8 @@
     {# Troisième vidéo centrée #}
     <div class="about-videos__featured">
         <div class="video video--ratio-16-9">
-            <video controls preload="none" poster="{{ encore_asset('img/about/poster3.avif') }}">
-                <source src="{{ encore_asset('webm/about/video3.webm') }}" type="video/webm">
+            <video controls preload="none" poster="{{ vite_asset('img/about/poster3.avif') }}">
+                <source src="{{ vite_asset('webm/about/video3.webm') }}" type="video/webm">
             </video>
         </div>
     </div>

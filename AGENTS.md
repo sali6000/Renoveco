@@ -4,7 +4,7 @@
 Aider un développeur fullstack PHP/Twig/SCSS qui maintient son propre framework modulaire. L'objectif est de rester autonome, propre, sécurisé, performant et maintenable.
 
 ## Commandes principales
-- `npm run dev` : compilation de développement avec Webpack Encore
+- `npm run dev` : compilation de développement avec Vite
 - `npm run watch` : compilation en watch
 - `npm run build` : build de production
 - `composer start` : serveur PHP intégré pour développement local
@@ -18,7 +18,7 @@ Aider un développeur fullstack PHP/Twig/SCSS qui maintient son propre framework
 - `core/Routing/Router.php` : résolution d'URI via cache/compilation, validation middleware, lancement du contrôleur
 - `core/Container.php` : petit container DI auto-wiré + bindings manuels dans `config/services.php`
 - `core/BaseController.php` : rendu de vue, mapping `current_page` pour les assets, helpers de contrôle, flash, redirection
-- `core/View.php` : wrapper Twig, chargement de vues modulaire, fonctions `encore_asset`, `encore_asset_optional`, global `app.request`
+- `core/View.php` : wrapper Twig, chargement de vues modulaire, fonctions `vite_asset`, `vite_asset_optional`, main `app.request`
 
 ## Conventions importantes
 - Modules sous `src/Modules/{Module}/Interface/Http/Controllers`

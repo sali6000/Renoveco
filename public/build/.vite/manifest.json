@@ -1,15 +1,15 @@
 {
   "src/assets/js/app.js": {
-    "file": "assets/app-DH4ZYOLc.js",
+    "file": "assets/app-CAYYHXEA.js",
     "name": "app",
     "src": "src/assets/js/app.js",
     "isEntry": true
   },
   "src/assets/scss/_main.scss": {
-    "file": "assets/global-DxYB6iZd.css",
-    "name": "global",
+    "file": "assets/main-DxYB6iZd.css",
+    "name": "main",
     "names": [
-      "global.css"
+      "main.css"
     ],
     "src": "src/assets/scss/_main.scss",
     "isEntry": true

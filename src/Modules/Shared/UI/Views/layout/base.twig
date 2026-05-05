@@ -11,21 +11,26 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-         <link rel="shortcut icon" href="{{ encore_asset('img/about/logos/favicon-v2.ico') }}">
-        {% if not app_debug %}
-            <link rel="stylesheet" href="{{ encore_asset('global.css') }}">
-            {% set pageAsset = encore_asset_optional(current_page ~ '.css') %}
-            {% if pageAsset %}
-                <link rel="stylesheet" href="{{ pageAsset }}">
-            {% endif %}
-        {% endif %}
-
+        <link rel="shortcut icon" href="{{ vite_asset('img/about/logos/favicon-v2.ico') }}">
+        
+        {# En développement (watch) #}
         {% if app_debug %}
             <script type="module" src="http://localhost:5173/@vite/client"></script>
             <script type="module" src="http://localhost:5173/src/assets/scss/_main.scss"></script>
+
             {% if current_page is defined %}
                 <script type="module" src="http://localhost:5173/src/assets/scss/pages/{{ current_page|replace({'-': '/'}) }}.scss"></script>
             {% endif %}
+
+        {# En production (build) #}
+        {% else %}
+            <link rel="stylesheet" href="{{ vite_asset('main.css') }}">
+
+            {% set pageAsset = vite_asset_optional(current_page ~ '.css') %}
+            {% if pageAsset %}
+                <link rel="stylesheet" href="{{ pageAsset }}">
+            {% endif %}
+
         {% endif %}
 
         <script type="application/ld+json">
@@ -52,10 +57,13 @@
         {% include '@Shared/components/footer.twig' ignore missing %}
 
         {% block javascripts %}
+            {# En développement (watch) #}
             {% if app_debug %}
                 <script type="module" src="http://localhost:5173/src/assets/js/app.js"></script>
+            
+            {# En production (build) #}
             {% else %}
-                <script type="module" src="{{ encore_asset('app.js') }}"></script>
+                <script type="module" src="{{ vite_asset('app.js') }}"></script>
             {% endif %}
         {% endblock %}
     </body>

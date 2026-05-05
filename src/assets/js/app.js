@@ -12,12 +12,13 @@ async function initApp() {
   // ✅ Appliquer la fonction dès que le DOM est prêt
   initReveal();
   initHeader();
+
   if (page) {
     try {
       const module = await import(`@js/pages/${pagePath}.js`);// product-list => @js/pages/product/list.js
       if (module.default) module.default();
     } catch (e) {
-      console.warn(`Aucun module JS pour la page "${page}"`);
+      // console.warn(`Aucun module JS pour la page "${page}"`);
     }
   }
 }

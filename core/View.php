@@ -51,14 +51,14 @@ class View
         $schemeAndHttpHost = $scheme . '://' . $host;
         self::$twig->addGlobal('app', (object)['request' => (object)['schemeAndHttpHost' => $schemeAndHttpHost]]);
 
-        // ✅ Ajout de la fonction encore_asset dans Twig
-        self::$twig->addFunction(new TwigFunction('encore_asset', function (string $asset): string {
-            return self::resolveEncoreAsset($asset);
+        // ✅ Ajout de la fonction vite_asset dans Twig
+        self::$twig->addFunction(new TwigFunction('vite_asset', function (string $asset): string {
+            return self::resolveViteAsset($asset);
         }));
 
-        // ✅ Ajout de la fonction encore_asset_optional dans Twig (retourne '' si absent)
-        self::$twig->addFunction(new TwigFunction('encore_asset_optional', function (string $asset): string {
-            return self::tryResolveEncoreAsset($asset) ?? '';
+        // ✅ Ajout de la fonction vite_asset_optional dans Twig (retourne '' si absent)
+        self::$twig->addFunction(new TwigFunction('vite_asset_optional', function (string $asset): string {
+            return self::tryResolveViteAsset($asset) ?? '';
         }));
     }
 
@@ -101,9 +101,9 @@ class View
     /**
      * Résout un asset, lance une exception si absent (obligatoire)
      */
-    private static function resolveEncoreAsset(string $asset): string
+    private static function resolveViteAsset(string $asset): string
     {
-        $resolved = self::tryResolveEncoreAsset($asset);
+        $resolved = self::tryResolveViteAsset($asset);
 
         if ($resolved === null) {
             // Désormais, on ne lance l'exception que si le fichier n'existe VRAIMENT pas sur le disque
@@ -113,7 +113,7 @@ class View
         return $resolved;
     }
 
-    private static function tryResolveEncoreAsset(string $asset): ?string
+    private static function tryResolveViteAsset(string $asset): ?string
     {
         static $manifest = null;
         $buildPath = AppConfig::getConst('ROOT_PATH_PUBLIC_BUILD');
