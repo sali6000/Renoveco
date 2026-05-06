@@ -25,5 +25,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Config PHP perso
 COPY docker/php/php.ini /usr/local/etc/php/conf.d/custom.ini
+COPY docker/php/Caddyfile /etc/caddy/Caddyfile
 
 WORKDIR /app
+CMD ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]

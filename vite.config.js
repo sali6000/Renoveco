@@ -58,11 +58,11 @@ export default defineConfig(({ command }) => ({
     server: {
         host: '0.0.0.0',
         port: 5173,
-        hmr: { host: 'localhost', port: 5173, clientPort: 5173, },
-        watch: {
-            usePolling: true,      // ← fix WSL
-            interval: 300,         // vérifie toutes les 300ms
-        }
+        hmr: {
+            host: process.env.VITE_HMR_HOST || 'localhost',
+            port: 5173,
+            clientPort: 5173,
+        },
     },
     css: {
         preprocessorOptions: { scss: {} }

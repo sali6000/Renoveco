@@ -1,0 +1,8 @@
+{
+    local_certs
+}
+
+localhost {
+    root * /app/public
+    php_server
+}
