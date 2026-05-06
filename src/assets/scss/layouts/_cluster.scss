@@ -58,8 +58,16 @@
                     padding: var(--space-#{$size});
                 }
 
+                &--pb-#{$size} {
+                    padding-block: var(--space-#{$size});
+                }
+
                 &--m-#{$size} {
                     margin: var(--space-#{$size});
+                }
+
+                &--mb-#{$size} {
+                    margin-block: var(--space-#{$size});
                 }
             }
         }

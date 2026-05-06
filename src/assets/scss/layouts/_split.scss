@@ -76,7 +76,6 @@
         justify-items: stretch;
     }
 
-    // --- Gap et padding générés ---
     @each $size in config.$space-sizes {
         &--gap-#{$size} {
             gap: var(--space-#{$size});
@@ -84,6 +83,18 @@
 
         &--p-#{$size} {
             padding: var(--space-#{$size});
+        }
+
+        &--pb-#{$size} {
+            padding-block: var(--space-#{$size});
+        }
+
+        &--m-#{$size} {
+            margin: var(--space-#{$size});
+        }
+
+        &--mb-#{$size} {
+            margin-block: var(--space-#{$size});
         }
     }
 }
