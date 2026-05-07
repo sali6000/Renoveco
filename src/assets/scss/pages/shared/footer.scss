@@ -9,6 +9,28 @@
 
         @include mixins.media-down(md) {
             border-left: none;
+            border-top: 1px solid var(--color-border-default);
+        }
+    }
+
+    .footer__column--divider-right {
+        border-right: 1px solid var(--color-border-default);
+
+        @include mixins.media-down(md) {
+            border-right: none;
+            border-bottom: 1px solid var(--color-border-default);
+        }
+    }
+
+    .footer__column--dividers {
+        border-left: 1px solid var(--color-border-default);
+        border-right: 1px solid var(--color-border-default);
+
+        @include mixins.media-down(md) {
+            border-left: none;
+            border-right: none;
+            border-top: 1px solid var(--color-border-default);
+            border-bottom: 1px solid var(--color-border-default);
         }
     }
 
