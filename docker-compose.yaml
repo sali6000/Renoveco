@@ -9,6 +9,20 @@ services:
     volumes:
       - ./:/app
 
+  node:
+    build:
+      context: .
+      dockerfile: docker/node/Dockerfile
+    working_dir: /app
+    ports:
+      - "5173:5173" # (port de Vite)
+    volumes:
+      - ./package-lock.json:/app/package-lock.json
+      - ./package.json:/app/package.json
+      - ./public:/app/public
+      - ./src/assets:/app/src/assets
+      - ./vite.config.js:/app/vite.config.js
+
   mysql:
     image: mysql:latest # Utilise l'image officielle MySQL version (ex: 8.0.39).
     environment:
