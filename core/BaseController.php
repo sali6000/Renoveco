@@ -9,42 +9,52 @@ if (!defined('SECURE_CHECK')) {
 use Config\AppConfig;
 use Core\View;
 use Core\Logger\AccessLogger;
+// =============================================================================
+// BaseController.php — Conversion viewPath → clé CSS (robuste, long terme)
+// =============================================================================
+//
+// RÈGLE DE CORRESPONDANCE (identique côté Vite) :
+//   viewPath (Twig)                          →  clé SCSS / current_page
+//   ─────────────────────────────────────────────────────────────────
+//   Home/index.twig                          →  home-index
+//   Product/detail.twig                      →  product-detail
+//   Services/index.twig                      →  services-index
+//   Services/panneaux-photovoltaiques.twig   →  services-panneaux-photovoltaiques
+//   Services/chassis-et-fenetres.twig        →  services-chassis-et-fenetres
+//
+// STRUCTURE SCSS source correspondante :
+//   src/assets/scss/pages/
+//   └── services/
+//       ├── index.scss
+//       ├── panneaux-photovoltaiques.scss
+//       └── chassis-et-fenetres.scss
+//
+// =============================================================================
 
 abstract class BaseController
 {
-    /**
-     * Retourner la vue avec que les données associées (current_page + datas).
-     * Exemple avec:
-     * - render("Product/detail.twig", ['name' => 'Henri]) 
-     * 
-     * 
-     * Retourne la vue Product/Ui/Views/detail.twig avec 'Henri' et 'product-detail' acessibles
-     * 
-     * Le current_page sert d'identifiant pour:
-     * - Déterminer quel page scss appeller (depuis vite.config.js),
-     * - Appeller la page scss correspondante (depuis base.twig),
-     * - Appeller la page js correspondante (depuis app.js),
-     * - Établir des conditions (dans les vues et les assets).
-     */
     protected function render(string $viewPath, array $datas = []): void
     {
-        $assetsPath = $this->convertViewPathToScssPath($viewPath); # "product-detail" <= "Product/detail.twig"
-        $datas['current_page'] = $assetsPath; # Pour Vite 
+        $datas['current_page']      = $this->convertViewPathToAssetKey($viewPath);
+        $datas['current_page_path'] = $this->convertViewPathToScssPath($viewPath);
         View::render($viewPath, $datas);
     }
-
-    protected function convertViewPathToScssPath(string $view): string
+    protected function convertViewPathToAssetKey(string $viewPath): string
     {
-        // Séparer le chemin en parties (module et vue)
-        $parts = preg_split("#[\\/]+#", $view); // ['Product', 'detail.twig']
+        return implode('-', $this->getViewSegments($viewPath));
+    }
 
-        // Prendre la première partie (module)
-        $module = $parts[0]; // 'Product'
+    protected function convertViewPathToScssPath(string $viewPath): string
+    {
+        return implode('/', $this->getViewSegments($viewPath));
+    }
 
-        // Prendre la deuxieme partie (vue) sans l'extension .twig
-        $file = pathinfo($parts[count($parts) - 1], PATHINFO_FILENAME); // 'detail'
-
-        return strtolower($module . '-' . $file); // "product-detail"
+    private function getViewSegments(string $viewPath): array
+    {
+        $normalized = str_replace('\\', '/', $viewPath);
+        $segments   = explode('/', $normalized);
+        $segments[count($segments) - 1] = pathinfo(end($segments), PATHINFO_FILENAME);
+        return array_values(array_filter(array_map('strtolower', $segments)));
     }
 
     protected static function validateSlug(string $slug): void

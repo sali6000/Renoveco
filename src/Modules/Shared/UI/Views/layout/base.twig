@@ -19,7 +19,7 @@
             <script type="module" src="http://localhost:5173/src/assets/scss/_main.scss"></script>
 
             {% if current_page is defined %}
-                <script type="module" src="http://localhost:5173/src/assets/scss/pages/{{ current_page|replace({'-': '/'}) }}.scss"></script>
+                <script type="module" src="http://localhost:5173/src/assets/scss/pages/{{ current_page_path }}.scss"></script>
             {% endif %}
 
         {# En production (build) #}

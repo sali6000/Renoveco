@@ -3,21 +3,49 @@ import fs from 'fs';
 import path from 'path';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 
-// ── Auto-scan SCSS par module  ──
-const scssEntries = {};
-const pagesPath = path.resolve(__dirname, 'src/assets/scss/pages');
+/**
+ * Scan récursif d'un répertoire.
+ * Retourne tous les fichiers .scss non-partiels (ne commençant pas par _).
+ * Associe chaque fichier à une clé d'entrée construite depuis le chemin relatif.
+ *
+ * @param {string} baseDir  - Répertoire racine à scanner (ex: src/assets/scss/pages)
+ * @param {string} currentDir - Répertoire courant (pour la récursion)
+ * @param {Record<string, string>} entries - Accumulateur
+ * @returns {Record<string, string>}
+ */
+function scanScssEntries(baseDir, currentDir = baseDir, entries = {}) {
+    fs.readdirSync(currentDir).forEach(item => {
+        const fullPath = path.join(currentDir, item);
+        const stat = fs.statSync(fullPath);
 
-fs.readdirSync(pagesPath).forEach(module => {
-    const modulePath = path.join(pagesPath, module);
-    if (!fs.statSync(modulePath).isDirectory()) return;
+        if (stat.isDirectory()) {
+            // Récursion dans les sous-dossiers
+            scanScssEntries(baseDir, fullPath, entries);
+            return;
+        }
 
-    fs.readdirSync(modulePath).forEach(file => {
-        if (!file.endsWith('.scss') || file.startsWith('_')) return;
-        const entryName = `${module}-${file.replace('.scss', '')}`;
-        scssEntries[entryName] = path.join(modulePath, file);
-        console.log(`✅ SCSS trouvé: ${entryName}`);
+        if (!item.endsWith('.scss') || item.startsWith('_')) return;
+
+        // Chemin relatif depuis baseDir, sans extension
+        // ex: "services/panneaux-photovoltaiques"
+        const relativePath = path
+            .relative(baseDir, fullPath)
+            .replace(/\.scss$/, '');
+
+        // Clé d'entrée : séparateurs "/" et "\" → "-"
+        // ex: "services/panneaux-photovoltaiques" → "services-panneaux-photovoltaiques"
+        const entryKey = relativePath.replace(/[\\/]/g, '-');
+
+        entries[entryKey] = fullPath;
+        console.log(`✅ SCSS trouvé : ${entryKey}  ←  ${path.relative(process.cwd(), fullPath)}`);
     });
-});
+
+    return entries;
+}
+
+const pagesPath = path.resolve(__dirname, 'src/assets/scss/pages');
+const scssEntries = scanScssEntries(pagesPath);
+
 export default defineConfig(({ command }) => ({
     publicDir: false,
     base: command === 'serve' ? '/' : '/build/',

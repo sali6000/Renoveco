@@ -6,7 +6,7 @@
     "isEntry": true
   },
   "src/assets/scss/_main.scss": {
-    "file": "assets/main-IkWedgAN.css",
+    "file": "assets/main-D3o6oQCj.css",
     "name": "main",
     "names": [
       "main.css"
@@ -23,13 +23,57 @@
     "src": "src/assets/scss/pages/about/index.scss",
     "isEntry": true
   },
+  "src/assets/scss/pages/admin/category/index.scss": {
+    "file": "assets/admin-category-index-Du85Oq3p.css",
+    "name": "admin-category-index",
+    "names": [
+      "admin-category-index.css"
+    ],
+    "src": "src/assets/scss/pages/admin/category/index.scss",
+    "isEntry": true
+  },
+  "src/assets/scss/pages/admin/dashboard/index.scss": {
+    "file": "assets/admin-dashboard-index-Dd-Txt8x.css",
+    "name": "admin-dashboard-index",
+    "names": [
+      "admin-dashboard-index.css"
+    ],
+    "src": "src/assets/scss/pages/admin/dashboard/index.scss",
+    "isEntry": true
+  },
+  "src/assets/scss/pages/admin/laboratory/index.scss": {
+    "file": "assets/admin-laboratory-index-dCVsoFI1.css",
+    "name": "admin-laboratory-index",
+    "names": [
+      "admin-laboratory-index.css"
+    ],
+    "src": "src/assets/scss/pages/admin/laboratory/index.scss",
+    "isEntry": true
+  },
+  "src/assets/scss/pages/admin/product/index.scss": {
+    "file": "assets/admin-product-index-BTcXJk1_.css",
+    "name": "admin-product-index",
+    "names": [
+      "admin-product-index.css"
+    ],
+    "src": "src/assets/scss/pages/admin/product/index.scss",
+    "isEntry": true
+  },
+  "src/assets/scss/pages/admin/user/index.scss": {
+    "file": "assets/admin-user-index-CC83f4Co.css",
+    "name": "admin-user-index",
+    "names": [
+      "admin-user-index.css"
+    ],
+    "src": "src/assets/scss/pages/admin/user/index.scss",
+    "isEntry": true
+  },
   "src/assets/scss/pages/auth/login.scss": {
     "file": "assets/auth-login-x1XGuNl0.css",
-    "name": "services-detail",
+    "name": "contact-index",
     "names": [
       "auth-login.css",
-      "contact-index.css",
-      "services-detail.css"
+      "contact-index.css"
     ],
     "src": "src/assets/scss/pages/auth/login.scss",
     "isEntry": true
@@ -45,11 +89,10 @@
   },
   "src/assets/scss/pages/contact/index.scss": {
     "file": "assets/auth-login-x1XGuNl0.css",
-    "name": "services-detail",
+    "name": "contact-index",
     "names": [
       "auth-login.css",
-      "contact-index.css",
-      "services-detail.css"
+      "contact-index.css"
     ],
     "src": "src/assets/scss/pages/auth/login.scss",
     "isEntry": true
@@ -91,14 +134,21 @@
     "isEntry": true
   },
   "src/assets/scss/pages/services/detail.scss": {
-    "file": "assets/auth-login-x1XGuNl0.css",
+    "file": "assets/services-detail-g7pxOomj.css",
     "name": "services-detail",
     "names": [
-      "auth-login.css",
-      "contact-index.css",
       "services-detail.css"
     ],
-    "src": "src/assets/scss/pages/auth/login.scss",
+    "src": "src/assets/scss/pages/services/detail.scss",
+    "isEntry": true
+  },
+  "src/assets/scss/pages/services/panneaux-photovoltaiques.scss": {
+    "file": "assets/services-panneaux-photovoltaiques-xjlWcdNs.css",
+    "name": "services-panneaux-photovoltaiques",
+    "names": [
+      "services-panneaux-photovoltaiques.css"
+    ],
+    "src": "src/assets/scss/pages/services/panneaux-photovoltaiques.scss",
     "isEntry": true
   },
   "src/assets/scss/pages/shared/footer.scss": {

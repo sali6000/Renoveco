@@ -3,7 +3,19 @@
 
 .split {
     display: grid;
-    align-items: center; // ← centrage vertical par défaut
+    align-items: center;
+    text-align: center;
+    width: 100%;
+
+    &--dark {
+        background-color: var(--color-bg-inverse);
+        color: var(--color-text-inverse);
+    }
+
+    &--light {
+        background-color: var(--color-bg-base);
+        color: var(--color-text-default);
+    }
 
     // --- Proportions ---
     &--2x1 {

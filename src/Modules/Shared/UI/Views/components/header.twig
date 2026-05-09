@@ -34,7 +34,6 @@
                     <a href="/about" class="navbar__link">Société</a>
                 </li>
 
-                {# Services avec sous-menu 
                 <li class="navbar__item navbar__item--dropdown">
                     <button class="navbar__link navbar__link--dropdown" 
                         aria-expanded="false"
@@ -45,11 +44,13 @@
                         </svg>
                     </button>
                     <ul class="navbar__dropdown" role="menu">
-                        <li role="menuitem"><a href="/services/fenetres" class="navbar__dropdown-link">Fenêtres & Châssis</a></li>
-                        <li role="menuitem"><a href="/services/photovoltaique" class="navbar__dropdown-link">Panneaux photovoltaïques</a></li>
+                        <li role="menuitem"><a href="/services/panneaux-photovoltaiques" class="navbar__dropdown-link">Panneaux photovoltaïques</a></li>
+                        {#
+                        <li role="menuitem"><a href="/services/panneaux-photovoltaiques" class="navbar__dropdown-link">Fenêtres & Châssis</a></li>
                         <li role="menuitem"><a href="/services/vitrage" class="navbar__dropdown-link">Vitrage double & triple</a></li>
+                        #}                
                     </ul>
-                </li>#}
+                </li>
 
                 <li class="navbar__item">
                     <a href="/contact" class="navbar__link">Contact</a>
@@ -174,7 +175,6 @@
             <a href="/about" class="mobile-nav__link">Société</a>
         </li>
 
-        {# Services avec accordéon 
         <li class="mobile-nav__item mobile-nav__item--accordion">
             <button class="mobile-nav__link mobile-nav__link--accordion" data-accordion>
                 Services
@@ -183,11 +183,13 @@
                 </svg>
             </button>
             <ul class="mobile-nav__submenu">
-                <li><a href="/services/fenetres" class="mobile-nav__sublink">Fenêtres & Châssis</a></li>
                 <li><a href="/services/photovoltaique" class="mobile-nav__sublink">Panneaux photovoltaïques</a></li>
+        {#
+                <li><a href="/services/fenetres" class="mobile-nav__sublink">Fenêtres & Châssis</a></li>
                 <li><a href="/services/vitrage" class="mobile-nav__sublink">Vitrage double & triple</a></li>
+        #}
             </ul>
-        </li>#}
+        </li>
 
         <li class="mobile-nav__item">
             <a href="/contact" class="mobile-nav__link">Contact</a>
