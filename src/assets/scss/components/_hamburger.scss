@@ -13,7 +13,7 @@
     border-radius: var(--radius-m);
     position: absolute;
     top: var(--space-l);
-    top: calc(env(safe-area-inset-top) + var(--space-l));
+    top: calc(env(safe-area-inset-top) + var(--space-l)); // test
     left: var(--space-l);
     z-index: 200;
     background: rgba(0, 0, 0, 0.3);
