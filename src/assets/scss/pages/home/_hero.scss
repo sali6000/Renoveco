@@ -1,7 +1,7 @@
 // pages/home/_hero.scss
 @use '@scss/foundations/mixins';
 
-[data-section="hero"] {
+[data-section="home-hero"] {
     position: relative;
     height: 100dvh;
     --hero-title-size: clamp(2.5rem, 3.5vw, 4rem);
@@ -13,7 +13,7 @@
     }
 }
 
-.hero-content {
+.home-hero-content {
     height: 100%;
     padding: var(--space-5xl) var(--space-5xl) 0 var(--space-5xl);
     overflow: hidden;
@@ -23,9 +23,9 @@
     }
 }
 
-.hero-title,
-.hero-subtitle,
-.hero-description {
+.home-hero-title,
+.home-hero-subtitle,
+.home-hero-description {
     text-align: center;
     color: var(--color-text-inverse);
     font-weight: var(--font-weight-light);
@@ -33,15 +33,15 @@
     text-shadow: 2px 2px 5px rgb(0 0 0 / 0.9);
 }
 
-.hero-title {
+.home-hero-title {
     font-size: var(--hero-title-size);
 }
 
-.hero-subtitle {
+.home-hero-subtitle {
     font-size: var(--hero-subtitle-size);
 }
 
-.hero-background {
+.home-hero-background {
     position: absolute;
     inset: 0;
     z-index: -1;
@@ -70,7 +70,7 @@
     }
 }
 
-.hero-logo {
+.home-hero-logo {
     position: absolute;
     top: var(--space-m);
     left: 50%;
@@ -78,7 +78,7 @@
     width: var(--container-xs);
 }
 
-.hero-social {
+.home-hero-social {
     color: var(--color-text-inverse);
     font-weight: var(--font-weight-light);
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
@@ -100,8 +100,8 @@
     }
 }
 
-.hero-contact,
-.hero-social {
+.home-hero-contact,
+.home-hero-social {
     @include mixins.media-down(md) {
         flex-direction: column;
         align-items: center;

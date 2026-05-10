@@ -3,7 +3,7 @@
 @use '@scss/components/hamburger';
 
 
-.navbar {
+.shared-navbar {
     position: fixed;
     top: 0;
     left: 0;
@@ -18,19 +18,19 @@
         color: var(--color-text-inverse);
         background: transparent;
 
-        .navbar__logo-img--light {
+        .shared-navbar__logo-img--light {
             opacity: 1;
         }
 
-        .navbar__logo-img--dark {
+        .shared-navbar__logo-img--dark {
             opacity: 0;
         }
 
-        .navbar__link {
+        .shared-navbar__link {
             color: var(--color-text-inverse);
         }
 
-        .navbar__contact {
+        .shared-navbar__contact {
             opacity: 0;
             pointer-events: none;
             transform: translateY(-8px);
@@ -46,19 +46,19 @@
         border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         box-shadow: 0 1px 0 var(--color-border-default);
 
-        .navbar__logo-img--light {
+        .shared-navbar__logo-img--light {
             opacity: 0;
         }
 
-        .navbar__logo-img--dark {
+        .shared-navbar__logo-img--dark {
             opacity: 1;
         }
 
-        .navbar__link {
+        .shared-navbar__link {
             color: var(--color-text-default);
         }
 
-        .navbar__contact {
+        .shared-navbar__contact {
             opacity: 1;
             pointer-events: auto;
             transform: translateY(0);
@@ -71,19 +71,19 @@
         background: var(--color-bg-base);
         box-shadow: 0 1px 0 var(--color-border-default);
 
-        .navbar__logo-img--light {
+        .shared-navbar__logo-img--light {
             opacity: 0;
         }
 
-        .navbar__logo-img--dark {
+        .shared-navbar__logo-img--dark {
             opacity: 1;
         }
 
-        .navbar__link {
+        .shared-navbar__link {
             color: var(--color-text-default);
         }
 
-        .navbar__contact {
+        .shared-navbar__contact {
             opacity: 1;
             pointer-events: auto;
             transform: translateY(0);
@@ -171,7 +171,7 @@
             height: var(--space-s); // ← même valeur que le gap du dropdown
         }
 
-        &:hover .navbar__dropdown {
+        &:hover .shared-navbar__dropdown {
             opacity: 1;
             pointer-events: auto;
             transform: translateX(-50%) translateY(0);
@@ -204,7 +204,7 @@
     &__chevron {
         transition: transform var(--transition-fast);
 
-        .navbar__item--dropdown:hover & {
+        .shared-navbar__item--dropdown:hover & {
             transform: rotate(180deg);
         }
     }
@@ -233,7 +233,7 @@
         // Délai à la fermeture uniquement
         transition-delay: 0s;
 
-        .navbar__item--dropdown:not(:hover) & {
+        .shared-navbar__item--dropdown:not(:hover) & {
             transition-delay: 150ms; // ← laisse le temps de traverser
         }
     }

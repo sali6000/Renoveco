@@ -2,7 +2,7 @@
 @use '@scss/foundations/mixins';
 
 // --- Bouton hamburger ---
-.hamburger {
+.c-hamburger {
     display: none;
     flex-direction: column;
     justify-content: center;
@@ -47,7 +47,7 @@
 }
 
 // --- Overlay ---
-.mobile-overlay {
+.c-hamburger-overlay {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.5);
@@ -63,8 +63,8 @@
     }
 }
 
-// --- Panneau mobile ---
-.mobile-nav {
+// --- Panneau hamburger ---
+.c-hamburger-nav {
     position: fixed;
     top: 0;
     left: 0;
@@ -171,7 +171,7 @@
         transition: transform var(--transition-fast);
         flex-shrink: 0;
 
-        .mobile-nav__item--accordion.is-open & {
+        .c-hamburger-nav__item--accordion.is-open & {
             transform: rotate(180deg);
         }
     }
@@ -185,7 +185,7 @@
         overflow: hidden;
         transition: max-height var(--transition-base);
 
-        .mobile-nav__item--accordion.is-open & {
+        .c-hamburger-nav__item--accordion.is-open & {
             max-height: 300px;
         }
     }

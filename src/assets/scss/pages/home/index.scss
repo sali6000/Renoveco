@@ -2,18 +2,18 @@
 @use '@scss/foundations/mixins';
 @use '@scss/pages/home/hero';
 
-[data-section="info-1"],
-[data-section="info-3"] {
+[data-section="home-info-1"],
+[data-section="home-info-3"] {
     background: var(--color-bg-base);
     padding-block: var(--space-5xl);
 }
 
-[data-section="info-1"] {
+[data-section="home-info-1"] {
     background: var(--color-bg-subtle); // gris très léger, pas blanc pur
     padding-block: var(--space-5xl);
 }
 
-[data-section="info-2"] {
+[data-section="home-info-2"] {
     background: linear-gradient(135deg,
             var(--color-gradient-dark-start) 0%,
             var(--color-gradient-dark-end) 100%);
@@ -21,21 +21,20 @@
     padding-block: var(--space-5xl);
 }
 
-// pages/home/_index.scss
-.info-highlight {
+.home-info-highlight {
     h2 {
         padding-left: var(--space-m);
         border-left: 3px solid var(--color-brand-primary);
     }
 }
 
-.info-stats {
+.home-info-stats {
     width: 100%;
     padding-top: var(--space-l);
     border-top: 1px solid var(--color-border-default);
 }
 
-.info-stat {
+.home-info-stat {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -56,7 +55,7 @@
 }
 
 // Highlight inverse (sur fond sombre)
-.info-highlight--inverse {
+.home-info-highlight--inverse {
     h2 {
         padding-left: var(--space-m);
         border-left: 3px solid var(--color-accent); // orange sur fond sombre
@@ -64,11 +63,11 @@
 }
 
 // Badges
-.info-badges {
+.home-info-badges {
     flex-wrap: wrap;
 }
 
-.info-badge {
+.home-info-badge {
     padding: var(--space-xs) var(--space-m);
     border-radius: var(--radius-full);
     border: 1px solid rgba(255, 255, 255, 0.3);
@@ -79,7 +78,7 @@
 }
 
 // Checklist
-.info-checklist {
+.home-info-checklist {
     &__item {
         display: flex;
         align-items: flex-start;
@@ -123,7 +122,7 @@
 
 @include mixins.media-down(md) {
 
-    .split--p-5xl {
+    .home-split--p-5xl {
         padding: var(--space-m);
     }
 }

@@ -1,7 +1,7 @@
 @use '@scss/foundations/config';
 @use '@scss/foundations/mixins';
 
-.split {
+.l-split {
     display: grid;
     align-items: center;
     text-align: center;
@@ -109,11 +109,8 @@
             margin-block: var(--space-#{$size});
         }
     }
-}
 
-// --- Responsive : une colonne sur mobile ---
-@include mixins.media-down(sm) {
-    .split {
+    @include mixins.media-down(sm) {
         grid-template-columns: 1fr;
 
         // Inverse l'ordre sur mobile si besoin

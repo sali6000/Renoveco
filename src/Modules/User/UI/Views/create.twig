@@ -3,24 +3,24 @@
 {% block title %}Inscription - {{ parent() }}{% endblock %}
 
 {% block content %}
-<div class="container stack stack--gap-xl stack--p-5xl">
-<form class="form" id="auth-register-form">
+<div class="l-stack l-stack--gap-xl l-stack--p-xl">
+<form class="c-form" id="auth-register-form">
 
-    <div class="form__header">
+    <div class="c-form__header">
         <h2>Créer un compte</h2>
         <p>Remplissez le formulaire pour vous inscrire</p>
     </div>
 
-    <div class="form__divider"></div>
+    <div class="c-form__divider"></div>
 
     <input type="hidden" class="csrf_token" value="{{ csrf_token }}">
     <div id="form-error" class="alert alert--danger" style="display: none;"></div>
     <div id="form-success" class="alert alert--success" style="display: none;"></div>
 
-    <div class="form__field">
-        <label class="form__label" for="register-email">Adresse email</label>
+    <div class="c-form__field">
+        <label class="c-form__label" for="register-email">Adresse email</label>
         <input
-            class="form__input"
+            class="c-form__input"
             type="email"
             id="register-email"
             name="email"
@@ -31,10 +31,10 @@
         >
     </div>
 
-    <div class="form__field">
-        <label class="form__label" for="register-password">Mot de passe</label>
+    <div class="c-form__field">
+        <label class="c-form__label" for="register-password">Mot de passe</label>
         <input
-            class="form__input"
+            class="c-form__input"
             type="password"
             id="register-password"
             name="password"
@@ -42,29 +42,29 @@
             required
             placeholder="••••••••"
         >
-        <p class="form__hint">Minimum 8 caractères avec au moins 1 chiffre et 1 lettre</p>
+        <p class="c-form__hint">Minimum 8 caractères avec au moins 1 chiffre et 1 lettre</p>
     </div>
 
-    <div class="form__field form__field--checkbox">
+    <div class="c-form__field c-form__field--checkbox">
         <input
-            class="form__checkbox"
+            class="c-form__checkbox"
             type="checkbox"
             id="register-cgu"
             name="cgu"
             required
         >
-        <label class="form__label" for="register-cgu">
+        <label class="c-form__label" for="register-cgu">
             J'ai lu et j'accepte les <a href="/cgu">conditions générales d'utilisation</a>
         </label>
     </div>
 
-    <button type="submit" class="btn btn--primary">
+    <button type="submit" class="c-btn c-btn--primary">
         S'inscrire
     </button>
 
-    <div class="form__divider"></div>
+    <div class="c-form__divider"></div>
 
-    <p class="form__footer">
+    <p class="c-form__footer">
         Déjà un compte ? <a href="/auth/login">Se connecter</a>
     </p>
 

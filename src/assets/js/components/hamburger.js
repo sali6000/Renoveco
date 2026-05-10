@@ -1,23 +1,23 @@
 export default function initMenuHamburger() {
     const btn = document.querySelector('[data-hamburger]');
-    const nav = document.querySelector('[data-mobile-nav]');
-    const overlay = document.querySelector('[data-mobile-overlay]');
-    const closeBtn = document.querySelector('[data-mobile-close]');
+    const nav = document.querySelector('[data-hamburger-nav]');
+    const overlay = document.querySelector('[data-hamburger-overlay]');
+    const closeBtn = document.querySelector('[data-hamburger-close]');
 
     if (!btn || !nav) return;
 
     function open() {
-        nav.classList.add('mobile-nav--open');
-        overlay.classList.add('mobile-overlay--visible');
-        btn.classList.add('hamburger--open');
+        nav.classList.add('c-hamburger-nav--open');
+        overlay.classList.add('c-hamburger-overlay--visible');
+        btn.classList.add('c-hamburger--open');
         btn.setAttribute('aria-expanded', 'true');
         document.body.style.overflow = 'hidden'; // bloque le scroll
     }
 
     function close() {
-        nav.classList.remove('mobile-nav--open');
-        overlay.classList.remove('mobile-overlay--visible');
-        btn.classList.remove('hamburger--open');
+        nav.classList.remove('c-hamburger-nav--open');
+        overlay.classList.remove('c-hamburger-overlay--visible');
+        btn.classList.remove('c-hamburger--open');
         btn.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
     }
@@ -34,7 +34,7 @@ export default function initMenuHamburger() {
     // Accordéon services
     document.querySelectorAll('[data-accordion]').forEach(accordionBtn => {
         accordionBtn.addEventListener('click', () => {
-            const item = accordionBtn.closest('.mobile-nav__item--accordion');
+            const item = accordionBtn.closest('.c-hamburger-nav__item--accordion');
             item.classList.toggle('is-open');
             const expanded = item.classList.contains('is-open');
             accordionBtn.setAttribute('aria-expanded', expanded);

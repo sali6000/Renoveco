@@ -1,0 +1,270 @@
+// =============================================================================
+// components/_c-text.scss
+// Composant typographie global — chargé dans _main.scss
+//
+// Basé exclusivement sur les tokens sémantiques du projet :
+//   --font-size-{2xs|xs|s|m|l|xl|2xl}
+//   --font-weight-{light|regular|medium|semibold|bold}
+//   --color-text-{default|muted|inverse|on-accent}
+//   --color-accent
+//   --color-success | --color-danger | --color-warning
+//
+// USAGE COMPLET :
+//   <p class="c-text">Base</p>
+//   <p class="c-text c-text--muted c-text--sm">Petit et atténué</p>
+//   <p class="c-text c-text--centered c-text--max-reading">Centré, largeur lisible</p>
+//
+// MODIFICATEURS TAILLE   : --2xs | --xs | --sm | --base | --md | --lg | --xl | --2xl
+// MODIFICATEURS COULEUR  : --muted | --inverse | --accent | --success | --danger | --warning
+// MODIFICATEURS ALIGN    : --centered | --right | --justify
+// MODIFICATEURS POIDS    : --light | --medium | --semibold | --bold
+// MODIFICATEURS STYLE    : --italic | --uppercase | --truncate | --truncate-2 | --truncate-3
+// MODIFICATEURS LARGEUR  : --max-reading | --max-narrow | --max-wide
+// =============================================================================
+
+// -----------------------------------------------------------------------------
+// Variables locales — uniquement ce qui n'existe pas dans les tokens
+// (largeurs de lecture et line-heights n'ont pas de token dédié)
+// -----------------------------------------------------------------------------
+:root {
+    --c-text-max-reading: 65ch;
+    --c-text-max-narrow: 45ch;
+    --c-text-max-wide: 80ch;
+    --c-text-line-height-tight: 1.3;
+    --c-text-line-height-base: 1.6;
+    --c-text-line-height-loose: 1.8;
+}
+
+// -----------------------------------------------------------------------------
+// Bloc de base
+// -----------------------------------------------------------------------------
+.c-text {
+    font-size: var(--font-size-s); // 1rem — token "s"
+    font-weight: var(--font-weight-regular); // 400
+    line-height: var(--c-text-line-height-base); // 1.6
+    color: var(--color-text-default);
+    margin: 0;
+
+    // ── Tailles ───────────────────────────────────────────────────────────────
+    &--2xs {
+        font-size: var(--font-size-2xs);
+    }
+
+    // 0.75rem
+    &--xs {
+        font-size: var(--font-size-xs);
+    }
+
+    // 0.875rem
+    &--sm {
+        font-size: var(--font-size-xs);
+    }
+
+    // alias lisible → xs
+    &--base {
+        font-size: var(--font-size-s);
+    }
+
+    // 1rem
+    &--md {
+        font-size: var(--font-size-m);
+    }
+
+    // 1.125rem
+    &--lg {
+        font-size: var(--font-size-l);
+    }
+
+    // 1.25rem
+    &--xl {
+        font-size: var(--font-size-xl);
+    }
+
+    // 1.5rem
+    &--2xl {
+        font-size: var(--font-size-2xl);
+    }
+
+    // 2rem
+
+    // Alias sémantiques — correspondent aux classes utilisées dans les Twigs
+    &--small {
+        font-size: var(--font-size-xs);
+    }
+
+    &--large {
+        font-size: var(--font-size-l);
+    }
+
+    // ── Couleurs ──────────────────────────────────────────────────────────────
+    &--muted {
+        color: var(--color-text-muted);
+    }
+
+    &--inverse {
+        color: var(--color-text-inverse);
+    }
+
+    &--accent {
+        color: var(--color-accent);
+    }
+
+    &--success {
+        color: var(--color-success);
+    }
+
+    &--danger {
+        color: var(--color-danger);
+    }
+
+    &--warning {
+        color: var(--color-warning);
+    }
+
+    // ── Alignement ────────────────────────────────────────────────────────────
+    &--centered {
+        text-align: center;
+    }
+
+    &--right {
+        text-align: right;
+    }
+
+    &--justify {
+        text-align: justify;
+    }
+
+    // ── Poids ─────────────────────────────────────────────────────────────────
+    &--light {
+        font-weight: var(--font-weight-light);
+    }
+
+    &--medium {
+        font-weight: var(--font-weight-medium);
+    }
+
+    &--semibold {
+        font-weight: var(--font-weight-semibold);
+    }
+
+    &--bold {
+        font-weight: var(--font-weight-bold);
+    }
+
+    // ── Hauteur de ligne ──────────────────────────────────────────────────────
+    &--tight {
+        line-height: var(--c-text-line-height-tight);
+    }
+
+    &--loose {
+        line-height: var(--c-text-line-height-loose);
+    }
+
+    // ── Style ─────────────────────────────────────────────────────────────────
+    &--italic {
+        font-style: italic;
+    }
+
+    &--uppercase {
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+    }
+
+    // ── Largeurs de lecture ───────────────────────────────────────────────────
+    &--max-reading {
+        max-width: var(--c-text-max-reading);
+        margin-inline: auto;
+    }
+
+    &--max-narrow {
+        max-width: var(--c-text-max-narrow);
+        margin-inline: auto;
+    }
+
+    &--max-wide {
+        max-width: var(--c-text-max-wide);
+        margin-inline: auto;
+    }
+
+    // ── Troncature ────────────────────────────────────────────────────────────
+    &--truncate {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    &--truncate-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    &--truncate-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    &--no-wrap {
+        white-space: nowrap;
+    }
+}
+
+// -----------------------------------------------------------------------------
+// Alias utilitaires autonomes
+// Permettent d'écrire class="text--muted" sans répéter "c-text"
+// Couvrent les classes déjà présentes dans les templates Twig existants.
+// À utiliser avec parcimonie — préférer .c-text + modificateur sur le nouveau code.
+// -----------------------------------------------------------------------------
+.text--muted {
+    color: var(--color-text-muted);
+}
+
+.text--inverse {
+    color: var(--color-text-inverse);
+}
+
+.text--accent {
+    color: var(--color-accent);
+}
+
+.text--centered {
+    text-align: center;
+}
+
+.text--right {
+    text-align: right;
+}
+
+.text--small {
+    font-size: var(--font-size-xs);
+}
+
+.text--lg {
+    font-size: var(--font-size-l);
+}
+
+.text--bold {
+    font-weight: var(--font-weight-bold);
+}
+
+.text--semibold {
+    font-weight: var(--font-weight-semibold);
+}
+
+.text--uppercase {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.text--max-reading {
+    max-width: var(--c-text-max-reading);
+    margin-inline: auto;
+}
+
+.text--max-narrow {
+    max-width: var(--c-text-max-narrow);
+    margin-inline: auto;
+}

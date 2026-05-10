@@ -5,21 +5,21 @@ export default function initNew() {
     const isHome = document.body.dataset.currentPage === 'home-index';
 
     if (isHome) {
-        navbar.classList.add('navbar--transparent');
+        navbar.classList.add('shared-navbar--transparent');
 
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
-                navbar.classList.replace('navbar--transparent', 'navbar--scrolled');
+                navbar.classList.replace('shared-navbar--transparent', 'shared-navbar--scrolled');
             } else {
-                navbar.classList.replace('navbar--scrolled', 'navbar--transparent');
+                navbar.classList.replace('shared-navbar--scrolled', 'shared-navbar--transparent');
             }
         });
     } else {
-        navbar.classList.add('navbar--solid');
+        navbar.classList.add('shared-navbar--solid');
     }
 
     // Dropdown accessibilité clavier
-    document.querySelectorAll('.navbar__link--dropdown').forEach(btn => {
+    document.querySelectorAll('.shared-navbar__link--dropdown').forEach(btn => {
         btn.addEventListener('click', () => {
             const expanded = btn.getAttribute('aria-expanded') === 'true';
             btn.setAttribute('aria-expanded', !expanded);

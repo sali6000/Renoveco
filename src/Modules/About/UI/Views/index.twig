@@ -3,15 +3,15 @@
 {% block title %}A propos - {{ parent() }}{% endblock %}
 
 {% block content %}
-<div class="wrapper stack stack--centered stack--gap-2xl stack--p-5xl">
-  <div class="image image--w-l reveal slide-down">
+<div class="l-wrapper l-stack l-stack--centered l-stack--gap-2xl l-stack--p-xl">
+  <div class="c-image c-image--w-l reveal slide-down">
     <img loading="lazy" src="{{ vite_asset('img/about/logos/rclogo-02-dark.png') }}" alt="logo-author">
   </div>
-  <div class="split split--top split--equal-2 split--gap-xl reveal slide-up">
+  <div class="l-split l-split--top l-split--equal-2 l-split--gap-xl reveal slide-up">
 
     {# Image #}
-    <div class="stack stack--centered">
-        <div class="image image--w-l">
+    <div class="l-stack l-stack--centered">
+        <div class="c-image c-image--w-l">
             <img loading="lazy" 
                 src="{{ vite_asset('img/home/renoveconstructlittle.avif') }}" 
                 alt="Renove Construct équipe">
@@ -19,7 +19,7 @@
     </div>
 
     {# Texte #}
-    <div class="stack stack--gap-l stack--align-start">
+    <div class="l-stack l-stack--gap-l l-stack--align-start">
 
         {# Accroche mis en valeur #}
         <div class="about-highlight">
@@ -35,7 +35,7 @@
     </div>
   </div>
 
-<div class="stack stack--gap-xl reveal slide-up">
+<div class="l-stack l-stack--gap-xl reveal slide-up">
 
     <div class="about-videos__header">
         <h2>Découvrez notre savoir-faire en vidéo</h2>
@@ -43,13 +43,13 @@
     </div>
 
     {# Deux vidéos côte à côte #}
-    <div class="split split--equal-2 split--gap-l">
-        <div class="video video--ratio-16-9">
+    <div class="l-split l-split--equal-2 l-split--gap-l">
+        <div class="c-video c-video--ratio-16-9">
             <video controls preload="none" poster="{{ vite_asset('img/about/poster1.avif') }}">
                 <source src="{{ vite_asset('webm/about/video1.webm') }}" type="video/webm">
             </video>
         </div>
-        <div class="video video--ratio-16-9">
+        <div class="c-video c-video--ratio-16-9">
             <video controls preload="none" poster="{{ vite_asset('img/about/poster2.avif') }}">
                 <source src="{{ vite_asset('webm/about/video2.webm') }}" type="video/webm">
             </video>
@@ -58,7 +58,7 @@
 
     {# Troisième vidéo centrée #}
     <div class="about-videos__featured">
-        <div class="video video--ratio-16-9">
+        <div class="c-video c-video--ratio-16-9">
             <video controls preload="none" poster="{{ vite_asset('img/about/poster3.avif') }}">
                 <source src="{{ vite_asset('webm/about/video3.webm') }}" type="video/webm">
             </video>

@@ -1,81 +1,81 @@
-<header class="navbar" data-navbar>
+<header class="shared-navbar" data-navbar>
 
     {# Promotion #}
     {% if information and current_page == "home-index" %}
-    <div class="navbar__promo navbar__promo--{{ information.type }}">
+    <div class="shared-navbar__promo shared-navbar__promo--{{ information.type }}">
         {{ information.text }}
     </div>
     {% endif %}
 
     {# Barre principale #}
-    <div class="navbar__bar">
+    <div class="shared-navbar__bar">
 
         {# Logo #}
-        <a href="/" class="navbar__logo" aria-label="Accueil Renove Construct">
-            <img class="navbar__logo-img navbar__logo-img--light"
+        <a href="/" class="shared-navbar__logo" aria-label="Accueil Renove Construct">
+            <img class="shared-navbar__logo-img shared-navbar__logo-img--light"
                 src="{{ vite_asset('img/about/logos/rclogo-02-light.png') }}"
                 alt="Renove Construct">
-            <img class="navbar__logo-img navbar__logo-img--dark"
+            <img class="shared-navbar__logo-img shared-navbar__logo-img--dark"
                 src="{{ vite_asset('img/about/logos/rclogo-02-dark.png') }}"
                 alt="Renove Construct">
         </a>
 
         {# Menu principal #}
-        <nav class="navbar__nav" aria-label="Navigation principale">
-            <ul class="navbar__menu">
+        <nav class="shared-navbar__nav" aria-label="Navigation principale">
+            <ul class="shared-navbar__menu">
 
                 {% if env == "dev" %}
-                <li class="navbar__item">
-                    <a href="/product/list" class="navbar__link">Produits</a>
+                <li class="shared-navbar__item">
+                    <a href="/product/list" class="shared-navbar__link">Produits</a>
                 </li>
                 {% endif %}
 
-                <li class="navbar__item">
-                    <a href="/about" class="navbar__link">Société</a>
+                <li class="shared-navbar__item">
+                    <a href="/about" class="shared-navbar__link">Société</a>
                 </li>
 
-                <li class="navbar__item navbar__item--dropdown">
-                    <button class="navbar__link navbar__link--dropdown" 
+                <li class="shared-navbar__item shared-navbar__item--dropdown">
+                    <button class="shared-navbar__link shared-navbar__link--dropdown" 
                         aria-expanded="false"
                         aria-haspopup="true">
                         Services
-                        <svg class="navbar__chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                        <svg class="shared-navbar__chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
                             <path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
                         </svg>
                     </button>
-                    <ul class="navbar__dropdown" role="menu">
-                        <li role="menuitem"><a href="/services/panneaux-photovoltaiques" class="navbar__dropdown-link">Panneaux photovoltaïques</a></li>
+                    <ul class="shared-navbar__dropdown" role="menu">
+                        <li role="menuitem"><a href="/services/panneaux-photovoltaiques" class="shared-navbar__dropdown-link">Panneaux photovoltaïques</a></li>
                         {#
-                        <li role="menuitem"><a href="/services/panneaux-photovoltaiques" class="navbar__dropdown-link">Fenêtres & Châssis</a></li>
-                        <li role="menuitem"><a href="/services/vitrage" class="navbar__dropdown-link">Vitrage double & triple</a></li>
+                        <li role="menuitem"><a href="/services/panneaux-photovoltaiques" class="shared-navbar__dropdown-link">Fenêtres & Châssis</a></li>
+                        <li role="menuitem"><a href="/services/vitrage" class="shared-navbar__dropdown-link">Vitrage double & triple</a></li>
                         #}                
                     </ul>
                 </li>
 
-                <li class="navbar__item">
-                    <a href="/contact" class="navbar__link">Contact</a>
+                <li class="shared-navbar__item">
+                    <a href="/contact" class="shared-navbar__link">Contact</a>
                 </li>
 
                 {% if userSession %}
                     {% if userSession.role is same as('superadmin') %}
-                    <li class="navbar__item">
-                        <a href="/admin/dashboard" class="navbar__link">Admin</a>
+                    <li class="shared-navbar__item">
+                        <a href="/admin/dashboard" class="shared-navbar__link">Admin</a>
                     </li>
                     {% endif %}
                     {% if userSession.role is same as('user') %}
-                    <li class="navbar__item">
-                        <a href="/profil" class="navbar__link">Mon profil</a>
+                    <li class="shared-navbar__item">
+                        <a href="/profil" class="shared-navbar__link">Mon profil</a>
                     </li>
                     {% endif %}
-                    <li class="navbar__item">
-                        <a href="/auth/logout" class="navbar__link">Déconnexion</a>
+                    <li class="shared-navbar__item">
+                        <a href="/auth/logout" class="shared-navbar__link">Déconnexion</a>
                     </li>
                 {% else %}
-                    <li class="navbar__item">
-                        <a href="/auth/login" class="navbar__link">Connexion</a>
+                    <li class="shared-navbar__item">
+                        <a href="/auth/login" class="shared-navbar__link">Connexion</a>
                     </li>
-                    <li class="navbar__item">
-                        <a href="/user/register" class="btn btn--primary btn--sm">Inscription</a>
+                    <li class="shared-navbar__item">
+                        <a href="/user/register" class="c-btn c-btn--primary c-btn--sm">Inscription</a>
                     </li>
                 {% endif %}
 
@@ -83,32 +83,32 @@
         </nav>
 
         {# Contact #}
-        <div class="navbar__contact" data-navbar-contact>
-            <a href="tel:+32492759577" class="navbar__contact-phone">
-                <img class="navbar__contact-icon"
+        <div class="shared-navbar__contact" data-navbar-contact>
+            <a href="tel:+32492759577" class="shared-navbar__contact-phone">
+                <img class="shared-navbar__contact-icon"
                     src="{{ vite_asset('img/layouts/emoticons/phone-2.png') }}"
                     alt="">
-                <span class="navbar__contact-info">
+                <span class="shared-navbar__contact-info">
                     <strong>0492/75.95.77</strong>
                     <small>Lun–Ven 8h–16h</small>
                 </span>
             </a>
-            <div class="cluster cluster--gap-s">
+            <div class="l-cluster l-cluster--gap-s">
                 <a href="https://wa.me/32492759577" 
-                    class="navbar__social-link"
+                    class="shared-navbar__social-link"
                     title="WhatsApp"
                     target="_blank" 
                     rel="noopener noreferrer">
-                    <img class="navbar__social-icon"
+                    <img class="shared-navbar__social-icon"
                         src="{{ vite_asset('img/layouts/logos/whatsapp.png') }}"
                         alt="WhatsApp">
                 </a>
                 <a href="https://www.facebook.com/profile.php?id=61580757421154"
-                    class="navbar__social-link"
+                    class="shared-navbar__social-link"
                     title="Facebook"
                     target="_blank"
                     rel="noopener noreferrer">
-                    <img class="navbar__social-icon"
+                    <img class="shared-navbar__social-icon"
                         src="{{ vite_asset('img/layouts/logos/facebook.png') }}"
                         alt="Facebook">
                 </a>
@@ -126,33 +126,33 @@
 
     {# Bouton hamburger — visible uniquement mobile #}
 <button 
-    class="hamburger"
-    id="hamburger-btn"
+    class="c-hamburger"
+    id="c-hamburger-btn"
     aria-expanded="false"
-    aria-controls="mobile-nav"
+    aria-controls="c-hamburger-nav"
     aria-label="Ouvrir le menu"
     data-hamburger>
-    <span class="hamburger__line"></span>
-    <span class="hamburger__line"></span>
-    <span class="hamburger__line"></span>
+    <span class="c-hamburger__line"></span>
+    <span class="c-hamburger__line"></span>
+    <span class="c-hamburger__line"></span>
 </button>
 
 {# Overlay #}
-<div class="mobile-overlay" data-mobile-overlay></div>
+<div class="c-hamburger-overlay" data-hamburger-overlay></div>
 
 {# Menu mobile #}
-<nav class="mobile-nav" id="mobile-nav" data-mobile-nav aria-label="Menu mobile">
+<nav class="c-hamburger-nav" id="hamburger-nav" data-hamburger-nav aria-label="Menu mobile">
 
     {# Header du panneau #}
-    <div class="mobile-nav__header">
+    <div class="c-hamburger-nav__header">
         <img 
-            class="mobile-nav__logo"
+            class="c-hamburger-nav__logo"
             src="{{ vite_asset('img/about/logos/rclogo-02-light.png') }}"
             alt="Renove Construct">
         <button 
-            class="mobile-nav__close"
+            class="c-hamburger-nav__close"
             aria-label="Fermer le menu"
-            data-mobile-close>
+            data-hamburger-close>
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                 <path d="M4 4L16 16M16 4L4 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
             </svg>
@@ -160,83 +160,83 @@
     </div>
 
     {# Liens #}
-    <ul class="mobile-nav__menu">
-        <li class="mobile-nav__item">
-            <a href="/" class="mobile-nav__link">Accueil</a>
+    <ul class="c-hamburger-nav__menu">
+        <li class="c-hamburger-nav__item">
+            <a href="/" class="c-hamburger-nav__link">Accueil</a>
         </li>
 
         {% if env == "dev" %}
-        <li class="mobile-nav__item">
-            <a href="/product/list" class="mobile-nav__link">Produits</a>
+        <li class="c-hamburger-nav__item">
+            <a href="/product/list" class="c-hamburger-nav__link">Produits</a>
         </li>
         {% endif %}
 
-        <li class="mobile-nav__item">
-            <a href="/about" class="mobile-nav__link">Société</a>
+        <li class="c-hamburger-nav__item">
+            <a href="/about" class="c-hamburger-nav__link">Société</a>
         </li>
 
-        <li class="mobile-nav__item mobile-nav__item--accordion">
-            <button class="mobile-nav__link mobile-nav__link--accordion" data-accordion>
+        <li class="c-hamburger-nav__item c-hamburger-nav__item--accordion">
+            <button class="c-hamburger-nav__link c-hamburger-nav__link--accordion" data-accordion>
                 Services
-                <svg class="mobile-nav__chevron" width="16" height="16" viewBox="0 0 12 12" fill="none">
+                <svg class="c-hamburger-nav__chevron" width="16" height="16" viewBox="0 0 12 12" fill="none">
                     <path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
                 </svg>
             </button>
-            <ul class="mobile-nav__submenu">
-                <li><a href="/services/panneaux-photovoltaiques" class="mobile-nav__sublink">Panneaux photovoltaïques</a></li>
+            <ul class="c-hamburger-nav__submenu">
+                <li><a href="/services/panneaux-photovoltaiques" class="c-hamburger-nav__sublink">Panneaux photovoltaïques</a></li>
         {#
-                <li><a href="/services/fenetres" class="mobile-nav__sublink">Fenêtres & Châssis</a></li>
-                <li><a href="/services/vitrage" class="mobile-nav__sublink">Vitrage double & triple</a></li>
+                <li><a href="/services/fenetres" class="c-hamburger-nav__sublink">Fenêtres & Châssis</a></li>
+                <li><a href="/services/vitrage" class="c-hamburger-nav__sublink">Vitrage double & triple</a></li>
         #}
             </ul>
         </li>
 
-        <li class="mobile-nav__item">
-            <a href="/contact" class="mobile-nav__link">Contact</a>
+        <li class="c-hamburger-nav__item">
+            <a href="/contact" class="c-hamburger-nav__link">Contact</a>
         </li>
 
         {% if userSession %}
             {% if userSession.role is same as('superadmin') %}
-            <li class="mobile-nav__item">
-                <a href="/admin/dashboard" class="mobile-nav__link">Admin</a>
+            <li class="c-hamburger-nav__item">
+                <a href="/admin/dashboard" class="c-hamburger-nav__link">Admin</a>
             </li>
             {% endif %}
             {% if userSession.role is same as('user') %}
-            <li class="mobile-nav__item">
-                <a href="/profil" class="mobile-nav__link">Mon profil</a>
+            <li class="c-hamburger-nav__item">
+                <a href="/profil" class="c-hamburger-nav__link">Mon profil</a>
             </li>
             {% endif %}
-            <li class="mobile-nav__item">
-                <a href="/auth/logout" class="mobile-nav__link">Déconnexion</a>
+            <li class="c-hamburger-nav__item">
+                <a href="/auth/logout" class="c-hamburger-nav__link">Déconnexion</a>
             </li>
         {% else %}
-            <li class="mobile-nav__item">
-                <a href="/auth/login" class="mobile-nav__link">Connexion</a>
+            <li class="c-hamburger-nav__item">
+                <a href="/auth/login" class="c-hamburger-nav__link">Connexion</a>
             </li>
-            <li class="mobile-nav__item">
-                <a href="/user/register" class="mobile-nav__link mobile-nav__link--cta">Inscription</a>
+            <li class="c-hamburger-nav__item">
+                <a href="/user/register" class="c-hamburger-nav__link c-hamburger-nav__link--cta">Inscription</a>
             </li>
         {% endif %}
     </ul>
 
     {# Footer du panneau #}
-    <div class="mobile-nav__footer">
-        <a href="tel:+32492759577" class="mobile-nav__contact-link">
-            <img class="mobile-nav__contact-icon"
+    <div class="c-hamburger-nav__footer">
+        <a href="tel:+32492759577" class="c-hamburger-nav__contact-link">
+            <img class="c-hamburger-nav__contact-icon"
                 src="{{ vite_asset('img/layouts/emoticons/phone-2.png') }}"
                 alt="">
             <span>0492/75.95.77</span>
         </a>
-        <div class="cluster cluster--gap-m">
+        <div class="l-cluster l-cluster--gap-m">
             <a href="https://wa.me/32492759577"
-                class="mobile-nav__social"
+                class="c-hamburger-nav__social"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="WhatsApp">
                 <img src="{{ vite_asset('img/layouts/logos/whatsapp.png') }}" alt="WhatsApp">
             </a>
             <a href="https://www.facebook.com/profile.php?id=61580757421154"
-                class="mobile-nav__social"
+                class="c-hamburger-nav__social"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook">
