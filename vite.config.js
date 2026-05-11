@@ -74,6 +74,11 @@ export default defineConfig(({ command }) => ({
                     dest: '.',
                     globOptions: { ignore: ['**/*Zone.Identifier'] }
                 },
+                {
+                    src: 'src/assets/fonts',
+                    dest: '.',
+                    globOptions: { ignore: ['**/*Zone.Identifier'] }
+                },
             ]
         })
     ],

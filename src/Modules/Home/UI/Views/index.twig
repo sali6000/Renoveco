@@ -9,8 +9,12 @@
 
   {# Hero : Carrousel #}
   <div class="home-hero-background home-hero-background--video">
-    <video autoplay muted loop playsinline preload="none" poster="{{ vite_asset('img/layouts/background.avif') }}">
-      <source src="{{ vite_asset('webm/home/videoloop3.webm') }}" type="video/webm" />
+    <video 
+      id="hero-video" 
+      autoplay muted loop playsinline preload="none"
+      poster="{{ vite_asset('img/layouts/background.avif') }}"
+      data-src="{{ vite_asset('webm/home/videoloop3.webm') }}"
+      data-type="video/webm">
     </video>
   </div>
 
@@ -18,14 +22,8 @@
   <div class="home-hero-background home-hero-background--mobile">
     <img 
         loading="eager"
-        src="{{ vite_asset('img/home/background-mobile-light.png') }}"
+        src="{{ vite_asset('img/home/background-mobile-v2.avif') }}"
         alt="Fenêtres et panneaux photovoltaïques en Belgique">
-    <div class="home-hero-logo c-image c-image--w-m">
-        <img 
-            loading="eager"
-            src="{{ vite_asset('img/about/logos/rclogo-02-dark.png') }}"
-            alt="Logo Renove Construct">
-    </div>
   </div>
 
   {# Hero : Contenu #}

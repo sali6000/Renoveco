@@ -1,0 +1,1 @@
+function e(){if(window.matchMedia(`(min-width: 768px)`).matches){let e=document.getElementById(`hero-video`);if(e&&e.dataset.src){let t=document.createElement(`source`);t.src=e.dataset.src,t.type=e.dataset.type||`video/webm`,e.appendChild(t),e.load(),e.play().catch(()=>{})}}}function t(){e()}export{t as default};

@@ -2,6 +2,8 @@
 
 // Définition des valeurs globales (couleurs, tailles, etc.)
 @use 'tokens/semantic'; // Les tokens (couleurs, tailles, etc.)
+@use 'tokens/fonts'; // Les tokens (couleurs, tailles, etc.)
+
 
 // Redéfinition des styles de base (body, font, h1, h2, etc.)
 @use 'base/reset';

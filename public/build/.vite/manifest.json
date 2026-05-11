@@ -1,12 +1,60 @@
 {
+  "_ApiHelper-CsoFaPC6.js": {
+    "file": "assets/ApiHelper-CsoFaPC6.js",
+    "name": "ApiHelper"
+  },
   "src/assets/js/app.js": {
-    "file": "assets/app-Di2f1Vij.js",
+    "file": "assets/app-MD_zvpuX.js",
     "name": "app",
     "src": "src/assets/js/app.js",
-    "isEntry": true
+    "isEntry": true,
+    "dynamicImports": [
+      "src/assets/js/pages/admin/category/index.js",
+      "src/assets/js/pages/home/index.js",
+      "src/assets/js/pages/product/detail.js",
+      "src/assets/js/pages/product/list.js",
+      "src/assets/js/app.js",
+      "src/assets/js/pages/user/create.js"
+    ]
+  },
+  "src/assets/js/pages/admin/category/index.js": {
+    "file": "assets/category-DghnUoUa.js",
+    "name": "category",
+    "src": "src/assets/js/pages/admin/category/index.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_ApiHelper-CsoFaPC6.js"
+    ]
+  },
+  "src/assets/js/pages/home/index.js": {
+    "file": "assets/home-BxYohEQ3.js",
+    "name": "home",
+    "src": "src/assets/js/pages/home/index.js",
+    "isDynamicEntry": true
+  },
+  "src/assets/js/pages/product/detail.js": {
+    "file": "assets/detail-C8XDJ9Wd.js",
+    "name": "detail",
+    "src": "src/assets/js/pages/product/detail.js",
+    "isDynamicEntry": true
+  },
+  "src/assets/js/pages/product/list.js": {
+    "file": "assets/list-CPKqDMC3.js",
+    "name": "list",
+    "src": "src/assets/js/pages/product/list.js",
+    "isDynamicEntry": true
+  },
+  "src/assets/js/pages/user/create.js": {
+    "file": "assets/create-pW7D0ml1.js",
+    "name": "create",
+    "src": "src/assets/js/pages/user/create.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_ApiHelper-CsoFaPC6.js"
+    ]
   },
   "src/assets/scss/_main.scss": {
-    "file": "assets/main-BxuCk-Gf.css",
+    "file": "assets/main-CnhlIx_p.css",
     "name": "main",
     "names": [
       "main.css"
@@ -107,7 +155,7 @@
     "isEntry": true
   },
   "src/assets/scss/pages/home/index.scss": {
-    "file": "assets/home-index-Cpj9XyLf.css",
+    "file": "assets/home-index-B072yock.css",
     "name": "home-index",
     "names": [
       "home-index.css"
