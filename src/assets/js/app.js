@@ -5,7 +5,10 @@ import initReveal from '@js/components/reveal';
 import initHeader from '@js/pages/shared/header';
 
 // Vite génère le mapping complet à la compilation
-const pages = import.meta.glob('./pages/**/*.js');
+const pages = import.meta.glob([
+  './pages/**/*.js',
+  '!./pages/shared/**'
+]);
 
 // Modules spécifiques à la "current_page" appellée
 async function initApp() {

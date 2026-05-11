@@ -4,7 +4,7 @@
     "name": "ApiHelper"
   },
   "src/assets/js/app.js": {
-    "file": "assets/app-MD_zvpuX.js",
+    "file": "assets/app-BW1sbpFu.js",
     "name": "app",
     "src": "src/assets/js/app.js",
     "isEntry": true,
@@ -13,7 +13,6 @@
       "src/assets/js/pages/home/index.js",
       "src/assets/js/pages/product/detail.js",
       "src/assets/js/pages/product/list.js",
-      "src/assets/js/app.js",
       "src/assets/js/pages/user/create.js"
     ]
   },
@@ -54,7 +53,7 @@
     ]
   },
   "src/assets/scss/_main.scss": {
-    "file": "assets/main-C9voUTm3.css",
+    "file": "assets/main-Dn0DIV3i.css",
     "name": "main",
     "names": [
       "main.css"
@@ -209,7 +208,7 @@
     "isEntry": true
   },
   "src/assets/scss/pages/shared/header.scss": {
-    "file": "assets/shared-header-CRFhhk6X.css",
+    "file": "assets/shared-header-CKFm1pwb.css",
     "name": "shared-header",
     "names": [
       "shared-header.css"
