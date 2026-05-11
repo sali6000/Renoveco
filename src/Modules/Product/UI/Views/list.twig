@@ -70,7 +70,7 @@
             <figure>
         <a href="product/detail/{{ product.slug }}">
               <img 
-              class="preview reveal slide-up"
+              class="preview a-reveal a-reveal--slide-up"
               loading="lazy" src="/uploads/img/products/medium/{{ product.images[0].filePath ?? 'placeholder.jpg' }}"
               alt="{{ product.name }} - {{ product.categories[0].name }}">
                 {% if product.supplier_name %}
