@@ -7,11 +7,10 @@ use Src\Exception\ValidationException;
 use Config\AppConfig;
 use Core\Container;
 use Core\Middleware\Middleware;
+use Core\Routing\Exception\RoutingException;
 use Core\Routing\RouteCache;
 use Core\Routing\RouteCompiler;
 use Core\Routing\RouteContext;
-use Core\Support\DebugHelper;
-use Exception;
 
 class Router
 {
@@ -63,7 +62,11 @@ class Router
         }
 
         // Renvoyer une erreur si URI inconnu
-        throw new Exception('Aucun pattern en cache de trouvé pour l\'URI : ' . $this->uri);
+        throw new RoutingException(
+            'Aucun pattern trouvé pour l\'URI : ' . $this->uri,
+            404,
+            errorId: 'ROUTE_NOT_FOUND'
+        );
     }
 
     private function saveRouteContext($cache, $params, $method)

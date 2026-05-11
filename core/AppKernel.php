@@ -7,6 +7,7 @@ use Config\EnvLoader;
 use Core\Logger\AccessLogger;
 use Core\Routing\Router;
 use Config\AppConfig;
+use Core\Routing\Exception\RoutingException;
 
 class AppKernel
 {
@@ -22,15 +23,24 @@ class AppKernel
     {
         try {
             $this->initialization();
-            $this->executeRequest();                // 🚀 Exécution du routeur et du contrôleur
+            $this->executeRequest();
+        } catch (RoutingException $e) {
+            $code = $e->getCode();
+            AccessLogger::log("Routing [{$code}] — {$e->getErrorId()} : " . $e->getMessage(), AccessLogger::LEVEL_WARNING);
+
+            http_response_code($code);
+            $page = match ($code) {
+                403 => '403.html',
+                404 => '404.html',
+                default => '500.html',
+            };
+            include __DIR__ . '/../public/errors/' . $page;
+            exit;
         } catch (\Throwable $e) {
-            // En cas d'erreur critique lors du bootstrap, on log et affiche un message simple
-            AccessLogger::log("❌ Erreur critique lors du bootstrap : " . $e, AccessLogger::LEVEL_ERROR);
-            if ((AppConfig::getEnv('APP_ENV') ?? '') === 'dev') {
-                echo "<h1>Erreur critique lors du démarrage (dev)</h1><pre>$e</pre>";
-            } else {
-                echo "Une erreur technique est survenue lors du démarrage de l'application. Veuillez contacter l'administrateur.";
-            }
+            AccessLogger::log("❌ Erreur critique : " . $e, AccessLogger::LEVEL_ERROR);
+            http_response_code(500);
+            include __DIR__ . '/../public/errors/500.html';
+            exit;
         }
     }
 

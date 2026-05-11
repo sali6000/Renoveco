@@ -12,7 +12,6 @@ class AuthMiddleware extends Middleware
             header('Location: /auth/login');
             exit;
         }
-
         return true;
     }
 }
