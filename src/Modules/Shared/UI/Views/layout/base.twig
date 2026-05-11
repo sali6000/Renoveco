@@ -8,8 +8,6 @@
         <meta name="description" content="Installation de fenêtres et panneaux photovoltaïques en Belgique. Devis gratuit sous 24h. Travail rapide et soigné. Contactez nos experts pour plus d'informations." />
         <meta name="author" content="Steven Ferlazzo">
         <base href="{{ baseUri|e }}">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="shortcut icon" href="{{ vite_asset('img/about/logos/favicon-v2.ico') }}">
         
         {# En développement (watch) #}
@@ -23,7 +21,7 @@
 
         {# En production (build) #}
         {% else %}
-            <link rel="stylesheet" href="{{ vite_asset('main.css') }}">
+            <link rel="preload" href="{{ vite_asset('main.css') }}">
 
             {% set pageAsset = vite_asset_optional(current_page ~ '.css') %}
             {% if pageAsset %}
