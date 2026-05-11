@@ -9,6 +9,7 @@
         <meta name="author" content="Steven Ferlazzo">
         <base href="{{ baseUri|e }}">
         <link rel="shortcut icon" href="{{ vite_asset('img/about/logos/favicon-v2.ico') }}">
+        <link rel="preload" href="{{ vite_asset('fonts/Inter24pt-Regular.woff2') }}" as="font" type="font/woff2" crossorigin>
         
         {# En développement (watch) #}
         {% if app_debug %}
