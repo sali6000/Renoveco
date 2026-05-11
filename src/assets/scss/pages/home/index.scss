@@ -74,7 +74,7 @@
     color: var(--color-text-inverse);
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-medium);
-    backdrop-filter: blur(4px);
+    background: rgba(255, 255, 255, 0.4);
 }
 
 // Checklist
