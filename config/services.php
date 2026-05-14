@@ -5,12 +5,18 @@ use Src\Modules\Product\Interface\Http\Validator\ProductSlugValidatorInterface;
 use Config\PdoConnection;
 use Core\Database\QueryBuilder;
 use Core\Database\QueryBuilderInterface;
+use Src\Modules\Auth\Domain\Repository\LoginAttemptRepositoryInterface;
+use Src\Modules\Auth\Infrastructure\Persistence\Mysql\LoginAttemptRepositoryMysql;
 
 // (Lié à Core/Container.php - Anciennement ControllerFactory) 
 // Sert à binder manuelement les dépendances qui ne proviennent pas de Domain\Repository
 
-// Bindings manuels
+// --------------------- Bindings manuels -----------------------
+// --- Slug ---
 $container->bind(ProductSlugValidatorInterface::class, ProductSlugValidator::class);
+// --- Auth ---
+$container->bind(LoginAttemptRepositoryInterface::class, LoginAttemptRepositoryMysql::class);
+
 
 // Binding PDO
 $container->bind(PDO::class, function () {

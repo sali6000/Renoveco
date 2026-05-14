@@ -39,8 +39,16 @@ class AuthLoginController extends BaseController
     #[Route('connection', methods: ['POST'])]
     public function connection()
     {
+        // Retourne l'IP du client la plus probable
+        $ip = trim(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']
+            ?? $_SERVER['HTTP_X_REAL_IP']
+            ?? $_SERVER['REMOTE_ADDR']
+            ?? 'unknown')[0]);
+
         // Sanitization de l'email
-        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL) ?? '';
+        $email    = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL) ?? '';
+
+        // Récupération du mot de passe
         $password = $_POST['password'] ?? '';
 
         // Pour éviter qu'un site externe POST sur mon /login sans mon consentement
@@ -53,7 +61,7 @@ class AuthLoginController extends BaseController
 
         try {
             // Effectuer le login via le service
-            $user = $this->authService->loginUser($email, $password);
+            $user = $this->authService->loginUser($email, $password, $ip);
             $this->authService->updateUserLastLogin($user['id']);
 
             // Stocker les infos utilisateur dans une nouvelle session

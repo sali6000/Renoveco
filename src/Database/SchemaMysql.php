@@ -12,10 +12,12 @@ final class SchemaMysql
     public const TABLE_ROLES = 'roles r';
     public const TABLE_SUPPLIERS = 'suppliers s';
     public const TABLE_USERS = 'users u';
+    public const TABLE_LOGIN_ATTEMPTS = 'user_login_attempts la'; // 📋 Tables d'audit / log
 
     // ==========================================================================================
-    // 🔗 TABLES RELATIONNELLES =>
+    // 🔗 RELATIONS =>
     // ==========================================================================================
+
     // -------------------------------------------------------
     // 🔗 OneToMany (1 <- N) Ex: Product <- Images
     // -------------------------------------------------------
@@ -88,6 +90,16 @@ final class SchemaMysql
     public const USER_EMAIL_VERIFIED_AT = 'u.email_verified_at';
     public const USER_DELETED_AT = 'u.deleted_at';
     public const USER_IS_ACTIVE = 'u.is_active';
+
+    // -------------------------------------------------------
+    // 🧩 LOGIN ATTEMPTS
+    // -------------------------------------------------------
+    public const LOGIN_ATTEMPT_ID         = 'la.id';
+    public const LOGIN_ATTEMPT_USER_ID    = 'la.user_id';
+    public const LOGIN_ATTEMPT_IP         = 'la.ip_address';
+    public const LOGIN_ATTEMPT_EMAIL      = 'la.email';
+    public const LOGIN_ATTEMPT_SUCCESS    = 'la.success';
+    public const LOGIN_ATTEMPT_AT         = 'la.attempted_at';
 
     // -------------------------------------------------------
     // 🧩 FOURNISSEURS
