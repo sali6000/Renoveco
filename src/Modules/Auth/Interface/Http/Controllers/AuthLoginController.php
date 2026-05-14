@@ -39,12 +39,6 @@ class AuthLoginController extends BaseController
     #[Route('connection', methods: ['POST'])]
     public function connection()
     {
-        // Retourne l'IP du client la plus probable
-        $ip = trim(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']
-            ?? $_SERVER['HTTP_X_REAL_IP']
-            ?? $_SERVER['REMOTE_ADDR']
-            ?? 'unknown')[0]);
-
         // Sanitization de l'email
         $email    = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL) ?? '';
 
@@ -60,8 +54,9 @@ class AuthLoginController extends BaseController
         }
 
         try {
+
             // Effectuer le login via le service
-            $user = $this->authService->loginUser($email, $password, $ip);
+            $user = $this->authService->loginUser($email, $password);
             $this->authService->updateUserLastLogin($user['id']);
 
             // Stocker les infos utilisateur dans une nouvelle session
@@ -72,12 +67,7 @@ class AuthLoginController extends BaseController
             $redirectTo = $_SESSION['redirect_after_login'] ?? '/home';
             unset($_SESSION['redirect_after_login']);
             $this->redirect($redirectTo);
-        } catch (ValidationException $e) {
-
-            // Afficher le message d'erreur en flash et rediriger vers la page de login
-            $this->setFlash('error', $e->getMessage());
-            $this->redirect('/auth/login');
-        } catch (ServiceException $e) {
+        } catch (ValidationException | ServiceException $e) {
 
             // Afficher le message d'erreur en flash et rediriger vers la page de login
             $this->setFlash('error', $e->getMessage());

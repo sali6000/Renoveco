@@ -12,7 +12,7 @@ final class SchemaMysql
     public const TABLE_ROLES = 'roles r';
     public const TABLE_SUPPLIERS = 'suppliers s';
     public const TABLE_USERS = 'users u';
-    public const TABLE_LOGIN_ATTEMPTS = 'user_login_attempts la'; // 📋 Tables d'audit / log
+    public const TABLE_RATE_LIMIT_ATTEMPTS = 'rate_limit_attempts rla'; // 📋 Limite de tentatives
 
     // ==========================================================================================
     // 🔗 RELATIONS =>
@@ -92,14 +92,13 @@ final class SchemaMysql
     public const USER_IS_ACTIVE = 'u.is_active';
 
     // -------------------------------------------------------
-    // 🧩 LOGIN ATTEMPTS
+    // 🧩 RATE LIMIT ATTEMPTS
     // -------------------------------------------------------
-    public const LOGIN_ATTEMPT_ID         = 'la.id';
-    public const LOGIN_ATTEMPT_USER_ID    = 'la.user_id';
-    public const LOGIN_ATTEMPT_IP         = 'la.ip_address';
-    public const LOGIN_ATTEMPT_EMAIL      = 'la.email';
-    public const LOGIN_ATTEMPT_SUCCESS    = 'la.success';
-    public const LOGIN_ATTEMPT_AT         = 'la.attempted_at';
+    public const RATE_LIMIT_ID         = 'rla.id';
+    public const RATE_LIMIT_TYPE       = 'rla.type';
+    public const RATE_LIMIT_IP         = 'rla.ip_address';
+    public const RATE_LIMIT_IDENTIFIER = 'rla.identifier';
+    public const RATE_LIMIT_AT         = 'rla.attempted_at';
 
     // -------------------------------------------------------
     // 🧩 FOURNISSEURS

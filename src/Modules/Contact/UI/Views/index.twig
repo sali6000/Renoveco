@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="l-stack l-stack--gap-xl l-stack--p-xl">
-<form class="c-form" action="contact/mailSend" name="uploadpdf" method="post" enctype="multipart/form-data">
+<form class="c-form" action="/contact/mailSend" method="post">
     <div class="c-form__header">
         <h2>Contactez-nous</h2>
         <p>Remplissez le formulaire ci-dessous pour nous envoyer un message. Nous vous répondrons dans les plus brefs délais.</p>
@@ -12,10 +12,15 @@
 
     <div class="c-form__divider"></div>
 
-    <input type="hidden" class="csrf_token" value="{{ csrf_token }}">
-    <div id="form-error" class="alert alert--danger" style="display:
-  none;"></div>
-    <div id="form-success" class="alert alert--success" style="display: none;"></div>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    
+    {# ✅ système flash comme login.twig #}
+    {% if flash_error %}
+        <div class="alert alert--danger">{{ flash_error }}</div>
+    {% endif %}
+    {% if flash_success %}
+        <div class="alert alert--success">{{ flash_success }}</div>
+    {% endif %}
 
     <div class="c-form__field">
         <label class="c-form__label" for="firstname">Nom:</label>
@@ -24,7 +29,7 @@
             type="text"
             id="firstname"
             name="firstname"
-            maxlength="10"
+            maxlength="50"
             placeholder="Nom"
         >
     </div>
@@ -36,7 +41,7 @@
             type="text"
             id="lastname"
             name="lastname"
-            maxlength="10"
+            maxlength="50"
             placeholder="Prénom"
         >
     </div>
@@ -48,7 +53,7 @@
             type="text"
             id="company"
             name="company"
-            maxlength="10"
+            maxlength="100"
             placeholder="Entreprise"
         >
     </div>
@@ -78,8 +83,8 @@
         ></textarea>
     </div>
 
-    <h5 style="color:red;">Les champs marqués d'un astérisque (*) doivent obligatoirement être remplis.</h5>
-
+    <p class="c-form__required-notice">Les champs marqués d'un astérisque (*) doivent obligatoirement être remplis.</p>
+    
     <button type="submit" class="c-btn c-btn--primary">Envoyer</button>
 </form>
 {% endblock %}

@@ -118,4 +118,47 @@ final class SecurityHelper
     {
         return filter_var($value, FILTER_VALIDATE_BOOL, FILTER_NULL_ON_FAILURE) ?? false;
     }
+
+    public static function sanitizeEmail(
+        mixed $email,
+        string $fieldName = 'Email',
+        int $minLength = 5,
+        int $maxLength = 254, // RFC 5321 : limite officielle d'un email
+        bool $canBeNull = false
+    ): ?string {
+        // --- 1. NULL ---
+        if ($email === null || $email === '') {
+            if ($canBeNull) {
+                return null;
+            }
+            throw new ValidationException("L'adresse {$fieldName} est obligatoire.", "sanitizeEmail");
+        }
+
+        // --- 2. String ---
+        if (!is_string($email)) {
+            throw new ValidationException("L'adresse {$fieldName} doit être une chaîne de caractères.", "sanitizeEmail");
+        }
+
+        // --- 3. Trim ---
+        $email = trim($email);
+
+        // --- 4. Sanitize (supprime les caractères illégaux dans un email) ---
+        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+
+        // --- 5. Longueur ---
+        $len = mb_strlen($email);
+        if ($len < $minLength) {
+            throw new ValidationException("L'adresse {$fieldName} est trop courte ({$minLength} caractères minimum).", "sanitizeEmail");
+        }
+        if ($len > $maxLength) {
+            throw new ValidationException("L'adresse {$fieldName} est trop longue ({$maxLength} caractères maximum).", "sanitizeEmail");
+        }
+
+        // --- 6. Validation format RFC ---
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new ValidationException("Le format de l'adresse {$fieldName} est invalide.", "sanitizeEmail");
+        }
+
+        return $email;
+    }
 }
