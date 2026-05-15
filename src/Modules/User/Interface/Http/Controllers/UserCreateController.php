@@ -1,76 +1,80 @@
 <?php
 
-namespace Src\Modules\User\Interface\Http\Controllers;
+declare(strict_types=1);
 
-if (!defined('SECURE_CHECK')) {
-    die('Direct access not permitted');
-}
+namespace Src\Modules\User\Interface\Http\Controllers;
 
 use Src\Exception\ServiceException;
 use Src\Exception\UniqueConstraintException;
 use Src\Modules\User\Domain\Service\UserService;
 use Core\BaseController;
-use Core\Logger\AccessLogger;
 use Core\Routing\Attribute\Route;
-use Core\Support\ResponseHelper;
 use Core\Support\SecurityHelper;
+use Src\Modules\Shared\Infrastructure\Http\Security\CsrfGuard;
+use Src\Modules\Shared\Infrastructure\Http\Session\SessionManager;
 
 #[Route('/user')]
-class UserCreateController extends BaseController
+final class UserCreateController extends BaseController
 {
-    public function __construct(private UserService $userService) {}
+    public function __construct(
+        private readonly UserService     $userService,
+        private readonly CsrfGuard       $csrf,
+        private readonly SessionManager  $session,
+    ) {}
 
     #[Route('register', methods: ['GET'])]
-    public function create()
+    public function create(): void
     {
-        // Génération d'un token CSRF
-        if (!isset($_SESSION['csrf_token'])) {
-            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        $referer = $_SERVER['HTTP_REFERER'] ?? '';
+
+        if (
+            empty($this->session->get('redirect_after_login'))
+            && !empty($referer)
+            && !str_contains($referer, '/auth/login')
+        ) {
+            $this->session->setIntendedRedirect($referer);
         }
 
-        // Sauvegarder l'URL où l’utilisateur voulait aller (si pas déjà en login)
-        if (empty($_SESSION['redirect_after_login']) && isset($_SERVER['HTTP_REFERER']) && !str_contains($_SERVER['HTTP_REFERER'], '/auth/login')) {
-            $_SESSION['redirect_after_login'] = $_SERVER['HTTP_REFERER'];
-        }
-
-        // Afficher la vue Modules/User/Views/create.twig
-        $this->render('User/create.twig', ['csrf_token' => $_SESSION['csrf_token']]);
+        $this->render('User/create.twig', [
+            'csrf_token'    => $this->csrf->generateToken(),
+            'flash_error'   => $this->getFlash('error'),
+            'flash_success' => $this->getFlash('success'),
+        ]);
     }
 
-    #[Route('registerJson', methods: ['POST'])]
-    public function registerJson()
+    #[Route('store', methods: ['POST'])]
+    public function store(): void
     {
+        $this->csrf->validateOrFail();
+
+        $email    = SecurityHelper::sanitizeEmail($_POST['email'] ?? null);
+        $password = SecurityHelper::sanitizeString(
+            $_POST['password'] ?? '',
+            'mot de passe',
+            minLength: 8,
+            maxLength: 30,
+            pattern: '/^(?=.*[A-Z])(?=.*\d).+$/'
+        );
+        $cgu      = isset($_POST['cgu']);
+
+        if (!$cgu) {
+            $this->setFlash('error', 'Vous devez accepter les conditions générales d\'utilisation.');
+            $this->redirect('/user/register');
+        }
+
         try {
-            // Récupérer le JSON envoyé
-            $data = json_decode(file_get_contents('php://input'), true);
-
-            // Si le formulaire reçu n'a pas de token CSRF
-            if (!isset($data['csrf_token'], $_SESSION['csrf_token'])) {
-                return  ResponseHelper::error('Token CSRF manquant.');
-            }
-
-            // Si le token CSRF reçu ne correspond pas au token envoyé par /user/create
-            if (!hash_equals($_SESSION['csrf_token'], $data['csrf_token'])) {
-                return ResponseHelper::error('Token CSRF invalide.');
-            }
-
-            // Nettoyer données
-            $email = SecurityHelper::sanitizeString($data['email'], "email", minLength: 5, maxLength: 30);
-            $password = SecurityHelper::sanitizeString($data['password'], "mot de passe", minLength: 8, maxLength: 30);
-
-            // Sauvegarde de l'utilisateur en base
             $user = $this->userService->createUser($email, $password);
 
-            // Succès
-            return ResponseHelper::success("Bienvenue " . $user->email . " ! Vous serez redirigé sous peu vers la page de connection.");
+            $this->setFlash('success', 'Bienvenue ' . $user->email . ' ! Vous pouvez maintenant vous connecter.');
+            $this->redirect('/auth/login');
         } catch (UniqueConstraintException $e) {
-            return ResponseHelper::error("Ce champ est déjà utilisé : " . $e->getField());
+            $this->setFlash('error', 'Ce champ est déjà utilisé : ' . $e->getField());
+            $this->redirect('/user/register');
         } catch (ServiceException $e) {
-            return ResponseHelper::error("Erreur du service d'enregistrement. (Code : " . $e->getErrorId() . ")");
+            $this->setFlash('error', 'Erreur du service d\'enregistrement. (Code : ' . $e->getErrorId() . ')');
+            $this->redirect('/user/register');
         } catch (\Throwable $e) {
-            $errorId = uniqid('usr_ctrl_', true);
-            AccessLogger::log("Erreur inconnue (Code: $errorId) : " . $e, AccessLogger::LEVEL_ERROR);
-            return ResponseHelper::error("❌ Erreur inconnue, contactez l'administrateur (Code: $errorId)");
+            $this->handleException($e, __METHOD__ . ' → System → ');
         }
     }
 }
