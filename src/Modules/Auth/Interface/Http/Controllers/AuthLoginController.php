@@ -11,65 +11,61 @@ use Src\Exception\ServiceException;
 use Src\Exception\ValidationException;
 use Src\Modules\Auth\Domain\Service\AuthService;
 use Core\Routing\Attribute\Route;
+use Core\Support\SecurityHelper;
+use Src\Modules\Shared\Infrastructure\Http\Security\CsrfGuard;
+use Src\Modules\Shared\Infrastructure\Http\Session\SessionManager;
 
 #[Route('/auth')]
 class AuthLoginController extends BaseController
 {
-    public function __construct(private AuthService $authService) {}
+    public function __construct(
+        private readonly CsrfGuard      $csrf,
+        private readonly SessionManager $session,
+        private readonly AuthService    $authService,
+    ) {}
 
     #[Route('login', methods: ['GET'])]
     public function login()
     {
-        // Génération d'un token CSRF unique si inexistant
-        if (!isset($_SESSION['csrf_token'])) {
-            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-        }
+        // Récupère l'URL de la page précédente envoyée par le navigateur (non garantie, peut être absente)
+        $referer = $_SERVER['HTTP_REFERER'] ?? '';
 
-        // Sauvegarder l'URL où l’utilisateur voulait aller (si pas déjà en login)
-        if (empty($_SESSION['redirect_after_login']) && isset($_SERVER['HTTP_REFERER']) && !str_contains($_SERVER['HTTP_REFERER'], '/login')) {
-            $_SESSION['redirect_after_login'] = $_SERVER['HTTP_REFERER'];
+        // Enregistrer la page vers laquel rediriger SI:
+        // - Aucune redirection n'est prévue ($_SESSION['redirect_after_login'])
+        // - Une nouvelle redirection est prévue ($referer)
+        // - La nouvelle redirection prévue ne renvoit pas vers /login (boucle de redirection)
+        if (
+            empty($this->session->get('redirect_after_login')) // Aucune redirection déjà prévue en session
+            && !empty($referer)                                // Le navigateur a bien envoyé un referer
+            && !str_contains($referer, '/login')               // Évite une boucle de redirection vers /login
+        ) {
+            $this->session->setIntendedRedirect($referer);
         }
-
         $this->render('Auth/login.twig', [
-            'csrf_token' => $_SESSION['csrf_token'],
-            'flash_error' => $this->getFlash('error')
+            'csrf_token'  => $this->csrf->generateToken(),
+            'flash_error' => $this->getFlash('error'),
         ]);
     }
 
     #[Route('connection', methods: ['POST'])]
     public function connection()
     {
-        // Sanitization de l'email
-        $email    = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL) ?? '';
-
-        // Récupération du mot de passe
+        // Vérification du formulaire (csrf) + Sanitization du champ email + Récupération du mot de passe
+        $this->csrf->validateOrFail();
+        $email    = SecurityHelper::sanitizeEmail($_POST['email'] ?? null);
         $password = $_POST['password'] ?? '';
 
-        // Pour éviter qu'un site externe POST sur mon /login sans mon consentement
-        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-
-            // Afficher le message d'erreur en flash et rediriger vers la page de login.
-            $this->setFlash('error', 'Requête invalide car non effectué depuis le serveur officiel.');
-            $this->redirect('/auth/login');
-        }
-
         try {
-
-            // Effectuer le login via le service
+            // Vérification des informations reçue pour la connection
             $user = $this->authService->loginUser($email, $password);
             $this->authService->updateUserLastLogin($user['id']);
 
-            // Stocker les infos utilisateur dans une nouvelle session
-            session_regenerate_id(true); // Prévenir les attaques de fixation de session
-            $_SESSION['user'] = $user;
-
-            // Rediriger vers la page initialement demandée ou la page d'accueil
-            $redirectTo = $_SESSION['redirect_after_login'] ?? '/home';
-            unset($_SESSION['redirect_after_login']);
-            $this->redirect($redirectTo);
+            // Enregistrement de la session utilisateur
+            $this->session->openAuthenticatedSession($user);
+            $this->redirect($this->session->consumeRedirect());
         } catch (ValidationException | ServiceException $e) {
 
-            // Afficher le message d'erreur en flash et rediriger vers la page de login
+            // Afficher un message d'erreur en flash et rediriger vers la page de login en cas d'échec
             $this->setFlash('error', $e->getMessage());
             $this->redirect('/auth/login');
         } catch (\Throwable $e) {
@@ -80,7 +76,7 @@ class AuthLoginController extends BaseController
     #[Route('logout', methods: ['GET'])]
     public function logout()
     {
-        session_destroy();
+        $this->session->destroy();
         $this->redirect('/');
     }
 }

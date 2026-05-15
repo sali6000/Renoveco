@@ -10,23 +10,22 @@ use Core\BaseController;
 use Core\Routing\Attribute\Route;
 use Core\Support\SecurityHelper;
 use Src\Exception\ServiceException;
-use Src\Exception\ValidationException;
 use Src\Modules\Contact\Domain\Service\ContactService;
+use Src\Modules\Shared\Infrastructure\Http\Security\CsrfGuard;
 
 #[Route('/contact')]
 class ContactIndexController extends BaseController
 {
-    public function __construct(private ContactService $contactService) {}
+    public function __construct(
+        private readonly CsrfGuard $csrf,
+        private readonly ContactService $contactService
+    ) {}
 
     #[Route('', methods: ['GET'])]
     public function index()
     {
-        if (!isset($_SESSION['csrf_token'])) {
-            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-        }
-
         $this->render('Contact/index.twig', [
-            'csrf_token'    => $_SESSION['csrf_token'],
+            'csrf_token'    => $this->csrf->generateToken(),
             'flash_error'   => $this->getFlash('error'),
             'flash_success' => $this->getFlash('success'),
         ]);
@@ -35,11 +34,7 @@ class ContactIndexController extends BaseController
     #[Route('mailSend', methods: ['POST'])]
     public function mailSend()
     {
-        // CSRF
-        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-            $this->setFlash('error', 'Requête invalide.');
-            $this->redirect('/contact');
-        }
+        $this->csrf->validateOrFail();
 
         try {
             $firstname = SecurityHelper::sanitizeString($_POST['firstname'] ?? null, 'Prénom',    minLength: 2, maxLength: 50, canBeEmpty: true, canBeNull: true);
