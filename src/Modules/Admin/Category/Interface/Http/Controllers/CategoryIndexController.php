@@ -2,10 +2,6 @@
 
 namespace Src\Modules\Admin\Category\Interface\Http\Controllers;
 
-if (!defined('SECURE_CHECK')) {
-    die('Direct access not permitted');
-}
-
 use Src\Exception\ServiceException;
 use Src\Exception\UniqueConstraintException;
 use Src\Exception\ValidationException;

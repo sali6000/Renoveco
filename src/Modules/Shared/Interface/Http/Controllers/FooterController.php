@@ -2,10 +2,6 @@
 
 namespace Src\Modules\Shared\Interface\Http\Controllers;
 
-if (!defined('SECURE_CHECK')) {
-    die('Direct access not permitted');
-}
-
 use Core\BaseController;
 
 class FooterController extends BaseController

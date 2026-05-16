@@ -6,12 +6,13 @@ use Core\BaseController;
 use Src\Modules\Category\Domain\Service\CategoryService;
 use Src\Modules\Product\Domain\Service\ProductService;
 use Core\Routing\Attribute\Route;
+use Src\Modules\Product\Application\UseCase\ShowProductsForAdminManage;
 
 #[Route('/admin/product')]
-class ProductIndexController extends BaseController
+final class ProductIndexController extends BaseController
 {
     public function __construct(
-        private ProductService $productService,
+        private ShowProductsForAdminManage $showProducts,
         private CategoryService $categoryService
     ) {
         parent::__construct('Admin/Product');
@@ -21,7 +22,7 @@ class ProductIndexController extends BaseController
     public function index()
     {
         $this->set('categories', $this->categoryService->getCategories());
-        $this->set('products', $this->productService->getProductsAllDatas());
+        $this->set('products', $this->showProducts->execute());
         $this->render();
     }
 }

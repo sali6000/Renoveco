@@ -2,10 +2,6 @@
 // config/constants.php
 
 use Config\AppConfig;
-use Core\Support\DebugHelper;
-
-if (!defined('SECURE_CHECK'))
-    die('access denied');
 
 /**
  * Chemins internes (à partir de la raçine).

@@ -2,10 +2,6 @@
 
 namespace Src\Modules\Admin\User\Interface\Http\Controllers;
 
-if (!defined('SECURE_CHECK')) {
-    die('Direct access not permitted');
-}
-
 use Core\BaseController;
 use Src\Modules\User\Domain\Service\UserService;
 use Core\Routing\Attribute\Route;

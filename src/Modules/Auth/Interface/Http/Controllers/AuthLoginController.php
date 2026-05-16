@@ -2,10 +2,6 @@
 
 namespace Src\Modules\Auth\Interface\Http\Controllers;
 
-if (!defined('SECURE_CHECK')) {
-    die('Direct access not permitted');
-}
-
 use Core\BaseController;
 use Src\Exception\ServiceException;
 use Src\Exception\ValidationException;

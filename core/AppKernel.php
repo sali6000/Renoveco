@@ -66,7 +66,6 @@ class AppKernel
     // --------------------------------------------------
     private function secureBootstrap(): void
     {
-        define('SECURE_CHECK', true); // ✅ Empêche le chargement direct de certains fichiers sans passer par AppKernel
         $this->startSessionSecurely(); // 🔑 Démarrage sécurisé de la session
         define('REQUEST_START_TIME', microtime(true)); // ⏱️ Marque le début de la requête pour le suivi des perfs
         define('REQUEST_ID', $this->getRequestId());   // 🆔 Génère un identifiant unique de requête pour corrélation dans les logs

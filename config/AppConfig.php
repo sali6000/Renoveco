@@ -2,9 +2,6 @@
 
 namespace Config;
 
-if (!defined('SECURE_CHECK')) {
-    die('Direct access not permitted');
-}
 define('BASE_PATH', realpath(__DIR__ . '/..'));
 
 class AppConfig

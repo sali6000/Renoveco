@@ -2,10 +2,6 @@
 
 namespace Src\Modules\Gallery\Interface\Http\Controllers;
 
-if (!defined('SECURE_CHECK')) {
-  die('Direct access not permitted');
-}
-
 use Core\BaseController;
 use Core\Routing\Attribute\Route;
 

@@ -4,10 +4,6 @@ namespace Config;
 
 use Core\Support\DebugHelper;
 
-if (!defined('SECURE_CHECK')) {
-    die('Direct access not permitted');
-}
-
 final class KeysManager
 {
     public static function getKeyPath(string $env): ?string

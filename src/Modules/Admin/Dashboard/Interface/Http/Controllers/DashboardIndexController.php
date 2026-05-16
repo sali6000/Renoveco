@@ -2,10 +2,6 @@
 
 namespace Src\Modules\Admin\Dashboard\Interface\Http\Controllers;
 
-if (!defined('SECURE_CHECK')) {
-    die('Direct access not permitted');
-}
-
 use Config\AppConfig;
 use Core\BaseController;
 use Intervention\Image\ImageManager;
@@ -13,7 +9,6 @@ use Intervention\Image\Drivers\Imagick\Driver;
 use Src\Modules\Category\Domain\Service\CategoryService;
 use Src\Modules\User\Domain\Service\UserService;
 use Core\Routing\Attribute\Route;
-use Exception;
 
 #[Route('/admin/dashboard')]
 class DashboardIndexController extends BaseController

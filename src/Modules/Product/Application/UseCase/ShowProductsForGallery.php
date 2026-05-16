@@ -2,15 +2,22 @@
 
 namespace Src\Modules\Product\Application\UseCase;
 
-use Src\Modules\Product\Domain\Service\ProductService;
+use Core\Logger\AccessLogger;
+use Src\Exception\ServiceException;
+use Src\Modules\Product\Domain\Repository\ProductRepositoryInterface;
 
-class ShowProductsForGallery
+final class ShowProductsForGallery
 {
-    public function __construct(private ProductService $productService) {}
+    public function __construct(private readonly ProductRepositoryInterface $productRepo) {}
 
     public function execute(): array
     {
-        // récupère les données métier
-        return $this->productService->getProductsDatasForGallery();
+        try {
+            return $this->productRepo->findAllForGallery();
+        } catch (\Throwable $e) {
+            $errorId = uniqid('err_', true);
+            AccessLogger::log("[$errorId] Erreur récupération galerie : " . $e, AccessLogger::LEVEL_ERROR);
+            throw new ServiceException("Erreur récupération produits (Code : $errorId).");
+        }
     }
 }

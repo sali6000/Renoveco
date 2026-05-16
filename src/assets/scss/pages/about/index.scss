@@ -14,20 +14,7 @@
     }
 }
 
-.about-videos {
-
-    &__header {
-        text-align: center;
-
-        p {
-            color: var(--color-text-muted);
-            font-size: var(--font-size-m);
-            margin-top: var(--space-xs);
-        }
-    }
-
-    &__featured {
-        width: min(100%, 640px);
-        margin-inline: auto;
-    }
+.about-videos__featured {
+    width: min(100%, 640px);
+    margin-inline: auto;
 }

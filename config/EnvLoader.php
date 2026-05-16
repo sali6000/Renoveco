@@ -6,10 +6,6 @@ namespace Config;
 
 use Dotenv\Dotenv;
 
-if (!defined('SECURE_CHECK')) {
-    die('Direct access not permitted');
-}
-
 final class EnvLoader
 {
     private string $environment;

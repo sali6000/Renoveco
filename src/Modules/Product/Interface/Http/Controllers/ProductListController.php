@@ -2,9 +2,6 @@
 
 namespace Src\Modules\Product\Interface\Http\Controllers;
 
-if (!defined('SECURE_CHECK'))
-  die('Direct access not permitted');
-
 use Src\Exception\ServiceException;
 use Src\Modules\Product\Application\UseCase\ShowProductsForGallery;
 use Src\Modules\Category\Application\UseCase\ShowCategoriesForGallery;

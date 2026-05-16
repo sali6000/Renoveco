@@ -2,10 +2,6 @@
 
 namespace Config;
 
-if (!defined('SECURE_CHECK')) {
-  die('Direct access not permitted');
-}
-
 use PDO;
 use PDOException;
 

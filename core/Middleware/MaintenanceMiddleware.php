@@ -2,10 +2,6 @@
 
 namespace Core\Middleware;
 
-
-if (!defined('SECURE_CHECK'))
-    die('Direct access not permitted');
-
 use Config\AppConfig;
 use Core\Middleware\Middleware;
 

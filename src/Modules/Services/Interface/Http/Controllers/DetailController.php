@@ -2,10 +2,6 @@
 
 namespace Src\Modules\Services\Interface\Http\Controllers;
 
-if (!defined('SECURE_CHECK')) {
-  die('Direct access not permitted');
-}
-
 use Config\AppConfig;
 use Core\BaseController;
 use Core\Routing\Attribute\Route;

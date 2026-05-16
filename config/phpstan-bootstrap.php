@@ -16,9 +16,6 @@
  * - On peut mettre des valeurs vides ou factices (ex : '', 0, []) si ça suffit pour satisfaire PHPStan.
  * - Ne jamais mettre de logique métier réelle ici. C’est uniquement pour l’analyse statique.
  */
-if (!defined('SECURE_CHECK')) {
-    define('SECURE_CHECK', true);
-}
 if (!defined('REQUEST_START_TIME')) {
     define('REQUEST_START_TIME', 0.0);
 }
