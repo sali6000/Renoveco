@@ -1,55 +1,39 @@
 <?php
+
 return [
-    'user' => [
-        'About\AboutIndexController@index',
-        'Admin\AdminDashboardController@index',
-        'Auth\AuthIndexController@login',
-        'Auth\AuthIndexController@registerJson',
-        'Auth\AuthLoginController@connection',
-        'Auth\AuthLoginController@login',
-        'Cgu\CguIndexController@index',
-        'Contact\ContactIndexController@index',
-        'Contact\ContactIndexController@mailSend',
-        'Home\HomeIndexController@index',
-        'Product\ProductDetailController@detail',
-        'Product\ProductListController@list',
-        'User\UserIndexController@create',
-        'User\UserCreateController@registerJson',
-        'User\UserCreateController@create',
-        'User\UserCreateController@store',
-        'Utilities\SitemapController@index',
-        'Gallery\GalleryIndexController@index',
-        'Cgu\CguPolicyController@policy',
-        'Services\DetailController@detail',
-        'Auth\AuthLoginController@logout',
+    'roles' => [
+        'guest'      => [],
+        'user'       => ['guest'],      // hérite de guest
+        'admin'      => ['user'],       // hérite de user
+        'superadmin' => ['admin'],      // hérite de admin
     ],
-    'admin' => [
-        '*', // accès total
-    ],
-    'superadmin' => [
-        '*', // accès total
-    ],
-    'guest' => [
-        'About\AboutIndexController@index',
-        'Admin\AdminDashboardController@index',
-        'Auth\AuthIndexController@login',
-        'Auth\AuthIndexController@registerJson',
-        'Auth\AuthLoginController@connection',
-        'Auth\AuthLoginController@login',
-        'Cgu\CguIndexController@index',
-        'Contact\ContactIndexController@index',
-        'Contact\ContactIndexController@mailSend',
-        'Home\HomeIndexController@index',
-        'Product\ProductDetailController@detail',
-        'Product\ProductListController@list',
-        'User\UserIndexController@create',
-        'User\UserCreateController@registerJson',
-        'User\UserCreateController@create',
-        'User\UserCreateController@store',
-        'Utilities\SitemapController@index',
-        'Gallery\GalleryIndexController@index',
-        'Cgu\CguPolicyController@policy',
-        'Services\DetailController@detail',
-        // -- new-line-generate-by-make-module --
+    'permissions' => [
+        'guest' => [
+            'About\AboutIndexController@index',
+            'Auth\AuthLoginController@connection',
+            'Auth\AuthLoginController@login',
+            'Cgu\CguIndexController@index',
+            'Cgu\CguPolicyController@policy',
+            'Contact\ContactIndexController@index',
+            'Contact\ContactIndexController@mailSend',
+            'Gallery\GalleryIndexController@index',
+            'Home\HomeIndexController@index',
+            'Product\ProductDetailController@detail',
+            'Product\ProductListController@list',
+            'Services\DetailController@detail',
+            'User\UserCreateController@create',
+            'User\UserCreateController@store',
+            'Utilities\SitemapController@index',
+            // -- new-line-generate-by-make-module --
+        ],
+        'user' => [
+            'User\ProfileController@view',
+            'Order\OrderController@list',
+            'Auth\AuthLoginController@logout',
+        ],
+        'admin'      => [
+            'Admin\AdminDashboardController@index',
+        ],
+        'superadmin' => ['*'],
     ],
 ];
