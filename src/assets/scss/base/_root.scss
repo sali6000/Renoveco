@@ -107,17 +107,6 @@ hr {
     background: var(--color-border-default);
 }
 
-
-// ================================================================================================
-// FORMULAIRES
-// ================================================================================================
-input:not([type="checkbox"]),
-textarea,
-select {
-    width: 100%;
-    box-sizing: border-box;
-}
-
 textarea {
     height: 200px;
     resize: none;

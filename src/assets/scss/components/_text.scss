@@ -56,22 +56,17 @@
     }
 
     // 0.875rem
-    &--sm {
-        font-size: var(--font-size-xs);
-    }
-
-    // alias lisible → xs
-    &--base {
+    &--s {
         font-size: var(--font-size-s);
     }
 
     // 1rem
-    &--md {
+    &--m {
         font-size: var(--font-size-m);
     }
 
     // 1.125rem
-    &--lg {
+    &--l {
         font-size: var(--font-size-l);
     }
 
@@ -83,17 +78,6 @@
     // 1.5rem
     &--2xl {
         font-size: var(--font-size-2xl);
-    }
-
-    // 2rem
-
-    // Alias sémantiques — correspondent aux classes utilisées dans les Twigs
-    &--small {
-        font-size: var(--font-size-xs);
-    }
-
-    &--large {
-        font-size: var(--font-size-l);
     }
 
     // ── Couleurs ──────────────────────────────────────────────────────────────

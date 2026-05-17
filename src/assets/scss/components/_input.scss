@@ -1,0 +1,53 @@
+// components/_input.scss
+.c-input {
+    padding: 0.7rem 1rem;
+    border: 2px solid var(--color-border-default);
+    border-radius: var(--radius-m);
+    background-color: var(--color-bg-base);
+    color: var(--color-text-default);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &::placeholder {
+        color: var(--color-text-muted);
+    }
+
+    &:focus {
+        outline: none;
+        border-color: var(--color-border-focus);
+        box-shadow: 0 0 0 3px rgba(24, 74, 158, 0.15); // blue à 15%
+    }
+
+    &:disabled {
+        background-color: var(--color-bg-subtle);
+        color: var(--color-text-muted);
+        cursor: not-allowed;
+    }
+
+    // --- Tailles ---
+    &--s {
+        padding: 0.4rem 0.75rem;
+        font-size: 0.875rem;
+    }
+
+    &--lg {
+        padding: 1rem 1.25rem;
+        font-size: 1.1rem;
+    }
+
+    // --- États ---
+    &--error {
+        border-color: var(--color-danger);
+
+        &:focus {
+            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.15);
+        }
+    }
+
+    &--success {
+        border-color: var(--color-success);
+
+        &:focus {
+            box-shadow: 0 0 0 3px rgba(81, 207, 102, 0.15);
+        }
+    }
+}

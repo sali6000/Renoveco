@@ -1,0 +1,96 @@
+// components/_product-card.scss
+
+.c-product-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-bg-base);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-m);
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        border-color: var(--color-brand-primary);
+    }
+
+    // --- Éléments ---
+    &__link {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    &__media {
+        aspect-ratio: 4 / 3; // Change la taille de la zone image
+        background-color: var(--color-bg-subtle); // ← remplit les zones vides
+    }
+
+    &__img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain; // ← tout visible, pas d'étirement, pas de crop
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        padding: var(--space-s);
+
+        .c-product-card:hover & {
+            transform: scale(1.05);
+            opacity: 0.85;
+        }
+    }
+
+    &__supplier {
+        font-size: 0.8rem;
+        color: var(--color-text-muted);
+        padding: var(--space-xs) var(--space-s);
+        background: var(--color-bg-subtle);
+    }
+
+    &__body {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-xs);
+        padding: var(--space-s);
+        flex: 1;
+    }
+
+    &__category {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--color-text-muted);
+    }
+
+    &__title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--color-text-default);
+        margin: 0;
+    }
+
+    &__specs {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0.25rem var(--space-s);
+        margin-top: var(--space-xs);
+        font-size: 0.875rem;
+
+        dt {
+            color: var(--color-text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.03em;
+            white-space: nowrap; // ← le label ne casse jamais
+        }
+
+        dd {
+            color: var(--color-text-default);
+            margin: 0;
+            word-break: break-word; // ← la valeur casse proprement si trop longue
+        }
+    }
+}
+
+// La card ne sait pas comment son contenu est disposé
+// c'est le stack qui s'en charge

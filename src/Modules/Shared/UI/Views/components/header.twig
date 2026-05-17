@@ -24,7 +24,7 @@
         <nav class="shared-navbar__nav" aria-label="Navigation principale">
             <ul class="shared-navbar__menu">
 
-                {% if env == "dev" %}
+                {% if env == "dev" or userSession.role is same as('superadmin') %}
                 <li class="shared-navbar__item">
                     <a href="/product/list" class="shared-navbar__link">Produits</a>
                 </li>

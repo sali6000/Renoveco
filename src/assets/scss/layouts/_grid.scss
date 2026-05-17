@@ -1,0 +1,26 @@
+// layouts/_grid.scss
+@use '@scss/foundations/config';
+
+.l-grid {
+    display: grid;
+    width: 100%;
+
+    // --- Colonnes fluides (auto-fill + minmax) ---
+    &--size-s {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+
+    &--size-m {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
+
+    &--size-l {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+
+    @each $size in config.$space-sizes {
+        &--gap-#{$size} {
+            gap: var(--space-#{$size});
+        }
+    }
+}

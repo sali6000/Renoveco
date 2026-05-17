@@ -11,14 +11,18 @@
 
 // Définition des styles de layout (grids, flex, etc.)
 @use 'layouts/cluster'; // (flex row)
-@use 'layouts/split'; // (grid)
+@use 'layouts/split'; // (grid séparation / fixes)
+@use 'layouts/grid'; // (grid responsive / variables)
 @use 'layouts/stack'; // (flex column)
 @use 'layouts/wrapper'; // (wrapper)
 
 // Définition des styles de composants (buttons, cards, etc.)
+@use 'components/input'; // Inputs
 @use 'components/button'; // Boutons (btn, btn--primary, etc.)
+@use 'components/filter-panel'; // Filtre (panneau) (filter-panel, filter-panel__title, etc.)
 @use 'components/form'; // Formulaires (form, form-group, etc.)
 @use 'components/image'; // Image utilities (image, image--lg, etc.)
+@use 'components/product-card'; // Product-card utilities (product-card, product-card__img, etc.)
 @use 'components/text';
 @use 'components/video'; // Vidéo utilities (video, video--ratio-16-9, etc.)
 
