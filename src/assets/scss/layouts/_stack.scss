@@ -43,6 +43,22 @@
             color: var(--color-text-default);
         }
 
+        &--border-left {
+            border-left: 1px solid var(--color-border-default);
+        }
+
+        &--border-right {
+            border-right: 1px solid var(--color-border-default);
+        }
+
+        &--border-top {
+            border-top: 1px solid var(--color-border-default);
+        }
+
+        &--border-bottom {
+            border-bottom: 1px solid var(--color-border-default);
+        }
+
         @each $size in config.$space-sizes {
             &--gap-#{$size} {
                 gap: var(--space-#{$size});
