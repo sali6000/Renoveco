@@ -8,6 +8,7 @@
 .env
 /scripts/
 /storage/
+/public/uploads
 /public/.htaccess
 /public/info.php
 /public/robots.txt
