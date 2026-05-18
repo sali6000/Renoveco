@@ -2,8 +2,6 @@
 
 namespace Config;
 
-define('BASE_PATH', realpath(__DIR__ . '/..'));
-
 class AppConfig
 {
     private static bool $configLoaded = false;
