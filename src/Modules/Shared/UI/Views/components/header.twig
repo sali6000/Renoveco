@@ -44,6 +44,7 @@
                         </svg>
                     </button>
                     <ul class="shared-navbar__dropdown" role="menu">
+                        <li role="menuitem"><a href="/services/chassis-fenetres" class="shared-navbar__dropdown-link">Fenêtres & Châssis</a></li>  
                         <li role="menuitem"><a href="/services/panneaux-photovoltaiques" class="shared-navbar__dropdown-link">Panneaux photovoltaïques</a></li>  
                     </ul>
                 </li>
@@ -114,133 +115,127 @@
     </div>
 
 
-
-
-
-
     {# SUR MOBILE #}
 
     {# Bouton hamburger — visible uniquement mobile #}
-<button 
-    class="c-hamburger"
-    id="c-hamburger-btn"
-    aria-expanded="false"
-    aria-controls="c-hamburger-nav"
-    aria-label="Ouvrir le menu"
-    data-hamburger>
-    <span class="c-hamburger__line"></span>
-    <span class="c-hamburger__line"></span>
-    <span class="c-hamburger__line"></span>
-</button>
+    <button 
+        class="c-hamburger"
+        id="c-hamburger-btn"
+        aria-expanded="false"
+        aria-controls="c-hamburger-nav"
+        aria-label="Ouvrir le menu"
+        data-hamburger>
+        <span class="c-hamburger__line"></span>
+        <span class="c-hamburger__line"></span>
+        <span class="c-hamburger__line"></span>
+    </button>
 
-{# Overlay #}
-<div class="c-hamburger-overlay" data-hamburger-overlay></div>
+    {# Overlay #}
+    <div class="c-hamburger-overlay" data-hamburger-overlay></div>
 
-{# Menu mobile #}
-<nav class="c-hamburger-nav" id="hamburger-nav" data-hamburger-nav aria-label="Menu mobile">
+    {# Menu mobile #}
+    <nav class="c-hamburger-nav" id="hamburger-nav" data-hamburger-nav aria-label="Menu mobile">
 
-    {# Header du panneau #}
-    <div class="c-hamburger-nav__header">
-        <img 
-            class="c-hamburger-nav__logo"
-            src="{{ vite_asset('img/about/logos/rclogo-02-light.png') }}"
-            alt="Renove Construct">
-        <button 
-            class="c-hamburger-nav__close"
-            aria-label="Fermer le menu"
-            data-hamburger-close>
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M4 4L16 16M16 4L4 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
-        </button>
-    </div>
-
-    {# Liens #}
-    <ul class="c-hamburger-nav__menu">
-        <li class="c-hamburger-nav__item">
-            <a href="/" class="c-hamburger-nav__link">Accueil</a>
-        </li>
-
-        {% if env == "dev" %}
-        <li class="c-hamburger-nav__item">
-            <a href="/product/list" class="c-hamburger-nav__link">Produits</a>
-        </li>
-        {% endif %}
-
-        <li class="c-hamburger-nav__item">
-            <a href="/about" class="c-hamburger-nav__link">Société</a>
-        </li>
-
-        <li class="c-hamburger-nav__item c-hamburger-nav__item--accordion">
-            <button class="c-hamburger-nav__link c-hamburger-nav__link--accordion" data-accordion>
-                Services
-                <svg class="c-hamburger-nav__chevron" width="16" height="16" viewBox="0 0 12 12" fill="none">
-                    <path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        {# Header du panneau #}
+        <div class="c-hamburger-nav__header">
+            <img 
+                class="c-hamburger-nav__logo"
+                src="{{ vite_asset('img/about/logos/rclogo-02-light.png') }}"
+                alt="Renove Construct">
+            <button 
+                class="c-hamburger-nav__close"
+                aria-label="Fermer le menu"
+                data-hamburger-close>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M4 4L16 16M16 4L4 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
                 </svg>
             </button>
-            <ul class="c-hamburger-nav__submenu">
-                <li><a href="/services/panneaux-photovoltaiques" class="c-hamburger-nav__sublink">Panneaux photovoltaïques</a></li>
-        {#
-                <li><a href="/services/fenetres" class="c-hamburger-nav__sublink">Fenêtres & Châssis</a></li>
-                <li><a href="/services/vitrage" class="c-hamburger-nav__sublink">Vitrage double & triple</a></li>
-        #}
-            </ul>
-        </li>
-
-        <li class="c-hamburger-nav__item">
-            <a href="/contact" class="c-hamburger-nav__link">Contact</a>
-        </li>
-
-        {% if userSession %}
-            {% if userSession.role is same as('superadmin') %}
-            <li class="c-hamburger-nav__item">
-                <a href="/admin/dashboard" class="c-hamburger-nav__link">Admin</a>
-            </li>
-            {% endif %}
-            {% if userSession.role is same as('user') %}
-            <li class="c-hamburger-nav__item">
-                <a href="/profil" class="c-hamburger-nav__link">Mon profil</a>
-            </li>
-            {% endif %}
-            <li class="c-hamburger-nav__item">
-                <a href="/auth/logout" class="c-hamburger-nav__link">Déconnexion</a>
-            </li>
-        {% else %}
-            <li class="c-hamburger-nav__item">
-                <a href="/auth/login" class="c-hamburger-nav__link">Connexion</a>
-            </li>
-            <li class="c-hamburger-nav__item">
-                <a href="/user/register" class="c-hamburger-nav__link c-hamburger-nav__link--cta">Inscription</a>
-            </li>
-        {% endif %}
-    </ul>
-
-    {# Footer du panneau #}
-    <div class="c-hamburger-nav__footer">
-        <a href="tel:+32492759577" class="c-hamburger-nav__contact-link">
-            <img class="c-hamburger-nav__contact-icon"
-                src="{{ vite_asset('img/layouts/emoticons/phone-2.png') }}"
-                alt="">
-            <span>0492/75.95.77</span>
-        </a>
-        <div class="l-cluster l-cluster--gap-m">
-            <a href="https://wa.me/32492759577"
-                class="c-hamburger-nav__social"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="WhatsApp">
-                <img src="{{ vite_asset('img/layouts/logos/whatsapp.png') }}" alt="WhatsApp">
-            </a>
-            <a href="https://www.facebook.com/profile.php?id=61580757421154"
-                class="c-hamburger-nav__social"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Facebook">
-                <img src="{{ vite_asset('img/layouts/logos/facebook.png') }}" alt="Facebook">
-            </a>
         </div>
-    </div>
 
-</nav>
+        {# Liens #}
+        <ul class="c-hamburger-nav__menu">
+            <li class="c-hamburger-nav__item">
+                <a href="/" class="c-hamburger-nav__link">Accueil</a>
+            </li>
 
+            {% if env == "dev" %}
+            <li class="c-hamburger-nav__item">
+                <a href="/product/list" class="c-hamburger-nav__link">Produits</a>
+            </li>
+            {% endif %}
+
+            <li class="c-hamburger-nav__item">
+                <a href="/about" class="c-hamburger-nav__link">Société</a>
+            </li>
+
+            <li class="c-hamburger-nav__item c-hamburger-nav__item--accordion">
+                <button class="c-hamburger-nav__link c-hamburger-nav__link--accordion" data-accordion>
+                    Services
+                    <svg class="c-hamburger-nav__chevron" width="16" height="16" viewBox="0 0 12 12" fill="none">
+                        <path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                </button>
+                <ul class="c-hamburger-nav__submenu">
+                    <li><a href="/services/chassis-fenetres" class="c-hamburger-nav__sublink">Fenêtres & Châssis</a></li>
+                    <li><a href="/services/panneaux-photovoltaiques" class="c-hamburger-nav__sublink">Panneaux photovoltaïques</a></li>
+            {#
+                    <li><a href="/services/vitrage" class="c-hamburger-nav__sublink">Vitrage double & triple</a></li>
+            #}
+                </ul>
+            </li>
+
+            <li class="c-hamburger-nav__item">
+                <a href="/contact" class="c-hamburger-nav__link">Contact</a>
+            </li>
+
+            {% if userSession %}
+                {% if userSession.role is same as('superadmin') %}
+                <li class="c-hamburger-nav__item">
+                    <a href="/admin/dashboard" class="c-hamburger-nav__link">Admin</a>
+                </li>
+                {% endif %}
+                {% if userSession.role is same as('user') %}
+                <li class="c-hamburger-nav__item">
+                    <a href="/profil" class="c-hamburger-nav__link">Mon profil</a>
+                </li>
+                {% endif %}
+                <li class="c-hamburger-nav__item">
+                    <a href="/auth/logout" class="c-hamburger-nav__link">Déconnexion</a>
+                </li>
+            {% else %}
+                <li class="c-hamburger-nav__item">
+                    <a href="/auth/login" class="c-hamburger-nav__link">Connexion</a>
+                </li>
+                <li class="c-hamburger-nav__item">
+                    <a href="/user/register" class="c-hamburger-nav__link c-hamburger-nav__link--cta">Inscription</a>
+                </li>
+            {% endif %}
+        </ul>
+
+        {# Footer du panneau #}
+        <div class="c-hamburger-nav__footer">
+            <a href="tel:+32492759577" class="c-hamburger-nav__contact-link">
+                <img class="c-hamburger-nav__contact-icon"
+                    src="{{ vite_asset('img/layouts/emoticons/phone-2.png') }}"
+                    alt="">
+                <span>0492/75.95.77</span>
+            </a>
+            <div class="l-cluster l-cluster--gap-m">
+                <a href="https://wa.me/32492759577"
+                    class="c-hamburger-nav__social"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="WhatsApp">
+                    <img src="{{ vite_asset('img/layouts/logos/whatsapp.png') }}" alt="WhatsApp">
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=61580757421154"
+                    class="c-hamburger-nav__social"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Facebook">
+                    <img src="{{ vite_asset('img/layouts/logos/facebook.png') }}" alt="Facebook">
+                </a>
+            </div>
+        </div>
+    </nav>
 </header>

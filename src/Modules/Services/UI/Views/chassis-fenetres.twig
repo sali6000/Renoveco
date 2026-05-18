@@ -1,0 +1,397 @@
+{% extends "@Shared/layout/base.twig" %}
+
+{% block title %}Châssis & Fenêtres PVC et Aluminium en Belgique – Renove Construct{% endblock %}
+
+{% block meta_description %}Renove Construct installe vos châssis et fenêtres PVC ou aluminium double et triple vitrage en Belgique. Isolation thermique, acoustique et sécurité optimales. Demandez votre devis gratuit.{% endblock %}
+
+{% block content %}
+
+{# =============================================
+   HERO — Image principale + accroche
+   ============================================= #}
+<section class="chassis-fenetres-hero">
+	<div class="chassis-fenetres-hero__media">
+		<img
+			class="chassis-fenetres-hero__img a-reveal a-reveal--slide-down"
+			src="{{ vite_asset('img/services/chassis-fenetres/image1.jpg') }}"
+			alt="Installation de châssis et fenêtres réalisée par Renove Construct"
+			loading="eager"
+			width="1600"
+			height="900"
+		>
+		<div class="chassis-fenetres-hero__overlay"></div>
+	</div>
+	<div class="chassis-fenetres-hero__content l-wrapper">
+		<span class="chassis-fenetres-hero__eyebrow">Menuiserie extérieure</span>
+		<h1 class="chassis-fenetres-hero__title">Châssis & Fenêtres</h1>
+		<p class="chassis-fenetres-hero__subtitle">
+			Améliorez le confort, l'isolation et la sécurité de votre habitation avec des châssis PVC ou aluminium double et triple vitrage.
+		</p>
+		<a href="/contact" class="c-btn c-btn--primary">Demander un devis gratuit</a>
+	</div>
+</section>
+
+{# =============================================
+   INTRO — Accroche SEO + présentation du service
+   ============================================= #}
+<section class="l-wrapper l-stack l-stack--centered l-stack--gap-l l-stack--pb-l l-stack--pt-l">
+	<div class="l-stack l-stack--gap-s l-stack--centered">
+		<h2 class="heading heading--2">Pourquoi choisir Renove Construct pour vos châssis&nbsp;?</h2>
+		<p class="c-text c-text--muted c-text--centered c-text--max-reading">
+			Spécialiste de la rénovation et de la construction en Belgique, Renove Construct vous accompagne de A à Z dans le remplacement ou la pose de vos châssis et fenêtres&nbsp;: conseil sur les matériaux (PVC, aluminium), choix du vitrage (double ou triple), dépose soignée de l'ancien châssis, pose dans les règles de l'art et finitions impeccables. Nos techniciens qualifiés interviennent sur tous types de bâtiments, qu'il s'agisse d'une rénovation ou d'une construction neuve.
+		</p>
+	</div>
+
+	{# Chiffres clés / arguments #}
+	<div class="l-split l-split--equal-4">
+		<div class="l-stack l-stack--gap-m l-stack--align-center">
+			<span class="chassis-fenetres-stat__number">−30&nbsp;%</span>
+			<h3 class="chassis-fenetres-stat__label">de pertes thermiques</h3>
+			<p class="c-text c-text--muted c-text--small">Les fenêtres sont responsables de 10 à 15&nbsp;% des déperditions d'énergie d'un logement. Un remplacement ciblé fait une différence immédiate.</p>
+		</div>
+		<div class="l-stack l-stack--gap-m l-stack--align-center l-stack--border-left">
+			<span class="chassis-fenetres-stat__number">Uw ≤ 1,0</span>
+			<h3 class="chassis-fenetres-stat__label">W/m²K — triple vitrage</h3>
+			<p class="c-text c-text--muted c-text--small">Nos solutions triple vitrage atteignent les plus hauts niveaux d'isolation thermique du marché belge.</p>
+		</div>
+		<div class="l-stack l-stack--gap-m l-stack--align-center l-stack--border-left">
+			<span class="chassis-fenetres-stat__number">0&nbsp;€</span>
+			<h3 class="chassis-fenetres-stat__label">de frais cachés</h3>
+			<p class="c-text c-text--muted c-text--small">Devis transparent, prix fixe, dépose et évacuation de l'ancien châssis compris.</p>
+		</div>
+		<div class="l-stack l-stack--gap-m l-stack--align-center l-stack--border-left">
+			<span class="chassis-fenetres-stat__number">100&nbsp;%</span>
+			<h3 class="chassis-fenetres-stat__label">clé sur porte</h3>
+			<p class="c-text c-text--muted c-text--small">De la dépose à la finition intérieure, tout est géré par nos équipes. Vous n'avez rien à coordonner.</p>
+		</div>
+	</div>
+</section>
+
+{# =============================================
+   GALERIE — Photos chantier & résultat
+   ============================================= #}
+<section class="chassis-fenetres-gallery l-wrapper l-stack--pb-l">
+	<h2 class="chassis-fenetres-gallery__title heading heading--2">Nos réalisations</h2>
+	<p class="c-text c-text--muted c-text--centered l-stack--pb-m">Chaque chantier est unique&nbsp;: nous adaptons le châssis à l'architecture de votre bâtiment et à vos contraintes.</p>
+
+	<div class="chassis-fenetres-gallery__grid">
+		{# Photo grande — résultat fini #}
+		<div class="chassis-fenetres-gallery__item chassis-fenetres-gallery__item--featured">
+			<img
+				class="chassis-fenetres-gallery__img"
+				src="{{ vite_asset('img/services/chassis-fenetres/image2.jpg') }}"
+				alt="Résultat final d'une installation de châssis par Renove Construct"
+				loading="lazy"
+				width="800"
+				height="600"
+			>
+			<span class="chassis-fenetres-gallery__caption">Résultat fini</span>
+		</div>
+
+		{# Photos secondaires #}
+		<div class="chassis-fenetres-gallery__item">
+			<img
+				class="chassis-fenetres-gallery__img"
+				src="{{ vite_asset('img/services/chassis-fenetres/image3.jpg') }}"
+				alt="Pose d'un châssis PVC par les techniciens Renove Construct"
+				loading="lazy"
+				width="600"
+				height="450"
+			>
+			<span class="chassis-fenetres-gallery__caption">En cours de pose</span>
+		</div>
+		<div class="chassis-fenetres-gallery__item">
+			<img
+				class="chassis-fenetres-gallery__img"
+				src="{{ vite_asset('img/services/chassis-fenetres/image4.jpg') }}"
+				alt="Détail d'un châssis aluminium double vitrage installé"
+				loading="lazy"
+				width="600"
+				height="450"
+			>
+			<span class="chassis-fenetres-gallery__caption">Châssis aluminium</span>
+		</div>
+		<div class="chassis-fenetres-gallery__item">
+			<img
+				class="chassis-fenetres-gallery__img"
+				src="{{ vite_asset('img/services/chassis-fenetres/image5.jpg') }}"
+				alt="Vue d'ensemble d'une façade rénovée avec nouveaux châssis"
+				loading="lazy"
+				width="600"
+				height="450"
+			>
+			<span class="chassis-fenetres-gallery__caption">Vue d'ensemble façade</span>
+		</div>
+        <div class="chassis-fenetres-gallery__item">
+			<img
+				class="chassis-fenetres-gallery__img"
+				src="{{ vite_asset('img/services/chassis-fenetres/image6.jpg') }}"
+				alt="Vue d'ensemble d'une façade rénovée avec nouveaux châssis"
+				loading="lazy"
+				width="600"
+				height="450"
+			>
+			<span class="chassis-fenetres-gallery__caption">Vue d'ensemble façade</span>
+		</div>
+	</div>
+
+	{# ─── Vidéos ─── #}
+	<div class="chassis-fenetres-gallery__videos l-stack--pt-l">
+		<h3 class="heading heading--3 c-text--centered l-stack--pb-m">Nos techniciens en action</h3>
+		<div class="chassis-fenetres-gallery__video-grid">
+			<div class="chassis-fenetres-gallery__video-item">
+				<video
+					class="chassis-fenetres-gallery__video"
+					src="{{ vite_asset('webm/about/video1.webm') }}"
+					poster="{{ vite_asset('img/services/chassis-fenetres/image2.jpg') }}"
+					controls
+					preload="none"
+					width="800"
+					height="450"
+					aria-label="Vidéo : pose d'un châssis PVC par Renove Construct"
+				></video>
+				<span class="chassis-fenetres-gallery__caption">Dépose &amp; pose d'un châssis PVC</span>
+			</div>
+			<div class="chassis-fenetres-gallery__video-item">
+				<video
+					class="chassis-fenetres-gallery__video"
+					src="{{ vite_asset('webm/about/video1.webm') }}"
+					poster="{{ vite_asset('img/services/chassis-fenetres/image3.jpg') }}"
+					controls
+					preload="none"
+					width="800"
+					height="450"
+					aria-label="Vidéo : finition et calfeutrage d'un châssis aluminium"
+				></video>
+				<span class="chassis-fenetres-gallery__caption">Finition &amp; calfeutrage aluminium</span>
+			</div>
+		</div>
+	</div>
+</section>
+
+{# =============================================
+   MATÉRIAUX — PVC vs Aluminium (choix guidé)
+   ============================================= #}
+<section class="chassis-fenetres-materials l-stack--pb-l l-stack--pt-l">
+	<div class="l-wrapper l-stack l-stack--gap-l l-stack--centered">
+		<h2 class="heading heading--2">PVC ou aluminium&nbsp;: quel châssis choisir&nbsp;?</h2>
+		<p class="c-text c-text--muted c-text--centered c-text--max-reading">
+			Les deux matériaux offrent d'excellentes performances thermiques et acoustiques. Le choix dépend de vos priorités&nbsp;: budget, esthétique, entretien ou sur-mesure architectural.
+		</p>
+
+		<div class="chassis-fenetres-materials__grid">
+			{# PVC #}
+			<div class="chassis-fenetres-materials__card">
+				<div class="chassis-fenetres-materials__card-header">
+					<span class="chassis-fenetres-materials__icon" aria-hidden="true">🪟</span>
+					<h3 class="chassis-fenetres-materials__name">Châssis PVC</h3>
+					<span class="chassis-fenetres-materials__badge chassis-fenetres-materials__badge--popular">Le plus populaire</span>
+				</div>
+				<ul class="chassis-fenetres-materials__features">
+					<li><strong>Excellent rapport qualité/prix</strong> — idéal pour les budgets maîtrisés</li>
+					<li><strong>Isolation thermique optimale</strong> — profils multi-chambres très performants</li>
+					<li><strong>Entretien zéro</strong> — imputrescible, ne se peint pas, ne rouille pas</li>
+					<li><strong>Large choix de coloris</strong> — blanc, gris, effet bois, laqué</li>
+					<li><strong>Double ou triple vitrage</strong> — selon votre niveau d'isolation souhaité</li>
+				</ul>
+			</div>
+
+			{# Aluminium #}
+			<div class="chassis-fenetres-materials__card">
+				<div class="chassis-fenetres-materials__card-header">
+					<span class="chassis-fenetres-materials__icon" aria-hidden="true">🏗️</span>
+					<h3 class="chassis-fenetres-materials__name">Châssis Aluminium</h3>
+					<span class="chassis-fenetres-materials__badge chassis-fenetres-materials__badge--premium">Premium</span>
+				</div>
+				<ul class="chassis-fenetres-materials__features">
+					<li><strong>Esthétique architecturale</strong> — profils fins, grandes baies vitrées</li>
+					<li><strong>Robustesse supérieure</strong> — résistance aux vents et aux intempéries</li>
+					<li><strong>Rupture de pont thermique</strong> — isolation thermique de haut niveau</li>
+					<li><strong>Sur-mesure absolu</strong> — formes complexes, grandes dimensions</li>
+					<li><strong>Longévité inégalée</strong> — durée de vie de 40 à 50 ans</li>
+				</ul>
+			</div>
+		</div>
+
+		<p class="c-text c-text--muted c-text--centered c-text--small">
+			Vous ne savez pas encore quel matériau choisir&nbsp;? Nos conseillers vous guident gratuitement lors de la visite technique.
+		</p>
+	</div>
+</section>
+
+{# =============================================
+   PROCESSUS — Étapes d'installation
+   ============================================= #}
+<section class="chassis-fenetres-process l-stack--pb-l l-stack--pt-l">
+	<div class="l-wrapper l-stack l-stack--gap-l l-stack--centered">
+		<h2 class="heading heading--2">Comment ça se passe&nbsp;?</h2>
+		<p class="c-text c-text--muted c-text--centered c-text--max-reading">
+			Un chantier châssis réussi repose sur une méthode rigoureuse et un travail soigné, de la dépose à la finition.
+		</p>
+
+		<ol class="chassis-fenetres-process__list">
+			<li class="chassis-fenetres-process__item">
+				<span class="chassis-fenetres-process__number" aria-hidden="true">01</span>
+				<div class="chassis-fenetres-process__body">
+					<h3 class="chassis-fenetres-process__step-title">Visite technique &amp; devis</h3>
+					<p class="c-text c-text--muted">Nous mesurons vos ouvertures, évaluons votre situation (neuf, rénovation, type de mur) et vous conseillons sur le matériau et le vitrage les mieux adaptés. Devis détaillé, gratuit et sans engagement.</p>
+				</div>
+			</li>
+			<li class="chassis-fenetres-process__item">
+				<span class="chassis-fenetres-process__number" aria-hidden="true">02</span>
+				<div class="chassis-fenetres-process__body">
+					<h3 class="chassis-fenetres-process__step-title">Fabrication sur mesure</h3>
+					<p class="c-text c-text--muted">Vos châssis sont fabriqués sur mesure selon les dimensions exactes de vos ouvertures. Délai de fabrication&nbsp;: 3 à 6 semaines selon le modèle et le matériau choisi.</p>
+				</div>
+			</li>
+			<li class="chassis-fenetres-process__item">
+				<span class="chassis-fenetres-process__number" aria-hidden="true">03</span>
+				<div class="chassis-fenetres-process__body">
+					<h3 class="chassis-fenetres-process__step-title">Dépose de l'existant</h3>
+					<p class="c-text c-text--muted">Nos techniciens déposent soigneusement vos anciens châssis, évacuent les déchets et préparent l'ouverture pour garantir une pose parfaitement d'aplomb et étanche.</p>
+				</div>
+			</li>
+			<li class="chassis-fenetres-process__item">
+				<span class="chassis-fenetres-process__number" aria-hidden="true">04</span>
+				<div class="chassis-fenetres-process__body">
+					<h3 class="chassis-fenetres-process__step-title">Pose &amp; finitions</h3>
+					<p class="c-text c-text--muted">Installation du nouveau châssis, calfeutrage intérieur et extérieur, finitions soignées (parachèvement, tablette, appui de fenêtre). Vous récupérez un chantier propre et terminé.</p>
+				</div>
+			</li>
+		</ol>
+	</div>
+</section>
+
+{# =============================================
+   AVANTAGES — Bloc texte + image côte à côte
+   ============================================= #}
+<section class="l-wrapper l-stack--pb-l">
+	<div class="chassis-fenetres-advantages">
+		<div class="chassis-fenetres-advantages__media">
+			<img
+				class="chassis-fenetres-advantages__img c-image c-image--w-l"
+				src="{{ vite_asset('img/services/chassis-fenetres/image4.jpg') }}"
+				alt="Technicien Renove Construct lors de la pose d'un châssis aluminium"
+				loading="lazy"
+				width="700"
+				height="520"
+			>
+		</div>
+		<div class="chassis-fenetres-advantages__content l-stack l-stack--gap-m">
+			<h2 class="heading heading--2">Les avantages de nouveaux châssis</h2>
+			<ul class="chassis-fenetres-advantages__list">
+				<li class="chassis-fenetres-advantages__list-item">
+					<span class="chassis-fenetres-advantages__icon" aria-hidden="true">🌡️</span>
+					<span><strong>Confort thermique immédiat</strong>&nbsp;— fini les courants d'air et les vitres froides en hiver. La température intérieure se stabilise.</span>
+				</li>
+				<li class="chassis-fenetres-advantages__list-item">
+					<span class="chassis-fenetres-advantages__icon" aria-hidden="true">🔇</span>
+					<span><strong>Isolation acoustique renforcée</strong>&nbsp;— le double ou triple vitrage coupe significativement les bruits extérieurs (rue, voisinage, circulation).</span>
+				</li>
+				<li class="chassis-fenetres-advantages__list-item">
+					<span class="chassis-fenetres-advantages__icon" aria-hidden="true">💶</span>
+					<span><strong>Économies sur la facture</strong>&nbsp;— des châssis performants réduisent les besoins en chauffage et s'amortissent rapidement, surtout combinés à une prime régionale.</span>
+				</li>
+				<li class="chassis-fenetres-advantages__list-item">
+					<span class="chassis-fenetres-advantages__icon" aria-hidden="true">🏠</span>
+					<span><strong>Plus-value immobilière &amp; PEB</strong>&nbsp;— de nouveaux châssis améliorent votre certificat PEB, un critère de plus en plus déterminant à la revente ou à la location.</span>
+				</li>
+				<li class="chassis-fenetres-advantages__list-item">
+					<span class="chassis-fenetres-advantages__icon" aria-hidden="true">🔒</span>
+					<span><strong>Sécurité améliorée</strong>&nbsp;— les châssis modernes intègrent des vitrages feuilletés et des systèmes de verrouillage multi-points qui renforcent l'anti-effraction.</span>
+				</li>
+			</ul>
+		</div>
+	</div>
+</section>
+
+{# =============================================
+   FAQ — Questions fréquentes (SEO longue traîne)
+   ============================================= #}
+<section class="chassis-fenetres-faq l-stack--pb-l l-stack--pt-l">
+	<div class="l-wrapper l-stack l-stack--gap-l l-stack--centered">
+		<h2 class="heading heading--2">Questions fréquentes</h2>
+
+		<div class="chassis-fenetres-faq__list">
+			<details class="chassis-fenetres-faq__item">
+				<summary class="chassis-fenetres-faq__question">Quel est le prix de remplacement de châssis en Belgique&nbsp;?</summary>
+				<div class="chassis-fenetres-faq__answer">
+					<p>Le prix dépend du matériau (PVC ou aluminium), du type de vitrage (double ou triple), des dimensions et du nombre d'ouvrants. La dépose de l'existant et les finitions sont incluses dans notre devis. Pour une estimation personnalisée, demandez votre devis gratuit. Nos prix sont transparents&nbsp;: aucune mauvaise surprise en cours de chantier.</p>
+				</div>
+			</details>
+
+			<details class="chassis-fenetres-faq__item">
+				<summary class="chassis-fenetres-faq__question">Y a-t-il des primes pour le remplacement de châssis en Belgique&nbsp;?</summary>
+				<div class="chassis-fenetres-faq__answer">
+					<p>Oui. En Région wallonne et en Région de Bruxelles-Capitale, des primes énergie sont accordées pour le remplacement de simple vitrage par du double ou triple vitrage performant. En Flandre, des aides existent également via le Fonds du Logement et MyRenovation. Renove Construct vous informe sur les aides auxquelles vous avez droit et vous accompagne dans les démarches.</p>
+				</div>
+			</details>
+
+			<details class="chassis-fenetres-faq__item">
+				<summary class="chassis-fenetres-faq__question">Quelle est la différence entre double et triple vitrage&nbsp;?</summary>
+				<div class="chassis-fenetres-faq__answer">
+					<p>Le double vitrage (Ug ≈ 1,0 W/m²K) offre déjà d'excellentes performances pour la majorité des habitations belges. Le triple vitrage (Ug ≈ 0,5 W/m²K) pousse l'isolation encore plus loin&nbsp;: idéal pour les maisons passives, les bâtiments basse énergie ou les façades très exposées. Lors de la visite technique, nous vous aidons à choisir le niveau de performance adapté à votre situation.</p>
+				</div>
+			</details>
+
+			<details class="chassis-fenetres-faq__item">
+				<summary class="chassis-fenetres-faq__question">Combien de temps prend un chantier de remplacement de châssis&nbsp;?</summary>
+				<div class="chassis-fenetres-faq__answer">
+					<p>Pour une maison unifamiliale (6 à 10 châssis), la pose se déroule en général en 1 à 3 jours. Le chantier est peu invasif&nbsp;: fenêtre par fenêtre, afin de ne jamais laisser une ouverture non protégée sur la nuit. Vous restez dans votre domicile pendant les travaux.</p>
+				</div>
+			</details>
+
+			<details class="chassis-fenetres-faq__item">
+				<summary class="chassis-fenetres-faq__question">PVC ou aluminium&nbsp;: lequel choisir pour ma maison&nbsp;?</summary>
+				<div class="chassis-fenetres-faq__answer">
+					<p>Le PVC est le choix le plus courant&nbsp;: excellent rapport qualité/prix, très bonne isolation, entretien nul. L'aluminium s'impose pour les grandes baies vitrées, les architectures contemporaines ou lorsque vous souhaitez des profils très fins et des couleurs RAL sur mesure. Dans les deux cas, les performances thermiques sont très proches en triple vitrage. Nos conseillers vous guident sans engagement lors de la visite gratuite.</p>
+				</div>
+			</details>
+
+			<details class="chassis-fenetres-faq__item">
+				<summary class="chassis-fenetres-faq__question">Faut-il un permis pour remplacer ses châssis en Belgique&nbsp;?</summary>
+				<div class="chassis-fenetres-faq__answer">
+					<p>Dans la grande majorité des cas, le simple remplacement de châssis (à dimensions identiques et sans modification de la façade) ne nécessite pas de permis d'urbanisme. Des exceptions existent pour les bâtiments classés ou certaines zones protégées. Renove Construct vérifie pour vous si une démarche est nécessaire avant le début des travaux.</p>
+				</div>
+			</details>
+		</div>
+	</div>
+</section>
+
+{# =============================================
+   CTA — Demande de devis
+   ============================================= #}
+<section id="devis" class="chassis-fenetres-cta">
+	<div class="l-wrapper l-stack l-stack--gap-m l-stack--centered">
+		<h2 class="chassis-fenetres-cta__title">Prêt à renouveler vos châssis&nbsp;?</h2>
+		<p class="chassis-fenetres-cta__text c-text c-text--centered c-text--max-reading">
+			Contactez-nous pour une visite technique gratuite et un devis personnalisé. Nos experts mesurent, conseillent et répondent à toutes vos questions — sans engagement de votre part.
+		</p>
+		<a href="/contact" class="c-btn c-btn--primary c-btn--lg">Demander mon devis gratuit</a>
+		<p class="c-text c-text--muted c-text--small c-text--centered">Sans engagement · Réponse sous 48h · Gratuit</p>
+	</div>
+</section>
+
+{# =============================================
+   SCHEMA.ORG — SEO structuré
+   ============================================= #}
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@type": "Service",
+	"name": "Pose et remplacement de châssis et fenêtres",
+	"description": "Renove Construct installe et remplace vos châssis et fenêtres PVC ou aluminium, double et triple vitrage, en Belgique. Dépose, pose clé sur porte et finitions soignées.",
+	"provider": {
+		"@type": "LocalBusiness",
+		"name": "Renove Construct",
+		"areaServed": {
+			"@type": "Country",
+			"name": "Belgique"
+		}
+	},
+	"serviceType": "Pose de châssis et fenêtres",
+	"areaServed": "Belgique"
+}
+</script>
+
+{% endblock %}
