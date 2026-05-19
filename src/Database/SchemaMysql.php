@@ -52,6 +52,9 @@ final class SchemaMysql
     public const PRODUCT_DEFAULT_SUPPLIER_ID = 'p.default_supplier_id';
     public const PRODUCT_CREATED_AT = 'p.created_at';
     public const PRODUCT_UPDATED_AT = 'p.updated_at';
+    public const PRODUCT_SUBTITLE = 'p.subtitle';
+    public const PRODUCT_META_DESCRIPTION = 'p.meta_description';
+
 
 
     // -------------------------------------------------------
