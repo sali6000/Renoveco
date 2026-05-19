@@ -90,7 +90,7 @@
 }
 
 /* -----------------------------------------------------------------------------
-   GALERIE
+   GALERIE — Photos + vidéos
    ----------------------------------------------------------------------------- */
 .chassis-fenetres-gallery__title {
     text-align: center;
@@ -149,6 +149,40 @@
     min-height: 420px;
 }
 
+/* --- Vidéos ---------------------------------------------------------------- */
+.chassis-fenetres-gallery__video-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-s, 0.75rem);
+}
+
+.chassis-fenetres-gallery__video-item {
+    border-radius: var(--radius-m, 8px);
+    overflow: hidden;
+    background: var(--color-surface-alt, #f4f4f4);
+}
+
+.chassis-fenetres-gallery__video {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    accent-color: var(--color-accent, #f5a623);
+}
+
+/*
+ * Les captions vidéo sont static (pas de poster garanti pleine hauteur),
+ * contrairement aux captions photos qui sont absolute avec dégradé.
+ */
+.chassis-fenetres-gallery__video-item>.chassis-fenetres-gallery__caption {
+    position: static;
+    background: none;
+    color: var(--color-text-muted, #555);
+    padding: var(--space-xs, 0.5rem) var(--space-s, 0.75rem);
+}
+
+/* --- Responsive galerie --------------------------------------------------- */
 @media (max-width: 768px) {
     .chassis-fenetres-gallery__grid {
         grid-template-columns: 1fr 1fr;
@@ -160,6 +194,10 @@
         grid-row: unset;
         min-height: 260px;
     }
+
+    .chassis-fenetres-gallery__video-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 480px) {
@@ -169,6 +207,99 @@
 
     .chassis-fenetres-gallery__item--featured {
         grid-column: 1;
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   MATÉRIAUX — Cards PVC vs Aluminium
+   ----------------------------------------------------------------------------- */
+.chassis-fenetres-materials {
+    background: var(--color-surface-alt, #f8f8f6);
+}
+
+.chassis-fenetres-materials__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-l, 2rem);
+    width: 100%;
+    max-width: 900px;
+}
+
+.chassis-fenetres-materials__card {
+    background: var(--color-surface, #fff);
+    border: 1px solid var(--color-border, #e5e5e5);
+    border-radius: var(--radius-m, 8px);
+    padding: var(--space-l, 1.75rem);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m, 1.25rem);
+    transition: box-shadow 0.25s ease;
+}
+
+.chassis-fenetres-materials__card:hover {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+.chassis-fenetres-materials__card-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs, 0.5rem);
+}
+
+.chassis-fenetres-materials__icon {
+    font-size: 2rem;
+    line-height: 1;
+}
+
+.chassis-fenetres-materials__name {
+    font-size: var(--text-lg, 1.125rem);
+    font-weight: 700;
+    margin: 0;
+}
+
+.chassis-fenetres-materials__badge {
+    display: inline-block;
+    align-self: flex-start;
+    font-size: var(--text-xs, 0.75rem);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.2em 0.7em;
+    border-radius: 99px;
+}
+
+.chassis-fenetres-materials__badge--popular {
+    background: var(--color-accent, #f5a623);
+    color: #fff;
+}
+
+.chassis-fenetres-materials__badge--premium {
+    background: var(--color-primary, #1a1a2e);
+    color: #fff;
+}
+
+.chassis-fenetres-materials__features {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s, 0.75rem);
+    font-size: var(--text-base, 1rem);
+    line-height: 1.6;
+    color: var(--color-text-muted, #555);
+}
+
+.chassis-fenetres-materials__features li::before {
+    content: '✓';
+    color: var(--color-accent, #f5a623);
+    font-weight: 700;
+    margin-right: var(--space-xs, 0.4rem);
+}
+
+@media (max-width: 640px) {
+    .chassis-fenetres-materials__grid {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -186,7 +317,6 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: var(--space-l, 2rem);
-    counter-reset: steps;
 }
 
 .chassis-fenetres-process__item {
