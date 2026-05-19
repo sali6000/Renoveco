@@ -158,7 +158,7 @@
                 <a href="/" class="c-hamburger-nav__link">Accueil</a>
             </li>
 
-            {% if env == "dev" %}
+            {% if env == "dev" or userSession.role is same as('superadmin')  %}
             <li class="c-hamburger-nav__item">
                 <a href="/product/list" class="c-hamburger-nav__link">Produits</a>
             </li>
