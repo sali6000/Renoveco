@@ -1,121 +1,290 @@
 {% extends "@Shared/layout/base.twig" %}
 
-{% block title %}Détail du produit - {{ parent() }}{% endblock %}
+{% block title %}{{ model.name }} – {{ model.category_name }} – Renove Construct{% endblock %}
+
+{% block meta_description %}{{ model.meta_description ?? ('Découvrez ' ~ model.name ~ ', ' ~ model.category_name ~ '. Fiche technique complète, disponibilité et devis gratuit.') }}{% endblock %}
 
 {% block content %}
-  <div class="section-detail-link">
-    <div class="side-section"></div>
-  
-    {# Catégorie produit #}
-    <div class="link">
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="/product/list">Produits</a></li>
-          <li class="breadcrumb-item"><a href="/product/list/{{ model.category_name }}">{{ model.category_name }}</a></li>
-          <li class="breadcrumb-item active" aria-current="page">{{ model.name }}</li>
-        </ol>
-      </nav>
-    </div>
-    <div class="side-section"></div>
-  </div>
-  
-  <div class="section-detail-product">
-  
-    {# Présentation produit #}
-      <div class="description">
-      <h2><b>{{ model.name }}</b></h2><br>
-      <p>
-        Gamme destinée pour les maisons, restaurants reliant l’espace intérieur à l’extérieur. <br><br>
-        Gammes à 3 chambres assurant une haute résistance des profilés et possibilité de grandes dimensions (L ≤ 1200 mm ou H ≤ 3500 mm, poids max vantail - 120 kg).<br><br>
-        Haute isolation thermique grâce aux barrettes thermiques de 34 mm pour dormants et vantaux.<br>
-        Quincaillerie spécialisée pour haute fonctionnalité.<br>
-        Plage de vitrage : 22 - 60 mm.<br>
-        Choix libre du seuil.<br>
-        Possibilité de liaison avec autres gammes PROCURAL PE78N.
-      </p>
-      </div>
-  
-    {# Images #}
-    <div class="images">
-  
-      {# Image principale du produit #}
-      <div class="image-principal a-reveal">
-        <img src="/uploads/img/products/large/{{ model.images[0].filePath }}" alt="{{ model.name }}">
-      </div>
-        
-      {# Disponibilité produit #}
-      <div class="gallery">
-        {# Images secondaires du produit #}
-        <div class="previews">
-          <div class="preview">
-            <img src="/uploads/img/products/thumbnail/{{ model.images[0].filePath }}" alt="{{ model.name }}">
-          </div>
-          <div class="preview">
-            <img src="/uploads/img/products/thumbnail/{{ model.images[0].filePath }}" alt="{{ model.name }}">
-          </div>
-          <div class="preview">
-            <img src="/uploads/img/products/thumbnail/{{ model.images[0].filePath }}" alt="{{ model.name }}">
-          </div>
-          <div class="preview">
-            <img src="/uploads/img/products/thumbnail/{{ model.images[0].filePath }}" alt="{{ model.name }}">
-          </div>
-          <div class="preview">
-            <img src="/uploads/img/products/thumbnail/{{ model.images[0].filePath }}" alt="{{ model.name }}">
-          </div>
-          <div class="preview">
-            <img src="/uploads/img/products/thumbnail/{{ model.images[0].filePath }}" alt="{{ model.name }}">
-          </div>
-          <div class="preview">
-            <img src="/uploads/img/products/thumbnail/{{ model.images[0].filePath }}" alt="{{ model.name }}">
-          </div>
-          <div class="preview">
-            <img src="/uploads/img/products/thumbnail/{{ model.images[0].filePath }}" alt="{{ model.name }}">
-          </div>
-          <div class="preview">
-            <img src="/uploads/img/products/thumbnail/{{ model.images[0].filePath }}" alt="{{ model.name }}">
-          </div>
-          <div class="preview">
-            <img src="/uploads/img/products/thumbnail/{{ model.images[0].filePath }}" alt="{{ model.name }}">
-          </div>
-          <div class="preview">
-            <img src="/uploads/img/products/thumbnail/{{ model.images[0].filePath }}" alt="{{ model.name }}">
-          </div>
-          <div class="preview">
-            <img src="/uploads/img/products/thumbnail/{{ model.images[0].filePath }}" alt="{{ model.name }}">
-          </div>
-          <div class="preview">
-            <img src="/uploads/img/products/thumbnail/{{ model.images[0].filePath }}" alt="{{ model.name }}">
-          </div>
-          <div class="preview">
-            <img src="/uploads/img/products/thumbnail/{{ model.images[0].filePath }}" alt="{{ model.name }}">
-          </div>
-          <div class="preview">
-            <img src="/uploads/img/products/thumbnail/{{ model.images[0].filePath }}" alt="{{ model.name }}">
-          </div>
-        </div>
-      </div>
-    </div>
-  
-    <div class="details">
 
-      {# Informations produit #}
-      <div class="infos">
-        <h2>Disponibilité</h2><hr>
-        <p>Oui</p>
-        <h2>Fiche technique</h2><hr>
-        <b>Nom du produit :</b>
-        {{ model.name }}
-        <b>Type de produit :</b>
-        Aluminium
-        <b>Fabricant :</b>
-        XXX
-        <b>Profilé aluminium :</b>
-        EN AW-6060 selon PN-EN 573-3 état T6 ou T66 selon PN-EN 515 Al Mg Si 0,5 F22 selon les normes DIN 1725 T1, DIN 17615 T1
-        <b>Joints :</b>
-        Caoutchouc synthétique EPDM selon la norme DIN 7863 et ISO 3302-01, E2
-        <b>Dimensions max du vantail :</b>
-        L 1700 x H 2200 mm, L 1300 x H 3000 mm
-      </div>
+{# =============================================
+   BREADCRUMB
+   ============================================= #}
+<nav class="product-detail-spec-breadcrumb l-wrapper" aria-label="Fil d'Ariane">
+    <ol class="product-detail-spec-breadcrumb__list">
+        <li class="product-detail-spec-breadcrumb__item">
+            <a class="product-detail-spec-breadcrumb__link" href="/product/list">Produits</a>
+        </li>
+        <li class="product-detail-spec-breadcrumb__item" aria-hidden="true">
+            <span class="product-detail-spec-breadcrumb__sep">/</span>
+        </li>
+        <li class="product-detail-spec-breadcrumb__item">
+            <a class="product-detail-spec-breadcrumb__link" href="/product/list/{{ model.category_slug }}">{{ model.category_name }}</a>
+        </li>
+        <li class="product-detail-spec-breadcrumb__item" aria-hidden="true">
+            <span class="product-detail-spec-breadcrumb__sep">/</span>
+        </li>
+        <li class="product-detail-spec-breadcrumb__item product-detail-spec-breadcrumb__item--current" aria-current="page">
+            {{ model.name }}
+        </li>
+    </ol>
+</nav>
+
+{# =============================================
+   LAYOUT PRINCIPAL — 3 colonnes
+   description | galerie | sidebar
+   ============================================= #}
+<div class="product-detail-spec l-wrapper">
+
+    {# ── COL 1 : Description ──────────────────────────────────────────────── #}
+    <div class="product-detail-spec__description">
+
+        {# Eyebrow — catégorie #}
+        <span class="product-detail-spec__eyebrow c-text c-text--xs c-text--uppercase c-text--accent">
+            {{ model.category_name }}
+        </span>
+
+        <h1 class="product-detail-spec__name">{{ model.name }}</h1>
+
+        {% if model.subtitle is defined and model.subtitle %}
+        <p class="product-detail-spec__subtitle c-text c-text--m c-text--muted">{{ model.subtitle }}</p>
+        {% endif %}
+
+        {# Séparateur #}
+        <hr class="product-detail-spec__divider">
+
+        {# Corps de la description #}
+        <div class="product-detail-spec__body c-text">
+            {{ model.description|nl2br }}
+        </div>
+
+        {# Points forts — liste à puces si exposés par le modèle #}
+        {% if model.features is defined and model.features is not empty %}
+        <ul class="product-detail-spec__features">
+            {% for feature in model.features %}
+            <li class="product-detail-spec__feature">
+                <span class="product-detail-spec__feature-check" aria-hidden="true">✓</span>
+                <span>{{ feature }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {# Documents à télécharger (fiche PDF, plan technique…) #}
+        {% if model.documents is defined and model.documents is not empty %}
+        <div class="product-detail-spec__documents">
+            <h2 class="product-detail-spec__documents-title c-text c-text--xs c-text--uppercase c-text--muted">
+                Documents
+            </h2>
+            <ul class="product-detail-spec__documents-list">
+                {% for doc in model.documents %}
+                <li>
+                    <a
+                        class="product-detail-spec__document-link"
+                        href="{{ doc.url }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Télécharger {{ doc.label }} (PDF)"
+                    >
+                        <span class="product-detail-spec__document-icon" aria-hidden="true">📄</span>
+                        {{ doc.label }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
     </div>
-  </div>
+
+    {# ── COL 2 : Galerie ──────────────────────────────────────────────────── #}
+    <div class="product-detail-spec__gallery">
+
+        {# Image principale #}
+        <div class="product-detail-spec__gallery-main">
+            <img
+                id="product-gallery-main"
+                class="product-detail-spec__gallery-main-img"
+                src="/uploads/img/products/large/{{ model.images[0].filePath }}"
+                alt="{{ model.name }}"
+                width="800"
+                height="600"
+                loading="eager"
+            >
+        </div>
+
+        {# Thumbnails — itération dynamique, nombre non limité #}
+        {% if model.images|length > 1 %}
+        <div
+            class="product-detail-spec__thumbnails"
+            role="list"
+            aria-label="Galerie de photos – {{ model.name }}"
+        >
+            {% for image in model.images %}
+            <button
+                class="product-detail-spec__thumbnail{% if loop.first %} product-detail-spec__thumbnail--active{% endif %}"
+                type="button"
+                role="listitem"
+                aria-label="Voir la photo {{ loop.index }}"
+                data-large="/uploads/img/products/large/{{ image.filePath }}"
+            >
+                <img
+                    class="product-detail-spec__thumbnail-img"
+                    src="/uploads/img/products/thumbnail/{{ image.filePath }}"
+                    alt="Aperçu {{ loop.index }} – {{ model.name }}"
+                    loading="lazy"
+                    width="80"
+                    height="80"
+                >
+            </button>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+    </div>
+
+    {# ── COL 3 : Sidebar — specs & CTA ───────────────────────────────────── #}
+    <aside class="product-detail-spec__sidebar" aria-label="Informations produit">
+
+        {# Disponibilité #}
+        <div class="product-detail-spec__availability product-detail-spec__availability--{{ model.available ? 'in-stock' : 'on-order' }}">
+            <span class="product-detail-spec__availability-dot" aria-hidden="true"></span>
+            <span class="product-detail-spec__availability-label">
+                {{ model.available ? 'En stock' : 'Sur commande' }}
+            </span>
+        </div>
+
+        {# Référence produit #}
+        {% if model.reference is defined and model.reference %}
+        <p class="product-detail-spec__reference c-text c-text--xs c-text--muted">
+            Réf. <strong>{{ model.reference }}</strong>
+        </p>
+        {% endif %}
+
+        {# Fiche technique — généré côté PHP via model.specs #}
+        <div class="product-detail-spec__specs">
+            <h2 class="product-detail-spec__specs-title">Fiche technique</h2>
+            <dl class="product-detail-spec__specs-list">
+                {% for spec in model.specs %}
+                <div class="product-detail-spec__spec">
+                    <dt class="product-detail-spec__spec-key">{{ spec.label }}</dt>
+                    <dd class="product-detail-spec__spec-value">{{ spec.value }}</dd>
+                </div>
+                {% endfor %}
+            </dl>
+        </div>
+
+        {# CTA #}
+        <div class="product-detail-spec__cta">
+            <a
+                href="/contact?product={{ model.name|url_encode }}&ref={{ model.reference|default('')|url_encode }}"
+                class="c-btn c-btn--primary product-detail-spec__cta-btn"
+            >
+                Demander un devis
+            </a>
+            <a
+                href="/contact"
+                class="c-btn c-btn--neutral product-detail-spec__cta-btn"
+            >
+                Contacter un conseiller
+            </a>
+        </div>
+
+        {# Réassurance — petits pictos de confiance #}
+        <ul class="product-detail-spec__reassurance">
+            <li class="product-detail-spec__reassurance-item">
+                <span aria-hidden="true">✅</span>
+                <span class="c-text c-text--xs c-text--muted">Devis gratuit & sans engagement</span>
+            </li>
+            <li class="product-detail-spec__reassurance-item">
+                <span aria-hidden="true">🚚</span>
+                <span class="c-text c-text--xs c-text--muted">Intervention dans toute la Belgique</span>
+            </li>
+            <li class="product-detail-spec__reassurance-item">
+                <span aria-hidden="true">🔧</span>
+                <span class="c-text c-text--xs c-text--muted">Installation par techniciens certifiés</span>
+            </li>
+        </ul>
+
+    </aside>
+</div>
+
+{# =============================================
+   PRODUITS SIMILAIRES (optionnel — si model.related_products est fourni)
+   ============================================= #}
+{% if model.related_products is defined and model.related_products is not empty %}
+<section class="product-detail-spec-related l-wrapper l-stack--pb-l l-stack--pt-l">
+    <h2 class="product-detail-spec-related__title">Produits similaires</h2>
+    <div class="l-grid l-grid--size-m l-grid--gap-m">
+        {% for product in model.related_products %}
+        <a class="c-product-card c-product-card__link" href="/product/{{ product.slug }}">
+            <div class="c-product-card__media">
+                <img
+                    class="c-product-card__img"
+                    src="/uploads/img/products/thumbnail/{{ product.images[0].filePath }}"
+                    alt="{{ product.name }}"
+                    loading="lazy"
+                    width="300"
+                    height="225"
+                >
+            </div>
+            <div class="c-product-card__body">
+                <span class="c-product-card__category">{{ product.category_name }}</span>
+                <h3 class="c-product-card__title">{{ product.name }}</h3>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+{# =============================================
+   SCHEMA.ORG — SEO structuré
+   ============================================= #}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "{{ model.name|e('js') }}",
+    "description": "{{ model.meta_description ?? (model.name|e('js')) }}",
+    "category": "{{ model.category_name|e('js') }}",
+    "image": "/uploads/img/products/large/{{ model.images[0].filePath }}",
+    "offers": {
+        "@type": "Offer",
+        "availability": "{% if model.available %}https://schema.org/InStock{% else %}https://schema.org/PreOrder{% endif %}",
+        "priceCurrency": "EUR",
+        "seller": {
+            "@type": "LocalBusiness",
+            "name": "Renove Construct"
+        }
+    }
+}
+</script>
+
+{# =============================================
+   JS — Switcher galerie (vanilla, zéro dépendance)
+   ============================================= #}
+<script>
+(function () {
+    const mainImg   = document.getElementById('product-gallery-main');
+    const thumbBtns = document.querySelectorAll('.product-detail-spec__thumbnail');
+
+    if (!mainImg || !thumbBtns.length) return;
+
+    thumbBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            // Mise à jour image principale
+            mainImg.src = btn.dataset.large;
+
+            // Mise à jour état actif
+            thumbBtns.forEach(function (b) {
+                b.classList.remove('product-detail-spec__thumbnail--active');
+                b.removeAttribute('aria-current');
+            });
+            btn.classList.add('product-detail-spec__thumbnail--active');
+            btn.setAttribute('aria-current', 'true');
+        });
+    });
+}());
+</script>
+
 {% endblock %}

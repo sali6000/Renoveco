@@ -5,8 +5,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>{% block title %}{{ company_title }}{% endblock %}</title> 
-        <meta name="description" content="Installation de fenêtres et panneaux photovoltaïques en Belgique. Devis gratuit sous 24h. Travail rapide et soigné. Contactez nos experts pour plus d'informations." />
-        <meta name="author" content="Steven Ferlazzo">
+        <meta name="description" content="{% block meta_description %}Description par défaut du site.{% endblock %}">        <meta name="author" content="Steven Ferlazzo">
         <base href="{{ baseUri|e }}">
         <link rel="shortcut icon" href="{{ vite_asset('img/about/logos/favicon-v2.ico') }}">
         <link rel="preload" href="/build/fonts/Inter24pt-Regular.woff2" as="font" type="font/woff2" crossorigin>

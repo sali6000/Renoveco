@@ -1,3 +1,436 @@
-// scss/pages/product-detail.scss
+/* =============================================================================
+   Page : /product/detail
+   Convention : BEM stricte — préfixe "product-detail-spec-" pour la page,
+   composants réutilisables (c-btn, c-text, c-product-card…) non redéfinis ici.
+   ============================================================================= */
 
-@use '@scss/partials/product/detail';
+/* -----------------------------------------------------------------------------
+   BREADCRUMB
+   ----------------------------------------------------------------------------- */
+.product-detail-spec-breadcrumb {
+    padding-block: var(--space-m);
+
+    &__list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--space-xs);
+    }
+
+    &__item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-xs);
+        font-size: var(--font-size-xs);
+        color: var(--color-text-muted);
+
+        &--current {
+            color: var(--color-text-default);
+            font-weight: var(--font-weight-medium);
+        }
+    }
+
+    &__link {
+        color: var(--color-text-muted);
+        text-decoration: none;
+        transition: color var(--transition-fast);
+
+        &:hover {
+            color: var(--color-brand-primary);
+        }
+    }
+
+    &__sep {
+        color: var(--color-border-default);
+        user-select: none;
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   LAYOUT PRINCIPAL — grille 3 colonnes
+   description(1fr) | galerie(1.6fr) | sidebar(1fr)
+   ----------------------------------------------------------------------------- */
+.product-detail-spec {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.8fr) minmax(0, 1fr);
+    grid-template-areas: "description gallery sidebar";
+    gap: var(--space-xl);
+    align-items: start;
+    padding-block: var(--space-2xl);
+}
+
+/* -----------------------------------------------------------------------------
+   COL 1 — Description
+   ----------------------------------------------------------------------------- */
+.product-detail-spec__description {
+    grid-area: description;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+
+    /* Sticky — reste visible pendant le scroll de la galerie */
+    position: sticky;
+    top: var(--space-l);
+}
+
+.product-detail-spec__eyebrow {
+    display: inline-block;
+}
+
+.product-detail-spec__name {
+    font-size: clamp(var(--font-size-xl), 2.5vw, var(--font-size-3xl));
+    font-weight: var(--font-weight-bold);
+    line-height: 1.15;
+    color: var(--color-text-default);
+    margin: 0;
+}
+
+.product-detail-spec__subtitle {
+    margin: 0;
+}
+
+.product-detail-spec__divider {
+    border: none;
+    border-top: 1px solid var(--color-border-default);
+    margin: 0;
+}
+
+.product-detail-spec__body {
+    line-height: 1.75;
+    color: var(--color-text-muted);
+}
+
+/* Points forts */
+.product-detail-spec__features {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+}
+
+.product-detail-spec__feature {
+    display: flex;
+    gap: var(--space-s);
+    align-items: flex-start;
+    font-size: var(--font-size-s);
+    color: var(--color-text-default);
+    line-height: 1.5;
+
+    &-check {
+        color: var(--color-brand-primary);
+        font-weight: var(--font-weight-bold);
+        flex-shrink: 0;
+        margin-top: 0.1em;
+    }
+}
+
+/* Documents */
+.product-detail-spec__documents {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+
+    &-title {
+        margin: 0;
+    }
+
+    &-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-xs);
+    }
+}
+
+.product-detail-spec__document-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--font-size-xs);
+    color: var(--color-brand-primary);
+    text-decoration: none;
+    transition: opacity var(--transition-fast);
+
+    &:hover {
+        opacity: 0.75;
+        text-decoration: underline;
+    }
+
+    &-icon {
+        flex-shrink: 0;
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   COL 2 — Galerie photo
+   ----------------------------------------------------------------------------- */
+.product-detail-spec__gallery {
+    grid-area: gallery;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+
+    &-main {
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        overflow: hidden;
+        border-radius: var(--radius-l);
+        border: 1px solid var(--color-border-default);
+        background: var(--color-bg-subtle);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/* Bande de thumbnails — scrollable horizontalement */
+.product-detail-spec__thumbnails {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border-default) transparent;
+    padding-bottom: var(--space-xs);
+}
+
+.product-detail-spec__thumbnail {
+    flex-shrink: 0;
+    width: 72px;
+    height: 72px;
+    padding: var(--space-xs);
+    border: 2px solid var(--color-border-default);
+    border-radius: var(--radius-m);
+    background: var(--color-bg-subtle);
+    cursor: pointer;
+    overflow: hidden;
+    transition:
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast);
+
+    &:hover {
+        border-color: var(--color-brand-primary);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-border-focus);
+        outline-offset: 2px;
+    }
+
+    &--active {
+        border-color: var(--color-brand-primary);
+        box-shadow: 0 0 0 3px rgba(24, 74, 158, 0.15);
+    }
+
+    &-img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   COL 3 — Sidebar (specs + CTA)
+   ----------------------------------------------------------------------------- */
+.product-detail-spec__sidebar {
+    grid-area: sidebar;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-l);
+    position: sticky;
+    top: var(--space-l);
+}
+
+/* Disponibilité */
+.product-detail-spec__availability {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-xs) var(--space-m);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    align-self: flex-start;
+
+    &--in-stock {
+        background: rgba(81, 207, 102, 0.12);
+        color: #2f9e44;
+        /* vert accessible, pas le token pur trop clair */
+    }
+
+    &--on-order {
+        background: rgba(252, 196, 25, 0.15);
+        color: #b08b00;
+        /* jaune accessible */
+    }
+
+    &-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: var(--radius-full);
+        background: currentColor;
+        flex-shrink: 0;
+    }
+}
+
+/* Référence */
+.product-detail-spec__reference {
+    margin: 0;
+}
+
+/* Fiche technique */
+.product-detail-spec__specs {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    background: var(--color-bg-subtle);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-l);
+    border-top: 3px solid var(--color-brand-primary);
+    /* même accent que c-form */
+    padding: var(--space-l);
+
+    &-title {
+        font-size: var(--font-size-xs);
+        font-weight: var(--font-weight-bold);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--color-text-muted);
+        margin: 0;
+        padding-bottom: var(--space-s);
+        border-bottom: 1px solid var(--color-border-default);
+    }
+
+    &-list {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+.product-detail-spec__spec {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding-block: var(--space-s);
+    border-bottom: 1px solid var(--color-border-default);
+
+    &:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    &-key {
+        font-size: var(--font-size-2xs);
+        font-weight: var(--font-weight-bold);
+        color: var(--color-text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+    }
+
+    &-value {
+        font-size: var(--font-size-s);
+        color: var(--color-text-default);
+        margin: 0;
+        word-break: break-word;
+        line-height: 1.5;
+    }
+}
+
+/* CTA */
+.product-detail-spec__cta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+
+    &__cta-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+
+/* Réassurance */
+.product-detail-spec__reassurance {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    border-top: 1px solid var(--color-border-default);
+    padding-top: var(--space-m);
+
+    &-item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-s);
+        font-size: var(--font-size-xs);
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   PRODUITS SIMILAIRES
+   ----------------------------------------------------------------------------- */
+.product-detail-spec-related {
+    border-top: 1px solid var(--color-border-default);
+
+    &__title {
+        font-size: var(--font-size-l);
+        font-weight: var(--font-weight-bold);
+        margin: 0 0 var(--space-l);
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   RESPONSIVE
+   ----------------------------------------------------------------------------- */
+
+/* Tablet — on passe à 2 colonnes : galerie pleine largeur en haut,
+   description + sidebar côte à côte en dessous */
+@media (max-width: 1024px) {
+    .product-detail-spec {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+            "gallery   gallery"
+            "description sidebar";
+        gap: var(--space-xl);
+
+        &__description,
+        .product-detail-spec__sidebar {
+            position: static;
+        }
+    }
+}
+
+/* Mobile — colonne unique, ordre naturel de lecture */
+@media (max-width: 640px) {
+    .product-detail-spec {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "gallery"
+            "description"
+            "sidebar";
+        gap: var(--space-l);
+        padding-block: var(--space-l);
+
+        &__thumbnails {
+            flex-wrap: nowrap;
+            /* scroll horizontal sur mobile */
+        }
+
+        &__specs {
+            padding: var(--space-m);
+        }
+    }
+}

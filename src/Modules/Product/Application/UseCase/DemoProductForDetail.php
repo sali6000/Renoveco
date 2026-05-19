@@ -1,0 +1,116 @@
+<?php
+
+namespace Src\Modules\Product\Application\UseCase;
+
+use Src\Modules\Product\Application\ViewModel\ProductDetailViewModel;
+
+/**
+ * DemoProductForDetail — USE CASE FACTICE pour aperçu frontend
+ *
+ * À utiliser UNIQUEMENT en développement pour tester la vue sans base de données.
+ * Branche dans le controller à la place de ShowProductForDetail le temps du dev,
+ * puis supprime cette classe une fois l'entité réelle branchée.
+ *
+ * Usage dans le controller :
+ *   $this->render('Product/detail.twig', ['model' => (new DemoProductForDetail())->execute()]);
+ */
+final class DemoProductForDetail
+{
+    public function execute(): ProductDetailViewModel
+    {
+        $vm = new ProductDetailViewModel();
+
+        // — Identification ------------------------------------------------
+        $vm->name          = 'PROCURAL PE78N – Porte-fenêtre à frappe';
+        $vm->slug          = 'procural-pe78n-porte-fenetre-frappe';
+        $vm->reference     = 'PE78N-PFF-001';
+        $vm->category_name = 'Portes-fenêtres aluminium';
+        $vm->category_slug = 'portes-fenetres-aluminium';
+
+        // — Textes --------------------------------------------------------
+        $vm->subtitle = "Gamme haute performance pour relier l'intérieur à l'extérieur";
+
+        $vm->description = implode("\n\n", [
+            "La gamme PROCURAL PE78N est conçue pour les maisons et restaurants souhaitant relier harmonieusement l'espace intérieur à l'extérieur.",
+            "Les profils 3 chambres assurent une haute résistance mécanique et permettent de grandes dimensions (L ≤ 1 200 mm ou H ≤ 3 500 mm, poids max vantail : 120 kg).",
+            "La haute isolation thermique est obtenue grâce aux barrettes thermiques de 34 mm pour dormants et vantaux, complétée par une quincaillerie spécialisée pour une fonctionnalité optimale.",
+        ]);
+
+        $vm->meta_description = "Porte-fenêtre aluminium PROCURAL PE78N – triple chambre, isolation thermique renforcée, grandes dimensions. Devis gratuit en Belgique.";
+
+        // — Disponibilité -------------------------------------------------
+        $vm->available = true;
+
+        // — Médias --------------------------------------------------------
+        // Remplace les chemins par tes vraies images de test
+        $vm->images = [
+            ['filePath' => 'pe78n-face.jpg'],
+            ['filePath' => 'pe78n-profil.jpg'],
+            ['filePath' => 'pe78n-detail-joint.jpg'],
+            ['filePath' => 'pe78n-pose-chantier.jpg'],
+            ['filePath' => 'pe78n-vue-interieure.jpg'],
+        ];
+
+        // — Specs ---------------------------------------------------------
+        $vm->specs = [
+            ['label' => 'Référence',              'value' => 'PE78N-PFF-001'],
+            ['label' => 'Type',                   'value' => 'Porte-fenêtre à frappe'],
+            ['label' => 'Matériau',               'value' => 'Aluminium'],
+            ['label' => 'Fabricant',              'value' => 'PROCURAL'],
+            ['label' => 'Profilé aluminium',      'value' => 'EN AW-6060 – T6/T66 selon PN-EN 573-3'],
+            ['label' => 'Joints',                 'value' => 'Caoutchouc EPDM – DIN 7863 / ISO 3302-01 E2'],
+            ['label' => 'Dimensions max vantail', 'value' => 'L 1 700 × H 2 200 mm  |  L 1 300 × H 3 000 mm'],
+            ['label' => 'Poids max vantail',      'value' => '120 kg'],
+            ['label' => 'Plage de vitrage',       'value' => '22 – 60 mm'],
+            ['label' => 'Isolation thermique',    'value' => 'Barrettes 34 mm – dormants & vantaux'],
+            ['label' => 'Seuil',                  'value' => 'Au choix (bas, à encastrer, PMR)'],
+            ['label' => 'Compatibilité',          'value' => 'Liaison possible avec gammes PROCURAL PE78N'],
+        ];
+
+        // — Features (bullets points forts) --------------------------------
+        $vm->features = [
+            "Triple chambre — haute résistance des profilés",
+            "Grandes dimensions jusqu'à H 3 500 mm",
+            "Isolation thermique renforcée (barrettes 34 mm)",
+            "Plage de vitrage étendue : 22 à 60 mm",
+            "Seuil au choix selon vos contraintes (PMR disponible)",
+        ];
+
+        // — Documents téléchargeables -------------------------------------
+        $vm->documents = [
+            ['label' => 'Fiche technique PDF',      'url' => '/uploads/docs/pe78n-fiche-technique.pdf'],
+            ['label' => 'Plan de pose',              'url' => '/uploads/docs/pe78n-plan-pose.pdf'],
+            ['label' => 'Certificat de performance', 'url' => '/uploads/docs/pe78n-certificat.pdf'],
+        ];
+
+        // — Produits similaires -------------------------------------------
+        $vm->related_products = [
+            [
+                'name'          => "PROCURAL PE78N – Fenêtre oscillo-battante",
+                'slug'          => "procural-pe78n-fenetre-oscillo-battante",
+                'category_name' => "Fenêtres aluminium",
+                'images'        => [['filePath' => 'pe78n-ob-thumb.jpg']],
+            ],
+            [
+                'name'          => "PROCURAL PE68 – Coulissant grande baie",
+                'slug'          => "procural-pe68-coulissant-grande-baie",
+                'category_name' => "Coulissants aluminium",
+                'images'        => [['filePath' => 'pe68-coulissant-thumb.jpg']],
+            ],
+            [
+                'name'          => "PROCURAL PE55 – Porte d'entrée aluminium",
+                'slug'          => "procural-pe55-porte-entree",
+                'category_name' => "Portes aluminium",
+                'images'        => [['filePath' => 'pe55-porte-thumb.jpg']],
+            ],
+            [
+                'name'          => "PROCURAL PE78N – Fixe latéral",
+                'slug'          => "procural-pe78n-fixe-lateral",
+                'category_name' => "Vitrages fixes aluminium",
+                'images'        => [['filePath' => 'pe78n-fixe-thumb.jpg']],
+            ],
+        ];
+
+        return $vm;
+    }
+}

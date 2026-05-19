@@ -7,6 +7,7 @@ use Src\Modules\Product\Application\UseCase\ShowProductForDetail;
 use Src\Modules\Product\Interface\Http\Validator\ProductSlugValidatorInterface;
 use Core\BaseController;
 use Core\Routing\Attribute\Route;
+use Src\Modules\Product\Application\UseCase\DemoProductForDetail;
 
 #[Route('/product')]
 class ProductDetailController extends BaseController
@@ -22,7 +23,10 @@ class ProductDetailController extends BaseController
     $this->productSlugValidator->validate($slug); // validation HTTP
 
     try {
-      $this->render('Product/detail.twig', ['model' => $this->showProductDetailUseCase->execute($slug)]);
+      //$this->render('Product/detail.twig', ['model' => $this->showProductDetailUseCase->execute($slug)]);
+      $this->render('Product/detail.twig', [
+        'model' => (new DemoProductForDetail())->execute()
+      ]);
     } catch (ServiceException $e) {
       $this->handleException($e, __METHOD__ . ' → Service → ');
     } catch (\Throwable $e) {
