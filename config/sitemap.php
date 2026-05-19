@@ -10,6 +10,20 @@ return [
     ],
 
     [
+        'loc' => '/services/chassis-fenetres',
+        'lastmod' => '2026-05-19',
+        'priority' => '0.8',
+        'changefreq' => 'yearly',
+    ],
+
+    [
+        'loc' => '/services/panneaux-photovoltaiques',
+        'lastmod' => '2026-05-19',
+        'priority' => '0.8',
+        'changefreq' => 'yearly',
+    ],
+
+    [
         'loc' => '/about',
         'lastmod' => '2026-03-28',
         'priority' => '0.8',
@@ -26,6 +40,13 @@ return [
     [
         'loc' => '/cgu',
         'lastmod' => '2026-03-28',
+        'priority' => '0.3',
+        'changefreq' => 'yearly',
+    ],
+
+    [
+        'loc' => '/cgu/policy',
+        'lastmod' => '2026-05-19',
         'priority' => '0.3',
         'changefreq' => 'yearly',
     ],
