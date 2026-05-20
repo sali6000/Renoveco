@@ -16,6 +16,9 @@ class HomeIndexController extends BaseController
     $this->setCache(3600);
     $detect = new MobileDetect();
     $isMobile = $detect->isMobile();
-    $this->render("Home/index.twig", ['is_mobile' => $isMobile]);
+    $this->render("Home/index.twig", [
+      'is_mobile' => $isMobile,
+      'canonical' => "https://renoveconstruct.be"
+    ]);
   }
 }

@@ -10,6 +10,7 @@ use Core\Database\RepositoryMysql;
 use Core\Database\SqlAggregator;
 use Core\Database\SqlHelpers;
 use Src\Database\SchemaMysql;
+use Src\Modules\Product\Domain\Entity\ProductAttribute;
 
 class ProductRepositoryMysql extends RepositoryMySQL implements ProductRepositoryInterface
 {
@@ -173,6 +174,22 @@ class ProductRepositoryMysql extends RepositoryMySQL implements ProductRepositor
         }
 
         return $products;
+    }
+
+    public function findAttributesByProductId(int $productId): array
+    {
+        $sql = "SELECT "
+            . SchemaMysql::ATTRIBUTE_GROUPS_NAME . " AS group_name, "
+            . SchemaMysql::ATTRIBUTE_GROUPS_DISPLAY_ORDER . ","
+            . SchemaMysql::ATTRIBUTES_NAME . " AS attribute_name,"
+            . SchemaMysql::PRODUCT_ATTRIBUTE_VALUE . " FROM " . SchemaMysql::TABLE_PRODUCT_ATTRIBUTE .
+            " JOIN " . SchemaMysql::TABLE_ATTRIBUTES . " ON " . SchemaMysql::ATTRIBUTES_ID . " = " . SchemaMysql::PRODUCT_ATTRIBUTE_ATTRIBUTE_ID .
+            " JOIN " . SchemaMysql::TABLE_ATTRIBUTE_GROUPS . " ON " . SchemaMysql::ATTRIBUTE_GROUPS_ID . " = " . SchemaMysql::ATTRIBUTES_ATTRIBUTE_GROUP_ID .
+            " WHERE " . SchemaMysql::PRODUCT_ATTRIBUTE_PRODUCT_ID . " = :product_id ORDER BY " . SchemaMysql::ATTRIBUTE_GROUPS_DISPLAY_ORDER . " ASC";
+
+        $result = $this->queryBuilder->raw($sql, [':product_id' => $productId])->executeAndFetchAll();
+
+        return array_map([ProductAttribute::class, 'fromArray'], $result);
     }
 
     public function findBySlugWithLightRefs(string $slug): ?Product

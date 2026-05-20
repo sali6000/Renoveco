@@ -3,6 +3,7 @@
 namespace Src\Modules\Product\Application\UseCase;
 
 use Core\Logger\AccessLogger;
+use Core\Support\DebugHelper;
 use Src\Exception\ServiceException;
 use Src\Modules\Product\Application\ViewModel\ProductDetailViewModel;
 use Src\Modules\Product\Domain\Repository\ProductRepositoryInterface;
@@ -22,6 +23,8 @@ class ShowProductForDetail
                 AccessLogger::log("Produit introuvable pour le slug : $slug", AccessLogger::LEVEL_ERROR);
                 return null;
             }
+
+            $product->attributes = $this->productRepo->findAttributesByProductId($product->id);
 
             // Produits similaires (même catégorie, hors produit courant, limite 4)
             $related = [];

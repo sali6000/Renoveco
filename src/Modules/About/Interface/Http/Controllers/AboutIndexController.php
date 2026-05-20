@@ -14,6 +14,6 @@ final class AboutIndexController extends BaseController
   #[Route('', methods: ['GET'])]
   public function index()
   {
-    $this->render("About/index.twig");
+    $this->render("About/index.twig", ['canonical' => "https://renoveconstruct.be/about"]);
   }
 }

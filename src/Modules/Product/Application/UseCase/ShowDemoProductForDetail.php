@@ -2,7 +2,11 @@
 
 namespace Src\Modules\Product\Application\UseCase;
 
+use Core\Logger\AccessLogger;
+use Core\Support\DebugHelper;
+use Src\Exception\ServiceException;
 use Src\Modules\Product\Application\ViewModel\ProductDetailViewModel;
+use Src\Modules\Product\Domain\Repository\ProductRepositoryInterface;
 
 /**
  * DemoProductForDetail — USE CASE FACTICE pour aperçu frontend
@@ -14,16 +18,37 @@ use Src\Modules\Product\Application\ViewModel\ProductDetailViewModel;
  * Usage dans le controller :
  *   $this->render('Product/detail.twig', ['model' => (new DemoProductForDetail())->execute()]);
  */
-final class DemoProductForDetail
+final class ShowDemoProductForDetail
 {
-    public function execute(): ProductDetailViewModel
+    public function __construct(private readonly ProductRepositoryInterface $productRepo) {}
+
+    public function execute(string $slug): ?ProductDetailViewModel
     {
+        $productForVM = null;
+        try {
+            $product = $this->productRepo->findBySlugWithLightRefs($slug);
+            if (!$product) {
+                AccessLogger::log("Produit introuvable pour le slug : $slug", AccessLogger::LEVEL_ERROR);
+                return null;
+            }
+            $product->attributes = $this->productRepo->findAttributesByProductId($product->id);
+
+            $productForVM = $product;
+        } catch (\Throwable $e) {
+            $errorId = uniqid('err_', true);
+            AccessLogger::log("[$errorId] Erreur findBySlug($slug) : " . $e, AccessLogger::LEVEL_ERROR);
+            throw new ServiceException("Erreur récupération produit (Code : $errorId).");
+        }
+
         $vm = new ProductDetailViewModel();
 
         // — Identification ------------------------------------------------
-        $vm->name          = 'PROCURAL PE78N – Porte-fenêtre à frappe';
-        $vm->slug          = 'procural-pe78n-porte-fenetre-frappe';
-        $vm->reference     = 'PE78N-PFF-001';
+        $vm->name          = $productForVM->name;
+        $vm->slug          = $productForVM->slug;
+        $vm->reference     = $productForVM->reference;
+        $vm->categories = $productForVM->categories;
+
+        DebugHelper::verboseServer($vm);
         //$vm->category_name = 'Portes-fenêtres aluminium';
         //$vm->category_slug = 'portes-fenetres-aluminium';
 

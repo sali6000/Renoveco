@@ -3,18 +3,17 @@
 namespace Src\Modules\Product\Interface\Http\Controllers;
 
 use Src\Exception\ServiceException;
-use Src\Modules\Product\Application\UseCase\ShowProductForDetail;
 use Src\Modules\Product\Interface\Http\Validator\ProductSlugValidatorInterface;
 use Core\BaseController;
 use Core\Routing\Attribute\Route;
-use Src\Modules\Product\Application\UseCase\DemoProductForDetail;
+use Src\Modules\Product\Application\UseCase\ShowDemoProductForDetail;
 
 #[Route('/product')]
 class ProductDetailController extends BaseController
 {
   public function __construct(
     private ProductSlugValidatorInterface $productSlugValidator,
-    private ShowProductForDetail $showProductDetailUseCase
+    private ShowDemoProductForDetail $showDemoProductForDetail
   ) {}
 
   #[Route('detail/{slug}', methods: ['GET'])]
@@ -23,10 +22,7 @@ class ProductDetailController extends BaseController
     $this->productSlugValidator->validate($slug); // validation HTTP
 
     try {
-      //$this->render('Product/detail.twig', ['model' => $this->showProductDetailUseCase->execute($slug)]);
-      $this->render('Product/detail.twig', [
-        'model' => (new DemoProductForDetail())->execute()
-      ]);
+      $this->render('Product/detail.twig', ['model' => ($this->showDemoProductForDetail)->execute($slug)]);
     } catch (ServiceException $e) {
       $this->handleException($e, __METHOD__ . ' → Service → ');
     } catch (\Throwable $e) {

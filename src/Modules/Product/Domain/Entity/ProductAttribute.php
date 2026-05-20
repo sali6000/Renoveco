@@ -37,8 +37,8 @@ class ProductAttribute extends BaseModel
     public static function fromArray(array $row): self
     {
         return new self(
-            _groupName: self::getString($row, SchemaMysql::ATTRIBUTE_GROUPS_NAME),
-            _attributeName: self::getString($row, SchemaMysql::ATTRIBUTES_NAME),
+            _groupName: $row['group_name'],
+            _attributeName: $row['attribute_name'],
             _value: self::getString($row, SchemaMysql::PRODUCT_ATTRIBUTE_VALUE),
             _unit: self::getStringOrNull($row, SchemaMysql::ATTRIBUTES_UNIT),
         );

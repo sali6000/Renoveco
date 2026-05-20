@@ -14,19 +14,8 @@ interface ProductRepositoryInterface
     //-----------------------------------------------
     // Récupérations de listes (return Product[]):
     //-----------------------------------------------
-
-    /**
-     * @return Product[]
-     */
     public function findAll(): array;
-
-    /**
-     * @return Product[]
-     */
     public function findAllWithLightRefs(): array;
-
-    /**
-     * @return Product[]
-     */
+    public function findAttributesByProductId(int $productId): array;
     public function findAllForGallery(): array;
 }

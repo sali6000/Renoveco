@@ -26,6 +26,7 @@ final class DetailController extends BaseController
     }
     $this->render("Services/{$normalizedSlug}.twig", [
       'current_page' => "services-{$normalizedSlug}",
+      'canonical' => "https://renoveconstruct.be/services/{$normalizedSlug}"
     ]);
   }
 }

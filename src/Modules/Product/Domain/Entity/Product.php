@@ -13,17 +13,25 @@ use DateTime;
 class Product extends BaseModel
 {
     // ==========================================================
+    // PROPRIETES
+    // ==========================================================
+    // Relations
+    private array     $_images            = []; // ProductImage[]
+    private array     $_categories        = []; // Category[]
+    private array     $_attributes        = []; // ProductAttribute[]
+
+    // ==========================================================
     // CONSTRUCTEUR ET PROPRIETES
     // ==========================================================
     public function __construct(
 
-        // NOT NULL en DB
+        // Obligatoires
         private string    $_reference,
         private string    $_slug,
         private string    $_name,
         private bool      $_isActive          = true,  // défaut métier : actif par défaut
 
-        // NULL en DB
+        // Optionnels
         private ?int      $_id                = null,  // null = pas encore persisté en DB
         private ?string   $_description       = null,
         private ?string   $_composition       = null,
@@ -33,16 +41,21 @@ class Product extends BaseModel
         private ?DateTime $_updatedAt         = null,
         private ?string   $_subtitle          = null,
         private ?string   $_metaDescription   = null,
+        private array     $_features          = [], // Json<features>[]
 
-        // Collections
-        private array     $_images            = [], // ProductImage[]
-        private array     $_categories        = [], // Category[]
-        private array     $_features          = [] // Json<features>[]
-    ) {}
+        // Relations
+        array     $images            = [],
+        array     $categories        = [],
+        array     $attributes        = [],
+    ) {
+        $this->images = $images;
+        $this->categories = $categories;
+        $this->attributes = $attributes;
+    }
 
 
     // ==========================================================
-    // HOOKS (property hooks PHP 8.4)
+    // HOOKS (attributes hooks PHP 8.4)
     // ==========================================================
 
     // --- NOT NULL ---
@@ -123,11 +136,15 @@ class Product extends BaseModel
         set(array $values) => $this->_categories = $values;
     }
 
+    public array $attributes {
+        get => $this->_attributes;
+        set(array $value) => $this->_attributes = $value;
+    }
+
     public array $features {
         get => $this->_features;
         set(array $values) => $this->_features = $values;
     }
-
 
     // ==========================================================
     // MUTATION DES RELATIONS
@@ -155,7 +172,7 @@ class Product extends BaseModel
             _reference: self::getString($row, SchemaMysql::PRODUCT_REFERENCE),
             _slug: self::getString($row, SchemaMysql::PRODUCT_SLUG),
             _name: self::getString($row, SchemaMysql::PRODUCT_NAME),
-            _isActive: self::getStringOrNull($row, SchemaMysql::PRODUCT_IS_ACTIVE),
+            _isActive: self::getBoolOrFalse($row, SchemaMysql::PRODUCT_IS_ACTIVE),
             _id: self::getIntOrNull($row, SchemaMysql::PRODUCT_ID),
             _description: self::getStringOrNull($row, SchemaMysql::PRODUCT_DESCRIPTION),
             _composition: self::getStringOrNull($row, SchemaMysql::PRODUCT_COMPOSITION),
@@ -163,8 +180,11 @@ class Product extends BaseModel
             _createdAt: self::getDateOrNull($row, SchemaMysql::USER_CREATED_AT),
             _updatedAt: self::getDateOrNull($row, SchemaMysql::PRODUCT_UPDATED_AT),
             _features: self::getJsonOrEmpty($row, SchemaMysql::PRODUCT_FEATURES),
-            _images: self::getMappedOrEmpty($row, 'images', [ProductImage::class, 'fromArray']),
-            _categories: self::getMappedOrEmpty($row, 'categories', [Category::class, 'fromArray'])
+
+            // Passe par le hook (set)
+            images: self::getMappedOrEmpty($row, 'images', [ProductImage::class, 'fromArray']),
+            attributes: self::getMappedOrEmpty($row, 'attributes', [ProductAttribute::class, 'fromArray']),
+            categories: self::getMappedOrEmpty($row, 'categories', [Category::class, 'fromArray'])
         );
     }
 }

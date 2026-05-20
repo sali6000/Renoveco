@@ -24,6 +24,7 @@ class ContactIndexController extends BaseController
             'csrf_token'    => $this->csrf->generateToken(),
             'flash_error'   => $this->getFlash('error'),
             'flash_success' => $this->getFlash('success'),
+            'canonical' => "https://renoveconstruct.be/contact"
         ]);
     }
 
