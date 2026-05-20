@@ -16,7 +16,8 @@ class CguIndexController extends BaseController
             'base_entreprise_title' => AppConfig::getEnv('BASE_ENTREPRISE_NAME'),
             'base_url_privacy_policy' => 'cgu/policy',
             'base_entreprise_http' => AppConfig::getEnv('BASE_ENTREPRISE_WEBSITE'),
-            'base_entreprise_mail' => AppConfig::getEnv('BASE_ENTREPRISE_MAIL')
+            'base_entreprise_mail' => AppConfig::getEnv('BASE_ENTREPRISE_MAIL'),
+            'canonical' => "https://renoveconstruct.be/cgu"
         ]);
     }
 }

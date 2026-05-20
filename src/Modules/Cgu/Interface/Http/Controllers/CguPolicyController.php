@@ -14,6 +14,6 @@ final class CguPolicyController extends BaseController
   #[Route('policy', methods: ['GET'])]
   public function policy()
   {
-    $this->render('Cgu/policy.twig');
+    $this->render('Cgu/policy.twig', ['canonical' => "https://renoveconstruct.be/cgu/policy"]);
   }
 }
