@@ -27,8 +27,7 @@ final class ProductDetailViewModel
     public string $name;
     public string $slug;
     public string $reference;
-    public string $category_name;
-    public string $category_slug;
+    public array $categories;
 
     // -------------------------------------------------------------------------
     // Textes
@@ -87,22 +86,14 @@ final class ProductDetailViewModel
     {
         $vm = new self();
 
-        // — Identification ------------------------------------------------
-        $vm->name          = $product->getName();
-        $vm->slug          = $product->getSlug();
-        $vm->reference     = $product->getReference();
-        $vm->category_name = $product->getCategory()->getName();
-        $vm->category_slug = $product->getCategory()->getSlug();
-
-        // — Textes --------------------------------------------------------
+        $vm->name           = $product->getName();
+        $vm->slug           = $product->getSlug();
+        $vm->reference      = $product->getReference();
+        $vm->categories     = $product->getCategories();
         $vm->subtitle         = $product->getSubtitle() ?? '';
         $vm->description      = $product->getDescription();
         $vm->meta_description = $product->getMetaDescription();
-
-        // — Disponibilité -------------------------------------------------
         $vm->available = $product->isAvailable();
-
-        // — Médias --------------------------------------------------------
         $vm->images = array_map(
             fn($img) => ['filePath' => $img->getFilePath()],
             $product->getImages()->toArray()

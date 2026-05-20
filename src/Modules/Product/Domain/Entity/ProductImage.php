@@ -2,42 +2,39 @@
 
 namespace Src\Modules\Product\Domain\Entity;
 
+use Core\Database\BaseModel;
 use Src\Database\SchemaMysql;
 
-class ProductImage
+class ProductImage extends BaseModel
 {
-    private ?int $_id;
-    private string $_filePath;
-    private ?string $_alt;
-    private ?bool $_isMain;
-
     public function __construct(
-        string $filePath,
-        ?string $alt = null,
-        ?int $id = null,
-        ?bool $isMain = false
-    ) {
-        $this->filePath = $filePath;
-        $this->alt = $alt;
-        $this->id = $id;
-        $this->isMain = $isMain;
-    }
+        private string $_filePath,
+        private bool $_isMain = false,
+        private ?int $_id = null,
+        private ?string $_alt = null
+    ) {}
 
     // ==========================================================
     // = GETTERS / SETTERS (Hook)
     // ==========================================================
+    public string $filePath {
+        get => $this->_filePath;
+        set(string $value) {
+            $this->_filePath = $value;
+        }
+    }
+
+    public bool $isMain {
+        get => $this->_isMain;
+        set(bool $value) {
+            $this->_isMain = $value;
+        }
+    }
 
     public ?int $id {
         get => $this->_id;
         set(?int $value) {
             $this->_id = $value;
-        }
-    }
-
-    public string $filePath {
-        get => $this->_filePath;
-        set(string $value) {
-            $this->_filePath = $value;
         }
     }
 
@@ -48,21 +45,13 @@ class ProductImage
         }
     }
 
-    public ?bool $isMain {
-        get => $this->_isMain;
-        set(?bool $value) {
-            $this->_isMain = $value;
-        }
-    }
-
-    public static function fromArray(array $row): ?self
+    public static function fromArray(array $row): self
     {
-        $productImage = new self(
-            $row[SchemaMysql::fieldProperty(SchemaMysql::PRODUCT_IMAGE_FILE_PATH)] ?? '',
-            $row[SchemaMysql::fieldProperty(SchemaMysql::PRODUCT_IMAGE_ALT_TEXT)] ?? null,
-            $row[SchemaMysql::fieldProperty(SchemaMysql::PRODUCT_IMAGE_ID)] ?? null,
-            (bool) ($row[SchemaMysql::fieldProperty(SchemaMysql::PRODUCT_IMAGE_IS_MAIN)] ?? false)
+        return new self(
+            _filePath: self::getString($row, SchemaMysql::PRODUCT_IMAGE_FILE_PATH),
+            _alt: self::getStringOrNull($row, SchemaMysql::PRODUCT_IMAGE_ALT_TEXT),
+            _id: self::getIntOrNull($row, SchemaMysql::PRODUCT_IMAGE_ID),
+            _isMain: self::getBoolOrFalse($row, SchemaMysql::PRODUCT_IMAGE_IS_MAIN),
         );
-        return $productImage;
     }
 }

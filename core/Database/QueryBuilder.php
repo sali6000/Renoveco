@@ -19,6 +19,12 @@ class QueryBuilder implements QueryBuilderInterface
     /** @var string[] Liste des colonnes à sélectionner */
     private array $select = [];
 
+    /** @var array<string, mixed> Paramètres liés aux paramètres customs */
+    private array $rawParams = [];
+
+    /** @var string|null Commande custom */
+    private ?string $rawSql = null;
+
     /** @var string|null Table principale */
     private ?string $from = null;
 
@@ -62,24 +68,29 @@ class QueryBuilder implements QueryBuilderInterface
     public function execute(): \PDOStatement
     {
         $sql = $this->buildQuery();
-
+        $params = !empty($this->rawParams) ? $this->rawParams : $this->whereParams;
         try {
             $stmt = $this->pdo->prepare($sql);
-            $stmt->execute($this->whereParams);
+            $stmt->execute($params);
 
-            // Dev uniquement : log de toutes les requêtes réussies
             if ((AppConfig::getEnv('APP_DEBUG') ?? false) === true) {
-                DebugHelper::logSQL($sql, $this->whereParams, true);
+                DebugHelper::logSQL($sql, $params, true);
             }
             return $stmt;
         } catch (\PDOException $e) {
-            // Toujours log l'erreur
-            DebugHelper::logSQL($sql, $this->whereParams, true);
+            DebugHelper::logSQL($sql, $params, true);
             AccessLogger::log("SQL Error: " . $e->getMessage(), AccessLogger::LEVEL_ERROR);
             throw $e;
         } finally {
             $this->reset();
         }
+    }
+
+    public function raw(string $sql, array $params = []): static
+    {
+        $this->rawSql    = $sql;
+        $this->rawParams = $params;
+        return $this;
     }
 
     // Type of request response
@@ -125,14 +136,17 @@ class QueryBuilder implements QueryBuilderInterface
     */
     private function reset(): void
     {
-        $this->select = [];
-        $this->joins = [];
+        $this->rawSql          = null;
+        $this->rawParams       = [];
+        $this->select          = [];
+        $this->joins           = [];
         $this->whereConditions = [];
-        $this->whereParams = [];
-        $this->groupBy = [];
-        $this->orderBy = [];
-        $this->limit = null;
-        $this->offset = null;
+        $this->whereParams     = [];
+        $this->groupBy         = [];
+        $this->orderBy         = [];
+        $this->limit           = null;
+        $this->offset          = null;
+        $this->from            = null;
     }
 
     /**
@@ -189,6 +203,10 @@ class QueryBuilder implements QueryBuilderInterface
      **********************************************************************************************/
     public function buildQuery(): string
     {
+        if ($this->rawSql !== null) {
+            return $this->rawSql;
+        }
+
         $sql = "SELECT " . implode(', ', $this->select) . " FROM {$this->from}";
 
         //JOIN 

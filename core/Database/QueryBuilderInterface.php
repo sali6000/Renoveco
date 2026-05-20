@@ -7,6 +7,9 @@ namespace Core\Database;
  */
 interface QueryBuilderInterface
 {
+
+    public function raw(string $sql, array $params = []): static;
+
     /**
      * @param string[] $columns Liste des colonnes à sélectionner
      */

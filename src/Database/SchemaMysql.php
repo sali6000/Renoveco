@@ -5,6 +5,37 @@ namespace Src\Database;
 final class SchemaMysql
 {
     // ==========================================================================================
+    // 🧱 CONSTRUCTION =>
+    // ==========================================================================================
+    public const TABLE_ATTRIBUTES = 'attributes att';
+    public const ATTRIBUTES_ID = 'att.id';
+    public const ATTRIBUTES_DOMAIN_ID = 'att.domain_id';
+    public const ATTRIBUTES_NAME = 'att.name';
+    public const ATTRIBUTES_TYPE = 'att.type';
+    public const ATTRIBUTES_UNIT = 'att.unit';
+    public const ATTRIBUTES_IS_REQUIRED = 'att.is_required';
+    public const ATTRIBUTES_PARENT_ATTRIBUTE_ID = 'att.parent_attribute_id';
+    public const ATTRIBUTES_ATTRIBUTE_GROUP_ID = 'att.attribute_group_id';
+
+    public const TABLE_ATTRIBUTE_GROUPS = 'attribute_groups attgro';
+    public const ATTRIBUTE_GROUPS_ID = 'attgro.id';
+    public const ATTRIBUTE_GROUPS_DOMAIN_ID = 'attgro.domain_id';
+    public const ATTRIBUTE_GROUPS_NAME = 'attgro.name';
+    public const ATTRIBUTE_GROUPS_DISPLAY_ORDER = 'attgro.display_order';
+
+    public const TABLE_PRODUCT_ATTRIBUTE = 'product_attribute proatt';
+    public const PRODUCT_ATTRIBUTE_ID = 'proatt.id';
+    public const PRODUCT_ATTRIBUTE_PRODUCT_ID = 'proatt.product_id';
+    public const PRODUCT_ATTRIBUTE_ATTRIBUTE_ID = 'proatt.attribute_id';
+    public const PRODUCT_ATTRIBUTE_VALUE = 'proatt.value';
+    public const PRODUCT_ATTRIBUTE_CREATED_AT = 'proatt.created_at';
+    public const PRODUCT_ATTRIBUTE_UPDATED_AT = 'proatt.updated_at';
+
+
+    // ==========================================================================================
+    // 🧱 ENREGISTREMENT =>
+    // ==========================================================================================
+    // ==========================================================================================
     // 🧱 TABLES =>
     // ==========================================================================================
     public const TABLE_CATEGORIES = 'categories c';
@@ -13,6 +44,8 @@ final class SchemaMysql
     public const TABLE_SUPPLIERS = 'suppliers s';
     public const TABLE_USERS = 'users u';
     public const TABLE_RATE_LIMIT_ATTEMPTS = 'rate_limit_attempts rla'; // 📋 Limite de tentatives
+    public const TABLE_PRODUCT_INVENTORY = 'product_inventory proinv';
+
 
     // ==========================================================================================
     // 🔗 RELATIONS =>
@@ -22,7 +55,6 @@ final class SchemaMysql
     // 🔗 OneToMany (1 <- N) Ex: Product <- Images
     // -------------------------------------------------------
     public const TABLE_PRODUCT_IMAGES = 'product_images pi'; // // Produit <- Images
-    public const TABLE_PRODUCT_INVENTORY = 'product_inventory pi';
 
     // -------------------------------------------------------
     // 🔗 ManyToMany (N <-> N) Ex: Products <-> Catégories
@@ -54,8 +86,17 @@ final class SchemaMysql
     public const PRODUCT_UPDATED_AT = 'p.updated_at';
     public const PRODUCT_SUBTITLE = 'p.subtitle';
     public const PRODUCT_META_DESCRIPTION = 'p.meta_description';
+    public const PRODUCT_FEATURES = 'p.features';
 
-
+    // -------------------------------------------------------
+    // 🧩 PRODUIT : STOCK
+    // -------------------------------------------------------
+    public const PRODUCT_INVENTORY_ID = 'proinv.id';
+    public const PRODUCT_INVENTORY_PRODUCT_ID = 'proinv.product_id';
+    public const PRODUCT_INVENTORY_STOCK_QUANTITY = 'proinv.stock_quantity';
+    public const PRODUCT_INVENTORY_STOCK_MINIMUM = 'proinv.stock_minimum';
+    public const PRODUCT_INVENTORY_STOCK_MAXIMUM = 'proinv.stock_maximum';
+    public const PRODUCT_INVENTORY_LAST_STOCK_UPDATE = 'proinv.last_stock_update';
 
     // -------------------------------------------------------
     // 🧩 PRODUIT : CATÉGORIES

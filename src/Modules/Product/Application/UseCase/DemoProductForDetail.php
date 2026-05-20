@@ -24,8 +24,8 @@ final class DemoProductForDetail
         $vm->name          = 'PROCURAL PE78N – Porte-fenêtre à frappe';
         $vm->slug          = 'procural-pe78n-porte-fenetre-frappe';
         $vm->reference     = 'PE78N-PFF-001';
-        $vm->category_name = 'Portes-fenêtres aluminium';
-        $vm->category_slug = 'portes-fenetres-aluminium';
+        //$vm->category_name = 'Portes-fenêtres aluminium';
+        //$vm->category_slug = 'portes-fenetres-aluminium';
 
         // — Textes --------------------------------------------------------
         $vm->subtitle = "Gamme haute performance pour relier l'intérieur à l'extérieur";

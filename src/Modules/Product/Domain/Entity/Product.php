@@ -9,88 +9,43 @@ use DateTime;
 
 /**
  * Product (entité domain) — reflète la DB et les règles métier
- * 
- * Exemples:
- * $_isActive    // bool métier
- * $_categories  // array de Category (relation complète)
- * $_images      // array de ProductImage (objets complets)
- * $_composition // colonne DB
- * $_useFor      // colonne DB
- * 
  */
-
 class Product extends BaseModel
 {
     // ==========================================================
-    // Propriétés
+    // CONSTRUCTEUR ET PROPRIETES
     // ==========================================================
-    //------------
-    // NOT NULL EN DB (par défaut)
-    //------------
-    private string $_reference;
-    private string $_slug;
-    private string $_name;
-    private bool $_isActive;
-
-    //------------
-    // NULL en DB (par défaut)
-    //------------
-    private ?int $_id = null; // (auto incrémentation en base)
-    private ?string $_description = null;
-    private ?string $_composition = null;
-    private ?string $_useFor = null;
-    private ?int $_defaultSupplierId = null;
-    private ?DateTime $_createdAt = null;
-    private ?DateTime $_updatedAt = null;
-    private ?string $_subtitle = null;
-    private ?string $_metaDescription = null;
-    private ?array $_images = []; // ProductImage[]
-    private ?array $_categories = []; // Category[]
-
     public function __construct(
-        string $reference,
-        string $slug,
-        string $name,
-        bool $isActive = true,
-        ?int $id = null,
-        ?string $description = null,
-        ?string $composition = null,
-        ?string $useFor = null,
-        ?int $defaultSupplierId = null,
-        ?DateTime $createdAt = null,
-        ?DateTime $updatedAt = null,
-        ?string $subtitle = null,
-        ?string $metaDescription = null,
-        array $images = [],
-        array $categories = []
-    ) {
-        $this->reference = $reference;
-        $this->slug = $slug;
-        $this->name = $name;
-        $this->isActive = $isActive;
 
-        $this->id = $id;
-        $this->description = $description;
-        $this->composition = $composition;
-        $this->useFor = $useFor;
-        $this->defaultSupplierId = $defaultSupplierId;
+        // NOT NULL en DB
+        private string    $_reference,
+        private string    $_slug,
+        private string    $_name,
+        private bool      $_isActive          = true,  // défaut métier : actif par défaut
 
-        $this->createdAt = $createdAt;
-        $this->updatedAt = $updatedAt;
+        // NULL en DB
+        private ?int      $_id                = null,  // null = pas encore persisté en DB
+        private ?string   $_description       = null,
+        private ?string   $_composition       = null,
+        private ?string   $_useFor            = null,
+        private ?int      $_defaultSupplierId = null,
+        private ?DateTime $_createdAt         = null,
+        private ?DateTime $_updatedAt         = null,
+        private ?string   $_subtitle          = null,
+        private ?string   $_metaDescription   = null,
 
-        $this->subtitle = $subtitle;
-        $this->metaDescription = $metaDescription;
+        // Collections
+        private array     $_images            = [], // ProductImage[]
+        private array     $_categories        = [], // Category[]
+        private array     $_features          = [] // Json<features>[]
+    ) {}
 
-        $this->images = $images;
-        $this->categories = $categories;
-    }
 
     // ==========================================================
-    // = GETTERS / SETTERS
+    // HOOKS (property hooks PHP 8.4)
     // ==========================================================
-    //------------
-    // Obligatoires
-    //------------
+
+    // --- NOT NULL ---
     public string $reference {
         get => $this->_reference;
         set(string $value) => $this->_reference = $value;
@@ -111,9 +66,7 @@ class Product extends BaseModel
         set(bool $value) => $this->_isActive = $value;
     }
 
-    //------------
-    // Optionnelles
-    //------------
+    // --- NULL ---
     public ?int $id {
         get => $this->_id;
         set(?int $value) => $this->_id = $value;
@@ -126,7 +79,7 @@ class Product extends BaseModel
 
     public ?string $composition {
         get => $this->_composition;
-        set(?string $value) => $this->_composition = $value ?? '';
+        set(?string $value) => $this->_composition = $value;
     }
 
     public ?string $useFor {
@@ -136,17 +89,17 @@ class Product extends BaseModel
 
     public ?int $defaultSupplierId {
         get => $this->_defaultSupplierId;
-        set(?int $values) => $this->_defaultSupplierId = $values;
+        set(?int $value) => $this->_defaultSupplierId = $value;
     }
 
     public ?DateTime $createdAt {
         get => $this->_createdAt;
-        set(?DateTime $values) => $this->_createdAt = $values;
+        set(?DateTime $value) => $this->_createdAt = $value;
     }
 
     public ?DateTime $updatedAt {
         get => $this->_updatedAt;
-        set(?DateTime $values) => $this->_updatedAt = $values;
+        set(?DateTime $value) => $this->_updatedAt = $value;
     }
 
     public ?string $subtitle {
@@ -159,12 +112,31 @@ class Product extends BaseModel
         set(?string $value) => $this->_metaDescription = $value;
     }
 
-    // ==========================================================
-    // RELATIONS
-    // ==========================================================
-    public ?array $categories {
+    // --- EMPTY ---
+    public array $images {
+        get => $this->_images;
+        set(array $values) => $this->_images = $values;
+    }
+
+    public array $categories {
         get => $this->_categories;
-        set(?array $values) => $this->_categories = $values;
+        set(array $values) => $this->_categories = $values;
+    }
+
+    public array $features {
+        get => $this->_features;
+        set(array $values) => $this->_features = $values;
+    }
+
+
+    // ==========================================================
+    // MUTATION DES RELATIONS
+    // ==========================================================
+    public function addImage(array|ProductImage $image): void
+    {
+        $this->_images[] = $image instanceof ProductImage
+            ? $image
+            : ProductImage::fromArray($image);
     }
 
     public function addCategory(array|Category $category): void
@@ -174,58 +146,25 @@ class Product extends BaseModel
             : Category::fromArray($category);
     }
 
-    public ?array $images {
-        get => $this->_images;
-        set(?array $values) => $this->_images = $values;
-    }
-
-    public function addImage(array|ProductImage $image): void
-    {
-        $this->_images[] = $image instanceof ProductImage
-            ? $image
-            : ProductImage::fromArray($image);
-    }
-
     // ==========================================================
-    // Product <= rows[] 
+    // FACTORY — hydratation depuis un row DB
     // ==========================================================
-
-    /**
-     * Retourne un Produit composé depuis un array
-     * @return Product
-     */
     public static function fromArray(array $row): self
     {
-        // Valeurs non nullables en base
-        $product = new self(
-            $row[SchemaMysql::fieldProperty(SchemaMysql::PRODUCT_REFERENCE)],
-            $row[SchemaMysql::fieldProperty(SchemaMysql::PRODUCT_NAME)],
-            $row[SchemaMysql::fieldProperty(SchemaMysql::PRODUCT_SLUG)],
-            (bool) $row[SchemaMysql::fieldProperty(SchemaMysql::PRODUCT_IS_ACTIVE)],
+        return new self(
+            _reference: self::getString($row, SchemaMysql::PRODUCT_REFERENCE),
+            _slug: self::getString($row, SchemaMysql::PRODUCT_SLUG),
+            _name: self::getString($row, SchemaMysql::PRODUCT_NAME),
+            _isActive: self::getStringOrNull($row, SchemaMysql::PRODUCT_IS_ACTIVE),
+            _id: self::getIntOrNull($row, SchemaMysql::PRODUCT_ID),
+            _description: self::getStringOrNull($row, SchemaMysql::PRODUCT_DESCRIPTION),
+            _composition: self::getStringOrNull($row, SchemaMysql::PRODUCT_COMPOSITION),
+            _useFor: self::getStringOrNull($row, SchemaMysql::PRODUCT_USE_FOR),
+            _createdAt: self::getDateOrNull($row, SchemaMysql::USER_CREATED_AT),
+            _updatedAt: self::getDateOrNull($row, SchemaMysql::PRODUCT_UPDATED_AT),
+            _features: self::getJsonOrEmpty($row, SchemaMysql::PRODUCT_FEATURES),
+            _images: self::getMappedOrEmpty($row, 'images', [ProductImage::class, 'fromArray']),
+            _categories: self::getMappedOrEmpty($row, 'categories', [Category::class, 'fromArray'])
         );
-
-        // Valeurs nullables en base
-        $product->id = isset($row[SchemaMysql::fieldProperty(SchemaMysql::PRODUCT_ID)])
-            ? (int) $row[SchemaMysql::fieldProperty(SchemaMysql::PRODUCT_ID)]
-            : null;
-
-        $product->description = $row[SchemaMysql::fieldProperty(SchemaMysql::PRODUCT_DESCRIPTION)] ?? null;
-        $product->composition = $row[SchemaMysql::fieldProperty(SchemaMysql::PRODUCT_COMPOSITION)] ?? null;
-        $product->useFor = $row[SchemaMysql::fieldProperty(SchemaMysql::PRODUCT_USE_FOR)] ?? null;
-        $product->subtitle = $row[SchemaMysql::fieldProperty(SchemaMysql::PRODUCT_SUBTITLE)] ?? null;
-        $product->metaDescription = $row[SchemaMysql::fieldProperty(SchemaMysql::PRODUCT_META_DESCRIPTION)] ?? null;
-        $product->createdAt = self::toDateTime($row[SchemaMysql::fieldProperty(SchemaMysql::USER_CREATED_AT)] ?? null);
-        $product->updatedAt = self::toDateTime($row[SchemaMysql::fieldProperty(SchemaMysql::PRODUCT_UPDATED_AT)] ?? null);
-
-        // Relations
-        $product->images = !empty($row['images'])
-            ? array_map([ProductImage::class, 'fromArray'], $row['images'])
-            : [];
-
-        $product->categories = !empty($row['categories'])
-            ? array_map([Category::class, 'fromArray'], $row['categories'])
-            : [];
-
-        return $product;
     }
 }
