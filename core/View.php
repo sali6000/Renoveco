@@ -87,7 +87,6 @@ class View
 
             if (is_dir($viewsPath)) {
                 $modules[$moduleName] = $viewsPath;
-            } else {
             }
         }
 
