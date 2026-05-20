@@ -45,7 +45,7 @@ return [
     ],
 
     [
-        'loc' => 'https://renoveconstruct.be/cgu/policy',
+        'loc' => '/cgu/policy',
         'lastmod' => '2026-05-19',
         'priority' => '0.3',
         'changefreq' => 'yearly',
