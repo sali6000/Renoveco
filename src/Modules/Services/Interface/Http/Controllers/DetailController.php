@@ -24,7 +24,7 @@ final class DetailController extends BaseController
 
     if (!file_exists($path)) {
       http_response_code(404);
-      $this->render('Error/404.twig');
+      $this->render('Error/404.html');
       return;
     }
 
