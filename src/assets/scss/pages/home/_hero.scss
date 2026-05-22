@@ -18,8 +18,16 @@
     padding: var(--space-5xl) var(--space-5xl) 0 var(--space-5xl);
     overflow: hidden;
 
+    .home-hero-logo {
+        display: none;
+    }
+
     @include mixins.media-down(md) {
         padding: var(--space-m);
+
+        .home-hero-logo {
+            display: block;
+        }
     }
 }
 
