@@ -139,6 +139,79 @@ Renove Construct, entreprise de rénovation basée à Manage (Hainaut). Pose de 
   </div>
 </section>
 
+
+{# Services #}
+<section data-section="home-services">
+  <div class="l-wrapper l-stack l-stack--gap-3xl l-stack--p-xl">
+
+    <div class="l-stack l-stack--centered l-stack--gap-s">
+      <h2 class="home-services__title">Nos domaines d'intervention</h2>
+      <p class="home-services__intro">
+        Châssis, vitrages et énergie solaire — trois métiers maîtrisés par une seule équipe, 
+        basée à <strong>Manage</strong>, active dans toute la <strong>Belgique</strong>.
+      </p>
+    </div>
+
+    <div class="l-split l-split--equal-3 home-services__grid">
+
+      {# Service 1 #}
+      <a href="/services/chassis-fenetres" class="home-service-card">
+        <div class="home-service-card__image c-image c-image--rounded">
+          <img 
+            loading="lazy"
+            src="{{ vite_asset('img/home/image1.avif') }}"
+            alt="Pose de châssis PVC et aluminium – Renove Construct Hainaut">
+        </div>
+        <div class="home-service-card__body">
+          <h3 class="home-service-card__title">Châssis PVC & Aluminium</h3>
+          <p class="home-service-card__desc">
+            Remplacement et pose de châssis sur mesure — fenêtres, portes-fenêtres et baies vitrées 
+            en PVC ou aluminium, adaptés à votre habitation.
+          </p>
+          <span class="home-service-card__cta">Découvrir ce service →</span>
+        </div>
+      </a>
+
+      {# Service 2 #}
+      <a href="/services/chassis-fenetres" class="home-service-card">
+        <div class="home-service-card__image c-image c-image--rounded">
+          <img 
+            loading="lazy"
+            src="{{ vite_asset('img/home/image9.avif') }}"
+            alt="Double et triple vitrage – isolation thermique Belgique">
+        </div>
+        <div class="home-service-card__body">
+          <h3 class="home-service-card__title">Double & Triple vitrage</h3>
+          <p class="home-service-card__desc">
+            Amélioration de l'isolation thermique et acoustique de votre logement grâce au remplacement 
+            de vos vitrages existants.
+          </p>
+          <span class="home-service-card__cta">Découvrir ce service →</span>
+        </div>
+      </a>
+
+      {# Service 3 #}
+      <a href="/services/panneaux-photovoltaiques" class="home-service-card">
+        <div class="home-service-card__image c-image c-image--rounded">
+          <img 
+            loading="lazy"
+            src="{{ vite_asset('img/home/image3.avif') }}"
+            alt="Installation panneaux photovoltaïques toiture – Belgique">
+        </div>
+        <div class="home-service-card__body">
+          <h3 class="home-service-card__title">Panneaux photovoltaïques</h3>
+          <p class="home-service-card__desc">
+            Installation de panneaux solaires sur toiture pour produire votre propre électricité 
+            et réduire durablement votre facture énergétique.
+          </p>
+          <span class="home-service-card__cta">Découvrir ce service →</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
 {# Informations 1 #}
 <section data-section="home-info-1">
   <div class="l-wrapper">
@@ -208,78 +281,6 @@ Renove Construct, entreprise de rénovation basée à Manage (Hainaut). Pose de 
       <div class="c-image c-image--h-m c-image--rounded">
         <img loading="lazy" src="{{ vite_asset('img/home/image10.avif') }}" alt="Finitions châssis PVC – Renove Construct Belgique">
       </div>
-    </div>
-  </div>
-</section>
-
-{# Services #}
-<section data-section="home-services">
-  <div class="l-wrapper l-stack l-stack--gap-3xl l-stack--p-5xl">
-
-    <div class="l-stack l-stack--centered l-stack--gap-s">
-      <h2 class="home-services__title">Nos domaines d'intervention</h2>
-      <p class="home-services__intro">
-        Châssis, vitrages et énergie solaire — trois métiers maîtrisés par une seule équipe, 
-        basée à <strong>Manage</strong>, active dans toute la <strong>Belgique</strong>.
-      </p>
-    </div>
-
-    <div class="l-split l-split--equal-3 home-services__grid">
-
-      {# Service 1 #}
-      <a href="/services/chassis-fenetres" class="home-service-card">
-        <div class="home-service-card__image c-image c-image--rounded">
-          <img 
-            loading="lazy"
-            src="{{ vite_asset('img/home/image1.avif') }}"
-            alt="Pose de châssis PVC et aluminium – Renove Construct Hainaut">
-        </div>
-        <div class="home-service-card__body">
-          <h3 class="home-service-card__title">Châssis PVC & Aluminium</h3>
-          <p class="home-service-card__desc">
-            Remplacement et pose de châssis sur mesure — fenêtres, portes-fenêtres et baies vitrées 
-            en PVC ou aluminium, adaptés à votre habitation.
-          </p>
-          <span class="home-service-card__cta">Découvrir ce service →</span>
-        </div>
-      </a>
-
-      {# Service 2 #}
-      <a href="/services/chassis-fenetres" class="home-service-card">
-        <div class="home-service-card__image c-image c-image--rounded">
-          <img 
-            loading="lazy"
-            src="{{ vite_asset('img/home/image9.avif') }}"
-            alt="Double et triple vitrage – isolation thermique Belgique">
-        </div>
-        <div class="home-service-card__body">
-          <h3 class="home-service-card__title">Double & Triple vitrage</h3>
-          <p class="home-service-card__desc">
-            Amélioration de l'isolation thermique et acoustique de votre logement grâce au remplacement 
-            de vos vitrages existants.
-          </p>
-          <span class="home-service-card__cta">Découvrir ce service →</span>
-        </div>
-      </a>
-
-      {# Service 3 #}
-      <a href="/services/panneaux-photovoltaiques" class="home-service-card">
-        <div class="home-service-card__image c-image c-image--rounded">
-          <img 
-            loading="lazy"
-            src="{{ vite_asset('img/home/image3.avif') }}"
-            alt="Installation panneaux photovoltaïques toiture – Belgique">
-        </div>
-        <div class="home-service-card__body">
-          <h3 class="home-service-card__title">Panneaux photovoltaïques</h3>
-          <p class="home-service-card__desc">
-            Installation de panneaux solaires sur toiture pour produire votre propre électricité 
-            et réduire durablement votre facture énergétique.
-          </p>
-          <span class="home-service-card__cta">Découvrir ce service →</span>
-        </div>
-      </a>
-
     </div>
   </div>
 </section>
