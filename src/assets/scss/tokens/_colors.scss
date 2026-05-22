@@ -25,6 +25,8 @@ $semantics: (
     'color-bg-base': map.get($primitives, 'white'),
     'color-bg-subtle': map.get($primitives, 'gray-100'),
     'color-bg-inverse': map.get($primitives, 'black'),
+    'color-surface-alt': map.get($primitives, 'gray-200'),
+
 
     // Text
     'color-text-default': map.get($primitives, 'black'),
@@ -61,6 +63,8 @@ $semantics-dark: (
     'color-text-default': #ffffff,
     'color-text-muted': #adb5bd,
     'color-text-inverse': #222222,
+    'color-surface-alt': #3a3a3a,
+
 
     // Border
     'color-border-default': #444444,
