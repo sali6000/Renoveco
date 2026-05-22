@@ -17,6 +17,11 @@
     height: 100%;
     padding: var(--space-5xl) var(--space-5xl) 0 var(--space-5xl);
     overflow: hidden;
+
+    @include mixins.media-down(md) {
+        padding: var(--space-m) var(--space-m) 0 var(--space-m);
+    }
+
 }
 
 .home-hero-title,
@@ -39,6 +44,7 @@
 
 .home-hero-logo {
     display: none;
+    margin: var(--space-xl);
 
     @include mixins.media-down(md) {
         display: block;
