@@ -4,7 +4,6 @@ namespace Src\Modules\Home\Interface\Http\Controllers;
 
 use Core\BaseController;
 use Core\Routing\Attribute\Route;
-use Detection\MobileDetect;
 
 #[Route('/')]
 class HomeIndexController extends BaseController
@@ -14,10 +13,9 @@ class HomeIndexController extends BaseController
   {
     // Cache HTML côté client pendant 1 heure
     $this->setCache(3600);
-    $detect = new MobileDetect();
-    $isMobile = $detect->isMobile();
+
+    // Afficher la vue
     $this->render("Home/index.twig", [
-      'is_mobile' => $isMobile,
       'canonical' => "https://renoveconstruct.be"
     ]);
   }

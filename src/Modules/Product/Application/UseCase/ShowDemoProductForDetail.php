@@ -2,11 +2,9 @@
 
 namespace Src\Modules\Product\Application\UseCase;
 
-use Core\Logger\AccessLogger;
-use Core\Support\DebugHelper;
-use Src\Exception\ServiceException;
 use Src\Modules\Product\Application\ViewModel\ProductDetailViewModel;
 use Src\Modules\Product\Domain\Repository\ProductRepositoryInterface;
+use Src\Modules\Shared\Application\UseCase\UseCaseResult;
 
 /**
  * DemoProductForDetail — USE CASE FACTICE pour aperçu frontend
@@ -22,23 +20,17 @@ final class ShowDemoProductForDetail
 {
     public function __construct(private readonly ProductRepositoryInterface $productRepo) {}
 
-    public function execute(string $slug): ?ProductDetailViewModel
+    public function execute(string $slug): UseCaseResult
     {
-        $productForVM = null;
-        try {
-            $product = $this->productRepo->findBySlugWithLightRefs($slug);
-            if (!$product) {
-                AccessLogger::log("Produit introuvable pour le slug : $slug", AccessLogger::LEVEL_ERROR);
-                return null;
-            }
-            $product->attributes = $this->productRepo->findAttributesByProductId($product->id);
+        $product = $this->productRepo->findBySlugWithLightRefs($slug);
 
-            $productForVM = $product;
-        } catch (\Throwable $e) {
-            $errorId = uniqid('err_', true);
-            AccessLogger::log("[$errorId] Erreur findBySlug($slug) : " . $e, AccessLogger::LEVEL_ERROR);
-            throw new ServiceException("Erreur récupération produit (Code : $errorId).");
+        if ($product === null) {
+            return UseCaseResult::failure("Produit introuvable.", 'PRODUCT_NOT_FOUND');
         }
+
+        $product->attributes = $this->productRepo->findAttributesByProductId($product->id);
+
+        $productForVM = $product;
 
         $vm = new ProductDetailViewModel();
 
@@ -48,7 +40,6 @@ final class ShowDemoProductForDetail
         $vm->reference     = $productForVM->reference;
         $vm->categories = $productForVM->categories;
 
-        DebugHelper::verboseServer($vm);
         //$vm->category_name = 'Portes-fenêtres aluminium';
         //$vm->category_slug = 'portes-fenetres-aluminium';
 
@@ -136,6 +127,6 @@ final class ShowDemoProductForDetail
             ],
         ];
 
-        return $vm;
+        return UseCaseResult::success($vm);
     }
 }

@@ -13,12 +13,6 @@ final class ShowProductsForAdminManage
 
     public function execute(): array
     {
-        try {
-            return $this->productRepo->findAllWithLightRefs();
-        } catch (\Throwable $e) {
-            $errorId = uniqid('err_', true);
-            AccessLogger::log("[$errorId] Erreur récupération galerie : " . $e, AccessLogger::LEVEL_ERROR);
-            throw new ServiceException("Erreur récupération produits (Code : $errorId).");
-        }
+        return $this->productRepo->findAllWithLightRefs();
     }
 }

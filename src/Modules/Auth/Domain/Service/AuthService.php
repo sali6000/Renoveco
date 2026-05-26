@@ -19,44 +19,52 @@ class AuthService
         private RateLimitRepositoryInterface $rateLimitRepo
     ) {}
 
+    /**
+     * Connection d'un utilisateur
+     * 
+     * @throws ServiceException si rate limit atteint
+     * @throws ValidationException si identifiants incorrects.
+     * @throws \PDOException si erreur base de données — propagée depuis les repo
+     */
     public function loginUser(string $email, string $password): ?array
     {
-        try {
+        // 1. Vérifier les tentatives de connection
+        $attempts = $this->rateLimitRepo->countRecent('login_fail', self::WINDOW_MINUTES);
 
-            // 1. Vérifier les tentatives de connection
-            $attempts = $this->rateLimitRepo->countRecent('login_fail', self::WINDOW_MINUTES);
-
-            if ($attempts >= self::MAX_ATTEMPTS) {
-                throw new ServiceException("Trop de tentatives. Réessayez dans " . self::WINDOW_MINUTES . " minutes.");
-            }
-
-            // 2. Soft throttle : ralentir sans bloquer
-            if ($attempts >= self::SOFT_THROTTLE_AFTER) {
-                sleep(2);
-            }
-
-            // 3. Tentative de login
-            $user = $this->userRepo->findForLogin($email);
-
-            // 4. Enregistrement audit si echec
-            if (!$user || !password_verify($password, $user->passwordHashed)) {
-                $this->rateLimitRepo->record('login_fail', $email);
-                throw new ValidationException("Identifiants incorrects.");
-            }
-
-            // 5. Authentification réussie
-            return [
-                'id' => $user->id,
-                'email' => $user->email,
-                'role' => $user->getRoles()[0]->name
-            ];
-        } catch (ValidationException | ServiceException $e) {
-            throw $e;
-        } catch (\Throwable $e) {
-            $errorId = uniqid('err_', true);
-            AccessLogger::log("[$errorId] ❌ Erreur: " . $e, AccessLogger::LEVEL_ERROR);
-            throw new ServiceException("Une erreur technique est survenue lors de la connection, veuillez contacter l'administrateur.");
+        if ($attempts >= self::MAX_ATTEMPTS) {
+            AccessLogger::logTo(
+                "Rate limit atteint pour $email ($attempts tentatives)",
+                AccessLogger::LEVEL_WARNING,
+                AccessLogger::CHANNEL_SECURITY
+            );
+            throw new ServiceException("Trop de tentatives. Réessayez dans " . self::WINDOW_MINUTES . " minutes.");
         }
+
+        // 2. Soft throttle : ralentir sans bloquer
+        if ($attempts >= self::SOFT_THROTTLE_AFTER) {
+            sleep(2);
+        }
+
+        // 3. Tentative de login
+        $user = $this->userRepo->findForLogin($email);
+
+        // 4. Enregistrement audit si echec
+        if (!$user || !password_verify($password, $user->passwordHashed)) {
+            $this->rateLimitRepo->record('login_fail', $email);
+            AccessLogger::logTo(
+                "Échec login pour $email",
+                AccessLogger::LEVEL_WARNING,
+                AccessLogger::CHANNEL_SECURITY
+            );
+            throw new ValidationException("Identifiants incorrects.");
+        }
+
+        // 5. Authentification réussie
+        return [
+            'id' => $user->id,
+            'email' => $user->email,
+            'role' => $user->getRoles()[0]->name
+        ];
     }
 
     public function updateUserLastLogin(int $userId): void

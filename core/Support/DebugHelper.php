@@ -34,11 +34,7 @@ final class DebugHelper
             $str = (string)$data;
         }
 
-        AccessLogger::log(
-            message: $prefix . $str,
-            level: AccessLogger::LEVEL_DEBUG,
-            includeHttpContext: false // tu veux souvent un debug "pur"
-        );
+        AccessLogger::logTo($prefix . $str, AccessLogger::LEVEL_DEBUG, AccessLogger::CHANNEL_APP, false);
     }
 
     /**

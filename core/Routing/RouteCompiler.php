@@ -24,50 +24,25 @@ class RouteCompiler
         // Vérifier le cache persistant des routes
         $cacheFile = self::getCacheFilePath();
 
-        try {
-            if (self::isCacheValid($cacheFile)) {
-                return self::loadCache($cacheFile);
-            }
-
-            DebugHelper::verboseServer('Cache des routesController non trouvé ou invalide. Début du scan des routes...');
-
-            // Ex: '*/Interface/Http/Controllers/*Controller.php', ...
-            foreach (self::getControllersPath() as $controllerPath) {
-
-                // Ex: 'Src\\...Controller <= '*/Interface/Http/Controllers/*.php'
-                $class = self::convertControllerPathToNamespace($controllerPath);
-
-                foreach (self::getRoutesFromClass($class) as $method => $methodRoutes) {
-                    /**
-                     * Exemple de cacheRoute:
-                     * [routes] => Array
-                     *      [GET] => Array
-                     *              [0] => Array
-                     *                  [class] => Src\Modules\Home\Interface\Http\Controllers\HomeIndexController
-                     *                  [controller] => HomeIndexController
-                     *                  [action] => index
-                     *                  [pattern] => #^/$#
-                     *                  [params] => Array
-                     */
-                    if (!isset($routes[$method])) {
-                        $routes[$method] = [];
-                    }
-
-                    $routes[$method] = array_merge(
-                        $routes[$method],
-                        $methodRoutes
-                    );
-                }
-            }
-
-            // Générer et écrire le cache (hash des fichiers contrôleurs)
-            $controllers = self::getControllersPath();
-            $hash = self::computeFilesHash($controllers);
-            self::writeCache($cacheFile, $routes, $hash);
-        } catch (RoutingException $ex) {
-            DebugHelper::verboseServer("Erreur dans compile du cache");
-            DebugHelper::verboseServer($ex);
+        if (self::isCacheValid($cacheFile)) {
+            return self::loadCache($cacheFile);
         }
+
+        // Ex: '*/Interface/Http/Controllers/*Controller.php', ...
+        foreach (self::getControllersPath() as $controllerPath) {
+
+            // Ex: 'Src\\...Controller <= '*/Interface/Http/Controllers/*.php'
+            $class = self::convertControllerPathToNamespace($controllerPath);
+
+            foreach (self::getRoutesFromClass($class) as $method => $methodRoutes) {
+                $routes[$method] = array_merge($routes[$method] ?? [], $methodRoutes);
+            }
+        }
+
+        // Générer et écrire le cache (hash des fichiers contrôleurs)
+        $controllers = self::getControllersPath();
+        $hash = self::computeFilesHash($controllers);
+        self::writeCache($cacheFile, $routes, $hash);
         return ['routes' => $routes];
     }
 
@@ -169,16 +144,16 @@ class RouteCompiler
             if (AppConfig::getBool('APP_DEBUG')) {
                 DebugHelper::verboseServer('X La class ' . $classPath . ' n\'existe pas. Le souci vient du namespace ou bien du chemin.');
             }
-            AccessLogger::log("⚠️ Warning: Class not found: $classPath", AccessLogger::LEVEL_WARNING);
-            throw new Exception('Erreur dans la validation de la classe');
+            AccessLogger::logTo("Chemin non trouvé pour  $classPath", AccessLogger::LEVEL_ERROR, AccessLogger::CHANNEL_ROUTING);
+            throw new RoutingException("La classe $classPath n'a pas été trouvée", 500);
         }
 
         if (!is_subclass_of($classPath, BaseController::class)) {
             if (AppConfig::getBool('APP_DEBUG')) {
                 DebugHelper::verboseServer('X La classe n\'est pas un BaseController : ' . $classPath);
             }
-            AccessLogger::log("🔒 Security: Rejected non-BaseController: $classPath", AccessLogger::LEVEL_WARNING);
-            throw new Exception('Erreur dans la validation de la classe');
+            AccessLogger::logTo("La classe $classPath n'appartient pas à BaseController", AccessLogger::LEVEL_ERROR, AccessLogger::CHANNEL_ROUTING);
+            throw new RoutingException("La classe $classPath n'est pas un controller valide", 500);
         }
         return $classPath;
     }

@@ -2,18 +2,16 @@
 // src/Exception/UniqueConstraintException.php
 namespace Src\Exception;
 
-class UniqueConstraintException extends \Exception
+class UniqueConstraintException extends \Exception implements DomainExceptionInterface
 {
-    private string $field;
-
-    public function __construct(string $field)
+    public function __construct(private readonly string $errorCode = '')
     {
         parent::__construct("Violation de clé UNIQUE");
-        $this->field = $field;
+        $this->errorCode = $errorCode;
     }
 
-    public function getField(): string
+    public function getErrorCode(): string
     {
-        return $this->field;
+        return $this->errorCode;
     }
 }

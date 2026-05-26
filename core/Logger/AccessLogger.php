@@ -1,85 +1,172 @@
 <?php
-// core/Logger/AccessLogger.php
+// Core/Logger/AccessLogger.php
 
 namespace Core\Logger;
 
 use Config\AppConfig;
 
-class AccessLogger
+/**
+ * Logger statique avec séparation canal / niveau.
+ *
+ * Canal  → détermine le fichier de destination (kernel, routing, app...)
+ * Niveau → qualifie la sévérité du message (error, warning, debug...)
+ *
+ * Usage :
+ *   AccessLogger::log($message, AccessLogger::LEVEL_ERROR, AccessLogger::CHANNEL_KERNEL);
+ *   AccessLogger::channel(AccessLogger::CHANNEL_ROUTING)->log($message, AccessLogger::LEVEL_WARNING);
+ */
+final class AccessLogger
 {
-    public const LEVEL_ERROR   = 'error';
-    public const LEVEL_SUCCESS = 'success';
-    public const LEVEL_WARNING = 'warning';
-    public const LEVEL_DEBUG   = 'debug';
-    public const LEVEL_SECURITY = 'security';
-    public const LEVEL_PERF    = 'perf';
-    public const LEVEL_INFO    = 'info';
+    // -------------------------------------------------------------------------
+    // Canaux — déterminent le fichier de log
+    // -------------------------------------------------------------------------
+    public const CHANNEL_KERNEL   = 'kernel';   // Erreurs système non catchées
+    public const CHANNEL_ROUTING  = 'routing';  // 403, 404, erreurs de routing
+    public const CHANNEL_SECURITY = 'security'; // CSRF, tentatives suspectes
+    public const CHANNEL_APP      = 'app';      // Logs métier généraux
+    public const CHANNEL_DATABASE = 'database'; // Erreurs SQL, queries
+    public const CHANNEL_PERF     = 'perf';     // Performances, profiling
 
-    /** 
-     * Icônes par niveau
-     */
-    private static array $levelIcons = [
-        self::LEVEL_ERROR   => "❌",
-        self::LEVEL_SUCCESS => "✅",
-        self::LEVEL_WARNING => "⚠️",
-        self::LEVEL_DEBUG   => "🐞",
-        self::LEVEL_SECURITY => "❌",
-        self::LEVEL_PERF    => "🚀",
-        self::LEVEL_INFO    => "ℹ️",
+    // -------------------------------------------------------------------------
+    // Niveaux — qualifient la sévérité
+    // -------------------------------------------------------------------------
+    public const LEVEL_ERROR   = 'error';
+    public const LEVEL_WARNING = 'warning';
+    public const LEVEL_INFO    = 'info';
+    public const LEVEL_SUCCESS = 'success';
+    public const LEVEL_DEBUG   = 'debug';
+
+    // -------------------------------------------------------------------------
+    // Icônes lisibles dans les fichiers de log
+    // -------------------------------------------------------------------------
+    private const ICONS = [
+        self::LEVEL_ERROR   => '❌',
+        self::LEVEL_WARNING => '⚠️',
+        self::LEVEL_INFO    => 'ℹ️',
+        self::LEVEL_SUCCESS => '✅',
+        self::LEVEL_DEBUG   => '🔬',
     ];
 
-    /**
-     * Enregistre un message dans le fichier de log correspondant.
-     *
-     * @param string $message Le message à logger.
-     * @param string $level Le niveau du log : error, warning, debug, perf.
-     * @param string|null $customPath Optionnel : dossier personnalisé pour les logs.
-     * @param bool $includeHttpContext Ajoute les infos de contexte HTTP si vrai.
-     */
-    public static function log(string $message, string $level = self::LEVEL_DEBUG, ?string $customPath = null, bool $includeHttpContext = true): void
+    private const VALID_CHANNELS = [
+        self::CHANNEL_KERNEL,
+        self::CHANNEL_ROUTING,
+        self::CHANNEL_SECURITY,
+        self::CHANNEL_APP,
+        self::CHANNEL_DATABASE,
+        self::CHANNEL_PERF,
+    ];
+
+    private const VALID_LEVELS = [
+        self::LEVEL_ERROR,
+        self::LEVEL_WARNING,
+        self::LEVEL_INFO,
+        self::LEVEL_SUCCESS,
+        self::LEVEL_DEBUG,
+    ];
+
+    // -------------------------------------------------------------------------
+    // API fluide : AccessLogger::channel('kernel')->log(...)
+    // -------------------------------------------------------------------------
+    private string $boundChannel;
+
+    private function __construct(string $channel)
     {
-        if (empty($message)) return;
+        $this->boundChannel = $channel;
+    }
 
-        // Sécuriser le niveau
-        $level = strtolower($level);
-        if (!in_array($level, [
-            self::LEVEL_ERROR,
-            self::LEVEL_SUCCESS,
-            self::LEVEL_WARNING,
-            self::LEVEL_DEBUG,
-            self::LEVEL_SECURITY,
-            self::LEVEL_PERF,
-            self::LEVEL_INFO
-        ])) {
-            $level = self::LEVEL_INFO;
-        }
+    public static function channel(string $channel): self
+    {
+        return new self(self::resolveChannel($channel));
+    }
 
-        // Ajouter l'icône correspondante
-        $icon = self::$levelIcons[$level] ?? '';
-        $message = "$icon $message";
+    public function log(string|\Throwable $message, string $level = self::LEVEL_INFO): void
+    {
+        self::write($message, $level, $this->boundChannel);
+    }
 
+    // -------------------------------------------------------------------------
+    // API statique directe : AccessLogger::log($message, LEVEL, CHANNEL)
+    // -------------------------------------------------------------------------
+    public static function logTo(
+        string|\Throwable $message,
+        string $level   = self::LEVEL_INFO,
+        string $channel = self::CHANNEL_APP,
+        bool $includeHttpContext = true
+    ): void {
+        self::write($message, $level, $channel, $includeHttpContext);
+    }
+
+    // -------------------------------------------------------------------------
+    // Écriture effective
+    // -------------------------------------------------------------------------
+    private static function write(
+        string|\Throwable $message,
+        string $level,
+        string $channel,
+        bool $includeHttpContext = true
+    ): void {
+        $level   = self::resolveLevel($level);
+        $channel = self::resolveChannel($channel);
+
+        $body = $message instanceof \Throwable
+            ? (string) $message          // inclut message + stack trace
+            : trim($message);
+
+        if ($body === '') return;
+
+        $icon      = self::ICONS[$level] ?? '';
         $timestamp = date('Y-m-d H:i:s');
         $requestId = defined('REQUEST_ID') ? REQUEST_ID : 'no-rid';
 
-        // Ajouter les infos HTTP si disponibles et souhaitées
+        $http = '';
         if ($includeHttpContext && isset($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI'])) {
-            $context = sprintf(
-                "[%s][%s][%s]",
+            $http = sprintf(
+                '[%s][%s %s]',
                 $_SERVER['REMOTE_ADDR'] ?? 'n/a',
                 $_SERVER['REQUEST_METHOD'],
                 $_SERVER['REQUEST_URI']
             );
-            $message = "$context $message"; // Multiligne
         }
 
-        $formattedMessage = "[$timestamp][$level][RID:$requestId] $message" . PHP_EOL;
+        $line = sprintf(
+            "[%s][%s][%s][RID:%s]%s %s %s",
+            $timestamp,
+            strtoupper($channel),
+            strtoupper($level),
+            $requestId,
+            $http !== '' ? " $http" : '',
+            $icon,
+            $body
+        ) . PHP_EOL;
 
-        $logDir = $customPath ?? AppConfig::getConst('SHARED_PATH') . 'storage/logs';
+        $logDir = AppConfig::getConst('SHARED_PATH') . 'storage/logs';
+
         if (!is_dir($logDir)) {
-            mkdir($logDir, 0777, true);
+            mkdir($logDir, 0755, true);
         }
 
-        $logFile = $logDir . '/' . date('Y-m-d') . "-$level.log";
-        file_put_contents($logFile, $formattedMessage, FILE_APPEND);
+        // Un fichier par canal et par jour : 2025-01-23-kernel.log
+        $logFile = sprintf('%s/%s-%s.log', $logDir, date('Y-m-d'), $channel);
+
+        file_put_contents($logFile, $line, FILE_APPEND | LOCK_EX);
+    }
+
+    // -------------------------------------------------------------------------
+    // Résolution / fallback
+    // -------------------------------------------------------------------------
+    private static function resolveLevel(string $level): string
+    {
+        $level = strtolower($level);
+        return in_array($level, self::VALID_LEVELS, strict: true)
+            ? $level
+            : self::LEVEL_INFO;
+    }
+
+    private static function resolveChannel(string $channel): string
+    {
+        $channel = strtolower($channel);
+        return in_array($channel, self::VALID_CHANNELS, strict: true)
+            ? $channel
+            : self::CHANNEL_APP;
     }
 }

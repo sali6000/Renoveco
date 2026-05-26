@@ -2,18 +2,17 @@
 // src/Exception/ValidationException.php
 namespace Src\Exception;
 
-class ValidationException extends \Exception
+class ValidationException extends \RuntimeException implements DomainExceptionInterface
 {
-    private string $field;
-
-    public function __construct(string $message, string $field = "")
-    {
+    public function __construct(
+        string $message,
+        private readonly string $errorCode = ''
+    ) {
         parent::__construct($message);
-        $this->field = $field;
     }
 
-    public function getField(): string
+    public function getErrorCode(): string
     {
-        return $this->field;
+        return $this->errorCode;
     }
 }

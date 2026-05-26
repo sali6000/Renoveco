@@ -2,7 +2,6 @@
 
 namespace Core;
 
-use Src\Modules\Utilities\SitemapController;
 use Config\EnvLoader;
 use Core\Logger\AccessLogger;
 use Core\Routing\Router;
@@ -26,19 +25,22 @@ class AppKernel
             $this->executeRequest();
         } catch (RoutingException $e) {
             $code = $e->getCode();
-            AccessLogger::log("Routing [{$code}] — {$e->getErrorId()} : " . $e->getMessage(), AccessLogger::LEVEL_WARNING);
 
-            http_response_code($code);
-            $page = match ($code) {
+            $validCodes = [403, 404];
+            $httpCode   = in_array($code, $validCodes, strict: true) ? $code : 500;
+            $page       = match ($httpCode) {
                 403 => '403.html',
                 404 => '404.html',
                 default => '500.html',
             };
+
+            http_response_code($httpCode);
+            AccessLogger::logTo($e, AccessLogger::LEVEL_ERROR, AccessLogger::CHANNEL_KERNEL);
             include __DIR__ . '/../public/errors/' . $page;
             exit;
         } catch (\Throwable $e) {
-            AccessLogger::log("❌ Erreur critique : " . $e, AccessLogger::LEVEL_ERROR);
             http_response_code(500);
+            AccessLogger::logTo($e, AccessLogger::LEVEL_ERROR, AccessLogger::CHANNEL_KERNEL);
             include __DIR__ . '/../public/errors/500.html';
             exit;
         }
@@ -114,13 +116,25 @@ class AppKernel
     // --------------------------------------------------
     private function registerGlobalErrorHandlers(): void
     {
-        // Erreurs PHP classiques → converties en Throwable
+        /**
+         * Erreurs PHP classiques
+         * Ex:
+         * echo $undefinedVariable;
+         * array_map('invalid', []);
+         * include 'missing.php';
+         */
         set_error_handler(function ($errno, $errstr, $errfile, $errline) {
             $e = new \ErrorException($errstr, 0, $errno, $errfile, $errline);
             $this->handleFatalError($e);
         });
 
-        // Erreurs fatales au shutdown
+        /**
+         * Erreurs fatales qui tuent le process
+         * Ex:
+         * call_to_undefined_function();
+         * class Foo extends Missing {};
+         * fichier avec syntaxe invalide
+         */
         register_shutdown_function(function () {
             $error = error_get_last();
             if ($error && in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR])) {
@@ -129,7 +143,11 @@ class AppKernel
             }
         });
 
-        // Exceptions non catchées
+        /**
+         * Si une exception est levée en dehors de handle()
+         * Ex:
+         * Un destructeur, un callback async, etc.
+         */
         set_exception_handler(function (\Throwable $e) {
             $this->handleFatalError($e);
         });
@@ -142,22 +160,19 @@ class AppKernel
     {
         $errorId = uniqid('fatal_', true);
 
-        // Logging complet
-        AccessLogger::log(
-            "[$errorId] Erreur critique: " . get_class($e) . " - " . $e->getMessage() .
-                " dans {$e->getFile()}:{$e->getLine()}\nStack trace:\n" . $e->getTraceAsString(),
-            AccessLogger::LEVEL_ERROR
+        AccessLogger::logTo(
+            $e,
+            AccessLogger::LEVEL_ERROR,
+            AccessLogger::CHANNEL_KERNEL
         );
 
-        // Retour HTTP
         http_response_code(500);
 
-        // Affichage selon environnement
-        if ((AppConfig::getEnv('APP_ENV') ?? '') === 'dev') {
-            echo "<h1>Erreur système (dev)</h1>";
-            echo "<pre>[$errorId] " . htmlspecialchars((string)$e) . "</pre>";
+        if (AppConfig::getEnv('APP_ENV') === 'dev') {
+            echo "<h1>Erreur système [$errorId]</h1>";
+            echo "<pre>" . htmlspecialchars((string) $e) . "</pre>";
         } else {
-            echo "Une erreur technique est survenue (Code : $errorId).";
+            include __DIR__ . '/../public/errors/500.html';
         }
 
         exit();

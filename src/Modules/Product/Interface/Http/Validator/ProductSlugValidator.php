@@ -7,17 +7,19 @@ use Src\Exception\ValidationException;
 
 class ProductSlugValidator implements ProductSlugValidatorInterface
 {
-    public function validate(string $slug): void
+    public function validate(string $slug): bool
     {
         $slug = self::canonical($slug);
 
         if (strlen($slug) < 3 || strlen($slug) > 120) {
-            throw new ValidationException("Non respect de la taille entrée", "Slug");
+            return false;
         }
 
         if (!preg_match('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $slug)) {
-            throw new ValidationException("Non respect du format entré", "Slug");
+            return false;
         }
+
+        return true;
     }
 
     public function canonical(string $slug): string

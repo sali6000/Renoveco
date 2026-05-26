@@ -16,21 +16,17 @@ class PdoConnection
   public static function connection(): PDO
   {
     if (self::$instance === null) {
-      try {
-        $host = AppConfig::getEnv('DB_HOST');
-        $db = AppConfig::getEnv('DB_NAME');
-        $username = AppConfig::getEnv('DB_USERNAME');
-        $password = AppConfig::getEnv('DB_PASSWORD');
-        $charset = AppConfig::getEnv('DB_CHARSET');
-        $dsn = 'mysql:host=' . $host . ';dbname=' . $db . ';charset=' . $charset;
+      $host = AppConfig::getEnv('DB_HOST');
+      $db = AppConfig::getEnv('DB_NAME');
+      $username = AppConfig::getEnv('DB_USERNAME');
+      $password = AppConfig::getEnv('DB_PASSWORD');
+      $charset = AppConfig::getEnv('DB_CHARSET');
+      $dsn = 'mysql:host=' . $host . ';dbname=' . $db . ';charset=' . $charset;
 
-        self::$instance = new PDO($dsn, $username, $password, [
-          PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-          Pdo\Mysql::ATTR_INIT_COMMAND => "SET NAMES utf8mb4" // Garantit que MySQL reçoit bien les octets en UTF-8
-        ]);
-      } catch (PDOException $e) {
-        throw new \Exception('Database connection error: ' . $e->getMessage());
-      }
+      self::$instance = new PDO($dsn, $username, $password, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        Pdo\Mysql::ATTR_INIT_COMMAND => "SET NAMES utf8mb4"
+      ]);
     }
     return self::$instance;
   }

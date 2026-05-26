@@ -23,6 +23,9 @@ class RateLimitRepositoryMysql  extends RepositoryMysql implements RateLimitRepo
         return trim(explode(',', $ip)[0]);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function countRecent(string $type, int $minutes): int
     {
         $sql = "SELECT COUNT(*) AS attempt_count 

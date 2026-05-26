@@ -49,17 +49,13 @@ class UserService
                     SchemaMysql::fieldTable(SchemaMysql::TABLE_USERS) . "." .
                         SchemaMysql::fieldProperty(SchemaMysql::USER_EMAIL)
                 )) {
-                    throw new UniqueConstraintException(SchemaMysql::fieldProperty(SchemaMysql::USER_EMAIL));
+                    throw new UniqueConstraintException(SchemaMysql::USER_EMAIL);
                 }
-                $errorId = uniqid('usr_srvc_pdo_', true);
-                AccessLogger::log("Contrainte UNIQUE inconnue (Code : $errorId) " . $message, AccessLogger::LEVEL_WARNING);
-                throw new UniqueConstraintException("unknown");
+
+                AccessLogger::logTo($e, AccessLogger::LEVEL_ERROR, AccessLogger::CHANNEL_DATABASE);
+                throw new UniqueConstraintException('unknown');
             }
-            throw $e;
-        } catch (\Throwable $e) {
-            $errorId = uniqid('usr_srvc_', true);
-            AccessLogger::log("Erreur de service (Code : $errorId) " . $e, AccessLogger::LEVEL_ERROR);
-            throw new ServiceException("Erreur de création d'utilisateur (Code : $errorId)", 0, $e, $errorId);
+            throw $e; // PDOException non 1062 → remonte, le kernel logue
         }
     }
 }

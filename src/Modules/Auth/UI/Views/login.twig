@@ -15,8 +15,12 @@
 
     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
     
+    {# ✅ système flash #}
     {% if flash_error %}
         <div class="alert alert--danger">{{ flash_error }}</div>
+    {% endif %}
+    {% if flash_success %}
+        <div class="alert alert--success">{{ flash_success }}</div>
     {% endif %}
     
     <div class="c-form__field">
@@ -29,6 +33,7 @@
             autocomplete="username"
             placeholder="Votre email"
             maxlength="30"
+            pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}"
             required
             autofocus>
     </div>

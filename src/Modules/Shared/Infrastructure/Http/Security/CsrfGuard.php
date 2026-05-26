@@ -18,10 +18,13 @@ final class CsrfGuard
         return $token;
     }
 
+    /**
+     * @throws CsrfException Si token invalide
+     */
     public function validateOrFail(): void
     {
         if (!$this->isValid()) {
-            throw new CsrfException('Invalid or missing CSRF token.');
+            throw new CsrfException('Token CSRF invalide.');
         }
     }
 

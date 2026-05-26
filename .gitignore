@@ -6,6 +6,8 @@
 # Liés au serveur online:
 # (Car partager manuellement sur le serveur)
 .env
+repomix-output.md
+version.txt
 /scripts/
 /storage/
 /public/uploads

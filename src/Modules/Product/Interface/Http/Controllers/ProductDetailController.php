@@ -2,7 +2,6 @@
 
 namespace Src\Modules\Product\Interface\Http\Controllers;
 
-use Src\Exception\ServiceException;
 use Src\Modules\Product\Interface\Http\Validator\ProductSlugValidatorInterface;
 use Core\BaseController;
 use Core\Routing\Attribute\Route;
@@ -19,14 +18,24 @@ class ProductDetailController extends BaseController
   #[Route('detail/{slug}', methods: ['GET'])]
   public function detail(string $slug): void
   {
-    $this->productSlugValidator->validate($slug); // validation HTTP
-
-    try {
-      $this->render('Product/detail.twig', ['model' => ($this->showDemoProductForDetail)->execute($slug)]);
-    } catch (ServiceException $e) {
-      $this->handleException($e, __METHOD__ . ' → Service → ');
-    } catch (\Throwable $e) {
-      $this->handleException($e, __METHOD__ . ' → System → ');
+    // Validation du slug
+    if (!$this->productSlugValidator->validate($slug)) {
+      http_response_code(404);
+      $this->render('Error/404.html');
+      return;
     }
+
+    // Récupération du produit
+    $result = $this->showDemoProductForDetail->execute($slug);
+
+    // Retourner une erreur en cas d'échec de récupération
+    if ($result->isFailure()) {
+      http_response_code(404);
+      $this->render('Error/404.html');
+      return;
+    }
+
+    // Afficher le produit
+    $this->render('Product/detail.twig', ['model' => $result->getData()]);
   }
 }

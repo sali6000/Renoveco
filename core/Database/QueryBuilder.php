@@ -78,9 +78,17 @@ class QueryBuilder implements QueryBuilderInterface
             }
             return $stmt;
         } catch (\PDOException $e) {
-            DebugHelper::logSQL($sql, $params, true);
-            AccessLogger::log("SQL Error: " . $e->getMessage(), AccessLogger::LEVEL_ERROR);
-            throw $e;
+            AccessLogger::logTo(
+                sprintf(
+                    "SQL Error: %s\nQuery: %s\nParams: %s",
+                    $e->getMessage(),
+                    $sql,
+                    json_encode($params, JSON_UNESCAPED_UNICODE)
+                ),
+                AccessLogger::LEVEL_ERROR,
+                AccessLogger::CHANNEL_DATABASE
+            );
+            throw $e; // ← on remonte, le controller/kernel gère le HTTP
         } finally {
             $this->reset();
         }
@@ -113,7 +121,11 @@ class QueryBuilder implements QueryBuilderInterface
     }
 
     /**
-     * Exécute la requête et retourne la première ligne complète
+     * Exécute la requête SQL et retourne le premier résultat.
+     *
+     * @return array<string, mixed>|null La première ligne ou null si aucun résultat
+     *
+     * @throws \PDOException si l'exécution SQL échoue — propagée depuis execute()
      */
     public function executeAndFetchOne(): ?array
     {

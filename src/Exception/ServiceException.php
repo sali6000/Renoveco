@@ -2,19 +2,17 @@
 // src/Exception/ServiceException.php
 namespace Src\Exception;
 
-// ServiceException.php
-class ServiceException extends \Exception
+final class ServiceException extends \RuntimeException implements DomainExceptionInterface
 {
-    private string $errorId;
-
-    public function __construct(string $message, int $code = 0, ?\Throwable $previous = null, string $errorId = '')
-    {
-        parent::__construct($message, $code, $previous);
-        $this->errorId = $errorId;
+    public function __construct(
+        string $message,
+        private readonly string $errorCode = ''
+    ) {
+        parent::__construct($message);
     }
 
-    public function getErrorId(): string
+    public function getErrorCode(): string
     {
-        return $this->errorId;
+        return $this->errorCode;
     }
 }

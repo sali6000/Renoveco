@@ -162,16 +162,21 @@ class View
         // Fusionne les données du contrôleur avec celles du header (s'il y a des données à traiter ex: barre de recherche)
         $mergedData = array_merge($data, self::getHeaderData());
 
-        // Capitaliser le premier segment pour matcher les namespaces (ex. : 'services/...' -> 'Services/...')
-        $parts = explode('/', $template, 2);
-        $parts[0] = ucfirst($parts[0]);  // Majuscule sur le premier mot
-        $capitalizedTemplate = implode('/', $parts);
+        // Transforme le chemin du template en vue Twig (pattern)
+        $viewTwig = self::sanitizePathToViewTwig($template);
 
         // Charger la vue Twig
-        $result = self::$twig->render('@' . $capitalizedTemplate, $mergedData);
+        $result = self::$twig->render('@' . $viewTwig, $mergedData);
 
         // Afficher la vue Twig
         echo $result;
+    }
+
+    private static function sanitizePathToViewTwig(string $path): string
+    {
+        $parts = explode('/', $path, 2);
+        $parts[0] = ucfirst($parts[0]);  // Majuscule sur le premier mot
+        return implode('/', $parts);
     }
 
     /**

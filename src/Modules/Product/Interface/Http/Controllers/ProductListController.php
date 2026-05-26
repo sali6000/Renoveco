@@ -2,7 +2,6 @@
 
 namespace Src\Modules\Product\Interface\Http\Controllers;
 
-use Src\Exception\ServiceException;
 use Src\Modules\Product\Application\UseCase\ShowProductsForGallery;
 use Src\Modules\Category\Application\UseCase\ShowCategoriesForGallery;
 use Src\Services\Schema\SchemaBuilder;
@@ -21,19 +20,17 @@ class ProductListController extends BaseController
   #[Route('list', methods: ['GET'])]
   public function list(): void
   {
-    try {
-      $products = $this->showProductsForGallery->execute();
-      $categories = $this->showCategoriesForGallery->execute();
+    // Récupération des produits
+    $products = $this->showProductsForGallery->execute()->getData();
 
-      $this->render('Product/list.twig', [
-        'products' => $products,
-        'categories' => $categories,
-        'jsonLd' => $this->schemaBuilder->buildProductList($products)
-      ]);
-    } catch (ServiceException $e) {
-      $this->handleException($e, __METHOD__ . ' → Service → ');
-    } catch (\Throwable $e) {
-      $this->handleException($e, __METHOD__ . ' → System → ');
-    }
+    // Récupération des catégories
+    $categories = $this->showCategoriesForGallery->execute();
+
+    // Afficher la vue
+    $this->render('Product/list.twig', [
+      'products' => $products,
+      'categories' => $categories,
+      'jsonLd' => $this->schemaBuilder->buildProductList($products)
+    ]);
   }
 }

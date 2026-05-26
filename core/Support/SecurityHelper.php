@@ -7,6 +7,9 @@ use Src\Exception\ValidationException;
 
 final class SecurityHelper
 {
+    /**
+     * * @throws ValidationException si la validation a échoué
+     */
     public static function sanitizeString(
         mixed $string,
         string $fieldName,

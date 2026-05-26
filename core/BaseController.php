@@ -2,7 +2,6 @@
 
 namespace Core;
 
-use Config\AppConfig;
 use Core\View;
 use Core\Logger\AccessLogger;
 // =============================================================================
@@ -35,6 +34,7 @@ abstract class BaseController
         $datas['current_page_path'] = $this->convertViewPathToScssPath($viewPath);
         View::render($viewPath, $datas);
     }
+
     protected function convertViewPathToAssetKey(string $viewPath): string
     {
         return implode('-', $this->getViewSegments($viewPath));
@@ -72,24 +72,17 @@ abstract class BaseController
         exit;
     }
 
-    protected function handleException(\Throwable $e, string $context = 'Erreur', string $view = 'Error/UI/Views/500')
-    {
-        $errorId = uniqid('err_', true);
-        $errorType = get_class($e);
-
-        AccessLogger::log("[$errorId] ❌ $context → $errorType : " . $e, AccessLogger::LEVEL_ERROR);
-
-        $message = (AppConfig::getEnv('APP_ENV') === 'dev')
-            ? $e->getMessage() . '<br><pre>' . $e->getTraceAsString() . '</pre>'
-            : "(Voir les logs liés au code : $errorId)";
-        $this->render($view, ['message' => $message]);
-    }
-
     protected function setCache(int $seconds = 3600): void
     {
         header("Cache-Control: public, max-age=$seconds");
         header("Pragma: cache");
         header("Expires: " . gmdate('D, d M Y H:i:s', time() + $seconds) . " GMT");
+    }
+
+    protected function flashAndRedirect(string $type, string $message, string $url): never
+    {
+        $this->setFlash($type, $message);
+        $this->redirect($url);
     }
 
     protected function setFlash(string $key, string $message): void

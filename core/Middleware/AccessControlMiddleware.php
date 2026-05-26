@@ -29,10 +29,7 @@ class AccessControlMiddleware extends Middleware
         $allowedRoutes = $this->resolvePermissions($_SESSION['user']['role'] ?? 'guest', $permissions, $hierarchy);
 
         if (!in_array('*', $allowedRoutes, true) && !in_array($route, $allowedRoutes, true)) {
-            AccessLogger::log(
-                "Accès refusé pour la route $route en tant que [$role]",
-                AccessLogger::LEVEL_WARNING
-            );
+            AccessLogger::logTo("Accès refusé pour la route $route en tant que [$role]", AccessLogger::LEVEL_WARNING, AccessLogger::CHANNEL_ROUTING);
             http_response_code(403);
             echo "Accès refusé en tant que $role";
             exit;

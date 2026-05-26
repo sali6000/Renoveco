@@ -3,11 +3,11 @@
 namespace Src\Modules\Auth\Interface\Http\Controllers;
 
 use Core\BaseController;
-use Src\Exception\ServiceException;
 use Src\Exception\ValidationException;
-use Src\Modules\Auth\Domain\Service\AuthService;
 use Core\Routing\Attribute\Route;
 use Core\Support\SecurityHelper;
+use Src\Modules\Auth\Application\UseCase\LoginUser;
+use Src\Modules\Shared\Infrastructure\Http\Security\CsrfException;
 use Src\Modules\Shared\Infrastructure\Http\Security\CsrfGuard;
 use Src\Modules\Shared\Infrastructure\Http\Session\SessionManager;
 
@@ -17,62 +17,54 @@ class AuthLoginController extends BaseController
     public function __construct(
         private readonly CsrfGuard      $csrf,
         private readonly SessionManager $session,
-        private readonly AuthService    $authService,
+        private readonly LoginUser $loginUser
     ) {}
 
     #[Route('login', methods: ['GET'])]
     public function login()
     {
-        // Récupère l'URL de la page précédente envoyée par le navigateur (non garantie, peut être absente)
-        $referer = $_SERVER['HTTP_REFERER'] ?? '';
-
-        // Enregistrer la page vers laquel rediriger SI:
-        // - Aucune redirection n'est prévue ($_SESSION['redirect_after_login'])
-        // - Une nouvelle redirection est prévue ($referer)
-        // - La nouvelle redirection prévue ne renvoit pas vers /login (boucle de redirection)
-        if (
-            empty($this->session->get('redirect_after_login')) // Aucune redirection déjà prévue en session
-            && !empty($referer)                                // Le navigateur a bien envoyé un referer
-            && !str_contains($referer, '/login')               // Évite une boucle de redirection vers /login
-        ) {
-            $this->session->setIntendedRedirect($referer);
-        }
+        // Afficher la vue
         $this->render('Auth/login.twig', [
             'csrf_token'  => $this->csrf->generateToken(),
             'flash_error' => $this->getFlash('error'),
+            'flash_success' => $this->getFlash('success'),
         ]);
     }
 
     #[Route('connection', methods: ['POST'])]
     public function connection()
     {
-        // Vérification du formulaire (csrf) + Sanitization du champ email + Récupération du mot de passe
-        $this->csrf->validateOrFail();
-        $email    = SecurityHelper::sanitizeEmail($_POST['email'] ?? null);
+        try {
+            // Validation du formulaire
+            $this->csrf->validateOrFail();
+
+            // Sanitization du champ email
+            $email    = SecurityHelper::sanitizeEmail($_POST['email'] ?? null);
+        } catch (CsrfException | ValidationException $e) {
+
+            // Résultat en cas d'erreur (de formulaire ou sanitization)
+            $this->flashAndRedirect('error', $e->getMessage(), '/contact');
+        }
+
+        // Récupération du mot de passe
         $password = $_POST['password'] ?? '';
 
-        try {
-            // Vérification des informations reçue pour la connection
-            $user = $this->authService->loginUser($email, $password);
-            $this->authService->updateUserLastLogin($user['id']);
+        // Connection
+        $result = $this->loginUser->execute($email, $password);
 
-            // Enregistrement de la session utilisateur
-            $this->session->openAuthenticatedSession($user);
-            $this->redirect($this->session->consumeRedirect());
-        } catch (ValidationException | ServiceException $e) {
-
-            // Afficher un message d'erreur en flash et rediriger vers la page de login en cas d'échec
-            $this->setFlash('error', $e->getMessage());
-            $this->redirect('/auth/login');
-        } catch (\Throwable $e) {
-            $this->handleException($e, __METHOD__ . ' → System → ');
-        }
+        // Résultat en cas de réussite ou échec
+        $result->isSuccess()
+            ? $this->flashAndRedirect('success', 'Vous êtes connecté', '/auth/login')
+            : $this->flashAndRedirect('error', $result->getMessage(), '/auth/login');
     }
 
     #[Route('logout', methods: ['GET'])]
     public function logout()
     {
+        // Déconnection de la session
         $this->session->destroy();
+
+        // Redirection vers home
         $this->redirect('/');
     }
 }

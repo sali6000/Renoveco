@@ -207,14 +207,7 @@ class ProductRepositoryMysql extends RepositoryMySQL implements ProductRepositor
             ->where(SchemaMysql::PRODUCT_SLUG . ' = :slug', [':slug' => $slug])
             ->executeAndFetchOne();
 
-        if ($result === null) {
-            return null;  // produit inexistant
-        }
-
-        // Transformation JSON → array
-        $result = $this->decodeJsonRelations($result);
-
-        return Product::fromArray($result);
+        return $result === null ? null : Product::fromArray($this->decodeJsonRelations($result));
     }
 
     private function decodeJsonRelations(array $row): array
