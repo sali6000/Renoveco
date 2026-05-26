@@ -1,4 +1,3 @@
-```markdown
 # 🏗️ RenoveConstruct.be (Renoveco)
 
 [![PHP Version](https://img.shields.io/badge/PHP-8.1%2B-777bb4?style=for-the-badge&logo=php)](https://www.php.net/)
