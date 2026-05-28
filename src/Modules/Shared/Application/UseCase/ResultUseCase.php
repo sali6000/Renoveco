@@ -2,7 +2,7 @@
 
 namespace Src\Modules\Shared\Application\UseCase;
 
-final class UseCaseResult
+final class ResultUseCase
 {
     private function __construct(
         private readonly bool    $success,

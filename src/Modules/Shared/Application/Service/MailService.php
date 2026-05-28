@@ -1,12 +1,12 @@
 <?php
 
-namespace Src\Modules\Shared\Domain\Service;
+namespace Src\Modules\Shared\Application\Service;
 
 use Config\AppConfig;
 use Core\Logger\AccessLogger;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
-use Src\Exception\ServiceException;
+use Src\Exception\Application\MailException;
 
 /**
  * Service d'envoi d'emails via SMTP.
@@ -31,7 +31,7 @@ class MailService
      * @param string|null $replyToEmail Adresse de réponse optionnelle
      * @param string|null $replyToName  Nom associé à l'adresse de réponse
      *
-     * @throws ServiceException 'MAIL_FAILED' si l'envoi SMTP échoue
+     * @throws MailException 'MAIL_FAILED' si l'envoi SMTP échoue
      */
     public function send(
         string $to,
@@ -75,7 +75,7 @@ class MailService
             $mail->send();
         } catch (\PHPMailer\PHPMailer\Exception $e) {
             AccessLogger::logTo($e, AccessLogger::LEVEL_ERROR, AccessLogger::CHANNEL_APP);
-            throw new ServiceException(
+            throw new MailException(
                 "L'envoi du message a échoué, veuillez réessayer plus tard.",
                 'MAIL_FAILED'
             );

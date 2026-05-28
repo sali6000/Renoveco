@@ -1,108 +1,135 @@
 <?php
-// Core/Support/SecurityHelper
 
 namespace Core\Support;
 
-use Src\Exception\ValidationException;
+use Src\Exception\Http\ValidationException;
 
 final class SecurityHelper
 {
-    /**
-     * * @throws ValidationException si la validation a échoué
-     */
+    // ==========================================================
+    // SANITIZATION (transforme, nettoie, normalise)
+    // ==========================================================
+
     public static function sanitizeString(
+        mixed $string,
+        bool $deleteStartAndEndSpaces = true,
+        bool $stripTags = true,
+        bool $escapeHtml = false,
+        string $encoding = 'UTF-8'
+    ): ?string {
+        if ($string === null || $string === '') {
+            return $string === null ? null : '';
+        }
+
+        if (!is_string($string)) {
+            return null;
+        }
+
+        if ($deleteStartAndEndSpaces) {
+            $string = trim($string);
+        }
+
+        if ($stripTags) {
+            $string = strip_tags($string);
+        }
+
+        if ($escapeHtml) {
+            $string = htmlspecialchars($string, ENT_QUOTES | ENT_HTML5, $encoding);
+        }
+
+        // Caractères de contrôle
+        $string = preg_replace('/[\x00-\x1F\x7F]/u', '', $string);
+        $string = preg_replace('/\p{C}+/u', '', $string);
+
+        return $string;
+    }
+
+    public static function sanitizeInt(mixed $value): ?int
+    {
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        $result = filter_var($value, FILTER_VALIDATE_INT);
+        return $result !== false ? $result : null;
+    }
+
+    public static function sanitizeBool(mixed $value): bool
+    {
+        return filter_var($value, FILTER_VALIDATE_BOOL, FILTER_NULL_ON_FAILURE) ?? false;
+    }
+
+    public static function sanitizeEmail(mixed $email): ?string
+    {
+        if ($email === null || $email === '') {
+            return null;
+        }
+
+        if (!is_string($email)) {
+            return null;
+        }
+
+        return trim($email);
+    }
+
+    // ==========================================================
+    // VALIDATION (vérifie les règles, lance exception si invalide)
+    // ==========================================================
+
+    public static function validateString(
         mixed $string,
         string $fieldName,
         int $minLength = 1,
         int $maxLength = 50,
         bool $canBeEmpty = false,
         bool $canBeNull = false,
-        bool $deleteStartAndEndSpaces = true,
-        bool $stripTags = true,
-        bool $escapeHtml = false,
         ?string $pattern = null,
         string $encoding = 'UTF-8'
-    ) {
-        // --- 1. NULL ou vide strict ----------------------------------------------
-        if ($string === null || $string === '') {
-            if ($string === null && $canBeNull) {
-                return null;
-            }
-
-            if ($string === '' && $canBeEmpty) {
-                return '';
-            }
-
-            throw new ValidationException("La valeur de " . $fieldName . " est vide ou nulle, ce qui n'est pas autorisé.", "sanitizeString");
+    ): ?string {
+        // --- 1. NULL ---
+        if ($string === null) {
+            if ($canBeNull) return null;
+            throw new ValidationException("La valeur de {$fieldName} est nulle, ce qui n'est pas autorisé.", "validateString");
         }
 
-        // --- 2. Convertir en string -----------------------------------------------
-        if (!is_string($string)) {
-            throw new ValidationException("La valeur de " . $fieldName . " doit être une chaîne de caractères.", "sanitizeString");
-        }
-
-        // --- 3. Trim ---------------------------------------------------------------
-        if ($deleteStartAndEndSpaces) {
-            $string = trim($string);
-        }
-
-        // --- 4. Après trim, tester vide à nouveau ---------------------------------
+        // --- 2. Vide ---
         if ($string === '') {
-            if ($canBeEmpty) {
-                return '';
-            }
-            throw new ValidationException("La chaîne de " . $fieldName . " ne peut pas être vide.", "sanitize");
+            if ($canBeEmpty) return '';
+            throw new ValidationException("La valeur de {$fieldName} est vide, ce qui n'est pas autorisé.", "validateString");
         }
 
-        // --- 5. Supprimer balises HTML --------------------------------------------
-        if ($stripTags) {
-            $string = strip_tags($string);
+        // --- 3. Type ---
+        if (!is_string($string)) {
+            throw new ValidationException("La valeur de {$fieldName} doit être une chaîne de caractères.", "validateString");
         }
 
-        // --- 6. Convertir caractères spéciaux (XSS) --------------------------------
-        if ($escapeHtml) {
-            $string = htmlspecialchars(
-                $string,
-                ENT_QUOTES | ENT_HTML5,
-                $encoding
-            );
-        }
-
-        // --- 7. Nettoyage : caractères de contrôle ---------------------------------
-        $string = preg_replace('/[\x00-\x1F\x7F]/u', '', $string);
-        $string = preg_replace('/\p{C}+/u', '', $string);
-
-        // --- 8. Vérification longueur ----------------------------------------------
+        // --- 4. Longueur ---
         $len = mb_strlen($string, $encoding);
-
         if ($len < $minLength) {
-            throw new ValidationException("Longueur minimum de " . $fieldName . " non respectée ({$minLength}).", "sanitize");
+            throw new ValidationException("Longueur minimum de {$fieldName} non respectée ({$minLength}).", "validateString");
         }
-
         if ($len > $maxLength) {
-            throw new ValidationException("Longueur maximum de " . $fieldName . " dépassée ({$maxLength}).", "sanitize");
+            throw new ValidationException("Longueur maximum de {$fieldName} dépassée ({$maxLength}).", "validateString");
         }
 
-        // --- 9. Regex pattern ------------------------------------------------------
+        // --- 5. Pattern ---
         if ($pattern !== null && !preg_match($pattern, $string)) {
-            throw new ValidationException("Le format de " . $fieldName . " est invalide.", "sanitize");
+            throw new ValidationException("Le format de {$fieldName} est invalide.", "validateString");
         }
 
         return $string;
     }
 
-    // Ex: $parentId = SecurityHelper::sanitizeInt($_POST['parent_id'] ?? null, 1, 999, null);
-    // null si non fourni, sinon int >=1
-
-    // Autre ex: $quantity = SecurityHelper::sanitizeInt($_POST['quantity'] ?? null, 0, 1000, 0);
-    // renvoie 0 si non fourni
-    public static function sanitizeInt(mixed $value, string $fieldName, int $min = PHP_INT_MIN, int $max = PHP_INT_MAX, bool $canBeNull = false): ?int
-    {
-        if ($value === null || $value === '') {
-            if (!$canBeNull) {
-                throw new ValidationException("La valeur attendue (int) de  " . $fieldName . " doit pas être NULL ni vide", "sanitize");
-            }
-            return null;
+    public static function validateInt(
+        mixed $value,
+        string $fieldName,
+        int $min = PHP_INT_MIN,
+        int $max = PHP_INT_MAX,
+        bool $canBeNull = false
+    ): ?int {
+        if ($value === null) {
+            if ($canBeNull) return null;
+            throw new ValidationException("La valeur (int) de {$fieldName} ne peut pas être nulle.", "validateInt");
         }
 
         $result = filter_var($value, FILTER_VALIDATE_INT, [
@@ -110,56 +137,48 @@ final class SecurityHelper
         ]);
 
         if ($result === false) {
-            throw new ValidationException("La valeur attendue (int) de " . $fieldName . " ne respecte pas le rang ou n'est pas un INT", "sanitize");
+            throw new ValidationException("La valeur (int) de {$fieldName} ne respecte pas le rang ou n'est pas un entier.", "validateInt");
         }
 
-        return $result; // valide, y compris 0
+        return $result;
     }
 
-
-    public static function sanitizeBool(mixed $value): bool
-    {
-        return filter_var($value, FILTER_VALIDATE_BOOL, FILTER_NULL_ON_FAILURE) ?? false;
-    }
-
-    public static function sanitizeEmail(
+    public static function validateEmail(
         mixed $email,
         string $fieldName = 'Email',
         int $minLength = 5,
-        int $maxLength = 254, // RFC 5321 : limite officielle d'un email
+        int $maxLength = 254,
         bool $canBeNull = false
     ): ?string {
         // --- 1. NULL ---
-        if ($email === null || $email === '') {
-            if ($canBeNull) {
-                return null;
-            }
-            throw new ValidationException("L'adresse {$fieldName} est obligatoire.", "sanitizeEmail");
+        if ($email === null) {
+            if ($canBeNull) return null;
+            throw new ValidationException("L'adresse {$fieldName} est obligatoire.", "validateEmail");
         }
 
-        // --- 2. String ---
+        // --- 2. Vide ---
+        if ($email === '') {
+            if ($canBeNull) return null;
+            throw new ValidationException("L'adresse {$fieldName} est obligatoire.", "validateEmail");
+        }
+
+        // --- 3. Type ---
         if (!is_string($email)) {
-            throw new ValidationException("L'adresse {$fieldName} doit être une chaîne de caractères.", "sanitizeEmail");
+            throw new ValidationException("L'adresse {$fieldName} doit être une chaîne de caractères.", "validateEmail");
         }
 
-        // --- 3. Trim ---
-        $email = trim($email);
-
-        // --- 4. Sanitize (supprime les caractères illégaux dans un email) ---
-        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-
-        // --- 5. Longueur ---
+        // --- 4. Longueur ---
         $len = mb_strlen($email);
         if ($len < $minLength) {
-            throw new ValidationException("L'adresse {$fieldName} est trop courte ({$minLength} caractères minimum).", "sanitizeEmail");
+            throw new ValidationException("L'adresse {$fieldName} est trop courte ({$minLength} caractères minimum).", "validateEmail");
         }
         if ($len > $maxLength) {
-            throw new ValidationException("L'adresse {$fieldName} est trop longue ({$maxLength} caractères maximum).", "sanitizeEmail");
+            throw new ValidationException("L'adresse {$fieldName} est trop longue ({$maxLength} caractères maximum).", "validateEmail");
         }
 
-        // --- 6. Validation format RFC ---
+        // --- 5. Format RFC ---
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new ValidationException("Le format de l'adresse {$fieldName} est invalide.", "sanitizeEmail");
+            throw new ValidationException("Le format de l'adresse {$fieldName} est invalide.", "validateEmail");
         }
 
         return $email;

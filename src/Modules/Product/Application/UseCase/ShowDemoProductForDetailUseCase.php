@@ -2,11 +2,9 @@
 
 namespace Src\Modules\Product\Application\UseCase;
 
-use Config\AppConfig;
-use Core\Support\DebugHelper;
 use Src\Modules\Product\Application\ViewModel\ProductDetailViewModel;
 use Src\Modules\Product\Domain\Repository\ProductRepositoryInterface;
-use Src\Modules\Shared\Application\UseCase\UseCaseResult;
+use Src\Modules\Shared\Application\UseCase\ResultUseCase;
 
 /**
  * DemoProductForDetail — USE CASE FACTICE pour aperçu frontend
@@ -18,16 +16,16 @@ use Src\Modules\Shared\Application\UseCase\UseCaseResult;
  * Usage dans le controller :
  *   $this->render('Product/detail.twig', ['model' => (new DemoProductForDetail())->execute()]);
  */
-final class ShowDemoProductForDetail
+final class ShowDemoProductForDetailUseCase
 {
     public function __construct(private readonly ProductRepositoryInterface $productRepo) {}
 
-    public function execute(string $slug): UseCaseResult
+    public function execute(string $slug): ResultUseCase
     {
         $product = $this->productRepo->findBySlugWithLightRefs($slug);
 
         if ($product === null) {
-            return UseCaseResult::failure("Produit introuvable.", 'PRODUCT_NOT_FOUND');
+            return ResultUseCase::failure("Produit introuvable.", 'PRODUCT_NOT_FOUND');
         }
 
         $product->attributes = $this->productRepo->findAttributesByProductId($product->id);
@@ -129,6 +127,6 @@ final class ShowDemoProductForDetail
             ],
         ];
 
-        return UseCaseResult::success($vm);
+        return ResultUseCase::success($vm);
     }
 }

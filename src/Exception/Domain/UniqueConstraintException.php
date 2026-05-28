@@ -1,8 +1,8 @@
 <?php
-// src/Exception/ServiceException.php
-namespace Src\Exception;
+// src/Exception/UniqueConstraintException.php
+namespace Src\Exception\Domain;
 
-final class ServiceException extends \RuntimeException implements DomainExceptionInterface
+class UniqueConstraintException extends \Exception implements DomainExceptionInterface
 {
     public function __construct(
         string $message,

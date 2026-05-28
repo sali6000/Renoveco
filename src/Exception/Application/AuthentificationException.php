@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
+namespace Src\Exception\Application;
 
-namespace Src\Modules\Shared\Infrastructure\Http\Security;
+use Src\Exception\Application\ApplicationExceptionInterface;
 
-use Src\Exception\Http\HttpExceptionInterface;
-
-final class CsrfException extends \RuntimeException implements HttpExceptionInterface
+class AuthentificationException extends \Exception implements ApplicationExceptionInterface
 {
     public function __construct(
         string $message,

@@ -4,7 +4,7 @@ namespace Src\Modules\Category\Application\UseCase;
 
 use Src\Modules\Category\Domain\Service\CategoryService;
 
-class ShowCategoriesForGallery
+class ShowCategoriesForGalleryUseCase
 {
     public function __construct(private CategoryService $categoryService) {}
 

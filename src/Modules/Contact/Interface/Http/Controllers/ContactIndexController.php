@@ -5,9 +5,9 @@ namespace Src\Modules\Contact\Interface\Http\Controllers;
 use Core\BaseController;
 use Core\Routing\Attribute\Route;
 use Core\Support\SecurityHelper;
-use Src\Exception\ValidationException;
-use Src\Modules\Contact\Application\UseCase\SendContactMessage;
-use Src\Modules\Shared\Infrastructure\Http\Security\CsrfException;
+use Src\Exception\Application\ApplicationExceptionInterface;
+use Src\Exception\Http\HttpExceptionInterface;
+use Src\Modules\Contact\Application\UseCase\SendContactMessageUseCase;
 use Src\Modules\Shared\Infrastructure\Http\Security\CsrfGuard;
 
 #[Route('/contact')]
@@ -15,7 +15,7 @@ class ContactIndexController extends BaseController
 {
     public function __construct(
         private readonly CsrfGuard $csrf,
-        private readonly SendContactMessage $sendContactMessage
+        private readonly SendContactMessageUseCase $sendContactMessage
     ) {}
 
     #[Route('', methods: ['GET'])]
@@ -37,24 +37,40 @@ class ContactIndexController extends BaseController
             // Validation du formulaire
             $this->csrf->validateOrFail();
 
-            // Sanitization des champs
-            $firstname = SecurityHelper::sanitizeString($_POST['firstname'] ?? null, 'Prénom',    minLength: 2, maxLength: 50, canBeEmpty: true, canBeNull: true);
-            $lastname  = SecurityHelper::sanitizeString($_POST['lastname']  ?? null, 'Nom',       minLength: 2, maxLength: 50, canBeEmpty: true, canBeNull: true);
-            $company   = SecurityHelper::sanitizeString($_POST['company']   ?? null, 'Société',   minLength: 2, maxLength: 50, canBeEmpty: true, canBeNull: true);
-            $message   = SecurityHelper::sanitizeString($_POST['message']   ?? null, 'Message',   minLength: 5, maxLength: 300);
-            $email   = SecurityHelper::sanitizeEmail($_POST['email'] ?? null);
-        } catch (CsrfException | ValidationException $e) {
+            // 1. Sanitize (nettoie la donnée brute)
+            $firstname = SecurityHelper::sanitizeString($_POST['firstname'] ?? null);
+            $lastname  = SecurityHelper::sanitizeString($_POST['lastname']  ?? null);
+            $company   = SecurityHelper::sanitizeString($_POST['company']   ?? null);
+            $message   = SecurityHelper::sanitizeString($_POST['message']   ?? null);
+            $email     = SecurityHelper::sanitizeEmail($_POST['email']      ?? null);
+
+            // 2. Validate (vérifie les règles métier sur la donnée nettoyée)
+            $firstname = SecurityHelper::validateString($firstname, 'Prénom',  minLength: 2, maxLength: 50,  canBeEmpty: true);
+            $lastname  = SecurityHelper::validateString($lastname,  'Nom',     minLength: 2, maxLength: 50,  canBeEmpty: true);
+            $company   = SecurityHelper::validateString($company,   'Société', minLength: 2, maxLength: 50,  canBeEmpty: true);
+            $message   = SecurityHelper::validateString($message,   'Message', minLength: 5, maxLength: 300);
+            $email     = SecurityHelper::validateEmail($email, 'Email');
+        } catch (HttpExceptionInterface $e) {
 
             // Résultat en cas d'erreur (de formulaire ou sanitization)
             $this->flashAndRedirect('error', $e->getMessage(), '/contact');
         }
 
-        // Envoi du message
-        $result = $this->sendContactMessage->execute($firstname, $lastname, $company, $email, $message);
+        // Récupération de l'IP
+        $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
 
-        // Résultat en cas de réussite ou échec
-        $result->isFailure()
-            ? $this->flashAndRedirect('error', $result->getMessage(), '/contact')
-            : $this->flashAndRedirect('success', 'Votre message a bien été envoyé.', '/contact');
+        try {
+            // Envoi du message
+            $result = $this->sendContactMessage->execute($firstname, $lastname, $company, $email, $message, $ip);
+
+            // Résultat en cas de réussite ou échec
+            $result->isFailure()
+                ? $this->flashAndRedirect('error', $result->getMessage(), '/contact')
+                : $this->flashAndRedirect('success', 'Votre message a bien été envoyé.', '/contact');
+        } catch (ApplicationExceptionInterface $e) {
+
+            // Erreur en cas de rate limit atteind
+            $this->flashAndRedirect('error', $e->getMessage(), '/contact');
+        }
     }
 }

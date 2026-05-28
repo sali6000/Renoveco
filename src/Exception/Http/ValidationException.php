@@ -1,8 +1,8 @@
 <?php
-// src/Exception/ValidationException.php
-namespace Src\Exception;
+// src/Exception/Http/ValidationException.php
+namespace Src\Exception\Http;
 
-class ValidationException extends \RuntimeException implements DomainExceptionInterface
+class ValidationException extends \RuntimeException implements HttpExceptionInterface
 {
     public function __construct(
         string $message,

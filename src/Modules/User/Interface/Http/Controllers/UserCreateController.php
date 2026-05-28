@@ -4,20 +4,21 @@ declare(strict_types=1);
 
 namespace Src\Modules\User\Interface\Http\Controllers;
 
-use Src\Exception\ServiceException;
-use Src\Exception\UniqueConstraintException;
-use Src\Modules\User\Domain\Service\UserService;
 use Core\BaseController;
 use Core\Routing\Attribute\Route;
 use Core\Support\SecurityHelper;
+use Src\Exception\Application\ApplicationExceptionInterface;
+use Src\Exception\Http\HttpExceptionInterface;
+use Src\Modules\Shared\Infrastructure\Http\Security\CsrfException;
 use Src\Modules\Shared\Infrastructure\Http\Security\CsrfGuard;
 use Src\Modules\Shared\Infrastructure\Http\Session\SessionManager;
+use Src\Modules\User\Application\UseCase\UserCreateUseCase;
 
 #[Route('/user')]
 final class UserCreateController extends BaseController
 {
     public function __construct(
-        private readonly UserService     $userService,
+        private readonly UserCreateUseCase $createUser,
         private readonly CsrfGuard       $csrf,
         private readonly SessionManager  $session,
     ) {}
@@ -45,36 +46,48 @@ final class UserCreateController extends BaseController
     #[Route('store', methods: ['POST'])]
     public function store(): void
     {
-        $this->csrf->validateOrFail();
+        try {
 
-        $email    = SecurityHelper::sanitizeEmail($_POST['email'] ?? null);
-        $password = SecurityHelper::sanitizeString(
-            $_POST['password'] ?? '',
-            'mot de passe',
-            minLength: 8,
-            maxLength: 30,
-            pattern: '/^(?=.*[A-Z])(?=.*\d).+$/'
-        );
-        $cgu      = isset($_POST['cgu']);
+            // Validation du formulaire
+            $this->csrf->validateOrFail();
 
-        if (!$cgu) {
-            $this->setFlash('error', 'Vous devez accepter les conditions générales d\'utilisation.');
-            $this->redirect('/user/register');
+            // Validation CGU
+            if (!isset($_POST['cgu'])) {
+                $this->flashAndRedirect('error', 'Vous devez accepter les conditions générales d\'utilisation.', '/user/register');
+            }
+
+            // Normalisation de l'email et du mot de passe
+            $email    = SecurityHelper::sanitizeEmail($_POST['email'] ?? null);
+            $password = SecurityHelper::sanitizeString($_POST['password'] ?? null);
+
+            // Validation de l'email et du mot de passe
+            $email    = SecurityHelper::validateEmail($email, 'Email');
+            $password = SecurityHelper::validateString(
+                $password,
+                'Mot de passe',
+                minLength: 8,
+                maxLength: 30,
+                pattern: '/^(?=.*[A-Z])(?=.*\d).+$/'
+            );
+        } catch (CsrfException | HttpExceptionInterface $e) {
+
+            // Redirection en cas d'échec
+            $this->flashAndRedirect('error', $e->getMessage(), '/user/register');
         }
 
-        try {
-            $user = $this->userService->createUser($email, $password);
+        // Récupération de l'IP
+        $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
 
-            $this->setFlash('success', 'Bienvenue ' . $user->email . ' ! Vous pouvez maintenant vous connecter.');
-            $this->redirect('/auth/login');
-        } catch (UniqueConstraintException $e) {
-            $this->setFlash('error', 'Ce champ est déjà utilisé : ' . $e->getField());
-            $this->redirect('/user/register');
-        } catch (ServiceException $e) {
-            $this->setFlash('error', 'Erreur du service d\'enregistrement. (Code : ' . $e->getErrorId() . ')');
-            $this->redirect('/user/register');
-        } catch (\Throwable $e) {
-            $this->handleException($e, __METHOD__ . ' → System → ');
+        try {
+            // Création de l'user en base
+            $result = $this->createUser->execute($email, $password, $ip);
+
+            // Résultat en cas de réussite ou échec
+            $result->isSuccess()
+                ? $this->flashAndRedirect('success', 'Inscription réussie, connectez vous.', '/auth/login')
+                : $this->flashAndRedirect('error', $result->getMessage(), '/auth/login');
+        } catch (ApplicationExceptionInterface $e) {
+            $this->flashAndRedirect('error', $e->getMessage(), '/auth/login');
         }
     }
 }

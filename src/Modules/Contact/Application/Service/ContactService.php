@@ -1,11 +1,10 @@
 <?php
 
-namespace Src\Modules\Contact\Domain\Service;
+namespace Src\Modules\Contact\Application\Service;
 
 use Config\AppConfig;
 use Src\Exception\ServiceException;
-use Src\Modules\Shared\Domain\Repository\RateLimitRepositoryInterface;
-use Src\Modules\Shared\Domain\Service\MailService;
+use Src\Modules\Shared\Application\Service\MailService;
 
 /**
  * Service de gestion des messages de contact.
@@ -15,18 +14,8 @@ use Src\Modules\Shared\Domain\Service\MailService;
  */
 class ContactService
 {
-    /** @var int Nombre maximum de tentatives autorisées par fenêtre */
-    private const MAX_ATTEMPTS = 5;
-
-    /** @var int Durée de la fenêtre de rate limit en minutes */
-    private const WINDOW_MINUTES = 60;
-
-    /** @var int Seuil à partir duquel un délai artificiel est appliqué */
-    private const SOFT_THROTTLE_AFTER = 3;
-
     public function __construct(
-        private MailService $mailService,
-        private RateLimitRepositoryInterface $rateLimitRepo
+        private MailService $mailService
     ) {}
 
     /**
@@ -54,18 +43,6 @@ class ContactService
         string $message
     ): void {
 
-        // 1. Vérifier les tentatives de connection
-        $attempts = $this->rateLimitRepo->countRecent('contact_send', self::WINDOW_MINUTES);
-
-        if ($attempts >= self::MAX_ATTEMPTS) {
-            throw new ServiceException("Trop de tentatives. Réessayez dans " . self::WINDOW_MINUTES . " minutes.", 'RATE_LIMIT');
-        }
-
-        // 2. Soft throttle : ralentir sans bloquer
-        if ($attempts >= self::SOFT_THROTTLE_AFTER) {
-            sleep(2);
-        }
-
         $senderName  = trim(($firstname ?? '') . ' ' . ($lastname ?? '')) ?: 'Anonyme';
         $companyLine = $company ? "<strong>Société :</strong> " . htmlspecialchars($company) . "<br>" : '';
 
@@ -88,7 +65,5 @@ class ContactService
             replyToEmail: $email,
             replyToName: $senderName,
         );
-
-        $this->rateLimitRepo->record('contact_send', $email);
     }
 }

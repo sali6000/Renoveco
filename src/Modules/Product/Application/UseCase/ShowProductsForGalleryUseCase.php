@@ -3,15 +3,15 @@
 namespace Src\Modules\Product\Application\UseCase;
 
 use Src\Modules\Product\Domain\Repository\ProductRepositoryInterface;
-use Src\Modules\Shared\Application\UseCase\UseCaseResult;
+use Src\Modules\Shared\Application\UseCase\ResultUseCase;
 
-final class ShowProductsForGallery
+final class ShowProductsForGalleryUseCase
 {
     public function __construct(private readonly ProductRepositoryInterface $productRepo) {}
 
-    public function execute(): UseCaseResult
+    public function execute(): ResultUseCase
     {
         $datas = $this->productRepo->findAllForGallery();
-        return UseCaseResult::success($datas);
+        return ResultUseCase::success($datas);
     }
 }

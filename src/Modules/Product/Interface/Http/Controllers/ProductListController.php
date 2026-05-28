@@ -2,8 +2,8 @@
 
 namespace Src\Modules\Product\Interface\Http\Controllers;
 
-use Src\Modules\Product\Application\UseCase\ShowProductsForGallery;
-use Src\Modules\Category\Application\UseCase\ShowCategoriesForGallery;
+use Src\Modules\Product\Application\UseCase\ShowProductsForGalleryUseCase;
+use Src\Modules\Category\Application\UseCase\ShowCategoriesForGalleryUseCase;
 use Src\Services\Schema\SchemaBuilder;
 use Core\BaseController;
 use Core\Routing\Attribute\Route;
@@ -12,8 +12,8 @@ use Core\Routing\Attribute\Route;
 class ProductListController extends BaseController
 {
   public function __construct(
-    private ShowProductsForGallery $showProductsForGallery,
-    private ShowCategoriesForGallery $showCategoriesForGallery,
+    private ShowProductsForGalleryUseCase $showProductsForGallery,
+    private ShowCategoriesForGalleryUseCase $showCategoriesForGallery,
     private SchemaBuilder $schemaBuilder
   ) {}
 

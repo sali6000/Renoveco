@@ -1,10 +1,9 @@
 <?php
 
-namespace Src\Modules\User\Domain\Service;
+namespace Src\Modules\User\Application\Service;
 
 use Src\Database\SchemaMysql;
-use Src\Exception\ServiceException;
-use Src\Exception\UniqueConstraintException;
+use Src\Exception\Domain\UniqueConstraintException;
 use Core\Logger\AccessLogger;
 use Src\Modules\User\Domain\Entity\User;
 use Src\Modules\User\Domain\Entity\Role;
@@ -40,22 +39,20 @@ class UserService
             // Créer et retourner l'utilisateur
             return $this->userRepo->save($user);
         } catch (PDOException $e) {
-            if ($e->errorInfo[1] == 1062) { // Si duplication à cause d'une contrainte UNIQUE
+            if ($e->errorInfo[1] === 1062) { // Si duplication à cause d'une contrainte UNIQUE
                 $message = $e->errorInfo[2]; // Ex: Duplicate entry ... for key 'users.email'
 
-                // Si le message d'erreur contient "users.email" renvoyer une erreur sur "email"
+                // Si le message d'erreur est sur le champ "users.email" renvoyer une erreur sur "email"
                 if (str_contains(
                     $message,
                     SchemaMysql::fieldTable(SchemaMysql::TABLE_USERS) . "." .
                         SchemaMysql::fieldProperty(SchemaMysql::USER_EMAIL)
                 )) {
-                    throw new UniqueConstraintException(SchemaMysql::USER_EMAIL);
+                    AccessLogger::logTo($e, AccessLogger::LEVEL_ERROR, AccessLogger::CHANNEL_DATABASE);
+                    throw new UniqueConstraintException('Cette email est déjà inscrit.');
                 }
-
-                AccessLogger::logTo($e, AccessLogger::LEVEL_ERROR, AccessLogger::CHANNEL_DATABASE);
-                throw new UniqueConstraintException('unknown');
             }
-            throw $e; // PDOException non 1062 → remonte, le kernel logue
+            throw $e;
         }
     }
 }
