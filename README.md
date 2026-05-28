@@ -45,6 +45,7 @@ src/
 │   ├── Product/
 │   │   ├── Application/
 │   │   │   ├── UseCase/            # Cas d'usage (ShowProductForDetail, ...)
+|   |   |   ├── Service/            # Services liés à l'application
 │   │   │   └── ViewModel/
 │   │   ├── Domain/
 │   │   │   ├── Entity/             # Entités métier (Product, ProductImage, ...)
