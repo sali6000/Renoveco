@@ -114,19 +114,24 @@ docker compose exec node npm run build
 - PHPMyAdmin : `https://localhost:8081`
 
 ## 📸 Aperçu
-**Page d'acceuil**
+**Page d'acceuil:**
+
 ![Page d'accueil](docs/screenshots/home.png)
 
-**Page service**
+**Page service:**
+
 ![Services (châssis et fenêtres)](docs/screenshots/services.png)
 
-**Page produits**
+**Page produits:**
+
 ![Liste des produits](docs/screenshots/products.png)
 
-**Page produit (détail)**
+**Page produit (détails):
+**
 ![Fiche produit](docs/screenshots/product.png)
 
-**Formulaire d'inscription**
+**Formulaire d'inscription:**
+
 ![Formulaire d'inscription](docs/screenshots/inscription.png)
 
 
