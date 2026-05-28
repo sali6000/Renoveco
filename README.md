@@ -97,8 +97,10 @@ config/
 2. *(Bientôt disponible : une base de données de démo et un `.env.local` d'exemple sont en cours de préparation)*
 3. Ouvrir le répertoire dans VSCode
 4. Lancer Docker Desktop
-5. Construire et démarrer les containers : `docker-compose up --build -d`
-   *(FrankenPHP · MySQL · PHPMyAdmin · Node · volume DB persistant)*
+5. Construire et démarrer les containers *(FrankenPHP · MySQL · PHPMyAdmin · Node · volume DB persistant)*: 
+```bash
+docker-compose up --build -d`
+```
 
 **Développement front-end :**
 ```bash
@@ -126,8 +128,8 @@ docker compose exec node npm run build
 
 ![Liste des produits](docs/screenshots/products.png)
 
-**Page produit (détails):
-**
+**Page produit (détails):**
+
 ![Fiche produit](docs/screenshots/product.png)
 
 **Formulaire d'inscription:**
