@@ -99,7 +99,7 @@ config/
 4. Lancer Docker Desktop
 5. Construire et démarrer les containers *(FrankenPHP · MySQL · PHPMyAdmin · Node · volume DB persistant)*: 
 ```bash
-docker-compose up --build -d`
+docker-compose up --build -d
 ```
 
 **Développement front-end :**
