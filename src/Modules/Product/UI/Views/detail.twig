@@ -18,7 +18,8 @@
             <span class="product-detail-spec-breadcrumb__sep">/</span>
         </li>
         <li class="product-detail-spec-breadcrumb__item">
-            <a class="product-detail-spec-breadcrumb__link" href="/product/list/{{ model.category_slug }}">{{ model.category_name }}</a>
+            <a class="product-detail-spec-breadcrumb__link" href="/product/list/{{ model.category_slug }}">Porte-fenêtre à frappe</a>
+            {# <a class="product-detail-spec-breadcrumb__link" href="/product/list/{{ model.category_slug }}">{{ model.category_name }}</a> #}
         </li>
         <li class="product-detail-spec-breadcrumb__item" aria-hidden="true">
             <span class="product-detail-spec-breadcrumb__sep">/</span>
@@ -104,7 +105,7 @@
             <img
                 id="product-gallery-main"
                 class="product-detail-spec__gallery-main-img"
-                src="/uploads/img/products/large/{{ model.images[0].filePath }}"
+                src="{{ model.images[0].filePath }}"
                 alt="{{ model.name }}"
                 width="800"
                 height="600"
@@ -125,11 +126,11 @@
                 type="button"
                 role="listitem"
                 aria-label="Voir la photo {{ loop.index }}"
-                data-large="/uploads/img/products/large/{{ image.filePath }}"
+                data-large="{{ image.filePath }}"
             >
                 <img
                     class="product-detail-spec__thumbnail-img"
-                    src="/uploads/img/products/thumbnail/{{ image.filePath }}"
+                    src="{{ image.filePath }}"
                     alt="Aperçu {{ loop.index }} – {{ model.name }}"
                     loading="lazy"
                     width="80"
@@ -216,22 +217,21 @@
     <h2 class="product-detail-spec-related__title">Produits similaires</h2>
     <div class="l-grid l-grid--size-m l-grid--gap-m">
         {% for product in model.related_products %}
-        <a class="c-product-card c-product-card__link" href="/product/{{ product.slug }}">
-            <div class="c-product-card__media">
-                <img
-                    class="c-product-card__img"
-                    src="/uploads/img/products/thumbnail/{{ product.images[0].filePath }}"
-                    alt="{{ product.name }}"
-                    loading="lazy"
-                    width="300"
-                    height="225"
-                >
-            </div>
-            <div class="c-product-card__body">
-                <span class="c-product-card__category">{{ product.category_name }}</span>
-                <h3 class="c-product-card__title">{{ product.name }}</h3>
-            </div>
-        </a>
+            <article class="c-product-card">
+                <a class="c-product-card__link" href="/product/{{ product.slug }}">
+                    <div class="c-product-card__media">
+                        <img
+                            class="c-product-card__img"
+                            src="{{ product.images[0].filePath }}"
+                            alt="{{ product.name }}"
+                            loading="lazy">
+                    </div>
+                    <div class="c-product-card__body">
+                        <span class="c-product-card__category">{{ product.category_name }}</span>
+                        <h3 class="c-product-card__title">{{ product.name }}</h3>
+                    </div>
+                </a>
+            </article>
         {% endfor %}
     </div>
 </section>

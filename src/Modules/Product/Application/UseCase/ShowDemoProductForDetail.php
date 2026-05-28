@@ -2,6 +2,8 @@
 
 namespace Src\Modules\Product\Application\UseCase;
 
+use Config\AppConfig;
+use Core\Support\DebugHelper;
 use Src\Modules\Product\Application\ViewModel\ProductDetailViewModel;
 use Src\Modules\Product\Domain\Repository\ProductRepositoryInterface;
 use Src\Modules\Shared\Application\UseCase\UseCaseResult;
@@ -60,11 +62,11 @@ final class ShowDemoProductForDetail
         // — Médias --------------------------------------------------------
         // Remplace les chemins par tes vraies images de test
         $vm->images = [
-            ['filePath' => 'pe78n-face.jpg'],
-            ['filePath' => 'pe78n-profil.jpg'],
-            ['filePath' => 'pe78n-detail-joint.jpg'],
-            ['filePath' => 'pe78n-pose-chantier.jpg'],
-            ['filePath' => 'pe78n-vue-interieure.jpg'],
+            ['filePath' => "/uploads/img/products/large/" . $product->images[0]->filePath],
+            ['filePath' => "/uploads/img/products/large/" . 'drzwi-z-20251008-145812-68e67c04e5c6c.webp'],
+            ['filePath' => "/uploads/img/products/large/" . 'pf152wg-20251008-150215-68e67cf7e5401.webp'],
+            ['filePath' => "/uploads/img/products/large/" . 'sl600ttevo-20251008-150030-68e67c8e6f45c.webp'],
+            ['filePath' => "/uploads/img/products/large/" . 'procural-pe50-20251008-144025-68e677d923203.webp'],
         ];
 
         // — Specs ---------------------------------------------------------
@@ -105,25 +107,25 @@ final class ShowDemoProductForDetail
                 'name'          => "PROCURAL PE78N – Fenêtre oscillo-battante",
                 'slug'          => "procural-pe78n-fenetre-oscillo-battante",
                 'category_name' => "Fenêtres aluminium",
-                'images'        => [['filePath' => 'pe78n-ob-thumb.jpg']],
+                'images'        => [['filePath' => "/uploads/img/products/large/" . 'drzwi-z-20251008-145812-68e67c04e5c6c.webp']],
             ],
             [
                 'name'          => "PROCURAL PE68 – Coulissant grande baie",
                 'slug'          => "procural-pe68-coulissant-grande-baie",
                 'category_name' => "Coulissants aluminium",
-                'images'        => [['filePath' => 'pe68-coulissant-thumb.jpg']],
+                'images'        => [['filePath' => "/uploads/img/products/large/" . 'pf152wg-20251008-150215-68e67cf7e5401.webp']],
             ],
             [
                 'name'          => "PROCURAL PE55 – Porte d'entrée aluminium",
                 'slug'          => "procural-pe55-porte-entree",
                 'category_name' => "Portes aluminium",
-                'images'        => [['filePath' => 'pe55-porte-thumb.jpg']],
+                'images'        => [['filePath' => "/uploads/img/products/large/" . 'sl600ttevo-20251008-150030-68e67c8e6f45c.webp']],
             ],
             [
                 'name'          => "PROCURAL PE78N – Fixe latéral",
                 'slug'          => "procural-pe78n-fixe-lateral",
                 'category_name' => "Vitrages fixes aluminium",
-                'images'        => [['filePath' => 'pe78n-fixe-thumb.jpg']],
+                'images'        => [['filePath' => "/uploads/img/products/large/" . 'procural-pe50-20251008-144025-68e677d923203.webp']],
             ],
         ];
 

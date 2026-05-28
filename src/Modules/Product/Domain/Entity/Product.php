@@ -16,8 +16,13 @@ class Product extends BaseModel
     // PROPRIETES
     // ==========================================================
     // Relations
+    /** @var ProductImage[] */
     private array     $_images            = []; // ProductImage[]
+
+    /** @var Category[] */
     private array     $_categories        = []; // Category[]
+
+    /** @var ProductAttribute[] */
     private array     $_attributes        = []; // ProductAttribute[]
 
     // ==========================================================
@@ -126,16 +131,19 @@ class Product extends BaseModel
     }
 
     // --- EMPTY ---
+    /** @var ProductImage[] */
     public array $images {
         get => $this->_images;
         set(array $values) => $this->_images = $values;
     }
 
+    /** @var Category[] */
     public array $categories {
         get => $this->_categories;
         set(array $values) => $this->_categories = $values;
     }
 
+    /** @var ProductAttribute[] */
     public array $attributes {
         get => $this->_attributes;
         set(array $value) => $this->_attributes = $value;

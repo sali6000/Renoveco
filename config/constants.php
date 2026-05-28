@@ -21,7 +21,6 @@ define('ROOT_PATH_STORAGE_LOGS', SHARED_PATH . 'storage/logs/' . date('Y-m-d') .
 define('ROOT_PATH_TMP', SHARED_PATH . 'storage/tmp/');
 define('ROOT_PATH_PUBLIC', getPublicPathContext(ROOT_PATH));
 define('ROOT_PATH_PUBLIC_BUILD', ROOT_PATH_PUBLIC . 'build/');
-define('ROOT_PATH_PUBLIC_UPLOADS', ROOT_PATH_PUBLIC . 'uploads/');
 
 
 /**

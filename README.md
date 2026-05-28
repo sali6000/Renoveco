@@ -37,25 +37,95 @@ Le projet est conçu pour des standards de production élevés :
 *   **Frontend :** SCSS, JavaScript (Vite), Twig.
 *   **DevOps :** Docker, déploiement sur serveur Linux, sauvegardes automatisées.
 
-## 📂 Structure du projet
+## 🗂️ Architecture
 
-```text
-├── core/               # Framework maison (Router, Kernel, DI)
-├── src/
-│   ├── Modules/        # Découpage modulaire (Product, Auth, User...)
-│   │   └── [Module]/
-│   │       ├── Application/    # UseCases & ViewModels
-│   │       ├── Domain/         # Entities & Interfaces
-│   │       ├── Infrastructure/ # Persistence (MySQL)
-│   │       └── UI/             # Controllers & Views
-└── docker/             # Configuration des conteneurs
+```
+src/
+├── Modules/                        # Modules métier (1 domaine = 1 module)
+│   ├── Product/
+│   │   ├── Application/
+│   │   │   ├── UseCase/            # Cas d'usage (ShowProductForDetail, ...)
+│   │   │   └── ViewModel/
+│   │   ├── Domain/
+│   │   │   ├── Entity/             # Entités métier (Product, ProductImage, ...)
+│   │   │   └── Repository/         # Interfaces de persistence
+│   │   ├── Infrastructure/
+│   │   │   └── Persistence/Mysql/  # Implémentations MySQL des repositories
+│   │   ├── Interface/
+│   │   │   └── Http/
+│   │   │       ├── Controllers/
+│   │   │       └── Validator/
+│   │   └── UI/Views/               # Templates Twig
+│   ├── Auth/
+│   ├── Category/
+│   ├── Contact/
+│   ├── Admin/
+│   ├── User/
+│   └── Shared/                     # Composants transverses (CSRF, Session, Mail, ...)
+│
+└── Services/
+    └── Schema/                     # Builders JSON-LD (SEO structuré)
+
+core/                               # Framework maison
+├── AppKernel.php                   # Point d'entrée HTTP
+├── Container.php                   # IoC / injection de dépendances
+├── Routing/                        # Routeur avec attributs PHP 8 (#[Route])
+├── Database/
+│   ├── QueryBuilder.php            # Query builder fluent sur PDO
+│   └── BaseModel.php               # Hydratation typée des entités
+├── Middleware/                     # Pipeline (Auth, RBAC, Logger, Security, ...)
+└── View.php                        # Moteur Twig
+
+config/
+├── services.php                    # Bindings manuels du container
+├── middlewares.php                 # Déclaration du pipeline
+├── access_whitelist.php            # Matrice RBAC (guest → user → admin → superadmin)
+└── EnvLoader.php                   # Déchiffrement AES-256 des .env chiffrés
+```
+---
+
+
+## 👨‍💻 Utilisation
+
+**Prérequis :**
+- VSCode
+- WSL
+- Docker Desktop
+
+**Installation :**
+1. Cloner le dépôt dans un répertoire local
+2. *(Bientôt disponible : une base de données de démo et un `.env.local` d'exemple sont en cours de préparation)*
+3. Ouvrir le répertoire dans VSCode
+4. Lancer Docker Desktop
+5. Construire et démarrer les containers : `docker-compose up --build -d`
+   *(FrankenPHP · MySQL · PHPMyAdmin · Node · volume DB persistant)*
+
+**Développement front-end :**
+```bash
+docker compose exec node npm run watch
 ```
 
----
+**Build front-end (production) :**
+```bash
+docker compose exec node npm run build
+```
+**Accès après démarrage :**
+- Application : `https://localhost`
+- PHPMyAdmin : `https://localhost:8081`
+
+## 📸 Aperçu
+
+![Page d'accueil](docs/screenshots/home.png)
+![Services (châssis et fenêtres)](docs/screenshots/services.png)
+![Liste des produits](docs/screenshots/products.png)
+![Fiche produit](docs/screenshots/product.png)
+![Services (châssis et fenêtres)](docs/screenshots/services.png)
+![Formulaire d'inscription](docs/screenshots/inscription.png)
+
 
 ## 👨‍💻 À propos de moi
 
-Titulaire d'un **Bachelier en informatique de gestion**, je combine une expérience de plus de deux ans dans le support d'environnements critiques (Pharmagest) avec une passion pour le développement logiciel moderne.
+Titulaire d'un **Bachelier en informatique de gestion**, je combine une expérience de plus de deux ans dans le support d'environnements critiques avec une passion pour le développement logiciel moderne.
 
 *   **Portfolio :** [renoveconstruct.be](https://renoveconstruct.be)
 *   **Contact :** s.ferlazzo@protonmail.com | 0488/71.60.96
