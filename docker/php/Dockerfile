@@ -1,4 +1,4 @@
-FROM dunglas/frankenphp
+FROM dunglas/frankenphp:1-php8.4
 
 # Dépendances système
 RUN apt-get update && apt-get install -y \

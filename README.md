@@ -1,10 +1,10 @@
 # 🏗️ RenoveConstruct.be (Renoveco)
 
-[![PHP Version](https://img.shields.io/badge/PHP-8.1%2B-777bb4?style=for-the-badge&logo=php)](https://www.php.net/)
+[![PHP Version](https://img.shields.io/badge/PHP-8.4%2B-777bb4?style=for-the-badge&logo=php)](https://www.php.net/)
 [![Architecture](https://img.shields.io/badge/Architecture-Clean%20%2F%20MVC-green?style=for-the-badge)](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
 [![Infrastructure](https://img.shields.io/badge/Infrastructure-Docker%20%2F%20FrankenPHP-blue?style=for-the-badge&logo=docker)](https://frankenphp.dev/)
 
-> **Conception et mise en production d'une application métier complète développée "From Scratch" en PHP 8.1.**
+> **Conception et mise en production d'une application métier complète développée "From Scratch" en PHP 8.4.**
 
 Ce projet a été réalisé en autonomie totale pour démontrer ma capacité à concevoir des systèmes complexes, sécurisés et performants sans dépendre d'un framework tiers.
 
@@ -19,7 +19,7 @@ L'objectif principal était de monter en compétences sur les architectures mode
 Le projet suit les principes de la **Clean Architecture** et du **MVC modulaire** :
 
 *   **Core / Kernel :** Développement d'un noyau d'application (`AppKernel.php`) gérant le cycle de vie des requêtes et un conteneur d'injection de dépendances (`Container.php`).
-*   **Routing par Attributs :** Système de routage moderne utilisant les attributs PHP 8.1 pour mapper les contrôleurs.
+*   **Routing par Attributs :** Système de routage moderne utilisant les attributs PHP 8.4 pour mapper les contrôleurs.
 *   **Couches métier :** Architecture découpée en `Domain`, `Application` (UseCases), `Infrastructure` (Repositories) et `UI`.
 *   **Moteur de templates :** Intégration de Twig pour une séparation stricte entre logique et UI.
 
@@ -32,7 +32,7 @@ Le projet est conçu pour des standards de production élevés :
 
 ## 🛠️ Stack Technique
 
-*   **Backend :** PHP 8.1 (POO avancée, PSR-4).
+*   **Backend :** PHP 8.4 (POO avancée, PSR-4).
 *   **Database :** MySQL (Architecture SGBD propre).
 *   **Frontend :** SCSS, JavaScript (Vite), Twig.
 *   **DevOps :** Docker, déploiement sur serveur Linux, sauvegardes automatisées.
