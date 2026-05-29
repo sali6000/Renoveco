@@ -10,6 +10,8 @@
     @include mixins.media-down(md) {
         height: auto;
         min-height: 100dvh;
+        display: flex; // ← la section elle-même devient flex
+        align-items: center;
         --hero-title-size: clamp(2rem, 6vw, 3.5rem);
         --hero-subtitle-size: clamp(1.2rem, 3vw, 2rem);
     }
@@ -22,8 +24,10 @@
     gap: var(--space-5xl);
 
     @include mixins.media-down(md) {
+        width: 100%; // ← ajout : nécessaire quand parent est flex
+        height: auto;
         padding: var(--space-m);
-        gap: var(--space-m);
+        gap: var(--space-l);
     }
 
 }
