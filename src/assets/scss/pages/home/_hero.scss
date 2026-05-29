@@ -24,7 +24,6 @@
 
     @include mixins.media-down(md) {
         width: 100%;
-        height: auto;
     }
 
     @include mixins.media-down(sm) {
@@ -52,11 +51,9 @@
 
 .home-hero-logo {
     display: none;
-    margin: var(--space-xl);
 
     @include mixins.media-down(md) {
         display: block;
-        margin: var(--space-s);
     }
 }
 
