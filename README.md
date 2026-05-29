@@ -44,18 +44,18 @@ src/
 ├── Modules/                        # Modules métier (1 domaine = 1 module)
 │   ├── Product/
 │   │   ├── Application/
-│   │   │   ├── UseCase/            # Cas d'usage (ShowProductForDetail, ...)
-|   |   |   ├── Service/            # Services liés à l'application
-│   │   │   └── ViewModel/
+│   │   │   ├── UseCase/            # Cas d'usage (ShowProductForDetailUseCase, ...)
+|   |   |   ├── Service/            # Services liés à l'application (AuthService, ContactService, ...)
+│   │   │   └── ViewModel/          # Modèles liés à la vue (ProductDetailViewModel, ...)
 │   │   ├── Domain/
 │   │   │   ├── Entity/             # Entités métier (Product, ProductImage, ...)
-│   │   │   └── Repository/         # Interfaces de persistence
+│   │   │   └── Repository/         # Interfaces de persistence (findAll, findAllWithLightRefs, ...)
 │   │   ├── Infrastructure/
 │   │   │   └── Persistence/Mysql/  # Implémentations MySQL des repositories
 │   │   ├── Interface/
 │   │   │   └── Http/
 │   │   │       ├── Controllers/
-│   │   │       └── Validator/
+│   │   │       └── Validator/      # Validation des données Http (Slug)
 │   │   └── UI/Views/               # Templates Twig
 │   ├── Auth/
 │   ├── Category/

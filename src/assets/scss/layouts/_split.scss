@@ -123,5 +123,9 @@
                 order: 1;
             }
         }
+
+        &--p-5xl {
+            padding: var(--space-l); // ou m, selon ton échelle
+        }
     }
 }

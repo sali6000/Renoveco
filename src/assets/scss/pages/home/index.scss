@@ -2,6 +2,15 @@
 @use '@scss/foundations/mixins';
 @use '@scss/pages/home/hero';
 
+.home-presentation-logo {
+    max-width: var(--container-m);
+    height: auto;
+
+    @include mixins.media-down(sm) {
+        max-width: 100%;
+    }
+}
+
 [data-section="home-info-1"],
 [data-section="home-info-3"] {
     background: var(--color-bg-base);

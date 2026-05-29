@@ -8,6 +8,8 @@
     --hero-subtitle-size: clamp(1.5rem, 2.2vw, 2.4rem);
 
     @include mixins.media-down(md) {
+        height: auto;
+        min-height: 100dvh;
         --hero-title-size: clamp(2rem, 6vw, 3.5rem);
         --hero-subtitle-size: clamp(1.2rem, 3vw, 2rem);
     }
@@ -17,9 +19,11 @@
     height: 100%;
     padding: var(--space-5xl) var(--space-5xl) 0 var(--space-5xl);
     overflow: hidden;
+    gap: var(--space-5xl);
 
     @include mixins.media-down(md) {
-        padding: var(--space-m) var(--space-m) 0 var(--space-m);
+        padding: var(--space-m);
+        gap: var(--space-m);
     }
 
 }
@@ -48,6 +52,7 @@
 
     @include mixins.media-down(md) {
         display: block;
+        margin: var(--space-s);
     }
 }
 
