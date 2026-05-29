@@ -22,15 +22,12 @@
     padding: var(--space-5xl);
     overflow: hidden;
 
-
     @include mixins.media-down(md) {
-        width: 100%;
-        gap: var(--space-m);
+        padding: var(--space-m);
     }
 
     @include mixins.media-down(sm) {
-        padding: var(--space-s);
-        gap: var(--space-s);
+        padding-block: var(--space-s);
     }
 }
 
