@@ -24,10 +24,10 @@
     gap: var(--space-5xl);
 
     @include mixins.media-down(md) {
-        width: 100%; // ← ajout : nécessaire quand parent est flex
+        width: 100%;
         height: auto;
         padding: var(--space-m);
-        gap: var(--space-l);
+        gap: var(--space-xl);
     }
 
 }
