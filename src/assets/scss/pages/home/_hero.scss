@@ -12,8 +12,8 @@
         min-height: 100dvh;
         display: flex; // ← la section elle-même devient flex
         align-items: center;
-        --hero-title-size: clamp(2rem, 6vw, 3.5rem);
-        --hero-subtitle-size: clamp(1.2rem, 3vw, 2rem);
+        --hero-title-size: clamp(1.5rem, 6vw, 3.5rem);
+        --hero-subtitle-size: clamp(1rem, 3vw, 2rem);
     }
 }
 
@@ -30,6 +30,10 @@
         gap: var(--space-xl);
     }
 
+    @include mixins.media-down(sm) {
+        padding: var(--space-s);
+        gap: var(--space-m);
+    }
 }
 
 .home-hero-title,

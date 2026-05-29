@@ -6,13 +6,13 @@
     max-width: var(--container-m);
     height: auto;
 
-    @include mixins.media-down(sm) {
+    @include mixins.media-down(md) {
         max-width: 100%;
     }
 }
 
 .home-presentation-title {
-    @include mixins.media-down(sm) {
+    @include mixins.media-down(md) {
         text-align: center;
     }
 }
