@@ -11,6 +11,12 @@
     }
 }
 
+.home-presentation-title {
+    @include mixins.media-down(sm) {
+        text-align: center;
+    }
+}
+
 [data-section="home-info-1"],
 [data-section="home-info-3"] {
     background: var(--color-bg-base);
@@ -18,7 +24,7 @@
 }
 
 [data-section="home-info-1"] {
-    background: var(--color-bg-subtle); // gris très léger, pas blanc pur
+    background: var(--color-bg-subtle);
     padding-block: var(--space-5xl);
 }
 
@@ -28,6 +34,7 @@
             var(--color-gradient-dark-end) 100%);
     color: var(--color-text-inverse);
     padding-block: var(--space-5xl);
+
 }
 
 .home-info-highlight {
