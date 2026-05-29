@@ -33,6 +33,10 @@
             justify-content: flex-end;
         }
 
+        &--align-space-between {
+            justify-content: space-between;
+        }
+
         &--dark {
             background-color: var(--color-bg-inverse);
             color: var(--color-text-inverse);

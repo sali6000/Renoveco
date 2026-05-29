@@ -19,20 +19,16 @@
 
 .home-hero-content {
     height: 100%;
-    padding: var(--space-5xl) var(--space-5xl) 0 var(--space-5xl);
+    padding: var(--space-5xl);
     overflow: hidden;
-    gap: var(--space-5xl);
 
     @include mixins.media-down(md) {
         width: 100%;
         height: auto;
-        padding: var(--space-m);
-        gap: var(--space-xl);
     }
 
     @include mixins.media-down(sm) {
         padding: var(--space-s);
-        gap: var(--space-m);
     }
 }
 
