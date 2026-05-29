@@ -25,10 +25,6 @@
     @include mixins.media-down(md) {
         padding: var(--space-m);
     }
-
-    @include mixins.media-down(sm) {
-        padding-block: var(--space-s);
-    }
 }
 
 .home-hero-title,
