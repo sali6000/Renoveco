@@ -26,14 +26,16 @@ services:
   mysql:
     image: mysql:8.4
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD} # Mot de passe pour l'utilisateur root.
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
     volumes:
       - db_data:/var/lib/mysql # Stocker les données de la base pour la persistance des données (db_data)
-      - ./docker/mysql/init:/docker-entrypoint-initdb.d # Monter le dossier d'initialisation pour exécuter le script SQL au démarrage.
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d # Permet d'executer dans l'ordre les scripts se trouvants dans ".../init/"
     ports:
-      - "3306:3306" # Expose le port 3306 du conteneur sur le port 3306 de la machine hôte pour permettre l'accès à MySQL.
+      - "3306:3306"
 
-  # Service PhpMyAdmin : Interface web pour gérer visuellement la base de données MySQL.
   phpmyadmin:
     depends_on:
       - mysql # garantit que mysql démarre avant

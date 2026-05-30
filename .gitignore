@@ -9,15 +9,16 @@
 repomix-output.md
 version.txt
 /scripts/
-/storage/
+/storage/cache/
+/storage/logs/
+/storage/secure/.env.dev
+/storage/secure/.env.prod.enc
+/storage/secure/*.key
 /public/uploads
 /public/.htaccess
 /public/info.php
 /public/robots.txt
 /node_modules
-
-# Liés au conteneurs mysql:
-/docker/mysql/
 
 # Autres:
 phpstan.neon

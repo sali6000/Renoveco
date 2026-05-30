@@ -95,8 +95,13 @@ config/
 
 **Installation :**
 1. Cloner le dépôt dans un répertoire local
-2. *(Bientôt disponible : une base de données de démo et un `.env.local` d'exemple sont en cours de préparation)*
-3. Ouvrir le répertoire dans VSCode
+3. Ouvrir le répertoire dans VSCode (WSL) et préparer les variables d'environnement
+
+```bash
+cp .env.example .env # Remplir les valeurs
+cp storage/secure/.env.dev.example storage/secure/.env.dev # Remplir les valeurs
+```
+
 4. Lancer Docker Desktop
 5. Construire et démarrer les containers *(FrankenPHP · MySQL · PHPMyAdmin · Node · volume DB persistant)*: 
 ```bash

@@ -35,16 +35,19 @@ final class EnvLoader
     {
         $envsRepository = AppConfig::getConst('ROOT_PATH_STORAGE_SECURE');
         $tempRepository = AppConfig::getConst('ROOT_PATH_TMP');
-        $scopes = ['local', $this->environment]; // local + prod ou dev
+        $scopes = [$this->environment]; // prod ou dev
 
         foreach ($scopes as $scope) {
             $file = $envsRepository . ".env.{$scope}.enc";
+            $plainFile = $envsRepository . ".env.{$scope}";
             $dest = $tempRepository . ".env.{$scope}";
             $key = KeysManager::getKeyPath($scope);
             if (file_exists($file) && $key) {
                 $this->decryptFile($file, $key, $dest);
                 $this->loadEnvTempByScope($tempRepository, $scope);
                 $this->deleteFile($dest);
+            } elseif (file_exists($plainFile) && AppConfig::getEnv('APP_ENV') === 'dev') {
+                Dotenv::createUnsafeMutable($envsRepository, [".env.{$scope}"])->safeLoad();
             }
         }
     }
