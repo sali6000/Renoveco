@@ -146,7 +146,7 @@ INSERT INTO `role_user` (`user_id`, `role_id`) VALUES
 --
 
 INSERT INTO `users` (`id`, `email`, `password_hash`, `created_at`, `last_login_at`, `email_verified_at`, `deleted_at`, `is_active`) VALUES
-(1, 'superadmin@monsite.com', '$2y$12$9qctiMw8rcm5QDwgYBaAe.IwoPULOOMr2C5IpcHfDTG0A2ePVnkz6', '2025-09-28 20:07:16', '2026-05-29 12:25:33', NULL, NULL, 1);
+(1, 'superadmin@demo.com', '$2y$12$5aB.GjTN66V2lfE0PvCjR.BNBVXowGrixn1a6sprzCt3boezkB4Am', '2025-09-28 20:07:16', '2026-05-29 12:25:33', NULL, NULL, 1);
 
 -- Réactivation des contraintes de clés étrangères : permet l'insertion des données dépendamment de l'ordre des tables
 SET FOREIGN_KEY_CHECKS=1;

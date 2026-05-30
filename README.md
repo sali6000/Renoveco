@@ -120,6 +120,7 @@ docker compose exec node npm run build
 **Accès après démarrage :**
 - Application : `https://localhost`
 - PHPMyAdmin : `https://localhost:8081`
+- Connexion à un compte (superadmin) : 'superadmin@demo.com' / mot de passe 'Demo12345'
 
 ## 📸 Aperçu
 **Page d'acceuil:**
@@ -130,11 +131,11 @@ docker compose exec node npm run build
 
 ![Services (châssis et fenêtres)](docs/screenshots/services.png)
 
-**Page produits:**
+**Page produits (seulement accessible en dev pour le moment):**
 
 ![Liste des produits](docs/screenshots/products.png)
 
-**Page produit (détails):**
+**Page produit (seulement accessible en dev pour le moment):**
 
 ![Fiche produit](docs/screenshots/product.png)
 
