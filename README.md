@@ -98,8 +98,11 @@ config/
 3. Ouvrir le répertoire dans VSCode (WSL) et préparer les variables d'environnement
 
 ```bash
-cp .env.example .env # Remplir les valeurs
-cp storage/secure/.env.dev.example storage/secure/.env.dev # Remplir les valeurs
+# A compléter avec les informations de création/connexion à la DB
+cp .env.example .env
+
+# A compléter avec les informations de connexion à la DB + Email
+cp storage/secure/.env.dev.example storage/secure/.env.dev
 ```
 
 4. Lancer Docker Desktop
@@ -120,7 +123,7 @@ docker compose exec node npm run build
 **Accès après démarrage :**
 - Application : `https://localhost`
 - PHPMyAdmin : `https://localhost:8081`
-- Connexion à un compte (superadmin) : 'superadmin@demo.com' / mot de passe 'Demo12345'
+- Compte d'accès disponible (grant): superadmin@demo.com / mot de passe 'Demo12345'
 
 ## 📸 Aperçu
 **Page d'acceuil:**
