@@ -20,11 +20,11 @@ final class UserCreateUseCase
     {
 
         // Récupérer les tentatives de contact
-        $attempts = $this->rateLimitRepo->countRecent('user_create_' . $ip, RateLimitConfig::USER_CREATE['windows_minutes']);
+        $attempts = $this->rateLimitRepo->countRecent('user_create_' . $ip, RateLimitConfig::USER_CREATE['window_minutes']);
 
         // Bloquer si tentatives max atteinte
         if ($attempts >= RateLimitConfig::USER_CREATE['max_attempts']) {
-            throw new RateLimitException("Trop de tentatives. Réessayez dans " . RateLimitConfig::USER_CREATE['windows_minutes'] . " minutes.", 'RATE_LIMIT');
+            throw new RateLimitException("Trop de tentatives. Réessayez dans " . RateLimitConfig::USER_CREATE['window_minutes'] . " minutes.", 'RATE_LIMIT');
         }
 
         // Soft throttle : ralentir sans bloquer
