@@ -18,7 +18,7 @@ version.txt
 /public/.htaccess
 /public/info.php
 /public/robots.txt
-/node_modules
+/vendor
 
 # Autres:
 phpstan.neon
