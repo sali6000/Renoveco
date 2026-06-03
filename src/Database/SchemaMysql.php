@@ -4,9 +4,9 @@ namespace Src\Database;
 
 final class SchemaMysql
 {
-    // ==========================================================================================
-    // 🧱 CONSTRUCTION =>
-    // ==========================================================================================
+    // -------------------------------------------------------
+    // 🧩 ATTRIBUTE
+    // -------------------------------------------------------    
     public const TABLE_ATTRIBUTES = 'attributes att';
     public const ATTRIBUTES_ID = 'att.id';
     public const ATTRIBUTES_DOMAIN_ID = 'att.domain_id';
@@ -17,12 +17,18 @@ final class SchemaMysql
     public const ATTRIBUTES_PARENT_ATTRIBUTE_ID = 'att.parent_attribute_id';
     public const ATTRIBUTES_ATTRIBUTE_GROUP_ID = 'att.attribute_group_id';
 
+    // -------------------------------------------------------
+    // 🧩 ATTRIBUTE : GROUPS
+    // -------------------------------------------------------
     public const TABLE_ATTRIBUTE_GROUPS = 'attribute_groups attgro';
     public const ATTRIBUTE_GROUPS_ID = 'attgro.id';
     public const ATTRIBUTE_GROUPS_DOMAIN_ID = 'attgro.domain_id';
     public const ATTRIBUTE_GROUPS_NAME = 'attgro.name';
     public const ATTRIBUTE_GROUPS_DISPLAY_ORDER = 'attgro.display_order';
 
+    // -------------------------------------------------------
+    // 🧩 PRODUCT : ATTRIBUTE
+    // -------------------------------------------------------
     public const TABLE_PRODUCT_ATTRIBUTE = 'product_attribute proatt';
     public const PRODUCT_ATTRIBUTE_ID = 'proatt.id';
     public const PRODUCT_ATTRIBUTE_PRODUCT_ID = 'proatt.product_id';
@@ -31,100 +37,100 @@ final class SchemaMysql
     public const PRODUCT_ATTRIBUTE_CREATED_AT = 'proatt.created_at';
     public const PRODUCT_ATTRIBUTE_UPDATED_AT = 'proatt.updated_at';
 
-
-    // ==========================================================================================
-    // 🧱 ENREGISTREMENT =>
-    // ==========================================================================================
-    // ==========================================================================================
-    // 🧱 TABLES =>
-    // ==========================================================================================
-    public const TABLE_CATEGORIES = 'categories c';
-    public const TABLE_PRODUCTS = 'products p';
-    public const TABLE_ROLES = 'roles r';
-    public const TABLE_SUPPLIERS = 'suppliers s';
-    public const TABLE_USERS = 'users u';
-    public const TABLE_RATE_LIMIT_ATTEMPTS = 'rate_limit_attempts rla'; // 📋 Limite de tentatives
-    public const TABLE_PRODUCT_INVENTORY = 'product_inventory proinv';
-
-
-    // ==========================================================================================
-    // 🔗 RELATIONS =>
-    // ==========================================================================================
+    // -------------------------------------------------------
+    // 🧩 CATEGORY : PRODUCT
+    // -------------------------------------------------------
+    public const TABLE_CATEGORY_PRODUCT = 'category_product catpro';
+    public const CATEGORY_PRODUCT_PRODUCT_ID = 'catpro.product_id';
+    public const CATEGORY_PRODUCT_CATEGORY_ID = 'catpro.category_id';
 
     // -------------------------------------------------------
-    // 🔗 OneToMany (1 <- N) Ex: Product <- Images
+    // 🧩 ROLE : USER
     // -------------------------------------------------------
-    public const TABLE_PRODUCT_IMAGES = 'product_images pi'; // // Produit <- Images
+    public const TABLE_ROLE_USER = 'role_user roluse';
+    public const ROLE_USER_USER_ID = 'roluse.user_id';
+    public const ROLE_USER_ROLE_ID = 'roluse.role_id';
 
     // -------------------------------------------------------
-    // 🔗 ManyToMany (N <-> N) Ex: Products <-> Catégories
+    // 🧩 PRODUCT
     // -------------------------------------------------------
-    public const TABLE_PIVOT_CATEGORY_PRODUCT = 'category_product cp'; // Produits <-> Catégories
-    public const PIVOT_CATEGORY_PRODUCT_FK_PRODUCT = 'cp.product_id';
-    public const PIVOT_CATEGORY_PRODUCT_FK_CATEGORY = 'cp.category_id';
-
-    public const TABLE_PIVOT_ROLE_USER = 'role_user ru'; // Roles <-> Utilisateurs
-    public const PIVOT_ROLE_USER_FK_USER = 'ru.user_id';
-    public const PIVOT_ROLE_USER_FK_ROLE = 'ru.role_id';
-
-    // ==========================================================================================
-    // 🧩 PROPRIÉTÉS =>
-    // ==========================================================================================
-    // -------------------------------------------------------
-    // 🧩 PRODUIT
-    // -------------------------------------------------------
-    public const PRODUCT_ID = 'p.id';
-    public const PRODUCT_REFERENCE = 'p.reference';
-    public const PRODUCT_SLUG = 'p.slug';
-    public const PRODUCT_NAME = 'p.name';
-    public const PRODUCT_DESCRIPTION = 'p.description';
-    public const PRODUCT_COMPOSITION = 'p.composition';
-    public const PRODUCT_USE_FOR = 'p.use_for';
-    public const PRODUCT_IS_ACTIVE = 'p.is_active';
-    public const PRODUCT_DEFAULT_SUPPLIER_ID = 'p.default_supplier_id';
-    public const PRODUCT_CREATED_AT = 'p.created_at';
-    public const PRODUCT_UPDATED_AT = 'p.updated_at';
-    public const PRODUCT_SUBTITLE = 'p.subtitle';
-    public const PRODUCT_META_DESCRIPTION = 'p.meta_description';
-    public const PRODUCT_FEATURES = 'p.features';
+    public const TABLE_PRODUCTS = 'products pro';
+    public const PRODUCT_ID = 'pro.id';
+    public const PRODUCT_REFERENCE = 'pro.reference';
+    public const PRODUCT_SLUG = 'pro.slug';
+    public const PRODUCT_NAME = 'pro.name';
+    public const PRODUCT_DESCRIPTION = 'pro.description';
+    public const PRODUCT_COMPOSITION = 'pro.composition';
+    public const PRODUCT_USE_FOR = 'pro.use_for';
+    public const PRODUCT_IS_ACTIVE = 'pro.is_active';
+    public const PRODUCT_DEFAULT_SUPPLIER_ID = 'pro.default_supplier_id';
+    public const PRODUCT_CREATED_AT = 'pro.created_at';
+    public const PRODUCT_UPDATED_AT = 'pro.updated_at';
+    public const PRODUCT_SUBTITLE = 'pro.subtitle';
+    public const PRODUCT_META_DESCRIPTION = 'pro.meta_description';
+    public const PRODUCT_FEATURES = 'pro.features';
 
     // -------------------------------------------------------
-    // 🧩 PRODUIT : STOCK
+    // 🧩 STOCK : PRODUCT
     // -------------------------------------------------------
-    public const PRODUCT_INVENTORY_ID = 'proinv.id';
-    public const PRODUCT_INVENTORY_PRODUCT_ID = 'proinv.product_id';
-    public const PRODUCT_INVENTORY_STOCK_QUANTITY = 'proinv.stock_quantity';
-    public const PRODUCT_INVENTORY_STOCK_MINIMUM = 'proinv.stock_minimum';
-    public const PRODUCT_INVENTORY_STOCK_MAXIMUM = 'proinv.stock_maximum';
-    public const PRODUCT_INVENTORY_LAST_STOCK_UPDATE = 'proinv.last_stock_update';
+    public const TABLE_STOCK_PRODUCT = 'stock_product stopro';
+    public const STOCK_PRODUCT_ID = 'stopro.id';
+    public const STOCK_PRODUCT_PRODUCT_ID = 'stopro.product_id';
+    public const STOCK_PRODUCT_QUANTITY = 'stopro.quantity';
+    public const STOCK_PRODUCT_STOCK_MINIMUM = 'stopro.stock_minimum';
+    public const STOCK_PRODUCT_STOCK_MAXIMUM = 'stopro.stock_maximum';
+
+    // -------------------------------------------------------
+    // 🧩 STOCK : LOCATION
+    // -------------------------------------------------------
+    public const TABLE_STOCK_LOCATION = 'stock_location stoloc';
+    public const STOCK_LOCATION_ID = 'stoloc.id';
+    public const STOCK_LOCATION_NAME = 'stoloc.name';
+    public const STOCK_LOCATION_DESCRIPTION = 'stoloc.description';
+
+
+    // -------------------------------------------------------
+    // 🧩 STOCK : PRODUCT : LOCATION
+    // -------------------------------------------------------
+    public const TABLE_STOCK_PRODUCT_LOCATION = 'stock_product_location stoproloc';
+    public const STOCK_PRODUCT_LOCATION_ID = 'stoproloc.id';
+    public const STOCK_PRODUCT_LOCATION_PRODUCT_STOCK_ID = 'stoproloc.product_stock_id';
+    public const STOCK_PRODUCT_LOCATION_STOCK_LOCATION_ID = 'stoproloc.stock_location_id';
+    public const STOCK_PRODUCT_LOCATION_QUANTITY = 'stoproloc.quantity';
+    public const STOCK_PRODUCT_LOCATION_CREATED_AT = 'stoproloc.created_at';
+    public const STOCK_PRODUCT_LOCATION_UPDATED_AT = 'stoproloc.updated_at';
 
     // -------------------------------------------------------
     // 🧩 PRODUIT : CATÉGORIES
     // -------------------------------------------------------
-    public const CATEGORY_ID = 'c.id';
-    public const CATEGORY_SLUG = 'c.slug';
-    public const CATEGORY_NAME = 'c.name';
-    public const CATEGORY_DESCRIPTION = 'c.description';
-    public const CATEGORY_PARENT_ID = 'c.parent_id';
+    public const TABLE_CATEGORIES = 'categories cat';
+    public const CATEGORY_ID = 'cat.id';
+    public const CATEGORY_SLUG = 'cat.slug';
+    public const CATEGORY_NAME = 'cat.name';
+    public const CATEGORY_DESCRIPTION = 'cat.description';
+    public const CATEGORY_PARENT_ID = 'cat.parent_id';
 
     // -------------------------------------------------------
     // 🧩 PRODUIT : IMAGE
     // -------------------------------------------------------
-    public const PRODUCT_IMAGE_ID = 'pi.id';
-    public const PRODUCT_IMAGE_PRODUCT_ID = 'pi.product_id';
-    public const PRODUCT_IMAGE_FILE_PATH = 'pi.file_path';
-    public const PRODUCT_IMAGE_ALT_TEXT = 'pi.alt_text';
-    public const PRODUCT_IMAGE_IS_MAIN = 'pi.is_main';
+    public const TABLE_PRODUCT_IMAGES = 'product_images proima';
+    public const PRODUCT_IMAGE_ID = 'proima.id';
+    public const PRODUCT_IMAGE_PRODUCT_ID = 'proima.product_id';
+    public const PRODUCT_IMAGE_FILE_PATH = 'proima.file_path';
+    public const PRODUCT_IMAGE_ALT_TEXT = 'proima.alt_text';
+    public const PRODUCT_IMAGE_IS_MAIN = 'proima.is_main';
 
     // -------------------------------------------------------
     // 🧩 ROLE
     // -------------------------------------------------------
+    public const TABLE_ROLES = 'roles r';
     public const ROLE_ID = 'r.id';
     public const ROLE_NAME = 'r.name';
 
     // -------------------------------------------------------
     // 🧩 USER
     // -------------------------------------------------------
+    public const TABLE_USERS = 'users u';
     public const USER_ALL = 'u.*';
     public const USER_ID = 'u.id';
     public const USER_EMAIL = 'u.email';
@@ -136,8 +142,9 @@ final class SchemaMysql
     public const USER_IS_ACTIVE = 'u.is_active';
 
     // -------------------------------------------------------
-    // 🧩 RATE LIMIT ATTEMPTS
+    // 🧩 RATE LIMIT ATTEMPTS (📋 Limite de tentatives)
     // -------------------------------------------------------
+    public const TABLE_RATE_LIMIT_ATTEMPTS = 'rate_limit_attempts rla';
     public const RATE_LIMIT_ID         = 'rla.id';
     public const RATE_LIMIT_TYPE       = 'rla.type';
     public const RATE_LIMIT_IP         = 'rla.ip_address';
@@ -145,10 +152,11 @@ final class SchemaMysql
     public const RATE_LIMIT_AT         = 'rla.attempted_at';
 
     // -------------------------------------------------------
-    // 🧩 FOURNISSEURS
+    // 🧩 SUPPLIER (Fournisseeurs)
     // -------------------------------------------------------
-    public const SUPPLIER_ID = 's.id';
-    public const SUPPLIER_NAME = 's.name';
+    public const TABLE_SUPPLIERS = 'suppliers sup';
+    public const SUPPLIER_ID = 'sup.id';
+    public const SUPPLIER_NAME = 'sup.name';
 
     // ==========================================================================================
     // ⚙️ Méthodes utilitaires =>

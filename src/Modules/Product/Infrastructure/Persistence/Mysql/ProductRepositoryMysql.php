@@ -59,22 +59,16 @@ class ProductRepositoryMysql extends RepositoryMySQL implements ProductRepositor
         );
     }
 
-    /*
-        COALESCE((
-                    SELECT JSON_ARRAYAGG(JSON_OBJECT('id', c.id, 'name', c.name))
-                    FROM category_product cp
-                    LEFT JOIN categories c ON c.id = cp.category_id
-                    WHERE cp.product_id = p.id
-
-                ), JSON_ARRAY()) AS categories
-    */
     private function getSubJsonLightCategories(): string
     {
         return SqlHelpers::jsonArrayAggreg(
             select: [SchemaMysql::CATEGORY_ID, SchemaMysql::CATEGORY_NAME],
-            from: SchemaMysql::TABLE_PIVOT_CATEGORY_PRODUCT,
-            joins: ['LEFT JOIN categories c ON c.id = cp.category_id'],
-            where: SchemaMysql::PIVOT_CATEGORY_PRODUCT_FK_PRODUCT,
+            from: SchemaMysql::TABLE_CATEGORY_PRODUCT,
+            joins: [
+                'LEFT JOIN ' . SchemaMysql::TABLE_CATEGORIES
+                    . ' ON ' . SchemaMysql::CATEGORY_ID . ' = ' . SchemaMysql::CATEGORY_PRODUCT_CATEGORY_ID
+            ],
+            where: SchemaMysql::CATEGORY_PRODUCT_PRODUCT_ID,
             equal: SchemaMysql::PRODUCT_ID,
             alias: 'categories'
         );

@@ -45,15 +45,15 @@ final class ShowDemoProductForDetailUseCase
         //$vm->category_slug = 'portes-fenetres-aluminium';
 
         // — Textes --------------------------------------------------------
-        $vm->subtitle = "Gamme haute performance pour relier l'intérieur à l'extérieur";
+        $vm->subtitle = $productForVM->subtitle ?? "Gamme haute performance pour relier l'intérieur à l'extérieur";
 
-        $vm->description = implode("\n\n", [
-            "La gamme PROCURAL PE78N est conçue pour les maisons et restaurants souhaitant relier harmonieusement l'espace intérieur à l'extérieur.",
-            "Les profils 3 chambres assurent une haute résistance mécanique et permettent de grandes dimensions (L ≤ 1 200 mm ou H ≤ 3 500 mm, poids max vantail : 120 kg).",
-            "La haute isolation thermique est obtenue grâce aux barrettes thermiques de 34 mm pour dormants et vantaux, complétée par une quincaillerie spécialisée pour une fonctionnalité optimale.",
-        ]);
+        $vm->description = $productForVM->description ?? "La gamme PROCURAL PE78N est conçue pour les maisons et restaurants souhaitant relier harmonieusement l'espace intérieur à l'extérieur.
 
-        $vm->meta_description = "Porte-fenêtre aluminium PROCURAL PE78N – triple chambre, isolation thermique renforcée, grandes dimensions. Devis gratuit en Belgique.";
+Les profils 3 chambres assurent une haute résistance mécanique et permettent de grandes dimensions (L ≤ 1 200 mm ou H ≤ 3 500 mm, poids max vantail : 120 kg).
+
+La haute isolation thermique est obtenue grâce aux barrettes thermiques de 34 mm pour dormants et vantaux, complétée par une quincaillerie spécialisée pour une fonctionnalité optimale.";
+
+        $vm->meta_description = $productForVM->metaDescription ?? "Porte-fenêtre aluminium PROCURAL PE78N – triple chambre, isolation thermique renforcée, grandes dimensions. Devis gratuit en Belgique.";
 
         // — Disponibilité -------------------------------------------------
         $vm->available = true;

@@ -1,6 +1,6 @@
 {
   "src/assets/js/app.js": {
-    "file": "assets/app-BYkQh43h.js",
+    "file": "assets/app-DJ4OOP3v.js",
     "name": "app",
     "src": "src/assets/js/app.js",
     "isEntry": true,
@@ -12,31 +12,31 @@
     ]
   },
   "src/assets/js/pages/admin/category/index.js": {
-    "file": "assets/category-BST2U4ao.js",
+    "file": "assets/category-Hqr5LiEt.js",
     "name": "category",
     "src": "src/assets/js/pages/admin/category/index.js",
     "isDynamicEntry": true
   },
   "src/assets/js/pages/home/index.js": {
-    "file": "assets/home-DgieJCRT.js",
+    "file": "assets/home-DFb67Rpp.js",
     "name": "home",
     "src": "src/assets/js/pages/home/index.js",
     "isDynamicEntry": true
   },
   "src/assets/js/pages/product/detail.js": {
-    "file": "assets/detail-CnpA98cy.js",
+    "file": "assets/detail-F4sIAPBQ.js",
     "name": "detail",
     "src": "src/assets/js/pages/product/detail.js",
     "isDynamicEntry": true
   },
   "src/assets/js/pages/product/list.js": {
-    "file": "assets/list-SZSzZH9p.js",
+    "file": "assets/list-BakMksH6.js",
     "name": "list",
     "src": "src/assets/js/pages/product/list.js",
     "isDynamicEntry": true
   },
   "src/assets/scss/_main.scss": {
-    "file": "assets/main-BlBrLKoK.css",
+    "file": "assets/main-BFSTIfeu.css",
     "name": "main",
     "names": [
       "main.css"
@@ -53,61 +53,6 @@
     "src": "src/assets/scss/pages/about/index.scss",
     "isEntry": true
   },
-  "src/assets/scss/pages/admin/category/index.scss": {
-    "file": "assets/admin-category-index-Du85Oq3p.css",
-    "name": "admin-category-index",
-    "names": [
-      "admin-category-index.css"
-    ],
-    "src": "src/assets/scss/pages/admin/category/index.scss",
-    "isEntry": true
-  },
-  "src/assets/scss/pages/admin/dashboard/index.scss": {
-    "file": "assets/admin-dashboard-index-Dd-Txt8x.css",
-    "name": "admin-dashboard-index",
-    "names": [
-      "admin-dashboard-index.css"
-    ],
-    "src": "src/assets/scss/pages/admin/dashboard/index.scss",
-    "isEntry": true
-  },
-  "src/assets/scss/pages/admin/laboratory/index.scss": {
-    "file": "assets/admin-laboratory-index-dCVsoFI1.css",
-    "name": "admin-laboratory-index",
-    "names": [
-      "admin-laboratory-index.css"
-    ],
-    "src": "src/assets/scss/pages/admin/laboratory/index.scss",
-    "isEntry": true
-  },
-  "src/assets/scss/pages/admin/product/index.scss": {
-    "file": "assets/admin-product-index-BTcXJk1_.css",
-    "name": "admin-product-index",
-    "names": [
-      "admin-product-index.css"
-    ],
-    "src": "src/assets/scss/pages/admin/product/index.scss",
-    "isEntry": true
-  },
-  "src/assets/scss/pages/admin/user/index.scss": {
-    "file": "assets/admin-user-index-CC83f4Co.css",
-    "name": "admin-user-index",
-    "names": [
-      "admin-user-index.css"
-    ],
-    "src": "src/assets/scss/pages/admin/user/index.scss",
-    "isEntry": true
-  },
-  "src/assets/scss/pages/auth/login.scss": {
-    "file": "assets/auth-login-x1XGuNl0.css",
-    "name": "contact-index",
-    "names": [
-      "auth-login.css",
-      "contact-index.css"
-    ],
-    "src": "src/assets/scss/pages/auth/login.scss",
-    "isEntry": true
-  },
   "src/assets/scss/pages/cgu/index.scss": {
     "file": "assets/cgu-index-Ccyt6QCu.css",
     "name": "cgu-index",
@@ -115,25 +60,6 @@
       "cgu-index.css"
     ],
     "src": "src/assets/scss/pages/cgu/index.scss",
-    "isEntry": true
-  },
-  "src/assets/scss/pages/contact/index.scss": {
-    "file": "assets/auth-login-x1XGuNl0.css",
-    "name": "contact-index",
-    "names": [
-      "auth-login.css",
-      "contact-index.css"
-    ],
-    "src": "src/assets/scss/pages/auth/login.scss",
-    "isEntry": true
-  },
-  "src/assets/scss/pages/gallery/index.scss": {
-    "file": "assets/gallery-index-CHn_d9FP.css",
-    "name": "gallery-index",
-    "names": [
-      "gallery-index.css"
-    ],
-    "src": "src/assets/scss/pages/gallery/index.scss",
     "isEntry": true
   },
   "src/assets/scss/pages/home/index.scss": {

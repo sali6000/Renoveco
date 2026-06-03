@@ -126,6 +126,16 @@ abstract class BaseModel
             : [];
     }
 
+    /**
+     * Mappe un tableau JSON décodé vers une entitée
+     */
+    protected static function getMappedOrNull(array $row, string $key, callable $mapper): ?object
+    {
+        return !empty($row[$key])
+            ? $mapper($row[$key])
+            : null;
+    }
+
     // ==========================================================
     // HELPERS INTERNES
     // ==========================================================

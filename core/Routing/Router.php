@@ -3,7 +3,6 @@
 
 namespace Core\Routing;
 
-use Src\Exception\ValidationException;
 use Config\AppConfig;
 use Core\Container;
 use Core\Middleware\Middleware;
@@ -144,7 +143,7 @@ class Router
         // Vérifier la route
         foreach ($keysToCheck as $key) {
             if (!$this->validationMiddlewares($key)) {
-                throw new ValidationException('Middleware bloquant la requête');
+                throw new RoutingException('Middleware bloquant la requête');
             }
         }
     }
@@ -160,7 +159,7 @@ class Router
         // Vérification de l'existence des middlewares et de leur type
         foreach ($middlewares[$key] as $middlewareClass) {
             if (!class_exists($middlewareClass)) {
-                throw new \Exception("Le middleware '{$middlewareClass}' n'existe pas.");
+                throw new RoutingException("Le middleware '{$middlewareClass}' n'existe pas.");
             }
 
             // Instanciation du middleware
@@ -168,7 +167,7 @@ class Router
 
             // Vérification que l'instance est bien un Middleware
             if (!$middleware instanceof Middleware) {
-                throw new \Exception("Le middleware '{$middlewareClass}' doit étendre la classe Middleware.");
+                throw new RoutingException("Le middleware '{$middlewareClass}' doit étendre la classe Middleware.");
             }
 
             // Si le middleware retourne false, on arrête le traitement

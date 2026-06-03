@@ -13,19 +13,6 @@ use DateTime;
 class Product extends BaseModel
 {
     // ==========================================================
-    // PROPRIETES
-    // ==========================================================
-    // Relations
-    /** @var ProductImage[] */
-    private array     $_images            = []; // ProductImage[]
-
-    /** @var Category[] */
-    private array     $_categories        = []; // Category[]
-
-    /** @var ProductAttribute[] */
-    private array     $_attributes        = []; // ProductAttribute[]
-
-    // ==========================================================
     // CONSTRUCTEUR ET PROPRIETES
     // ==========================================================
     public function __construct(
@@ -34,10 +21,10 @@ class Product extends BaseModel
         private string    $_reference,
         private string    $_slug,
         private string    $_name,
-        private bool      $_isActive          = true,  // défaut métier : actif par défaut
+        private bool      $_isActive          = true,
 
         // Optionnels
-        private ?int      $_id                = null,  // null = pas encore persisté en DB
+        private ?int      $_id                = null,
         private ?string   $_description       = null,
         private ?string   $_composition       = null,
         private ?string   $_useFor            = null,
@@ -47,16 +34,13 @@ class Product extends BaseModel
         private ?string   $_subtitle          = null,
         private ?string   $_metaDescription   = null,
         private array     $_features          = [], // Json<features>[]
-
-        // Relations
-        array     $images            = [],
-        array     $categories        = [],
-        array     $attributes        = [],
-    ) {
-        $this->images = $images;
-        $this->categories = $categories;
-        $this->attributes = $attributes;
-    }
+        /** @var ProductImage[] */
+        private array    $_images            = [],
+        /** @var Category[] */
+        private array    $_categories        = [],
+        /** @var ProductAttribute[] */
+        private array    $_attributes        = [],
+    ) {}
 
 
     // ==========================================================
@@ -188,11 +172,13 @@ class Product extends BaseModel
             _createdAt: self::getDateOrNull($row, SchemaMysql::USER_CREATED_AT),
             _updatedAt: self::getDateOrNull($row, SchemaMysql::PRODUCT_UPDATED_AT),
             _features: self::getJsonOrEmpty($row, SchemaMysql::PRODUCT_FEATURES),
+            _subtitle: self::getStringOrNull($row, SchemaMysql::PRODUCT_SUBTITLE),
+            _metaDescription: self::getStringOrNull($row, SchemaMysql::PRODUCT_META_DESCRIPTION),
 
             // Passe par le hook (set)
-            images: self::getMappedOrEmpty($row, 'images', [ProductImage::class, 'fromArray']),
-            attributes: self::getMappedOrEmpty($row, 'attributes', [ProductAttribute::class, 'fromArray']),
-            categories: self::getMappedOrEmpty($row, 'categories', [Category::class, 'fromArray'])
+            _images: self::getMappedOrEmpty($row, 'images', [ProductImage::class, 'fromArray']),
+            _attributes: self::getMappedOrEmpty($row, 'attributes', [ProductAttribute::class, 'fromArray']),
+            _categories: self::getMappedOrEmpty($row, 'categories', [Category::class, 'fromArray'])
         );
     }
 }
