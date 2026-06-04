@@ -12,9 +12,6 @@ use DateTime;
  */
 class Product extends BaseModel
 {
-    // ==========================================================
-    // CONSTRUCTEUR ET PROPRIETES
-    // ==========================================================
     public function __construct(
 
         // Obligatoires
@@ -33,9 +30,10 @@ class Product extends BaseModel
         private ?DateTime $_updatedAt         = null,
         private ?string   $_subtitle          = null,
         private ?string   $_metaDescription   = null,
-        private array     $_features          = [], // Json<features>[]
 
         // Listes
+        /** Stocké en JSON dans la base de données */
+        private array     $_features          = [],
         /** @var ProductImage[] */
         private array    $_images            = [],
         /** @var Category[] */
@@ -44,12 +42,6 @@ class Product extends BaseModel
         private array    $_attributes        = [],
     ) {}
 
-
-    // ==========================================================
-    // HOOKS (attributes hooks PHP 8.4)
-    // ==========================================================
-
-    // --- NOT NULL ---
     public string $reference {
         get => $this->_reference;
         set(string $value) => $this->_reference = $value;
@@ -115,6 +107,12 @@ class Product extends BaseModel
         set(?string $value) => $this->_metaDescription = $value;
     }
 
+    /** JSON */
+    public array $features {
+        get => $this->_features;
+        set(array $values) => $this->_features = $values;
+    }
+
     /** @var ProductImage[] */
     public array $images {
         get => $this->_images;
@@ -133,14 +131,10 @@ class Product extends BaseModel
         set(array $value) => $this->_attributes = $value;
     }
 
-    public array $features {
-        get => $this->_features;
-        set(array $values) => $this->_features = $values;
-    }
+    // ==========================================================
+    // Fonctionnalités
+    // ==========================================================
 
-    // ==========================================================
-    // MUTATION DES RELATIONS
-    // ==========================================================
     public function addImage(ProductImage $image): void
     {
         $this->_images[] = $image;
@@ -152,7 +146,7 @@ class Product extends BaseModel
     }
 
     // ==========================================================
-    // FACTORY — hydratation depuis un row DB
+    // Hydratation (Entity <- array)
     // ==========================================================
     public static function fromArray(array $row): self
     {
