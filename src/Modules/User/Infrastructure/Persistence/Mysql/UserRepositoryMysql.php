@@ -185,7 +185,7 @@ class UserRepositoryMysql extends RepositoryMysql implements UserRepositoryInter
             }
             if (isset($row['role_name'])) {
                 $role = new Role($row['role_name']);
-                $role->id = $row['role_id'];
+                $role->id =  (int) $row['role_id'];
                 $users[$userId]->addRole($role);
             }
         }
@@ -196,12 +196,12 @@ class UserRepositoryMysql extends RepositoryMysql implements UserRepositoryInter
     private function hydrateOne(array $row, UserQuery $query): User
     {
         $user = new User($row['email']);
-        $user->id             = $row['id'];
+        $user->id             = (int) $row['id'];
         $user->passwordHashed = $row['password_hash'];
 
         if ($query->withRoles && isset($row['role_name'])) {
             $role = new Role($row['role_name']);
-            $role->id = $row['role_id'];
+            $role->id = (int) $row['role_id'];
             $user->addRole($role);
         }
 
