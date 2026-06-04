@@ -123,23 +123,24 @@ final class SchemaMysql
     // -------------------------------------------------------
     // 🧩 ROLE
     // -------------------------------------------------------
-    public const TABLE_ROLES = 'roles r';
-    public const ROLE_ID = 'r.id';
-    public const ROLE_NAME = 'r.name';
+    public const TABLE_ROLES = 'roles rol';
+    public const ROLE_ID = 'rol.id';
+    public const ROLE_NAME = 'rol.name';
+    public const ROLE_IS_ACTIVE = 'rol.is_active';
 
     // -------------------------------------------------------
     // 🧩 USER
     // -------------------------------------------------------
-    public const TABLE_USERS = 'users u';
-    public const USER_ALL = 'u.*';
-    public const USER_ID = 'u.id';
-    public const USER_EMAIL = 'u.email';
-    public const USER_PASSWORD_HASH = 'u.password_hash';
-    public const USER_CREATED_AT = 'u.created_at';
-    public const USER_LAST_LOGIN_AT = 'u.last_login_at';
-    public const USER_EMAIL_VERIFIED_AT = 'u.email_verified_at';
-    public const USER_DELETED_AT = 'u.deleted_at';
-    public const USER_IS_ACTIVE = 'u.is_active';
+    public const TABLE_USERS = 'users usr';
+    public const USER_ALL = 'usr.*';
+    public const USER_ID = 'usr.id';
+    public const USER_EMAIL = 'usr.email';
+    public const USER_PASSWORD_HASH = 'usr.password_hash';
+    public const USER_CREATED_AT = 'usr.created_at';
+    public const USER_LAST_LOGIN_AT = 'usr.last_login_at';
+    public const USER_EMAIL_VERIFIED_AT = 'usr.email_verified_at';
+    public const USER_DELETED_AT = 'usr.deleted_at';
+    public const USER_IS_ACTIVE = 'usr.is_active';
 
     // -------------------------------------------------------
     // 🧩 RATE LIMIT ATTEMPTS (📋 Limite de tentatives)

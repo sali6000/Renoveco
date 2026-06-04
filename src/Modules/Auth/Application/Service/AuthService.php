@@ -26,7 +26,7 @@ final class AuthService
             throw new AuthentificationException("Identifiants incorrects.");
         }
 
-        return ['id' => $user->id, 'email' => $user->email, 'role' => $user->getRoles()[0]->name];
+        return ['id' => $user->id, 'email' => $user->email, 'role' => $user->roles[0]->name];
     }
 
     public function updateUserLastLogin(int $userId): void

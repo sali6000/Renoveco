@@ -34,6 +34,8 @@ class Product extends BaseModel
         private ?string   $_subtitle          = null,
         private ?string   $_metaDescription   = null,
         private array     $_features          = [], // Json<features>[]
+
+        // Listes
         /** @var ProductImage[] */
         private array    $_images            = [],
         /** @var Category[] */
@@ -68,7 +70,6 @@ class Product extends BaseModel
         set(bool $value) => $this->_isActive = $value;
     }
 
-    // --- NULL ---
     public ?int $id {
         get => $this->_id;
         set(?int $value) => $this->_id = $value;
@@ -114,7 +115,6 @@ class Product extends BaseModel
         set(?string $value) => $this->_metaDescription = $value;
     }
 
-    // --- EMPTY ---
     /** @var ProductImage[] */
     public array $images {
         get => $this->_images;
@@ -141,18 +141,14 @@ class Product extends BaseModel
     // ==========================================================
     // MUTATION DES RELATIONS
     // ==========================================================
-    public function addImage(array|ProductImage $image): void
+    public function addImage(ProductImage $image): void
     {
-        $this->_images[] = $image instanceof ProductImage
-            ? $image
-            : ProductImage::fromArray($image);
+        $this->_images[] = $image;
     }
 
-    public function addCategory(array|Category $category): void
+    public function addCategory(Category $category): void
     {
-        $this->_categories[] = $category instanceof Category
-            ? $category
-            : Category::fromArray($category);
+        $this->_categories[] = $category;
     }
 
     // ==========================================================
@@ -161,21 +157,25 @@ class Product extends BaseModel
     public static function fromArray(array $row): self
     {
         return new self(
+
+            // Obligatoires
             _reference: self::getString($row, SchemaMysql::PRODUCT_REFERENCE),
             _slug: self::getString($row, SchemaMysql::PRODUCT_SLUG),
             _name: self::getString($row, SchemaMysql::PRODUCT_NAME),
             _isActive: self::getBoolOrFalse($row, SchemaMysql::PRODUCT_IS_ACTIVE),
+
+            // Optionnelles (nullable)
             _id: self::getIntOrNull($row, SchemaMysql::PRODUCT_ID),
             _description: self::getStringOrNull($row, SchemaMysql::PRODUCT_DESCRIPTION),
             _composition: self::getStringOrNull($row, SchemaMysql::PRODUCT_COMPOSITION),
             _useFor: self::getStringOrNull($row, SchemaMysql::PRODUCT_USE_FOR),
             _createdAt: self::getDateOrNull($row, SchemaMysql::USER_CREATED_AT),
             _updatedAt: self::getDateOrNull($row, SchemaMysql::PRODUCT_UPDATED_AT),
-            _features: self::getJsonOrEmpty($row, SchemaMysql::PRODUCT_FEATURES),
             _subtitle: self::getStringOrNull($row, SchemaMysql::PRODUCT_SUBTITLE),
             _metaDescription: self::getStringOrNull($row, SchemaMysql::PRODUCT_META_DESCRIPTION),
 
-            // Passe par le hook (set)
+            // Listes ([])
+            _features: self::getJsonOrEmpty($row, SchemaMysql::PRODUCT_FEATURES),
             _images: self::getMappedOrEmpty($row, 'images', [ProductImage::class, 'fromArray']),
             _attributes: self::getMappedOrEmpty($row, 'attributes', [ProductAttribute::class, 'fromArray']),
             _categories: self::getMappedOrEmpty($row, 'categories', [Category::class, 'fromArray'])

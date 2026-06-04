@@ -2,54 +2,54 @@
 
 namespace Src\Modules\User\Domain\Entity;
 
-class Role
+use Core\Database\BaseModel;
+use Src\Database\SchemaMysql;
+
+class Role extends BaseModel
 {
-    private string $_name;
-    private ?int $_id = null;
-    private ?bool $_isActive = null;
-    /** @var User[] */
-    private array $_users = [];
-
-
 
     public function __construct(
-        string $name
-    ) {
-        $this->name = $name;
-    }
+
+        // Obligatoires
+        private string $_name,
+
+        // Optionnelles
+        private ?int $_id = null,
+        private ?bool $_isActive = null,
+
+        // List
+        private array $_users = [],
+    ) {}
 
     public string $name {
         get => $this->_name;
-        set(string $value) {
-            $this->_name = $value;
-        }
+        set(string $value) => $this->_name = $value;
     }
 
     public ?int $id {
         get => $this->_id;
-        set(?int $value) {
-            $this->_id = $value;
-        }
+        set(?int $value) => $this->_id = $value;
     }
 
     public ?bool $isActive {
         get => $this->_isActive;
-        set(?bool $value) {
-            $this->_isActive = $value;
-        }
+        set(?bool $value) => $this->_isActive = $value;
+    }
+
+    /** @var User[] */
+    public array $users {
+        get => $this->_users;
+        set(array $value) => $this->_users = $value;
     }
 
     public function addUser(User $user): void
     {
-        foreach ($this->_users as $r) {
-            if ($r->id === $user->id) return; // éviter doublon
+        foreach ($this->_users as $u) {
+
+            // éviter doublon
+            if ($u->id === $user->id) return;
         }
         $this->_users[] = $user;
-    }
-
-    public function getUsers(): array
-    {
-        return $this->_users;
     }
 
     public function removeUser(User $user): void
@@ -57,6 +57,22 @@ class Role
         $this->_users = array_filter(
             $this->_users,
             fn($r) => $r->id !== $user->id
+        );
+    }
+
+    public static function fromArray(array $row): self
+    {
+        return new self(
+
+            // Obligatoires
+            _name: self::getString($row, SchemaMysql::ROLE_NAME),
+
+            // Optionnelles (nullable)
+            _id: self::getInt($row, SchemaMysql::ROLE_ID),
+            _isActive: self::getBoolOrFalse($row, SchemaMysql::ROLE_IS_ACTIVE),
+
+            // Listes ([])
+            _users: self::getMappedOrEmpty($row, 'users', [User::class, 'fromArray']),
         );
     }
 }

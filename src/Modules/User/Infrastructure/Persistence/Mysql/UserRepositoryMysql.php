@@ -173,44 +173,67 @@ class UserRepositoryMysql extends RepositoryMysql implements UserRepositoryInter
      */
     private function hydrateCollection(array $rows, UserQuery $query): array
     {
+        // Cas simple — pas de rôles demandés
+        // Chaque ligne PDO correspond directement à un User
         if (!$query->withRoles) {
             return array_map(fn(array $row) => $this->hydrateOne($row, $query), $rows);
         }
 
+        // Cas avec rôles — le JOIN many-to-many produit plusieurs lignes par user
+        // (1 ligne par rôle associé), il faut donc regrouper par user
+        //
+        // Exemple de ce que PDO retourne avec 1 user ayant 2 rôles :
+        // ['id' => 1, 'email' => 'a@b.com', 'role_name' => 'admin',  'role_id' => 1]
+        // ['id' => 1, 'email' => 'a@b.com', 'role_name' => 'editor', 'role_id' => 2]
+        //
+        // On veut : 1 User avec 2 rôles dans $user->roles[]
         $users = [];
         foreach ($rows as $row) {
             $userId = $row['id'];
+
+            // Premier passage sur cet user — on initialise son entrée
+            // avec la ligne brute et un tableau de rôles vide
             if (!isset($users[$userId])) {
-                $users[$userId] = $this->hydrateOne($row, $query);
+                $users[$userId] = ['row' => $row, 'roles' => []];
             }
+
+            // On accumule les rôles au fur et à mesure des lignes
+            // en les formatant pour que Role::fromArray() puisse les consommer
             if (isset($row['role_name'])) {
-                $role = new Role($row['role_name']);
-                $role->id =  (int) $row['role_id'];
-                $users[$userId]->addRole($role);
+                $users[$userId]['roles'][] = [
+                    SchemaMysql::fieldProperty(SchemaMysql::ROLE_NAME) => $row['role_name'],
+                    SchemaMysql::fieldProperty(SchemaMysql::ROLE_ID)   => $row['role_id'],
+                ];
             }
         }
 
-        return array_values($users);
+        // Une fois tous les rôles agrégés par user,
+        // on injecte le tableau 'roles' dans la ligne brute
+        // puis on délègue l'hydratation complète à User::fromArray()
+        // qui appellera Role::fromArray() sur chaque entrée via getMappedOrEmpty()
+        return array_values(array_map(function (array $entry) {
+            $entry['row']['roles'] = $entry['roles'];
+            return User::fromArray($entry['row']);
+        }, $users));
     }
 
     private function hydrateOne(array $row, UserQuery $query): User
     {
-        $user = new User($row['email']);
-        $user->id             = (int) $row['id'];
-        $user->passwordHashed = $row['password_hash'];
-
         if ($query->withRoles && isset($row['role_name'])) {
-            $role = new Role($row['role_name']);
-            $role->id = (int) $row['role_id'];
-            $user->addRole($role);
+            $row['roles'] = [
+                [
+                    SchemaMysql::fieldProperty(SchemaMysql::ROLE_NAME) => $row['role_name'],
+                    SchemaMysql::fieldProperty(SchemaMysql::ROLE_ID)   => $row['role_id'],
+                ]
+            ];
         }
 
-        return $user;
+        return User::fromArray($row);
     }
 
     private function syncRoles(User $user): void
     {
-        $roles = $user->getRoles();
+        $roles = $user->roles;
         if (empty($roles)) {
             return;
         }
