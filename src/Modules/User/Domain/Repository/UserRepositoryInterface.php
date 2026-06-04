@@ -1,36 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Src\Modules\User\Domain\Repository;
 
 use Src\Modules\User\Domain\Entity\User;
+use Src\Modules\User\Domain\Query\UserQuery;
 
 interface UserRepositoryInterface
 {
-    /**
-     * Récupérer tous les utilisateurs pour l'admin
-     * 
-     * @throws \PDOException        si erreur base de données
-     */
-    public function findAllForAdmin(): array;
+    /** @return User[] Récupérer tous les users */
+    public function findAll(UserQuery $query): array;
 
-    /**
-     * Récupérer un user pour l'authentification
-     * 
-     * @throws \PDOException        si erreur base de données
-     */
-    public function findForLogin(string $email): ?User;
+    /** @return User Récupérer un user */
+    public function findOne(UserQuery $query): ?User;
 
-    /**
-     * Sauvegarder un nouvel user
-     * 
-     * @throws \PDOException        si erreur base de données
-     */
     public function save(User $user): User;
 
-    /**
-     * Mettre à jour en base la date de dernière connection de l'user
-     * 
-     * @throws \PDOException        si erreur base de données
-     */
     public function updateLastLogin(int $userId): void;
 }

@@ -1,21 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Src\Modules\Product\Domain\Repository;
 
 use Src\Modules\Product\Domain\Entity\Product;
+use Src\Modules\Product\Domain\Entity\ProductAttribute;
+use Src\Modules\Product\Domain\Query\ProductQuery;
 
 interface ProductRepositoryInterface
 {
-    //-----------------------------------------------
-    // Récupérations d'éléments (return Product):
-    //-----------------------------------------------
-    public function findBySlugWithLightRefs(string $slug): ?Product;
+    public function findOne(ProductQuery $query): ?Product;
 
-    //-----------------------------------------------
-    // Récupérations de listes (return Product[]):
-    //-----------------------------------------------
-    public function findAll(): array;
-    public function findAllWithLightRefs(): array;
+    /** @return Product[] */
+    public function findAll(ProductQuery $query): array;
+
+    /** @return ProductAttribute[] */
     public function findAttributesByProductId(int $productId): array;
-    public function findAllForGallery(): array;
 }

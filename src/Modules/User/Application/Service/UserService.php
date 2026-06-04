@@ -14,16 +14,6 @@ class UserService
 {
     public function __construct(private UserRepositoryInterface $userRepo) {}
 
-    public function getAllUsersForAdmin(): array
-    {
-        return $this->userRepo->findAllForAdmin();
-    }
-
-    public function deleteUser(int $id): void
-    {
-        //$this->categoryRepo->deleteCategoryById($id);
-    }
-
     public function createUser(string $email, string $password): User
     {
         try {

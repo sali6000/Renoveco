@@ -38,7 +38,8 @@ class SqlHelpers
         string $where,
         string $equal,
         string $alias,
-        ?array $joins = []
+        ?array $joins = [],
+        ?string $extraWhere = null
     ): string {
 
         // =====================================================
@@ -63,6 +64,8 @@ class SqlHelpers
         if (!empty($joins)) {
             $joinSQL = ' ' . implode(' ', $joins);
         }
+
+        $extraWhereSQL = $extraWhere !== null ? " AND $extraWhere" : '';
 
         // =====================================================
         // 3. Construction finale

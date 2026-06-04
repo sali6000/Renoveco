@@ -3,12 +3,13 @@
 namespace Src\Modules\Auth\Application\Service;
 
 use Src\Exception\Application\AuthentificationException;
+use Src\Modules\User\Domain\Query\UserQuery;
 use Src\Modules\User\Domain\Repository\UserRepositoryInterface;
 
-class AuthService
+final class AuthService
 {
     public function __construct(
-        private UserRepositoryInterface $userRepo
+        private readonly UserRepositoryInterface $userRepo
     ) {}
 
     /**
@@ -19,7 +20,7 @@ class AuthService
      */
     public function loginUser(string $email, string $password): ?array
     {
-        $user = $this->userRepo->findForLogin($email);
+        $user = $this->userRepo->findOne(new UserQuery(email: $email));
 
         if (!$user || !password_verify($password, $user->passwordHashed)) {
             throw new AuthentificationException("Identifiants incorrects.");

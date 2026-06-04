@@ -49,7 +49,8 @@ src/
 │   │   │   └── ViewModel/          # Modèles liés à la vue (ProductDetailViewModel, ...)
 │   │   ├── Domain/
 │   │   │   ├── Entity/             # Entités métier (Product, ProductImage, ...)
-│   │   │   └── Repository/         # Interfaces de persistence (findAll, findAllWithLightRefs, ...)
+│   │   │   ├── Query/              # Parametres métier (ProductQuery: id, columns[], withImages, isActive, ...)
+│   │   │   └── Repository/         # Interfaces de persistence (findOne(ProductQuery), findAll(ProductQuery), ...)
 │   │   ├── Infrastructure/
 │   │   │   └── Persistence/Mysql/  # Implémentations MySQL des repositories
 │   │   ├── Interface/

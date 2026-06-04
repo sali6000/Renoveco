@@ -3,7 +3,9 @@
 namespace Src\Modules\Product\Application\UseCase;
 
 use Config\AppConfig;
+use Src\Modules\Product\Application\ProductService;
 use Src\Modules\Product\Application\ViewModel\ProductDetailViewModel;
+use Src\Modules\Product\Domain\Query\ProductQuery;
 use Src\Modules\Product\Domain\Repository\ProductRepositoryInterface;
 use Src\Modules\Shared\Application\UseCase\ResultUseCase;
 
@@ -23,7 +25,8 @@ final class ShowDemoProductForDetailUseCase
 
     public function execute(string $slug): ResultUseCase
     {
-        $product = $this->productRepo->findBySlugWithLightRefs($slug);
+        $query = new ProductQuery(slug: $slug, withImages: true);
+        $product = $this->productRepo->findOne($query);
 
         if ($product === null) {
             return ResultUseCase::failure("Produit introuvable.", 'PRODUCT_NOT_FOUND');
@@ -56,6 +59,8 @@ La haute isolation thermique est obtenue grâce aux barrettes thermiques de 34 m
         $vm->meta_description = $productForVM->metaDescription ?? "Porte-fenêtre aluminium PROCURAL PE78N – triple chambre, isolation thermique renforcée, grandes dimensions. Devis gratuit en Belgique.";
 
         // — Disponibilité -------------------------------------------------
+
+
         $vm->available = true;
 
         // — Médias --------------------------------------------------------
