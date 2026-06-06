@@ -15,6 +15,9 @@ interface UserRepositoryInterface
     /** @return User Récupérer un user */
     public function findOne(UserQuery $query): ?User;
 
+    /** @return User Récupérer un user avec credentials */
+    public function findOneForAuth(UserQuery $query): ?User;
+
     public function save(User $user): User;
 
     public function updateLastLogin(int $userId): void;

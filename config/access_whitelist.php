@@ -24,12 +24,12 @@ return [
             'User\UserCreateController@create',
             'User\UserCreateController@store',
             'Utilities\SitemapController@index',
+            'Auth\AuthLoginController@logout',
             // -- new-line-generate-by-make-module --
         ],
         'user' => [
             'User\ProfileController@view',
             'Order\OrderController@list',
-            'Auth\AuthLoginController@logout',
         ],
         'admin'      => [
             'Admin\AdminDashboardController@index',

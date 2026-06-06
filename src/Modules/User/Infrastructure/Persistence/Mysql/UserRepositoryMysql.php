@@ -4,16 +4,52 @@ declare(strict_types=1);
 
 namespace Src\Modules\User\Infrastructure\Persistence\Mysql;
 
+use Config\AppConfig;
 use Core\Database\QueryBuilderInterface;
+use Core\Database\Relations\ManyToManyRelation;
 use Core\Database\RepositoryMysql;
 use Src\Database\SchemaMysql;
-use Src\Modules\User\Domain\Entity\Role;
+use Src\Exception\Domain\RoleNotFoundException;
 use Src\Modules\User\Domain\Entity\User;
 use Src\Modules\User\Domain\Query\UserQuery;
 use Src\Modules\User\Domain\Repository\UserRepositoryInterface;
 
+/**
+ * 
+ * findAll + findOne + findOneForAuth — points d'entrée publics
+ * buildQuery + applyFilters + resolveRelations — construction de la requête
+ * hydrateMany + makeRolesRelation — hydratation
+ * syncRoles + save + updateLastLogin — écriture
+ * 
+ * Créer une nouvelle relation implique de modifier/créer:
+ * - 1. const RELATION_COLUMNS (récupérer les colonnes pour cette relation)
+ * - 2. makeRolesRelation (créer la jointure pour cette relation)
+ * - 3. resolveRelations (hydrater cette relation dans User)
+ * 
+ **/
 class UserRepositoryMysql extends RepositoryMysql implements UserRepositoryInterface
 {
+    private const USER_COLUMNS = [
+        SchemaMysql::USER_ID,
+        SchemaMysql::USER_EMAIL,
+        SchemaMysql::USER_IS_ACTIVE,
+        SchemaMysql::USER_LAST_LOGIN_AT,
+    ];
+
+    private const USER_COLUMNS_WITH_CREDENTIALS = [
+        SchemaMysql::USER_ID,
+        SchemaMysql::USER_EMAIL,
+        SchemaMysql::USER_IS_ACTIVE,
+        SchemaMysql::USER_LAST_LOGIN_AT,
+        SchemaMysql::USER_PASSWORD_HASH,
+    ];
+
+    private const ROLE_COLUMNS = [
+        SchemaMysql::ROLE_ID,
+        SchemaMysql::ROLE_NAME,
+    ];
+
+    // CONSTRUCTOR
     public function __construct(
         \PDO $pdo,
         private QueryBuilderInterface $queryBuilder
@@ -21,70 +57,238 @@ class UserRepositoryMysql extends RepositoryMysql implements UserRepositoryInter
         parent::__construct($pdo);
     }
 
-    // -------------------------------------------------------------------------
-    // Public API
-    // -------------------------------------------------------------------------
 
-    public function findAll(UserQuery $query): array
+    // PREPARE QUERY
+    private function buildQuery(UserQuery $q, array $columns = self::USER_COLUMNS, array $relations = []): QueryBuilderInterface
     {
-        $select = $this->buildSelect($query);
+        // GET SELECT (from USER_COLUMNS + from each relations)
+        foreach ($relations as $relation) {
+            $columns = array_merge($columns, $relation->getColumns());
+        }
 
-        $qb = $this->queryBuilder
-            ->select($select)
+        // PREPARE SELECTS
+        // PREPARE FROM (table USER)
+        $query = $this->queryBuilder
+            ->select($columns)
             ->from(SchemaMysql::TABLE_USERS);
 
-        if ($query->withRoles) {
-            $qb = $qb->joinManyToMany(
-                SchemaMysql::TABLE_ROLE_USER,
-                SchemaMysql::USER_ID,
-                SchemaMysql::ROLE_USER_USER_ID,
-                SchemaMysql::TABLE_ROLES,
-                SchemaMysql::ROLE_USER_ROLE_ID,
-                SchemaMysql::ROLE_ID
-            );
+        // PREPARE JOINS FOREACH RELATIONS
+        foreach ($relations as $relation) {
+            $query = $relation->applyJoin($query);
         }
 
-        $qb = $this->applyWhereConditions($qb, $query);
-
-        if ($query->limit !== null) {
-            $qb = $qb->limit($query->limit);
-        }
-
-        if ($query->offset !== null) {
-            $qb = $qb->offset($query->offset);
-        }
-
-        $rows = $qb->executeAndFetchAll();
-
-        return $this->hydrateCollection($rows, $query);
+        // PREPARE FILTERS
+        return $this->applyFilters($query, $q);
     }
 
-    public function findOne(UserQuery $query): ?User
+    // PREPARE CONDITIONS (where)
+    private function applyFilters(QueryBuilderInterface $query, UserQuery $queryParams): QueryBuilderInterface
     {
-        $select = $this->buildSelect($query);
-
-        $qb = $this->queryBuilder
-            ->select($select)
-            ->from(SchemaMysql::TABLE_USERS);
-
-        if ($query->withRoles) {
-            $qb = $qb->joinManyToMany(
-                SchemaMysql::TABLE_ROLE_USER,
-                SchemaMysql::USER_ID,
-                SchemaMysql::ROLE_USER_USER_ID,
-                SchemaMysql::TABLE_ROLES,
-                SchemaMysql::ROLE_USER_ROLE_ID,
-                SchemaMysql::ROLE_ID
-            );
+        // EMAIL
+        if ($queryParams->email !== null) {
+            $query = $query->where(SchemaMysql::USER_EMAIL . ' = :email', [':email' => $queryParams->email]);
         }
 
-        $qb = $this->applyWhereConditions($qb, $query);
+        // ID
+        if ($queryParams->id !== null) {
+            $query = $query->where(SchemaMysql::USER_ID . ' = :id', [':id' => $queryParams->id]);
+        }
 
-        $row = $qb->executeAndFetchOne();
+        // IS ACTIVE
+        if ($queryParams->isActive !== null) {
+            $active = $queryParams->isActive ? 'TRUE' : 'FALSE';
+            $query = $query->where(SchemaMysql::USER_IS_ACTIVE . " = {$active}");
+        }
 
-        return $row === null ? null : $this->hydrateOne($row, $query);
+        return $query;
     }
 
+    // FIND ALL : USER
+    public function findAll(UserQuery $q): array
+    {
+        // SELECT COLUMNS (from user and relations)
+        $relations = $this->resolveRelations($q);
+        $query = $this->buildQuery($q, self::USER_COLUMNS, $relations);
+
+        // ADD (limit)
+        if ($q->limit !== null) {
+            $query = $query->limit($q->limit);
+        }
+
+        // ADD (offset)
+        if ($q->offset !== null) {
+            $query = $query->offset($q->offset);
+        }
+
+        // EXECUTION (return rows[])
+        $rows = $query->executeAndFetchAll();
+
+        // RETURN : HYDRATATION (Entities[] <- rows[] & relations)
+        return $this->hydrateMany($rows, $relations);
+    }
+
+    // FIND ONE : USER
+    public function findOne(UserQuery $q): ?User
+    {
+        $relations = $this->resolveRelations($q);
+        $query = $this->buildQuery($q, self::USER_COLUMNS, $relations);
+
+        // GROUP CONDITION (MANYTOMANY ?)
+        if (!empty($relations)) {
+
+            // EXECUTE (=> many rows)
+            $rows = $query->executeAndFetchAll();
+
+            // HYDRATE (Entities[] <- rows[]) AND RETURN 1ST RESULT
+            $users = $this->hydrateMany($rows, $relations);
+            return $users[0] ?? null;
+        }
+
+        // EXCUTE (=> one row)
+        $row = $query->executeAndFetchOne();
+
+        // TRANSFORM (Entity <- row) AND RETURN RESULT
+        return $row ? User::fromArray($row) : null;
+    }
+
+
+    // FIND ONE : USER
+    public function findOneForAuth(UserQuery $q): ?User
+    {
+
+        $relations = $this->resolveRelations($q);
+        $query = $this->buildQuery($q, self::USER_COLUMNS_WITH_CREDENTIALS, $relations);
+
+        // GROUP CONDITION (MANYTOMANY ?)
+        if (!empty($relations)) {
+
+            // EXECUTE (=> many rows)
+            $rows = $query->executeAndFetchAll();
+
+            // HYDRATE (Entities[] <- rows[]) AND RETURN 1ST RESULT
+            $users = $this->hydrateMany($rows, $relations);
+            return $users[0] ?? null;
+        }
+
+        // EXCUTE (=> one row)
+        $row = $query->executeAndFetchOne();
+
+        // TRANSFORM (Entity <- row) AND RETURN RESULT
+        return $row ? User::fromArray($row) : null;
+    }
+
+    // GET RELATIONS (from UserQuery)
+    private function resolveRelations(UserQuery $q): array
+    {
+        $relations = [];
+
+        // ROLES
+        if ($q->withRoles) {
+            $relations[] = $this->makeRolesRelation();
+        }
+
+        // Demain :
+        // if ($q->withPermissions) $relations[] = $this->makePermissionsRelation();
+        // if ($q->withGroups)      $relations[] = $this->makeGroupsRelation();
+
+        return $relations;
+    }
+
+    /**
+     * Transforme plusieurs lignes SQL en users uniques.
+     * Regroupe les rôles par user pour éviter les doublons.
+     *
+     * @return User[]
+     */
+    private function hydrateMany(array $rows, array $relations): array
+    {
+        // RETURN (without relations)
+        if (empty($relations)) {
+            return array_map(fn(array $row) => User::fromArray($row), $rows);
+        }
+
+        // HYDRATE (with relations)
+        foreach ($relations as $relation) {
+            $rows = $relation->hydrate($rows);
+        }
+
+        return array_map(fn(array $row) => User::fromArray($row), $rows);
+    }
+
+    // Ajoute le lien user-role en base si le rôle n'existe pas déjà.
+    private function syncRoles(User $user): void
+    {
+        $roles = $user->roles;
+        if (empty($roles)) {
+            return;
+        }
+
+        // Itère sur TOUS les rôles
+        foreach ($user->roles as $role) {
+            $roleId = $this->queryBuilder
+                ->select([SchemaMysql::ROLE_ID])
+                ->from(SchemaMysql::TABLE_ROLES)
+                ->where(SchemaMysql::ROLE_NAME . ' = :name', [':name' => $role->name])
+                ->executeAndFetchColumn();
+
+            if (!$roleId) {
+                throw new RoleNotFoundException("Role '{$role->name}' inexistant");
+            }
+
+            $exists = (bool) $this->queryBuilder
+                ->select(['COUNT(*)'])
+                ->from(SchemaMysql::TABLE_ROLE_USER)
+                ->where('user_id = :uid AND role_id = :rid', [
+                    ':uid' => $user->id,
+                    ':rid' => $roleId,
+                ])
+                ->executeAndFetchColumn();
+
+            if (!$exists) {
+                $this->queryBuilder->insert(SchemaMysql::TABLE_ROLE_USER, [
+                    'user_id' => $user->id,
+                    'role_id' => $roleId,
+                ]);
+            }
+        }
+    }
+
+
+    /** 
+     * Make Roles Relation
+     * 
+     * @return ManyToManyRelation
+     * 
+     * */
+    private function makeRolesRelation(): ManyToManyRelation
+    {
+        return new ManyToManyRelation(
+
+            // SET KEY FOR USER (ex: User['Roles'][...])
+            key: SchemaMysql::fieldProperty(SchemaMysql::TABLE_ROLES),
+
+            // SET COLUMNS FROM SELF::ROLE_COLUMNS
+            relationColumns: array_map(
+                fn(string $col) => SchemaMysql::fieldProperty($col),
+                self::ROLE_COLUMNS
+            ),
+
+            // SET PREFIX FOR ROLE COLUMNS
+            relationPrefix: SchemaMysql::ROLE_RELATION_PREFIX,
+
+            // PARAMS SPECIFIQUE TARGET TABLE
+            relatedTable: SchemaMysql::TABLE_ROLES,
+            foreignKey: SchemaMysql::ROLE_ID,
+            localKey: SchemaMysql::USER_ID,
+
+            // PARAMS SPECIFIQUE PIVOT (ManyToManyRelation)
+            pivotTable: SchemaMysql::TABLE_ROLE_USER,
+            pivotLocalKey: SchemaMysql::ROLE_USER_USER_ID,
+            pivotForeignKey: SchemaMysql::ROLE_USER_ROLE_ID,
+        );
+    }
+
+    // SAVE ONE : USER
     public function save(User $user): User
     {
         $data = [
@@ -92,7 +296,7 @@ class UserRepositoryMysql extends RepositoryMysql implements UserRepositoryInter
             SchemaMysql::USER_PASSWORD_HASH => $user->passwordHashed,
         ];
 
-        if ($user->id) {
+        if ($user->id !== null) {
             $this->queryBuilder->update(
                 SchemaMysql::TABLE_USERS,
                 $data,
@@ -111,172 +315,17 @@ class UserRepositoryMysql extends RepositoryMysql implements UserRepositoryInter
         return $user;
     }
 
+    // Met à jour la date de dernière connexion pour un user.
     public function updateLastLogin(int $userId): void
     {
         $this->queryBuilder->update(
             SchemaMysql::TABLE_USERS,
             [
-                SchemaMysql::fieldProperty(SchemaMysql::USER_LAST_LOGIN_AT) => (new \DateTime('now', new \DateTimeZone('Europe/Brussels')))
+                SchemaMysql::fieldProperty(SchemaMysql::USER_LAST_LOGIN_AT) => (new \DateTime('now', new \DateTimeZone(AppConfig::getEnv('DATETIMEZONE'))))
                     ->format('Y-m-d H:i:s')
             ],
             SchemaMysql::USER_ID . ' = :id',
             ['id' => $userId]
         );
-    }
-
-    // -------------------------------------------------------------------------
-    // Private helpers
-    // -------------------------------------------------------------------------
-
-    private function buildSelect(UserQuery $query): array
-    {
-        $base = $query->columns !== null
-            ? array_map(fn(string $col) => $col, $query->columns)
-            : $this->getSchemeAllColumnsUser();
-
-        if ($query->withRoles) {
-            $base[] = SchemaMysql::ROLE_NAME . ' AS role_name';
-            $base[] = SchemaMysql::ROLE_ID   . ' AS role_id';
-        }
-
-        return $base;
-    }
-
-    private function applyWhereConditions(mixed $qb, UserQuery $query): mixed
-    {
-        if ($query->email !== null) {
-            $qb = $qb->where(
-                SchemaMysql::USER_EMAIL . ' = :email',
-                [':email' => $query->email]
-            );
-        }
-
-        if ($query->id !== null) {
-            $qb = $qb->where(
-                SchemaMysql::USER_ID . ' = :id',
-                [':id' => $query->id]
-            );
-        }
-
-        if ($query->isActive !== null) {
-            $active = $query->isActive ? 'TRUE' : 'FALSE';
-            $qb = $qb->where(SchemaMysql::USER_IS_ACTIVE . " = {$active}");
-        }
-
-        return $qb;
-    }
-
-    /**
-     * Hydrate une collection — agrège les rôles par user si withRoles = true.
-     *
-     * @return User[]
-     */
-    private function hydrateCollection(array $rows, UserQuery $query): array
-    {
-        // Cas simple — pas de rôles demandés
-        // Chaque ligne PDO correspond directement à un User
-        if (!$query->withRoles) {
-            return array_map(fn(array $row) => $this->hydrateOne($row, $query), $rows);
-        }
-
-        // Cas avec rôles — le JOIN many-to-many produit plusieurs lignes par user
-        // (1 ligne par rôle associé), il faut donc regrouper par user
-        //
-        // Exemple de ce que PDO retourne avec 1 user ayant 2 rôles :
-        // ['id' => 1, 'email' => 'a@b.com', 'role_name' => 'admin',  'role_id' => 1]
-        // ['id' => 1, 'email' => 'a@b.com', 'role_name' => 'editor', 'role_id' => 2]
-        //
-        // On veut : 1 User avec 2 rôles dans $user->roles[]
-        $users = [];
-        foreach ($rows as $row) {
-            $userId = $row['id'];
-
-            // Premier passage sur cet user — on initialise son entrée
-            // avec la ligne brute et un tableau de rôles vide
-            if (!isset($users[$userId])) {
-                $users[$userId] = ['row' => $row, 'roles' => []];
-            }
-
-            // On accumule les rôles au fur et à mesure des lignes
-            // en les formatant pour que Role::fromArray() puisse les consommer
-            if (isset($row['role_name'])) {
-                $users[$userId]['roles'][] = [
-                    SchemaMysql::fieldProperty(SchemaMysql::ROLE_NAME) => $row['role_name'],
-                    SchemaMysql::fieldProperty(SchemaMysql::ROLE_ID)   => $row['role_id'],
-                ];
-            }
-        }
-
-        // Une fois tous les rôles agrégés par user,
-        // on injecte le tableau 'roles' dans la ligne brute
-        // puis on délègue l'hydratation complète à User::fromArray()
-        // qui appellera Role::fromArray() sur chaque entrée via getMappedOrEmpty()
-        return array_values(array_map(function (array $entry) {
-            $entry['row']['roles'] = $entry['roles'];
-            return User::fromArray($entry['row']);
-        }, $users));
-    }
-
-    private function hydrateOne(array $row, UserQuery $query): User
-    {
-        if ($query->withRoles && isset($row['role_name'])) {
-            $row['roles'] = [
-                [
-                    SchemaMysql::fieldProperty(SchemaMysql::ROLE_NAME) => $row['role_name'],
-                    SchemaMysql::fieldProperty(SchemaMysql::ROLE_ID)   => $row['role_id'],
-                ]
-            ];
-        }
-
-        return User::fromArray($row);
-    }
-
-    private function syncRoles(User $user): void
-    {
-        $roles = $user->roles;
-        if (empty($roles)) {
-            return;
-        }
-
-        $roleId = $this->queryBuilder
-            ->select([SchemaMysql::ROLE_ID])
-            ->from(SchemaMysql::TABLE_ROLES)
-            ->where(
-                SchemaMysql::ROLE_NAME . ' = :name',
-                ['name' => $roles[0]->name]
-            )
-            ->executeAndFetchColumn();
-
-        if (!$roleId) {
-            throw new \RuntimeException("Role '{$roles[0]->name}' inexistant");
-        }
-
-        $exists = (bool) $this->queryBuilder
-            ->select(['COUNT(*)'])
-            ->from(SchemaMysql::TABLE_ROLE_USER)
-            ->where('user_id = :uid AND role_id = :rid', [
-                'uid' => $user->id,
-                'rid' => $roleId,
-            ])
-            ->executeAndFetchColumn();
-
-        if (!$exists) {
-            $this->queryBuilder->insert(SchemaMysql::TABLE_ROLE_USER, [
-                'user_id' => $user->id,
-                'role_id' => $roleId,
-            ]);
-        }
-    }
-
-    private function getSchemeAllColumnsUser(): array
-    {
-        return [
-            SchemaMysql::USER_ID,
-            SchemaMysql::USER_EMAIL,
-            SchemaMysql::USER_PASSWORD_HASH,
-            SchemaMysql::USER_IS_ACTIVE,
-            SchemaMysql::USER_CREATED_AT,
-            SchemaMysql::USER_LAST_LOGIN_AT,
-        ];
     }
 }

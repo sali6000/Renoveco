@@ -127,6 +127,7 @@ final class SchemaMysql
     public const ROLE_ID = 'rol.id';
     public const ROLE_NAME = 'rol.name';
     public const ROLE_IS_ACTIVE = 'rol.is_active';
+    public const ROLE_RELATION_PREFIX = 'role_';
 
     // -------------------------------------------------------
     // 🧩 USER
@@ -163,7 +164,7 @@ final class SchemaMysql
     // ⚙️ Méthodes utilitaires =>
     // ==========================================================================================
     /**
-     * Retourne la propriété (sans le point ni l'alias)
+     * Retourne la propriété sans préfixe ex: "rol.name" devient "name"
      */
     public static function fieldProperty(string $fieldScheme): string
     {
@@ -172,7 +173,7 @@ final class SchemaMysql
     }
 
     /**
-     * Retourne la table (sans l'espace ni l'alias)
+     * Retourne la table sans préfixe ex: "role rol" devient "role"
      */
     public static function fieldTable(string $tableScheme): string
     {
