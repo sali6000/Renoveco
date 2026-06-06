@@ -57,31 +57,115 @@ class UserRepositoryMysql extends RepositoryMysql implements UserRepositoryInter
         parent::__construct($pdo);
     }
 
+    //----------------------------------------------------------------------------
+    // QUERIES READY TO EXECUTE :
+    //----------------------------------------------------------------------------
+
+    // FIND ALL : USER
+    public function findAll(UserQuery $q): array
+    {
+        // SELECT COLUMNS = self::USER_COLUMNS + relations (ex: $q->withRoles, etc...)
+        // FROM USER
+        // WHERE (ex: $q->email !=== null)
+        $relations = $this->resolveRelations($q);
+        $query = $this->buildQuery($q, self::USER_COLUMNS, $relations);
+
+        // ADD <= LIMIT, OFFSET, ...
+        if ($q->limit !== null) $query = $query->limit($q->limit);
+        if ($q->offset !== null) $query = $query->offset($q->offset);
+
+        // EXECUTION (return rows[])
+        $rows = $query->executeAndFetchAll();
+
+        // RETURN : HYDRATATION (Entities[] <- rows[] & relations)
+        return $this->hydrateMany($rows, $relations);
+    }
+
+    // FIND ONE : USER
+    public function findOne(UserQuery $q): ?User
+    {
+        // SELECT COLUMNS = self::USER_COLUMNS + relations (ex: $q->withRoles, etc...)
+        // FROM USER
+        // WHERE (ex: $q->email !=== null)
+        $relations = $this->resolveRelations($q);
+        $query = $this->buildQuery($q, self::USER_COLUMNS, $relations);
+
+        // IF GROUPED RELATIONS
+        if (!empty($relations)) {
+
+            // EXECUTION (return rows[])
+            $rows = $query->executeAndFetchAll();
+
+            // HYDRATATION (Entities[] <- rows[relations])
+            $users = $this->hydrateMany($rows, $relations);
+
+            // RETURN Entity
+            return $users[0] ?? null;
+        }
+
+        // EXECUTION (return row)
+        $row = $query->executeAndFetchOne();
+
+        // RETURN RESULT <= HYDRATATION (Entity <- row)
+        return $row ? User::fromArray($row) : null;
+    }
+
+    // FIND ONE : USER FOR AUTH
+    public function findOneForAuth(UserQuery $q): ?User
+    {
+        // SELECT COLUMNS = self::USER_COLUMNS_WITH... + relations (ex: $q->withRoles, etc...)
+        // FROM USER
+        // WHERE (ex: $q->email !=== null)
+        $relations = $this->resolveRelations($q);
+        $query = $this->buildQuery($q, self::USER_COLUMNS_WITH_CREDENTIALS, $relations);
+
+        // IF GROUPED RELATIONS
+        if (!empty($relations)) {
+
+            // EXECUTION (return rows[])
+            $rows = $query->executeAndFetchAll();
+
+            // HYDRATATION (Entities[] <- rows[relations])
+            $users = $this->hydrateMany($rows, $relations);
+
+            // RETURN Entity
+            return $users[0] ?? null;
+        }
+
+        // EXECUTION (return row)
+        $row = $query->executeAndFetchOne();
+
+        // RETURN RESULT <= HYDRATATION (Entity <- row)
+        return $row ? User::fromArray($row) : null;
+    }
+
+    //----------------------------------------------------------------------------
+    // QUERY MAKER :
+    //----------------------------------------------------------------------------
 
     // PREPARE QUERY
     private function buildQuery(UserQuery $q, array $columns = self::USER_COLUMNS, array $relations = []): QueryBuilderInterface
     {
-        // GET SELECT (from USER_COLUMNS + from each relations)
+        // GET COLUMNS (from $columns and $relations)
         foreach ($relations as $relation) {
             $columns = array_merge($columns, $relation->getColumns());
         }
 
-        // PREPARE SELECTS
-        // PREPARE FROM (table USER)
+        // PREPARE QUERY <= SELECT ... FROM ...
         $query = $this->queryBuilder
             ->select($columns)
             ->from(SchemaMysql::TABLE_USERS);
 
-        // PREPARE JOINS FOREACH RELATIONS
+        // ADD TO QUERY <= JOINS ... (for each $relations)
         foreach ($relations as $relation) {
             $query = $relation->applyJoin($query);
         }
 
-        // PREPARE FILTERS
+        // ADD TO QUERY <= WHERE, LIMIT, OFFSET,... (filter)
         return $this->applyFilters($query, $q);
     }
 
-    // PREPARE CONDITIONS (where)
+    // PREPARE FILTERS (conditions)
     private function applyFilters(QueryBuilderInterface $query, UserQuery $queryParams): QueryBuilderInterface
     {
         // EMAIL
@@ -103,81 +187,11 @@ class UserRepositoryMysql extends RepositoryMysql implements UserRepositoryInter
         return $query;
     }
 
-    // FIND ALL : USER
-    public function findAll(UserQuery $q): array
-    {
-        // SELECT COLUMNS (from user and relations)
-        $relations = $this->resolveRelations($q);
-        $query = $this->buildQuery($q, self::USER_COLUMNS, $relations);
+    //----------------------------------------------------------------------------
+    // RELATIONS MAKER :
+    //----------------------------------------------------------------------------
 
-        // ADD (limit)
-        if ($q->limit !== null) {
-            $query = $query->limit($q->limit);
-        }
-
-        // ADD (offset)
-        if ($q->offset !== null) {
-            $query = $query->offset($q->offset);
-        }
-
-        // EXECUTION (return rows[])
-        $rows = $query->executeAndFetchAll();
-
-        // RETURN : HYDRATATION (Entities[] <- rows[] & relations)
-        return $this->hydrateMany($rows, $relations);
-    }
-
-    // FIND ONE : USER
-    public function findOne(UserQuery $q): ?User
-    {
-        $relations = $this->resolveRelations($q);
-        $query = $this->buildQuery($q, self::USER_COLUMNS, $relations);
-
-        // GROUP CONDITION (MANYTOMANY ?)
-        if (!empty($relations)) {
-
-            // EXECUTE (=> many rows)
-            $rows = $query->executeAndFetchAll();
-
-            // HYDRATE (Entities[] <- rows[]) AND RETURN 1ST RESULT
-            $users = $this->hydrateMany($rows, $relations);
-            return $users[0] ?? null;
-        }
-
-        // EXCUTE (=> one row)
-        $row = $query->executeAndFetchOne();
-
-        // TRANSFORM (Entity <- row) AND RETURN RESULT
-        return $row ? User::fromArray($row) : null;
-    }
-
-
-    // FIND ONE : USER
-    public function findOneForAuth(UserQuery $q): ?User
-    {
-
-        $relations = $this->resolveRelations($q);
-        $query = $this->buildQuery($q, self::USER_COLUMNS_WITH_CREDENTIALS, $relations);
-
-        // GROUP CONDITION (MANYTOMANY ?)
-        if (!empty($relations)) {
-
-            // EXECUTE (=> many rows)
-            $rows = $query->executeAndFetchAll();
-
-            // HYDRATE (Entities[] <- rows[]) AND RETURN 1ST RESULT
-            $users = $this->hydrateMany($rows, $relations);
-            return $users[0] ?? null;
-        }
-
-        // EXCUTE (=> one row)
-        $row = $query->executeAndFetchOne();
-
-        // TRANSFORM (Entity <- row) AND RETURN RESULT
-        return $row ? User::fromArray($row) : null;
-    }
-
-    // GET RELATIONS (from UserQuery)
+    // GET JOINS (Depend of UserQuery params)
     private function resolveRelations(UserQuery $q): array
     {
         $relations = [];
@@ -196,8 +210,15 @@ class UserRepositoryMysql extends RepositoryMysql implements UserRepositoryInter
 
     /**
      * Transforme plusieurs lignes SQL en users uniques.
-     * Regroupe les rôles par user pour éviter les doublons.
-     *
+     * Exemple: 
+     * 
+     * 1 user avec 2 rôles → 2 lignes SQL
+     * ['id' => 1, 'email' => 'a@b.com', 'role_id' => 1, 'role_name' => 'admin']
+     * ['id' => 1, 'email' => 'a@b.com', 'role_id' => 2, 'role_name' => 'editor']
+     * 
+     * devient 1 user avec 2 rôles → 1 ligne SQL
+     * ['id' => 1, 'email' => 'a@b.com', 'roles' => [['id' => 1, ...], ['id' => 2, ...]]]
+
      * @return User[]
      */
     private function hydrateMany(array $rows, array $relations): array
@@ -213,6 +234,71 @@ class UserRepositoryMysql extends RepositoryMysql implements UserRepositoryInter
         }
 
         return array_map(fn(array $row) => User::fromArray($row), $rows);
+    }
+
+    /** 
+     * Make Roles Relation
+     * 
+     * @return ManyToManyRelation
+     * 
+     * */
+    private function makeRolesRelation(): ManyToManyRelation
+    {
+        return new ManyToManyRelation(
+
+            // SET KEY FOR USER (ex: User['Roles'][...])
+            key: SchemaMysql::fieldProperty(SchemaMysql::TABLE_ROLES),
+
+            // SET COLUMNS FROM SELF::ROLE_COLUMNS
+            relationColumns: array_map(
+                fn(string $col) => SchemaMysql::fieldProperty($col),
+                self::ROLE_COLUMNS
+            ),
+
+            // SET PREFIX FOR ROLE COLUMNS
+            relationPrefix: SchemaMysql::ROLE_RELATION_PREFIX,
+
+            // PARAMS SPECIFIQUE TARGET TABLE
+            relatedTable: SchemaMysql::TABLE_ROLES,
+            foreignKey: SchemaMysql::ROLE_ID,
+            localKey: SchemaMysql::USER_ID,
+
+            // PARAMS SPECIFIQUE PIVOT (ManyToManyRelation)
+            pivotTable: SchemaMysql::TABLE_ROLE_USER,
+            pivotLocalKey: SchemaMysql::ROLE_USER_USER_ID,
+            pivotForeignKey: SchemaMysql::ROLE_USER_ROLE_ID,
+        );
+    }
+
+    //----------------------------------------------------------------------------
+    // (OTHERS) WRITE => INSERT, UPDATE, ... :
+    //----------------------------------------------------------------------------
+
+    // SAVE ONE : USER
+    public function save(User $user): User
+    {
+        $data = [
+            SchemaMysql::USER_EMAIL         => $user->email,
+            SchemaMysql::USER_PASSWORD_HASH => $user->passwordHashed,
+        ];
+
+        if ($user->id !== null) {
+            $this->queryBuilder->update(
+                SchemaMysql::TABLE_USERS,
+                $data,
+                SchemaMysql::USER_ID . ' = :id',
+                ['id' => $user->id]
+            );
+        } else {
+            $ok = $this->queryBuilder->insert(SchemaMysql::TABLE_USERS, $data);
+            if ($ok) {
+                $user->id = $this->queryBuilder->returnInsertId();
+            }
+        }
+
+        $this->syncRoles($user);
+
+        return $user;
     }
 
     // Ajoute le lien user-role en base si le rôle n'existe pas déjà.
@@ -251,68 +337,6 @@ class UserRepositoryMysql extends RepositoryMysql implements UserRepositoryInter
                 ]);
             }
         }
-    }
-
-
-    /** 
-     * Make Roles Relation
-     * 
-     * @return ManyToManyRelation
-     * 
-     * */
-    private function makeRolesRelation(): ManyToManyRelation
-    {
-        return new ManyToManyRelation(
-
-            // SET KEY FOR USER (ex: User['Roles'][...])
-            key: SchemaMysql::fieldProperty(SchemaMysql::TABLE_ROLES),
-
-            // SET COLUMNS FROM SELF::ROLE_COLUMNS
-            relationColumns: array_map(
-                fn(string $col) => SchemaMysql::fieldProperty($col),
-                self::ROLE_COLUMNS
-            ),
-
-            // SET PREFIX FOR ROLE COLUMNS
-            relationPrefix: SchemaMysql::ROLE_RELATION_PREFIX,
-
-            // PARAMS SPECIFIQUE TARGET TABLE
-            relatedTable: SchemaMysql::TABLE_ROLES,
-            foreignKey: SchemaMysql::ROLE_ID,
-            localKey: SchemaMysql::USER_ID,
-
-            // PARAMS SPECIFIQUE PIVOT (ManyToManyRelation)
-            pivotTable: SchemaMysql::TABLE_ROLE_USER,
-            pivotLocalKey: SchemaMysql::ROLE_USER_USER_ID,
-            pivotForeignKey: SchemaMysql::ROLE_USER_ROLE_ID,
-        );
-    }
-
-    // SAVE ONE : USER
-    public function save(User $user): User
-    {
-        $data = [
-            SchemaMysql::USER_EMAIL         => $user->email,
-            SchemaMysql::USER_PASSWORD_HASH => $user->passwordHashed,
-        ];
-
-        if ($user->id !== null) {
-            $this->queryBuilder->update(
-                SchemaMysql::TABLE_USERS,
-                $data,
-                SchemaMysql::USER_ID . ' = :id',
-                ['id' => $user->id]
-            );
-        } else {
-            $ok = $this->queryBuilder->insert(SchemaMysql::TABLE_USERS, $data);
-            if ($ok) {
-                $user->id = $this->queryBuilder->returnInsertId();
-            }
-        }
-
-        $this->syncRoles($user);
-
-        return $user;
     }
 
     // Met à jour la date de dernière connexion pour un user.
