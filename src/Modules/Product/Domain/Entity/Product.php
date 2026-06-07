@@ -170,9 +170,9 @@ class Product extends BaseModel
 
             // Listes ([])
             _features: self::getJsonOrEmpty($row, SchemaMysql::PRODUCT_FEATURES),
-            _images: self::getMappedOrEmpty($row, 'images', [ProductImage::class, 'fromArray']),
-            _attributes: self::getMappedOrEmpty($row, 'attributes', [ProductAttribute::class, 'fromArray']),
-            _categories: self::getMappedOrEmpty($row, 'categories', [Category::class, 'fromArray'])
+            _images: self::getMappedOrEmpty($row, SchemaMysql::fieldTable(SchemaMysql::TABLE_PRODUCT_IMAGES), [ProductImage::class, 'fromArray']),
+            _attributes: self::getMappedOrEmpty($row, SchemaMysql::fieldTable(SchemaMysql::TABLE_ATTRIBUTES), [ProductAttribute::class, 'fromArray']),
+            _categories: self::getMappedOrEmpty($row, SchemaMysql::fieldTable(SchemaMysql::TABLE_CATEGORIES), [Category::class, 'fromArray'])
         );
     }
 }

@@ -7,12 +7,12 @@ namespace Src\Modules\User\Domain\Query;
 final class UserQuery
 {
     public function __construct(
-        // FILTRES MÉTIER — ce qu'on cherche
+        // FILTRES MÉTIER
         public readonly ?int    $id       = null,
         public readonly ?string $email    = null,
         public readonly ?bool   $isActive = null,
 
-        // RELATIONS — ce qu'on veut charger
+        // RELATIONS
         public readonly bool $withRoles = false,
 
         // PAGINATION

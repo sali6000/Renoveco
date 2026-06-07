@@ -3,6 +3,7 @@
 namespace Src\Modules\Product\Application\UseCase;
 
 use Config\AppConfig;
+use Core\Support\DebugHelper;
 use Src\Modules\Product\Application\ProductService;
 use Src\Modules\Product\Application\ViewModel\ProductDetailViewModel;
 use Src\Modules\Product\Domain\Query\ProductQuery;
@@ -25,14 +26,14 @@ final class ShowDemoProductForDetailUseCase
 
     public function execute(string $slug): ResultUseCase
     {
-        $query = new ProductQuery(slug: $slug, withImages: true);
+        $query = new ProductQuery(slug: $slug, withAttributes: true, withImages: true);
         $product = $this->productRepo->findOne($query);
 
         if ($product === null) {
             return ResultUseCase::failure("Produit introuvable.", 'PRODUCT_NOT_FOUND');
         }
 
-        $product->attributes = $this->productRepo->findAttributesByProductId($product->id);
+        $product->attributes = $product->attributes;
 
         $productForVM = $product;
 

@@ -17,6 +17,7 @@ use Src\Modules\User\Domain\Repository\UserRepositoryInterface;
 /**
  * 
  * findAll + findOne + findOneForAuth — points d'entrée publics
+ * executeFindOne + executeFindAll — execution de la requête
  * buildQuery + applyFilters + resolveRelations — construction de la requête
  * hydrateMany + makeRolesRelation — hydratation
  * syncRoles + save + updateLastLogin — écriture
@@ -29,6 +30,10 @@ use Src\Modules\User\Domain\Repository\UserRepositoryInterface;
  **/
 class UserRepositoryMysql extends RepositoryMysql implements UserRepositoryInterface
 {
+    //----------------------------------------------------------------------------
+    // COLUMNS SELECT :
+    //----------------------------------------------------------------------------
+
     private const USER_COLUMNS = [
         SchemaMysql::USER_ID,
         SchemaMysql::USER_EMAIL,
@@ -49,7 +54,10 @@ class UserRepositoryMysql extends RepositoryMysql implements UserRepositoryInter
         SchemaMysql::ROLE_NAME,
     ];
 
+    //----------------------------------------------------------------------------
     // CONSTRUCTOR
+    //----------------------------------------------------------------------------
+
     public function __construct(
         \PDO $pdo,
         private QueryBuilderInterface $queryBuilder
@@ -58,17 +66,74 @@ class UserRepositoryMysql extends RepositoryMysql implements UserRepositoryInter
     }
 
     //----------------------------------------------------------------------------
-    // QUERIES READY TO EXECUTE :
+    // QUERIES SELECT :
     //----------------------------------------------------------------------------
 
-    // FIND ALL : USER
+    // SELECT : FIND ONE 
+    public function findOne(UserQuery $q): ?User
+    {
+        return $this->executeFindOne($q, self::USER_COLUMNS);
+    }
+
+    // SELECT : FIND ALL
     public function findAll(UserQuery $q): array
     {
-        // SELECT COLUMNS = self::USER_COLUMNS + relations (ex: $q->withRoles, etc...)
+        return $this->executeMany($q, self::USER_COLUMNS);
+    }
+
+    // SELECT : FIND ONE (FOR AUTH SERVICE)
+    public function findOneForAuth(UserQuery $q): ?User
+    {
+        return $this->executeFindOne($q, self::USER_COLUMNS_WITH_CREDENTIALS);
+    }
+
+    //----------------------------------------------------------------------------
+    // QUERIES EXECUTE :
+    //----------------------------------------------------------------------------
+
+    // EXECUTE : FIND ONE
+    private function executeFindOne(UserQuery $q, array $columns): ?User
+    {
+        // SELECT COLUMNS = $columns + relations params (ex: $q->withRoles, etc...)
+        // FROM USER
+        // WHERE (ex: $q->param !=== null)
+        $relations = $this->resolveRelations($q);
+        $query = $this->buildQuery($q, $columns, $relations);
+
+        // IF RELATIONS (GROUPED <- rows)
+        if (!empty($relations)) {
+
+            // EXECUTION (return rows[])
+            $rows = $query->executeAndFetchAll();
+
+            // HYDRATATION (Entities['roles'] <- rows['role1'], rows['role2']) (> 1 result)
+            $users = $this->hydrateMany($rows, $relations);
+
+            // GET ENTITY FROM ARRAY (Entity['roles'] <- Entities['roles']) (1 result)
+            $user = $users[0] ?? null;
+
+            // RETURN ENTITY
+            return $user;
+        }
+
+        // EXECUTION (return row)
+        $row = $query->executeAndFetchOne();
+
+        // HYDRATATION (Entity <- row)
+        $user = $row ? User::fromArray($row) : null;
+
+        // RETURN ENTITY
+        return $user;
+    }
+
+    // EXECUTE : FIND ALL
+    public function executeMany(UserQuery $q, array $columns): array
+    {
+        // SELECT COLUMNS = $columns + $relations (ex: $q->withRoles, etc...)
         // FROM USER
         // WHERE (ex: $q->email !=== null)
         $relations = $this->resolveRelations($q);
-        $query = $this->buildQuery($q, self::USER_COLUMNS, $relations);
+        $query = $this->buildQuery($q, $columns, $relations);
 
         // ADD <= LIMIT, OFFSET, ...
         if ($q->limit !== null) $query = $query->limit($q->limit);
@@ -77,66 +142,11 @@ class UserRepositoryMysql extends RepositoryMysql implements UserRepositoryInter
         // EXECUTION (return rows[])
         $rows = $query->executeAndFetchAll();
 
-        // RETURN : HYDRATATION (Entities[] <- rows[] & relations)
-        return $this->hydrateMany($rows, $relations);
-    }
+        // HYDRATATION (Entities['roles'] <- rows['role1'], rows['role2']) (> 1 result)
+        $entities = $this->hydrateMany($rows, $relations);
 
-    // FIND ONE : USER
-    public function findOne(UserQuery $q): ?User
-    {
-        // SELECT COLUMNS = self::USER_COLUMNS + relations (ex: $q->withRoles, etc...)
-        // FROM USER
-        // WHERE (ex: $q->email !=== null)
-        $relations = $this->resolveRelations($q);
-        $query = $this->buildQuery($q, self::USER_COLUMNS, $relations);
-
-        // IF GROUPED RELATIONS
-        if (!empty($relations)) {
-
-            // EXECUTION (return rows[])
-            $rows = $query->executeAndFetchAll();
-
-            // HYDRATATION (Entities[] <- rows[relations])
-            $users = $this->hydrateMany($rows, $relations);
-
-            // RETURN Entity
-            return $users[0] ?? null;
-        }
-
-        // EXECUTION (return row)
-        $row = $query->executeAndFetchOne();
-
-        // RETURN RESULT <= HYDRATATION (Entity <- row)
-        return $row ? User::fromArray($row) : null;
-    }
-
-    // FIND ONE : USER FOR AUTH
-    public function findOneForAuth(UserQuery $q): ?User
-    {
-        // SELECT COLUMNS = self::USER_COLUMNS_WITH... + relations (ex: $q->withRoles, etc...)
-        // FROM USER
-        // WHERE (ex: $q->email !=== null)
-        $relations = $this->resolveRelations($q);
-        $query = $this->buildQuery($q, self::USER_COLUMNS_WITH_CREDENTIALS, $relations);
-
-        // IF GROUPED RELATIONS
-        if (!empty($relations)) {
-
-            // EXECUTION (return rows[])
-            $rows = $query->executeAndFetchAll();
-
-            // HYDRATATION (Entities[] <- rows[relations])
-            $users = $this->hydrateMany($rows, $relations);
-
-            // RETURN Entity
-            return $users[0] ?? null;
-        }
-
-        // EXECUTION (return row)
-        $row = $query->executeAndFetchOne();
-
-        // RETURN RESULT <= HYDRATATION (Entity <- row)
-        return $row ? User::fromArray($row) : null;
+        // RETURN ENTITIES
+        return $entities;
     }
 
     //----------------------------------------------------------------------------
@@ -191,15 +201,13 @@ class UserRepositoryMysql extends RepositoryMysql implements UserRepositoryInter
     // RELATIONS MAKER :
     //----------------------------------------------------------------------------
 
-    // GET JOINS (Depend of UserQuery params)
+    // CONDITIONS JOINS (Depend of UserQuery params)
     private function resolveRelations(UserQuery $q): array
     {
         $relations = [];
 
         // ROLES
-        if ($q->withRoles) {
-            $relations[] = $this->makeRolesRelation();
-        }
+        if ($q->withRoles) $relations[] = $this->makeRolesRelation();
 
         // Demain :
         // if ($q->withPermissions) $relations[] = $this->makePermissionsRelation();
@@ -208,17 +216,36 @@ class UserRepositoryMysql extends RepositoryMysql implements UserRepositoryInter
         return $relations;
     }
 
+    /** 
+     * Get columns from roles
+     * 
+     * @return ManyToManyRelation
+     * 
+     * */
+    private function makeRolesRelation(array $columns = self::ROLE_COLUMNS): ManyToManyRelation
+    {
+        return SchemaMysql::userRolesRelation($columns);
+    }
+
     /**
      * Transforme plusieurs lignes SQL en users uniques.
-     * Exemple: 
+     *
+     * Exemple :
+     *
+     * Entrée — 1 user avec 2 rôles = 2 lignes SQL :
      * 
-     * 1 user avec 2 rôles → 2 lignes SQL
+     * <code>
      * ['id' => 1, 'email' => 'a@b.com', 'role_id' => 1, 'role_name' => 'admin']
-     * ['id' => 1, 'email' => 'a@b.com', 'role_id' => 2, 'role_name' => 'editor']
      * 
-     * devient 1 user avec 2 rôles → 1 ligne SQL
+     * ['id' => 1, 'email' => 'a@b.com', 'role_id' => 2, 'role_name' => 'editor']
+     * </code>
+     *
+     * Sortie — 1 user avec ses rôles groupés :
+     * 
+     * <code>
      * ['id' => 1, 'email' => 'a@b.com', 'roles' => [['id' => 1, ...], ['id' => 2, ...]]]
-
+     * </code>
+     *
      * @return User[]
      */
     private function hydrateMany(array $rows, array $relations): array
@@ -234,40 +261,6 @@ class UserRepositoryMysql extends RepositoryMysql implements UserRepositoryInter
         }
 
         return array_map(fn(array $row) => User::fromArray($row), $rows);
-    }
-
-    /** 
-     * Make Roles Relation
-     * 
-     * @return ManyToManyRelation
-     * 
-     * */
-    private function makeRolesRelation(): ManyToManyRelation
-    {
-        return new ManyToManyRelation(
-
-            // SET KEY FOR USER (ex: User['Roles'][...])
-            key: SchemaMysql::fieldProperty(SchemaMysql::TABLE_ROLES),
-
-            // SET COLUMNS FROM SELF::ROLE_COLUMNS
-            relationColumns: array_map(
-                fn(string $col) => SchemaMysql::fieldProperty($col),
-                self::ROLE_COLUMNS
-            ),
-
-            // SET PREFIX FOR ROLE COLUMNS
-            relationPrefix: SchemaMysql::ROLE_RELATION_PREFIX,
-
-            // PARAMS SPECIFIQUE TARGET TABLE
-            relatedTable: SchemaMysql::TABLE_ROLES,
-            foreignKey: SchemaMysql::ROLE_ID,
-            localKey: SchemaMysql::USER_ID,
-
-            // PARAMS SPECIFIQUE PIVOT (ManyToManyRelation)
-            pivotTable: SchemaMysql::TABLE_ROLE_USER,
-            pivotLocalKey: SchemaMysql::ROLE_USER_USER_ID,
-            pivotForeignKey: SchemaMysql::ROLE_USER_ROLE_ID,
-        );
     }
 
     //----------------------------------------------------------------------------

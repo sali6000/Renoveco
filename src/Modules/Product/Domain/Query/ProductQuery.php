@@ -7,13 +7,19 @@ namespace Src\Modules\Product\Domain\Query;
 final class ProductQuery
 {
     public function __construct(
-        public readonly bool $withImages = false,
-        public readonly bool $withCategories = false,
-        public readonly bool $onlyMainImage = false,
-        public readonly ?array $columns = null,
+
+        // FILTRES MÉTIER
         public readonly ?int $id = null,
         public readonly ?string $slug = null,
         public readonly ?bool $isActive = null,
+        public readonly bool $onlyMainImage = false,
+
+        // RELATIONS
+        public readonly bool $withImages = false,
+        public readonly bool $withCategories = false,
+        public readonly bool $withAttributes = false,
+
+        // PAGINATION
         public readonly ?int $limit = null,
         public readonly ?int $offset = null,
     ) {}

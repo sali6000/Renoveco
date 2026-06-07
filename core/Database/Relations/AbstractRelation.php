@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Core\Database\Relations;
 
 use Core\Database\QueryBuilderInterface;
+use Core\Support\DebugHelper;
+use Src\Database\SchemaMysql;
 
 /**
  * Classe de base pour toutes les relations.
@@ -63,10 +65,13 @@ abstract class AbstractRelation implements RelationInterface
             return [];
         }
 
-        return array_map(
-            fn(string $col) => $this->relatedTable . '.' . $col . ' AS ' . $this->relationPrefix . $col,
+        // Ex: role_id AS role_id, role_name AS role_name
+        $result = array_map(
+            fn(string $col) => $col . ' AS ' . $this->relationPrefix . SchemaMysql::fieldProperty($col),
             $this->relationColumns
         );
+
+        return $result;
     }
 
     /**
@@ -92,9 +97,10 @@ abstract class AbstractRelation implements RelationInterface
                 // Enlève le préfixe : 'role_id' → 'id'
                 $cleanColumn = substr($column, strlen($this->relationPrefix));
 
-                // Si relationColumns est vide, on prend TOUT
-                // Sinon, on filtre uniquement les colonnes demandées
-                if (empty($this->relationColumns) || in_array($cleanColumn, $this->relationColumns)) {
+                if (empty($this->relationColumns) || in_array($cleanColumn, array_map(
+                    fn(string $col) => SchemaMysql::fieldProperty($col),
+                    $this->relationColumns
+                ))) {
                     $relationData[$cleanColumn] = $value;
                 }
             }

@@ -43,18 +43,4 @@ class ManyToManyRelation extends AbstractRelation
             $this->foreignKey,
         );
     }
-
-    public function getColumns(): array
-    {
-        if (empty($this->relationColumns)) {
-            return [];
-        }
-
-        // ManyToMany : pas de table préfixée dans le SELECT — juste l'alias
-        // Ex: role_id AS role_id, role_name AS role_name
-        return array_map(
-            fn(string $col) => $this->relationPrefix . $col . ' AS ' . $this->relationPrefix . $col,
-            $this->relationColumns
-        );
-    }
 }

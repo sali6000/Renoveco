@@ -14,7 +14,4 @@ interface ProductRepositoryInterface
 
     /** @return Product[] */
     public function findAll(ProductQuery $query): array;
-
-    /** @return ProductAttribute[] */
-    public function findAttributesByProductId(int $productId): array;
 }

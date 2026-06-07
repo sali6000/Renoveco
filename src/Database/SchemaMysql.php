@@ -2,6 +2,9 @@
 
 namespace Src\Database;
 
+use Core\Database\Relations\ManyToManyRelation;
+use Core\Database\Relations\OneToManyRelation;
+
 final class SchemaMysql
 {
     // -------------------------------------------------------
@@ -16,6 +19,7 @@ final class SchemaMysql
     public const ATTRIBUTES_IS_REQUIRED = 'att.is_required';
     public const ATTRIBUTES_PARENT_ATTRIBUTE_ID = 'att.parent_attribute_id';
     public const ATTRIBUTES_ATTRIBUTE_GROUP_ID = 'att.attribute_group_id';
+    public const ATTRIBUTES_RELATION_PREFIX = 'attribute_';
 
     // -------------------------------------------------------
     // 🧩 ATTRIBUTE : GROUPS
@@ -36,6 +40,31 @@ final class SchemaMysql
     public const PRODUCT_ATTRIBUTE_VALUE = 'proatt.value';
     public const PRODUCT_ATTRIBUTE_CREATED_AT = 'proatt.created_at';
     public const PRODUCT_ATTRIBUTE_UPDATED_AT = 'proatt.updated_at';
+
+    public static function productAttributesRelation(array $columns): ManyToManyRelation
+    {
+        return new ManyToManyRelation(
+            // SET KEY ARRAY (ex: User['roles'][...])
+            key: self::fieldTable(self::TABLE_ATTRIBUTES),
+
+            // SET COLUMNS TO GET (ex: self::ROLE_COLUMNS_MINIMAL)
+            relationColumns: $columns,
+
+            // SET PREFIX FOR ROLE COLUMNS
+            relationPrefix: self::ATTRIBUTES_RELATION_PREFIX,
+
+            // PARAMS SPECIFIQUE TARGET TABLE
+            relatedTable: self::TABLE_ATTRIBUTES,
+            foreignKey: self::ATTRIBUTES_ID,
+            localKey: self::PRODUCT_ID,
+
+            // PARAMS SPECIFIQUE PIVOT (ManyToManyRelation)
+            pivotTable: self::TABLE_PRODUCT_ATTRIBUTE,
+            pivotForeignKey: self::PRODUCT_ATTRIBUTE_ATTRIBUTE_ID,
+            pivotLocalKey: self::PRODUCT_ATTRIBUTE_PRODUCT_ID,
+        );
+    }
+
 
     // -------------------------------------------------------
     // 🧩 CATEGORY : PRODUCT
@@ -101,7 +130,7 @@ final class SchemaMysql
     public const STOCK_PRODUCT_LOCATION_UPDATED_AT = 'stoproloc.updated_at';
 
     // -------------------------------------------------------
-    // 🧩 PRODUIT : CATÉGORIES
+    // 🧩 CATÉGORIES
     // -------------------------------------------------------
     public const TABLE_CATEGORIES = 'categories cat';
     public const CATEGORY_ID = 'cat.id';
@@ -109,6 +138,32 @@ final class SchemaMysql
     public const CATEGORY_NAME = 'cat.name';
     public const CATEGORY_DESCRIPTION = 'cat.description';
     public const CATEGORY_PARENT_ID = 'cat.parent_id';
+    public const CATEGORY_RELATION_PREFIX = "category_";
+
+
+    public static function productCategoriesRelation(array $columns): ManyToManyRelation
+    {
+        return new ManyToManyRelation(
+            // SET KEY ARRAY (ex: User['roles'][...])
+            key: self::fieldTable(self::TABLE_CATEGORIES),
+
+            // SET COLUMNS TO GET (ex: self::ROLE_COLUMNS_MINIMAL)
+            relationColumns: $columns,
+
+            // SET PREFIX FOR ROLE COLUMNS
+            relationPrefix: self::CATEGORY_RELATION_PREFIX,
+
+            // PARAMS SPECIFIQUE TARGET TABLE
+            relatedTable: self::TABLE_CATEGORIES,
+            foreignKey: self::CATEGORY_ID,
+            localKey: self::PRODUCT_ID,
+
+            // PARAMS SPECIFIQUE PIVOT (ManyToManyRelation)
+            pivotTable: self::TABLE_CATEGORY_PRODUCT,
+            pivotForeignKey: self::CATEGORY_PRODUCT_CATEGORY_ID,
+            pivotLocalKey: self::CATEGORY_PRODUCT_PRODUCT_ID,
+        );
+    }
 
     // -------------------------------------------------------
     // 🧩 PRODUIT : IMAGE
@@ -119,6 +174,21 @@ final class SchemaMysql
     public const PRODUCT_IMAGE_FILE_PATH = 'proima.file_path';
     public const PRODUCT_IMAGE_ALT_TEXT = 'proima.alt_text';
     public const PRODUCT_IMAGE_IS_MAIN = 'proima.is_main';
+    public const PRODUCT_IMAGE_RELATION_PREFIX = 'image_';
+
+    public static function productImagesRelation(array $columns): OneToManyRelation
+    {
+        return new OneToManyRelation(
+            key: self::fieldTable(self::TABLE_PRODUCT_IMAGES),
+            relationColumns: $columns,
+            relationPrefix: self::PRODUCT_IMAGE_RELATION_PREFIX,
+
+            // JOIN PARAMS
+            relatedTable: self::TABLE_PRODUCT_IMAGES,
+            localKey: self::PRODUCT_ID,
+            foreignKey: self::PRODUCT_IMAGE_PRODUCT_ID,
+        );
+    }
 
     // -------------------------------------------------------
     // 🧩 ROLE
@@ -127,7 +197,8 @@ final class SchemaMysql
     public const ROLE_ID = 'rol.id';
     public const ROLE_NAME = 'rol.name';
     public const ROLE_IS_ACTIVE = 'rol.is_active';
-    public const ROLE_RELATION_PREFIX = 'role_';
+    private const ROLE_RELATION_PREFIX = 'role_';
+
 
     // -------------------------------------------------------
     // 🧩 USER
@@ -142,6 +213,30 @@ final class SchemaMysql
     public const USER_EMAIL_VERIFIED_AT = 'usr.email_verified_at';
     public const USER_DELETED_AT = 'usr.deleted_at';
     public const USER_IS_ACTIVE = 'usr.is_active';
+
+    public static function userRolesRelation(array $columns): ManyToManyRelation
+    {
+        return new ManyToManyRelation(
+            // SET KEY ARRAY (ex: User['roles'][...])
+            key: self::fieldTable(self::TABLE_ROLES),
+
+            // SET COLUMNS TO GET (ex: self::ROLE_COLUMNS_MINIMAL)
+            relationColumns: $columns,
+
+            // SET PREFIX FOR ROLE COLUMNS
+            relationPrefix: self::ROLE_RELATION_PREFIX,
+
+            // PARAMS SPECIFIQUE TARGET TABLE
+            relatedTable: self::TABLE_ROLES,
+            foreignKey: self::ROLE_ID,
+            localKey: self::USER_ID,
+
+            // PARAMS SPECIFIQUE PIVOT (ManyToManyRelation)
+            pivotTable: self::TABLE_ROLE_USER,
+            pivotLocalKey: self::ROLE_USER_USER_ID,
+            pivotForeignKey: self::ROLE_USER_ROLE_ID,
+        );
+    }
 
     // -------------------------------------------------------
     // 🧩 RATE LIMIT ATTEMPTS (📋 Limite de tentatives)
