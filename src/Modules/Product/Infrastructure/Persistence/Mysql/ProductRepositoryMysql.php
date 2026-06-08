@@ -85,13 +85,8 @@ final class ProductRepositoryMysql extends RepositoryMySQL implements ProductRep
 
     protected function applyFilters(QueryBuilderInterface $qb, ProductQuery $q): QueryBuilderInterface
     {
-        // SLUG
         if ($q->slug !== null) $qb = $qb->where(SchemaMysql::PRODUCT_SLUG . ' = :slug', [':slug' => $q->slug]);
-
-        // ID
         if ($q->id !== null) $qb = $qb->where(SchemaMysql::PRODUCT_ID . ' = :id', [':id' => $q->id]);
-
-        // IS ACTIVE
         if ($q->isActive !== null) {
             $active = $q->isActive ? 'TRUE' : 'FALSE';
             $qb = $qb->where(SchemaMysql::PRODUCT_IS_ACTIVE . " = {$active}");

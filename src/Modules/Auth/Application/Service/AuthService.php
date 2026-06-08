@@ -22,7 +22,7 @@ final class AuthService
     public function loginUser(string $email, string $password): ?array
     {
         // Récupérer une utilisateur :
-        $user = $this->userRepo->findOneForAuth(new UserQuery(email: $email));
+        $user = $this->userRepo->findOneForAuth(new UserQuery(email: $email, withRoles: true));
 
         // Vérification du mot de passe
         if (!$user || !password_verify($password, $user->passwordHashed)) {
@@ -31,13 +31,10 @@ final class AuthService
 
         $this->userRepo->updateLastLogin($user->id);
 
-        // Attribution du rôle
-        $roleName = isset($user->roles[0]) ? $user->roles[0]->name : null;
-
         return [
             SchemaMysql::fieldProperty(SchemaMysql::USER_ID) => $user->id,
             SchemaMysql::fieldProperty(SchemaMysql::USER_EMAIL) => $user->email,
-            SchemaMysql::fieldProperty(SchemaMysql::ROLE_NAME) => $roleName
+            SchemaMysql::fieldProperty(SchemaMysql::ROLE_NAME) => $user->roles[0]->name
         ];
     }
 

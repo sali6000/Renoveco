@@ -32,15 +32,15 @@
         <label class="c-filter-panel__label">
             {{ category.name ?? '' }}
         </label>
-
+    </li>
+    
         {% if category.childrens is not empty %}
-            <ul class="c-filter-panel__list c-filter-panel__list--nested" style="padding-left: 1rem">
+            <ul class="c-filter-panel__list c-filter-panel__list--nested">
                 {% for child in category.childrens %}
                     {{ _self.categoryItem(child) }}
                 {% endfor %}
             </ul>
         {% endif %}
-    </li>
 {% endmacro %}
 
 <ul class="c-filter-panel__list c-filter-panel__list--nested" role="list">
