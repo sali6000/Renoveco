@@ -73,6 +73,7 @@ core/                               # Framework maison
 ├── Container.php                   # IoC / injection de dépendances
 ├── Routing/                        # Routeur avec attributs PHP 8 (#[Route])
 ├── Database/
+│   ├── Relations/                  # ManyToMany, ...
 │   ├── QueryBuilder.php            # Query builder fluent sur PDO
 │   └── BaseModel.php               # Hydratation typée des entités
 ├── Middleware/                     # Pipeline (Auth, RBAC, Logger, Security, ...)

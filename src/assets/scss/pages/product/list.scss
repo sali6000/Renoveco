@@ -1,0 +1,9 @@
+.c-filter-panel {
+    &__list {
+        // liste racine — pas de padding
+        
+        &--nested {
+            padding-left: 1rem; // chaque niveau imbriqué
+        }
+    }
+}

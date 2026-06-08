@@ -21,22 +21,33 @@
     </div>
     <h2 class="c-filter-panel__title">Filtres</h2>
     <div class="c-filter-panel__group">
-        <h3 class="c-filter-panel__group-title">Catégories</h3>
-        <ul class="c-filter-panel__list" role="list">
-            {% for category in categories %}
-            <li class="c-filter-panel__item">
-                <input class="c-filter-panel__checkbox"
-                    type="checkbox"
-                    id="category-{{ loop.index }}"
-                    name="category"
-                    value="{{ category.name ?? '' }}"
-                >
-                <label class="c-filter-panel__label" for="category-{{ loop.index }}">
-                    {{ category.name ?? '' }}
-                </label>
-            </li>
-            {% endfor %}
-        </ul>
+      <h3 class="c-filter-panel__group-title">Catégories</h3>
+      {% macro categoryItem(category) %}
+    <li class="c-filter-panel__item">
+        <input class="c-filter-panel__checkbox"
+            type="checkbox"
+            name="category"
+            value="{{ category.name ?? '' }}"
+        >
+        <label class="c-filter-panel__label">
+            {{ category.name ?? '' }}
+        </label>
+
+        {% if category.childrens is not empty %}
+            <ul class="c-filter-panel__list c-filter-panel__list--nested" style="padding-left: 1rem">
+                {% for child in category.childrens %}
+                    {{ _self.categoryItem(child) }}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </li>
+{% endmacro %}
+
+<ul class="c-filter-panel__list c-filter-panel__list--nested" role="list">
+    {% for category in categories %}
+        {{ _self.categoryItem(category) }}
+    {% endfor %}
+</ul>
     </div>
     <div class="c-filter-panel__group">
         <h3 class="c-filter-panel__group-title">Contenu</h3>

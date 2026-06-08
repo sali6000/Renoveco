@@ -2,39 +2,30 @@
 
 namespace Src\Modules\Category\Domain\Entity;
 
+use Core\Database\BaseModel;
 use Src\Database\SchemaMysql;
 use Src\Modules\Product\Domain\Entity\Product;
 
-class Category
+class Category extends BaseModel
 {
-    private string $_name;
-    private ?string $_slug = null;
-    private ?string $_description = null;
-    private ?int $_id = null;
-    private ?int $_parentId = null;
-    private ?Category $_parent = null;
-    /** @var Category[] */
-    private array $_children = [];
-    /** @var Product[] */
-    private array $_products = [];
-
     public function __construct(
-        string $name,
-        ?string $slug = null,
-        ?string $description = null,
-        ?int $id = null,
-        ?int $parentId = null
-    ) {
-        $this->name = $name;
-        $this->slug = $slug;
-        $this->description = $description;
-        $this->id = $id;
-        $this->parentId = $parentId;
-    }
 
-    // ==========================================================
-    // = GETTERS / SETTERS
-    // ==========================================================
+        // Obligatoires
+        private string $_name,
+
+        // Optionnels
+        private ?string $_slug = null,
+        private ?string $_description = null,
+        private ?int $_id = null,
+        private ?int $_parentId = null,
+        private ?Category $_parent = null,
+
+        // Listes
+        /** @var Category[] */
+        private array $_childrens = [],
+        /** @var Product[] */
+        private array $_products = [],
+    ) {}
 
     public string $name {
         get => $this->_name;
@@ -66,56 +57,65 @@ class Category
         set(?Category $value) => $this->_parent = $value;
     }
 
-    // ==========================================================
-    // = CHILDREN MANAGEMENT
-    // ==========================================================
-
-    public function addChild(Category $child): void
-    {
-        // empêche les doublons (sécurité)
-        foreach ($this->_children as $existing) {
-            if ($existing->id === $child->id) {
-                return;
-            }
-        }
-        $this->_children[] = $child;
+    /** @var Category[] */
+    public array $childrens {
+        get => $this->_childrens;
+        set(array $value) => $this->_childrens = $value;
     }
 
-    /**
-     * @return Category[]
-     */
-    public function getChildren(): array
-    {
-        return $this->_children;
+    public array $products {
+        get => $this->_products;
+        set(array $value) => $this->_products = $value;
     }
 
-    public function hasChildren(): bool
-    {
-        return !empty($this->_children);
-    }
+
 
     // ==========================================================
-    // = PRODUCTS
+    // Fonctionnalités
     // ==========================================================
 
     public function addProduct(Product $product): void
     {
+        // empêche les doublons (sécurité)
+        foreach ($this->_products as $existing) {
+            if ($existing->id === $product->id) return;
+        }
         $this->_products[] = $product;
     }
 
-    public function getProducts(): array
+    public function addChild(Category $child): void
     {
-        return $this->_products;
+        // empêche les doublons (sécurité)
+        foreach ($this->_childrens as $existing) {
+            if ($existing->id === $child->id) return;
+        }
+
+        $this->_childrens[] = $child;
     }
 
+    public function hasChildren(): bool
+    {
+        return !empty($this->_childrens);
+    }
+
+    // ==========================================================
+    // Hydratation (Entity <- array)
+    // ==========================================================
     public static function fromArray(array $row): ?self
     {
         return new self(
-            $row[SchemaMysql::fieldProperty(SchemaMysql::CATEGORY_NAME)] ?? '',
-            $row[SchemaMysql::fieldProperty(SchemaMysql::CATEGORY_SLUG)] ?? null,
-            $row[SchemaMysql::fieldProperty(SchemaMysql::CATEGORY_DESCRIPTION)] ?? null,
-            $row[SchemaMysql::fieldProperty(SchemaMysql::CATEGORY_ID)] ?? null,
-            $row[SchemaMysql::fieldProperty(SchemaMysql::CATEGORY_PARENT_ID)] ?? null
+
+            // Obligatoires
+            _name: self::getString($row, SchemaMysql::CATEGORY_NAME),
+
+            // Optionnelles (nullable)
+            _slug: self::getStringOrNull($row, SchemaMysql::CATEGORY_SLUG),
+            _description: self::getStringOrNull($row, SchemaMysql::CATEGORY_DESCRIPTION),
+            _id: self::getIntOrNull($row, SchemaMysql::CATEGORY_ID),
+            _parentId: self::getIntOrNull($row, SchemaMysql::CATEGORY_PARENT_ID),
+
+            // Listes ([])
+            _products: self::getMappedOrEmpty($row, SchemaMysql::fieldTable(SchemaMysql::TABLE_PRODUCTS), [Product::class, 'fromArray'])
         );
     }
 }

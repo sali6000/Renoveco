@@ -3,10 +3,11 @@
 namespace Src\Modules\Category\Domain\Repository;
 
 use Src\Modules\Category\Domain\Entity\Category;
+use Src\Modules\Category\Domain\Query\CategoryQuery;
 
 interface CategoryRepositoryInterface
 {
-    public function deleteCategory(int $id): void;
-    public function findAll(): array;
-    public function save(Category $category): Category;
+    /** @return Category[] */
+    public function findAll(CategoryQuery $q): array;
+    //public function save(Category $category): Category;
 }

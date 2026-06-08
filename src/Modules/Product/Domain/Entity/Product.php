@@ -137,6 +137,12 @@ class Product extends BaseModel
 
     public function addImage(ProductImage $image): void
     {
+        // empêche les doublons (sécurité)
+        foreach ($this->_images as $existing) {
+            if ($existing->id === $image->id) {
+                return;
+            }
+        }
         $this->_images[] = $image;
     }
 

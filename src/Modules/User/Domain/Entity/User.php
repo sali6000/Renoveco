@@ -8,7 +8,6 @@ use Src\Database\SchemaMysql;
 
 class User extends BaseModel
 {
-
     public function __construct(
 
         // Obligatoires

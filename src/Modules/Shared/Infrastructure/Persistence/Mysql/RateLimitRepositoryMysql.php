@@ -2,15 +2,29 @@
 
 namespace Src\Modules\Shared\Infrastructure\Persistence\Mysql;
 
+use Core\Database\QueryBuilderInterface;
 use Core\Database\RepositoryMysql;
+use Override;
+use Src\Database\SchemaMysql;
 use Src\Modules\Shared\Domain\Repository\RateLimitRepositoryInterface;
 
 class RateLimitRepositoryMysql  extends RepositoryMysql implements RateLimitRepositoryInterface
 {
-
-    public function __construct(\PDO $pdo)
+    #[Override]
+    public function getTable(): string
     {
-        parent::__construct($pdo);
+        return SchemaMysql::TABLE_RATE_LIMIT_ATTEMPTS;
+    }
+
+    #[Override]
+    public function fromArray(array $row): object
+    {
+        throw new \Exception('Not implemented');
+    }
+
+    public function __construct(\PDO $pdo, QueryBuilderInterface $qb)
+    {
+        parent::__construct($pdo, $qb);
     }
 
     private function getClientIp(): string

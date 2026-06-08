@@ -1,6 +1,6 @@
 <?php
 
-namespace Src\Modules\Category\Domain\Service;
+namespace Src\Modules\Category\Application\Service;
 
 use Src\Database\SchemaMysql;
 use Src\Exception\ServiceException;
@@ -9,12 +9,14 @@ use Src\Exception\ValidationException;
 use Src\Modules\Category\Domain\Entity\Category;
 use Src\Modules\Category\Domain\Repository\CategoryRepositoryInterface;
 use Core\Logger\AccessLogger;
+use Core\Support\DebugHelper;
 use PDOException;
+use Src\Modules\Category\Domain\Query\CategoryQuery;
 
 class CategoryService
 {
     public function __construct(private CategoryRepositoryInterface $categoryRepo) {}
-
+    /*
     public function createCategory(Category $category): Category
     {
         try {
@@ -55,10 +57,10 @@ class CategoryService
             throw new ServiceException("Erreur de création d'une catégorie (Code : $errorId)", 0, $e, $errorId);
         }
     }
-
+*/
     public function getCategories(): array
     {
-        return $this->categoryRepo->findAll();
+        return $this->categoryRepo->findAll(new CategoryQuery());
     }
 
     /**
@@ -69,7 +71,7 @@ class CategoryService
     public function getCategoriesTree(): array
     {
         // Retourne un array composé d'objets de type "Category"
-        $categories = $this->categoryRepo->findAll();
+        $categories = $this->categoryRepo->findAll(new CategoryQuery());
 
         $byId = [];
 
@@ -88,10 +90,5 @@ class CategoryService
             }
         }
         return $tree;
-    }
-
-    public function delete(int $id): void
-    {
-        $this->categoryRepo->deleteCategory($id);
     }
 }

@@ -6,51 +6,63 @@ use Core\Database\RepositoryMysql;
 use Core\Database\QueryBuilderInterface;
 use Src\Database\SchemaMysql;
 use Src\Modules\Category\Domain\Entity\Category;
+use Src\Modules\Category\Domain\Query\CategoryQuery;
 use Src\Modules\Category\Domain\Repository\CategoryRepositoryInterface;
-use Core\Database\SqlAggregator;
 
 class CategoryRepositoryMysql extends RepositoryMysql implements CategoryRepositoryInterface
 {
-    public function __construct(\PDO $pdo, private QueryBuilderInterface $queryBuilder)
+
+    private const CATEGORY_COLUMNS = [
+        SchemaMysql::CATEGORY_ID,
+        SchemaMysql::CATEGORY_DESCRIPTION,
+        SchemaMysql::CATEGORY_NAME,
+        SchemaMysql::CATEGORY_PARENT_ID,
+        SchemaMysql::CATEGORY_SLUG
+    ];
+
+
+    //----------------------------------------------------------------------------
+    // PREPARE METHODS SCHEMES :
+    //----------------------------------------------------------------------------
+
+    protected function getTable(): string
     {
-        parent::__construct($pdo);
+        return SchemaMysql::TABLE_CATEGORIES;
     }
 
-    /**
-     * Faire un selectJoinManyToMany pour faire le lien avec la table intermédiaire
-     */
-    public function buildLightCategoriesSub(array $categoryColumns): string
+    protected function fromArray(array $row): Category
     {
-        $sqlAggregator = new SqlAggregator();
-
-        // Return GROUP_CONCAT(DISTINCT c.id, ':',c.name SEPARATOR "|") AS categories
-        return  $sqlAggregator
-            ->column($categoryColumns)
-            ->separator('|')
-            ->distinct()
-            ->groupConcat()
-            ->alias('categories')
-            ->toSql();
+        return Category::fromArray($row);
     }
 
 
-    public function deleteCategory(int $id): void
-    {
-        $this->delete(SchemaMysql::TABLE_CATEGORIES, SchemaMysql::CATEGORY_ID, $id);
-    }
+    //----------------------------------------------------------------------------
+    // EXECUTE QUERIES :
+    //----------------------------------------------------------------------------
 
     /**
      * @return Category[]
      */
-    public function findAll(): array
+    public function findAll(CategoryQuery $q): array
     {
-        $stmt = $this->queryBuilder
-            ->select()
-            ->from(SchemaMysql::TABLE_CATEGORIES)
-            ->executeAndFetchAll();
-        return array_map(fn($row) => Category::fromArray($row), $stmt);
+        return $this->executeMany($q, self::CATEGORY_COLUMNS, $this->applyFilters(...));
     }
 
+    // PREPARE FILTERS (conditions)
+    private function applyFilters(QueryBuilderInterface $qb, CategoryQuery $qp): QueryBuilderInterface
+    {
+        // SLUG
+        if ($qp->slug !== null) $qb = $qb->where(SchemaMysql::CATEGORY_SLUG . ' = :slug', [':slug' => $qp->slug]);
+
+        // ID
+        if ($qp->id !== null) $qb = $qb->where(SchemaMysql::CATEGORY_ID . ' = :id', [':id' => $qp->id]);
+
+        return $qb;
+    }
+
+
+
+    /*
     public function save(Category $category): Category
     {
         $data = [
@@ -69,5 +81,5 @@ class CategoryRepositoryMysql extends RepositoryMysql implements CategoryReposit
         }
 
         return $category;
-    }
+    }*/
 }
