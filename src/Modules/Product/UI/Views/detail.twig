@@ -18,8 +18,7 @@
             <span class="product-detail-spec-breadcrumb__sep">/</span>
         </li>
         <li class="product-detail-spec-breadcrumb__item">
-            <a class="product-detail-spec-breadcrumb__link" href="/product/list/{{ model.category_slug }}">Porte-fenêtre à frappe</a>
-            {# <a class="product-detail-spec-breadcrumb__link" href="/product/list/{{ model.category_slug }}">{{ model.category_name }}</a> #}
+            <a class="product-detail-spec-breadcrumb__link" href="/product/list/{{ model.categories[0].slug }}">{{ model.categories[0].name }}</a>
         </li>
         <li class="product-detail-spec-breadcrumb__item" aria-hidden="true">
             <span class="product-detail-spec-breadcrumb__sep">/</span>
@@ -150,7 +149,7 @@
         <div class="product-detail-spec__availability product-detail-spec__availability--{{ model.available ? 'in-stock' : 'on-order' }}">
             <span class="product-detail-spec__availability-dot" aria-hidden="true"></span>
             <span class="product-detail-spec__availability-label">
-                {{ model.available ? 'En stock' : 'Sur commande' }}
+                {{ model.available ? '✓ En stock — ' ~ model.quantity ~ ' disponible(s)' : '⏳ Sur commande' }}
             </span>
         </div>
 

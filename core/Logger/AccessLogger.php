@@ -26,6 +26,8 @@ final class AccessLogger
     public const CHANNEL_APP      = 'app';      // Logs métier généraux
     public const CHANNEL_DATABASE = 'database'; // Erreurs SQL, queries
     public const CHANNEL_PERF     = 'perf';     // Performances, profiling
+    public const CHANNEL_DEBUG     = 'debug';   // Debug
+
 
     // -------------------------------------------------------------------------
     // Niveaux — qualifient la sévérité
@@ -54,6 +56,7 @@ final class AccessLogger
         self::CHANNEL_APP,
         self::CHANNEL_DATABASE,
         self::CHANNEL_PERF,
+        self::CHANNEL_DEBUG
     ];
 
     private const VALID_LEVELS = [

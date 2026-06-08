@@ -18,6 +18,7 @@ final class ProductQuery
         public readonly bool $withImages = false,
         public readonly bool $withCategories = false,
         public readonly bool $withAttributes = false,
+        public readonly bool $withStock = false,
 
         // PAGINATION
         public readonly ?int $limit = null,

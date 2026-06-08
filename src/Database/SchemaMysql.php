@@ -3,6 +3,7 @@
 namespace Src\Database;
 
 use Core\Database\Relations\ManyToManyRelation;
+use Core\Database\Relations\ManyToOneRelation;
 use Core\Database\Relations\OneToManyRelation;
 
 final class SchemaMysql
@@ -108,6 +109,20 @@ final class SchemaMysql
     public const STOCK_PRODUCT_QUANTITY = 'stopro.quantity';
     public const STOCK_PRODUCT_STOCK_MINIMUM = 'stopro.stock_minimum';
     public const STOCK_PRODUCT_STOCK_MAXIMUM = 'stopro.stock_maximum';
+    public const STOCK_PRODUCT_RELATION_PREFIX = 'stopro_';
+
+    public static function productStockRelation(array $columns): ManyToOneRelation
+    {
+        return new ManyToOneRelation(
+            key: self::fieldTable(self::TABLE_STOCK_PRODUCT),
+            relationColumns: $columns,
+            relationPrefix: self::STOCK_PRODUCT_RELATION_PREFIX,
+
+            relatedTable: self::TABLE_STOCK_PRODUCT,
+            localKey: self::PRODUCT_ID,
+            foreignKey: self::STOCK_PRODUCT_PRODUCT_ID,
+        );
+    }
 
     // -------------------------------------------------------
     // 🧩 STOCK : LOCATION
@@ -138,7 +153,7 @@ final class SchemaMysql
     public const CATEGORY_NAME = 'cat.name';
     public const CATEGORY_DESCRIPTION = 'cat.description';
     public const CATEGORY_PARENT_ID = 'cat.parent_id';
-    public const CATEGORY_RELATION_PREFIX = "category_";
+    public const CATEGORY_RELATION_PREFIX = "cat_";
 
 
     public static function productCategoriesRelation(array $columns): ManyToManyRelation

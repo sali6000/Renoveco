@@ -2,7 +2,9 @@
 
 namespace Src\Modules\Product\Application\UseCase;
 
+use Core\Support\DebugHelper;
 use Src\Modules\Product\Application\ViewModel\ProductDetailViewModel;
+use Src\Modules\Product\Domain\Query\ProductQuery;
 use Src\Modules\Product\Domain\Repository\ProductRepositoryInterface;
 use Src\Modules\Shared\Application\UseCase\ResultUseCase;
 
@@ -14,13 +16,13 @@ class ShowProductForDetailUseCase
     {
         $slug = strtolower($slug);
 
-        $product = $this->productRepo->findBySlugWithLightRefs($slug);
+        $product = $this->productRepo->findOne(new ProductQuery(slug: $slug));
+
+        DebugHelper::verboseServer($product);
 
         if (!$product) {
             ResultUseCase::failure("Aucun produit trouvé");
         }
-
-        $product->attributes = $this->productRepo->findAttributesByProductId($product->id);
 
         // Produits similaires (même catégorie, hors produit courant, limite 4)
         $related = []; // $this->productRepo->findRelated(categoryId: $product->getCategory()->getId(),excludeSlug: $slug, limit: 4

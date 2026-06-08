@@ -46,6 +46,13 @@ final class ProductRepositoryMysql extends RepositoryMySQL implements ProductRep
         SchemaMysql::CATEGORY_DESCRIPTION,
     ];
 
+    private const STOCK_PRODUCT_COLUMNS = [
+        SchemaMysql::STOCK_PRODUCT_ID,
+        SchemaMysql::STOCK_PRODUCT_QUANTITY,
+        SchemaMysql::STOCK_PRODUCT_STOCK_MINIMUM,
+        SchemaMysql::STOCK_PRODUCT_STOCK_MAXIMUM
+    ];
+
     /** @return string Schéma table product */
     protected function getTable(): string
     {
@@ -103,6 +110,7 @@ final class ProductRepositoryMysql extends RepositoryMySQL implements ProductRep
 
         if ($q->withCategories) $relations[] = SchemaMysql::productCategoriesRelation(self::CATEGORY_COLUMNS);
         if ($q->withImages) $relations[] = SchemaMysql::productImagesRelation(self::IMAGE_COLUMNS);
+        if ($q->withStock) $relations[] = SchemaMysql::productStockRelation(self::STOCK_PRODUCT_COLUMNS);
 
         return $relations;
     }

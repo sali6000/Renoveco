@@ -3,8 +3,6 @@
 namespace Src\Modules\Product\Application\UseCase;
 
 use Config\AppConfig;
-use Core\Support\DebugHelper;
-use Src\Modules\Product\Application\ProductService;
 use Src\Modules\Product\Application\ViewModel\ProductDetailViewModel;
 use Src\Modules\Product\Domain\Query\ProductQuery;
 use Src\Modules\Product\Domain\Repository\ProductRepositoryInterface;
@@ -26,43 +24,28 @@ final class ShowDemoProductForDetailUseCase
 
     public function execute(string $slug): ResultUseCase
     {
-        $query = new ProductQuery(slug: $slug, withAttributes: true, withImages: true);
-        $product = $this->productRepo->findOne($query);
+        $product = $this->productRepo->findOne(new ProductQuery(slug: $slug, withAttributes: true, withStock: true, withCategories: true, withImages: true));
 
         if ($product === null) {
             return ResultUseCase::failure("Produit introuvable.", 'PRODUCT_NOT_FOUND');
         }
 
-        $product->attributes = $product->attributes;
-
-        $productForVM = $product;
-
         $vm = new ProductDetailViewModel();
 
         // — Identification ------------------------------------------------
-        $vm->name          = $productForVM->name;
-        $vm->slug          = $productForVM->slug;
-        $vm->reference     = $productForVM->reference;
-        $vm->categories = $productForVM->categories;
-
-        //$vm->category_name = 'Portes-fenêtres aluminium';
-        //$vm->category_slug = 'portes-fenetres-aluminium';
+        $vm->name          = $product->name ?? "Aucun nom";
+        $vm->slug          = $product->slug ?? "Aucun slug";
+        $vm->reference     = $product->reference ?? "Aucune référence";
+        $vm->categories = $product->categories ?? "Aucune catégorie";
 
         // — Textes --------------------------------------------------------
-        $vm->subtitle = $productForVM->subtitle ?? "Gamme haute performance pour relier l'intérieur à l'extérieur";
-
-        $vm->description = $productForVM->description ?? "La gamme PROCURAL PE78N est conçue pour les maisons et restaurants souhaitant relier harmonieusement l'espace intérieur à l'extérieur.
-
-Les profils 3 chambres assurent une haute résistance mécanique et permettent de grandes dimensions (L ≤ 1 200 mm ou H ≤ 3 500 mm, poids max vantail : 120 kg).
-
-La haute isolation thermique est obtenue grâce aux barrettes thermiques de 34 mm pour dormants et vantaux, complétée par une quincaillerie spécialisée pour une fonctionnalité optimale.";
-
-        $vm->meta_description = $productForVM->metaDescription ?? "Porte-fenêtre aluminium PROCURAL PE78N – triple chambre, isolation thermique renforcée, grandes dimensions. Devis gratuit en Belgique.";
+        $vm->subtitle = $product->subtitle ?? "Aucun sous titre";
+        $vm->description = $product->description ?? "Aucune description";
+        $vm->meta_description = $product->metaDescription ?? "Aucune meta description";
 
         // — Disponibilité -------------------------------------------------
-
-
-        $vm->available = true;
+        $vm->quantity = $product->stockProduct->quantity;
+        $vm->available = $vm->quantity > 0 ? true : false;
 
         // — Médias --------------------------------------------------------
         // Remplace les chemins par tes vraies images de test
@@ -91,13 +74,7 @@ La haute isolation thermique est obtenue grâce aux barrettes thermiques de 34 m
         ];
 
         // — Features (bullets points forts) --------------------------------
-        $vm->features = [
-            "Triple chambre — haute résistance des profilés",
-            "Grandes dimensions jusqu'à H 3 500 mm",
-            "Isolation thermique renforcée (barrettes 34 mm)",
-            "Plage de vitrage étendue : 22 à 60 mm",
-            "Seuil au choix selon vos contraintes (PMR disponible)",
-        ];
+        $vm->features = $product->features;
 
         // — Documents téléchargeables -------------------------------------
         $vm->documents = [

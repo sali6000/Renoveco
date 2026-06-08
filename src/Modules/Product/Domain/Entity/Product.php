@@ -37,6 +37,7 @@ class Product extends BaseModel
         private array    $_categories        = [],
         /** @var ProductAttribute[] */
         private array    $_attributes        = [],
+        private ?ProductStock  $_stockProduct = null
     ) {}
 
     public string $reference {
@@ -128,6 +129,11 @@ class Product extends BaseModel
         set(array $value) => $this->_attributes = $value;
     }
 
+    public ProductStock $stockProduct {
+        get => $this->_stockProduct;
+        set(ProductStock $value) => $this->_stockProduct = $value;
+    }
+
     // ==========================================================
     // Fonctionnalités
     // ==========================================================
@@ -170,6 +176,7 @@ class Product extends BaseModel
             _updatedAt: self::getDateOrNull($row, SchemaMysql::PRODUCT_UPDATED_AT),
             _subtitle: self::getStringOrNull($row, SchemaMysql::PRODUCT_SUBTITLE),
             _metaDescription: self::getStringOrNull($row, SchemaMysql::PRODUCT_META_DESCRIPTION),
+            _stockProduct: self::getMappedOrNull($row, SchemaMysql::fieldTable(SchemaMysql::TABLE_STOCK_PRODUCT), [ProductStock::class, 'fromArray']),
 
             // Listes ([])
             _features: self::getJsonOrEmpty($row, SchemaMysql::PRODUCT_FEATURES),
