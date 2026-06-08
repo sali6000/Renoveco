@@ -6,7 +6,6 @@ namespace Src\Modules\User\Infrastructure\Persistence\Mysql;
 
 use Config\AppConfig;
 use Core\Database\QueryBuilderInterface;
-use Core\Database\Relations\ManyToManyRelation;
 use Core\Database\RepositoryMysql;
 use Src\Database\SchemaMysql;
 use Src\Exception\Domain\RoleNotFoundException;
@@ -114,20 +113,9 @@ class UserRepositoryMysql extends RepositoryMysql implements UserRepositoryInter
     {
         $relations = [];
 
-        if ($q->withRoles) $relations[] = $this->makeRolesRelation();
+        if ($q->withRoles) $relations[] = SchemaMysql::userRolesRelation(self::ROLE_COLUMNS);
 
         return $relations;
-    }
-
-    /** 
-     * Get columns from roles
-     * 
-     * @return ManyToManyRelation
-     * 
-     * */
-    private function makeRolesRelation(array $columns = self::ROLE_COLUMNS): ManyToManyRelation
-    {
-        return SchemaMysql::userRolesRelation($columns);
     }
 
     //----------------------------------------------------------------------------

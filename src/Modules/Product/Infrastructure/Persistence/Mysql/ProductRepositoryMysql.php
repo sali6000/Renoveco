@@ -8,15 +8,13 @@ use Src\Modules\Product\Domain\Entity\Product;
 use Src\Modules\Product\Domain\Query\ProductQuery;
 use Src\Modules\Product\Domain\Repository\ProductRepositoryInterface;
 use Core\Database\QueryBuilderInterface;
-use Core\Database\Relations\ManyToManyRelation;
-use Core\Database\Relations\OneToManyRelation;
 use Core\Database\RepositoryMysql;
 use Src\Database\SchemaMysql;
 
-class ProductRepositoryMysql extends RepositoryMySQL implements ProductRepositoryInterface
+final class ProductRepositoryMysql extends RepositoryMySQL implements ProductRepositoryInterface
 {
     //----------------------------------------------------------------------------
-    // PREPARE PROPERTIES SCHEMES :
+    // PROPERTIES SCHEMES :
     //----------------------------------------------------------------------------
 
     private const PRODUCT_COLUMNS = [
@@ -48,15 +46,13 @@ class ProductRepositoryMysql extends RepositoryMySQL implements ProductRepositor
         SchemaMysql::CATEGORY_DESCRIPTION,
     ];
 
-    //----------------------------------------------------------------------------
-    // PREPARE METHODS SCHEMES :
-    //----------------------------------------------------------------------------
-
+    /** @return string Schéma table product */
     protected function getTable(): string
     {
         return SchemaMysql::TABLE_PRODUCTS;
     }
 
+    /** @return Product Produit obtenu depuis $row */
     protected function fromArray(array $row): Product
     {
         return Product::fromArray($row);
@@ -66,13 +62,11 @@ class ProductRepositoryMysql extends RepositoryMySQL implements ProductRepositor
     // EXECUTE QUERIES :
     //----------------------------------------------------------------------------
 
-    // SELECT : FIND ONE 
     public function findOne(ProductQuery $q): ?Product
     {
         return $this->executeFindOne($q, self::PRODUCT_COLUMNS, $this->applyFilters(...), $this->applyRelations(...));
     }
 
-    // SELECT : FIND ALL
     public function findAll(ProductQuery $q): array
     {
         return $this->executeMany($q, self::PRODUCT_COLUMNS, $this->applyFilters(...), $this->applyRelations(...));
@@ -107,29 +101,9 @@ class ProductRepositoryMysql extends RepositoryMySQL implements ProductRepositor
     {
         $relations = [];
 
-        if ($q->withCategories) $relations[] = $this->makeCategoriesRelation();
-        if ($q->withImages) $relations[] = $this->makeImagesRelation();
+        if ($q->withCategories) $relations[] = SchemaMysql::productCategoriesRelation(self::CATEGORY_COLUMNS);
+        if ($q->withImages) $relations[] = SchemaMysql::productImagesRelation(self::IMAGE_COLUMNS);
 
         return $relations;
-    }
-
-    /** 
-     * Get columns from categories
-     * 
-     * @return ManyToManyRelation
-     * */
-    private function makeCategoriesRelation(array $columns = self::CATEGORY_COLUMNS): ManyToManyRelation
-    {
-        return SchemaMysql::productCategoriesRelation($columns);
-    }
-
-    /** 
-     * Get columns from images
-     * 
-     * @return OneToManyRelation
-     * */
-    private function makeImagesRelation(array $columns = self::IMAGE_COLUMNS): OneToManyRelation
-    {
-        return SchemaMysql::productImagesRelation($columns);
     }
 }

@@ -7,9 +7,6 @@ use Src\Database\SchemaMysql;
 use Core\Database\BaseModel;
 use DateTime;
 
-/**
- * Product (entité domain) — reflète la DB et les règles métier
- */
 class Product extends BaseModel
 {
     public function __construct(

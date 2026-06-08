@@ -20,6 +20,12 @@ class CategoryRepositoryMysql extends RepositoryMysql implements CategoryReposit
         SchemaMysql::CATEGORY_SLUG
     ];
 
+    public function __construct(
+        \PDO $pdo,
+        private QueryBuilderInterface $qb
+    ) {
+        parent::__construct($pdo, $qb);
+    }
 
     //----------------------------------------------------------------------------
     // PREPARE METHODS SCHEMES :
@@ -60,9 +66,6 @@ class CategoryRepositoryMysql extends RepositoryMysql implements CategoryReposit
         return $qb;
     }
 
-
-
-    /*
     public function save(Category $category): Category
     {
         $data = [
@@ -73,13 +76,13 @@ class CategoryRepositoryMysql extends RepositoryMysql implements CategoryReposit
         ];
 
         if ($category->id) {
-            $ok = $this->queryBuilder
+            $ok = $this->qb
                 ->update(SchemaMysql::TABLE_CATEGORIES, $data, SchemaMysql::CATEGORY_ID . ' = :id', ['id' => $category->id]);
         } else {
-            $stmt = $this->queryBuilder;
+            $stmt = $this->qb;
             $category->id = $stmt->insert(SchemaMysql::TABLE_CATEGORIES, $data);
         }
 
         return $category;
-    }*/
+    }
 }
