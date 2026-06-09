@@ -13,14 +13,13 @@ use Src\Modules\Category\Infrastructure\Schema\CategorySchemaMysql;
 use Src\Modules\Product\Infrastructure\Schema\ProductCategorySchemaMysql;
 use Src\Modules\Product\Infrastructure\Schema\ProductImageSchemaMysql;
 use Src\Modules\Product\Infrastructure\Schema\ProductSchemaMysql;
-use Src\Modules\Stock\Domain\Infrastructure\Schema\StockProductSchemaMysql;
+use Src\Modules\Product\Infrastructure\Schema\ProductStockSchemaMysql;
 
 final class ProductRepositoryMysql extends RepositoryMySQL implements ProductRepositoryInterface
 {
     //----------------------------------------------------------------------------
     // PROPERTIES SCHEMES :
     //----------------------------------------------------------------------------
-
     private const PRODUCT_COLUMNS = [
         ProductSchemaMysql::ID,
         ProductSchemaMysql::REFERENCE,
@@ -51,10 +50,10 @@ final class ProductRepositoryMysql extends RepositoryMySQL implements ProductRep
     ];
 
     private const STOCK_PRODUCT_COLUMNS = [
-        StockProductSchemaMysql::ID,
-        StockProductSchemaMysql::QUANTITY,
-        StockProductSchemaMysql::STOCK_MINIMUM,
-        StockProductSchemaMysql::STOCK_MAXIMUM
+        ProductStockSchemaMysql::ID,
+        ProductStockSchemaMysql::QUANTITY,
+        ProductStockSchemaMysql::STOCK_MINIMUM,
+        ProductStockSchemaMysql::STOCK_MAXIMUM
     ];
 
     /** @return string Schéma table product */
@@ -107,9 +106,9 @@ final class ProductRepositoryMysql extends RepositoryMySQL implements ProductRep
     {
         $relations = [];
 
-        if ($q->withCategories) $relations[] = ProductCategorySchemaMysql::productCategoriesRelation(self::CATEGORY_COLUMNS);
-        if ($q->withImages) $relations[] = ProductImageSchemaMysql::productImagesRelation(self::IMAGE_COLUMNS);
-        if ($q->withStock) $relations[] = StockProductSchemaMysql::stockProductRelation(self::STOCK_PRODUCT_COLUMNS);
+        if ($q->withCategories) $relations[] = ProductCategorySchemaMysql::withCategories(self::CATEGORY_COLUMNS);
+        if ($q->withImages) $relations[] = ProductImageSchemaMysql::withImages(self::IMAGE_COLUMNS);
+        if ($q->withStock) $relations[] = ProductStockSchemaMysql::withStock(self::STOCK_PRODUCT_COLUMNS);
 
         return $relations;
     }

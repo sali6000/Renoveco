@@ -9,8 +9,8 @@ use Src\Modules\Attribute\Infrastructure\Schema\AttributeSchemaMysql;
 use Src\Modules\Category\Infrastructure\Schema\CategorySchemaMysql;
 use Src\Modules\Product\Infrastructure\Schema\ProductImageSchemaMysql;
 use Src\Modules\Product\Infrastructure\Schema\ProductSchemaMysql;
+use Src\Modules\Product\Infrastructure\Schema\ProductStockSchemaMysql;
 use Src\Modules\Shared\Infrastructure\Schema\HelperSchemaMysql;
-use Src\Modules\Stock\Domain\Infrastructure\Schema\StockProductSchemaMysql;
 
 class Product extends BaseModel
 {
@@ -181,7 +181,7 @@ class Product extends BaseModel
             _updatedAt: self::getDateOrNull($row, ProductSchemaMysql::UPDATED_AT),
             _subtitle: self::getStringOrNull($row, ProductSchemaMysql::SUBTITLE),
             _metaDescription: self::getStringOrNull($row, ProductSchemaMysql::META_DESCRIPTION),
-            _stockProduct: self::getMappedOrNull($row, HelperSchemaMysql::fieldTable(StockProductSchemaMysql::TABLE), [ProductStock::class, 'fromArray']),
+            _stockProduct: self::getMappedOrNull($row, HelperSchemaMysql::fieldTable(ProductStockSchemaMysql::TABLE), [ProductStock::class, 'fromArray']),
 
             // Listes ([])
             _features: self::getJsonOrEmpty($row, ProductSchemaMysql::FEATURES),

@@ -15,7 +15,7 @@ final class ProductCategorySchemaMysql extends HelperSchemaMysql
     public const PRODUCT_ID = 'catpro.product_id';
     public const CATEGORY_ID = 'catpro.category_id';
 
-    public static function productCategoriesRelation(array $columns): ManyToManyRelation
+    public static function withCategories(array $columns): ManyToManyRelation
     {
         return new ManyToManyRelation(
             // SET KEY ARRAY (ex: User['roles'][...])

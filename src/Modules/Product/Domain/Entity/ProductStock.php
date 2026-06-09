@@ -3,7 +3,7 @@
 namespace Src\Modules\Product\Domain\Entity;
 
 use Core\Database\BaseModel;
-use Src\Modules\Stock\Domain\Infrastructure\Schema\StockProductSchemaMysql;
+use Src\Modules\Product\Infrastructure\Schema\ProductStockSchemaMysql;
 
 class ProductStock extends BaseModel
 {
@@ -26,9 +26,9 @@ class ProductStock extends BaseModel
     public static function fromArray(array $row): self
     {
         return new self(
-            quantity: self::getIntOrNull($row, StockProductSchemaMysql::QUANTITY) ?? 0,
-            stockMinimum: self::getIntOrNull($row, StockProductSchemaMysql::STOCK_MINIMUM) ?? 0,
-            stockMaximum: self::getIntOrNull($row, StockProductSchemaMysql::STOCK_MAXIMUM) ?? 0,
+            quantity: self::getIntOrNull($row, ProductStockSchemaMysql::QUANTITY) ?? 0,
+            stockMinimum: self::getIntOrNull($row, ProductStockSchemaMysql::STOCK_MINIMUM) ?? 0,
+            stockMaximum: self::getIntOrNull($row, ProductStockSchemaMysql::STOCK_MAXIMUM) ?? 0,
         );
     }
 }

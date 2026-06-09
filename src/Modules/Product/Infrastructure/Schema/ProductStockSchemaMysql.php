@@ -1,14 +1,12 @@
 <?php
 
-namespace Src\Modules\Stock\Domain\Infrastructure\Schema;
+namespace Src\Modules\Product\Infrastructure\Schema;
 
 use Core\Database\Relations\ManyToOneRelation;
-use Src\Modules\Product\Infrastructure\Schema\ProductSchemaMysql;
 use Src\Modules\Shared\Infrastructure\Schema\HelperSchemaMysql;
 
-final class StockProductSchemaMysql extends HelperSchemaMysql
+final class ProductStockSchemaMysql extends HelperSchemaMysql
 {
-
     // -------------------------------------------------------
     // 🧩 STOCK : PRODUCT
     // -------------------------------------------------------
@@ -20,10 +18,10 @@ final class StockProductSchemaMysql extends HelperSchemaMysql
     public const STOCK_MAXIMUM = 'stopro.stock_maximum';
     public const RELATION_PREFIX = 'stopro_';
 
-    public static function stockProductRelation(array $columns): ManyToOneRelation
+    public static function withStock(array $columns): ManyToOneRelation
     {
         return new ManyToOneRelation(
-            key: self::fieldTable(self::TABLE),
+            key: self::fieldTable(ProductStockSchemaMysql::TABLE),
             relationColumns: $columns,
             relationPrefix: self::RELATION_PREFIX,
 
