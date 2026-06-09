@@ -4,7 +4,9 @@ namespace Src\Modules\User\Domain\Entity;
 
 use Core\Database\BaseModel;
 use DateTime;
-use Src\Database\SchemaMysql;
+use Src\Modules\Shared\Infrastructure\Schema\HelperSchemaMysql;
+use Src\Modules\User\Infrastructure\Schema\RoleSchemaMysql;
+use Src\Modules\User\Infrastructure\Schema\UserSchemaMysql;
 
 class User extends BaseModel
 {
@@ -89,19 +91,19 @@ class User extends BaseModel
         return new self(
 
             // Obligatoires
-            _email: self::getString($row, SchemaMysql::USER_EMAIL),
-            _isActive: self::getBoolOrFalse($row, SchemaMysql::USER_IS_ACTIVE),
+            _email: self::getString($row, UserSchemaMysql::EMAIL),
+            _isActive: self::getBoolOrFalse($row, UserSchemaMysql::IS_ACTIVE),
 
             // Optionnelles (nullable)
-            _id: self::getIntOrNull($row, SchemaMysql::USER_ID),
-            _passwordHashed: self::getStringOrNull($row, SchemaMysql::USER_PASSWORD_HASH),
-            _createdAt: self::getDateOrNull($row, SchemaMysql::USER_CREATED_AT),
-            _lastLoginAt: self::getDateOrNull($row, SchemaMysql::USER_LAST_LOGIN_AT),
-            _emailVerifiedAt: self::getDateOrNull($row, SchemaMysql::USER_EMAIL_VERIFIED_AT),
-            _deletedAt: self::getDateOrNull($row, SchemaMysql::USER_DELETED_AT),
+            _id: self::getIntOrNull($row, UserSchemaMysql::ID),
+            _passwordHashed: self::getStringOrNull($row, UserSchemaMysql::PASSWORD_HASH),
+            _createdAt: self::getDateOrNull($row, UserSchemaMysql::CREATED_AT),
+            _lastLoginAt: self::getDateOrNull($row, UserSchemaMysql::LAST_LOGIN_AT),
+            _emailVerifiedAt: self::getDateOrNull($row, UserSchemaMysql::EMAIL_VERIFIED_AT),
+            _deletedAt: self::getDateOrNull($row, UserSchemaMysql::DELETED_AT),
 
             // Listes ([])
-            _roles: self::getMappedOrEmpty($row, SchemaMysql::fieldTable(SchemaMysql::TABLE_ROLE), [Role::class, 'fromArray']),
+            _roles: self::getMappedOrEmpty($row, HelperSchemaMysql::fieldTable(RoleSchemaMysql::TABLE), [Role::class, 'fromArray']),
         );
     }
 }

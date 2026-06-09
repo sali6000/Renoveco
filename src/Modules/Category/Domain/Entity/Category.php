@@ -3,8 +3,10 @@
 namespace Src\Modules\Category\Domain\Entity;
 
 use Core\Database\BaseModel;
-use Src\Database\SchemaMysql;
+use Src\Modules\Category\Infrastructure\Schema\CategorySchemaMysql;
 use Src\Modules\Product\Domain\Entity\Product;
+use Src\Modules\Product\Infrastructure\Schema\ProductSchemaMysql;
+use Src\Modules\Shared\Infrastructure\Schema\HelperSchemaMysql;
 
 class Category extends BaseModel
 {
@@ -106,16 +108,16 @@ class Category extends BaseModel
         return new self(
 
             // Obligatoires
-            _name: self::getString($row, SchemaMysql::CATEGORY_NAME),
+            _name: self::getString($row, CategorySchemaMysql::NAME),
 
             // Optionnelles (nullable)
-            _slug: self::getStringOrNull($row, SchemaMysql::CATEGORY_SLUG),
-            _description: self::getStringOrNull($row, SchemaMysql::CATEGORY_DESCRIPTION),
-            _id: self::getIntOrNull($row, SchemaMysql::CATEGORY_ID),
-            _parentId: self::getIntOrNull($row, SchemaMysql::CATEGORY_PARENT_ID),
+            _slug: self::getStringOrNull($row, CategorySchemaMysql::SLUG),
+            _description: self::getStringOrNull($row, CategorySchemaMysql::DESCRIPTION),
+            _id: self::getIntOrNull($row, CategorySchemaMysql::ID),
+            _parentId: self::getIntOrNull($row, CategorySchemaMysql::PARENT_ID),
 
             // Listes ([])
-            _products: self::getMappedOrEmpty($row, SchemaMysql::fieldTable(SchemaMysql::TABLE_PRODUCT), [Product::class, 'fromArray'])
+            _products: self::getMappedOrEmpty($row, HelperSchemaMysql::fieldTable(ProductSchemaMysql::TABLE), [Product::class, 'fromArray'])
         );
     }
 }

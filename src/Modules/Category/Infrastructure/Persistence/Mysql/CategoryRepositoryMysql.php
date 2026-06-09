@@ -4,20 +4,20 @@ namespace Src\Modules\Category\Infrastructure\Persistence\Mysql;
 
 use Core\Database\RepositoryMysql;
 use Core\Database\QueryBuilderInterface;
-use Src\Database\SchemaMysql;
 use Src\Modules\Category\Domain\Entity\Category;
 use Src\Modules\Category\Domain\Query\CategoryQuery;
 use Src\Modules\Category\Domain\Repository\CategoryRepositoryInterface;
+use Src\Modules\Category\Infrastructure\Schema\CategorySchemaMysql;
 
 class CategoryRepositoryMysql extends RepositoryMysql implements CategoryRepositoryInterface
 {
 
     private const CATEGORY_COLUMNS = [
-        SchemaMysql::CATEGORY_ID,
-        SchemaMysql::CATEGORY_DESCRIPTION,
-        SchemaMysql::CATEGORY_NAME,
-        SchemaMysql::CATEGORY_PARENT_ID,
-        SchemaMysql::CATEGORY_SLUG
+        CategorySchemaMysql::ID,
+        CategorySchemaMysql::DESCRIPTION,
+        CategorySchemaMysql::NAME,
+        CategorySchemaMysql::PARENT_ID,
+        CategorySchemaMysql::SLUG
     ];
 
     public function __construct(
@@ -33,7 +33,7 @@ class CategoryRepositoryMysql extends RepositoryMysql implements CategoryReposit
 
     protected function getTable(): string
     {
-        return SchemaMysql::TABLE_CATEGORY;
+        return CategorySchemaMysql::TABLE;
     }
 
     protected function fromArray(array $row): Category
@@ -58,10 +58,10 @@ class CategoryRepositoryMysql extends RepositoryMysql implements CategoryReposit
     private function applyFilters(QueryBuilderInterface $qb, CategoryQuery $qp): QueryBuilderInterface
     {
         // SLUG
-        if ($qp->slug !== null) $qb = $qb->where(SchemaMysql::CATEGORY_SLUG . ' = :slug', [':slug' => $qp->slug]);
+        if ($qp->slug !== null) $qb = $qb->where(CategorySchemaMysql::SLUG . ' = :slug', [':slug' => $qp->slug]);
 
         // ID
-        if ($qp->id !== null) $qb = $qb->where(SchemaMysql::CATEGORY_ID . ' = :id', [':id' => $qp->id]);
+        if ($qp->id !== null) $qb = $qb->where(CategorySchemaMysql::ID . ' = :id', [':id' => $qp->id]);
 
         return $qb;
     }
@@ -69,18 +69,18 @@ class CategoryRepositoryMysql extends RepositoryMysql implements CategoryReposit
     public function save(Category $category): Category
     {
         $data = [
-            SchemaMysql::CATEGORY_NAME => $category->name,
-            SchemaMysql::CATEGORY_SLUG => $category->slug,
-            SchemaMysql::CATEGORY_DESCRIPTION => $category->description,
-            SchemaMysql::CATEGORY_PARENT_ID => $category->parentId
+            CategorySchemaMysql::NAME => $category->name,
+            CategorySchemaMysql::SLUG => $category->slug,
+            CategorySchemaMysql::DESCRIPTION => $category->description,
+            CategorySchemaMysql::PARENT_ID => $category->parentId
         ];
 
         if ($category->id) {
             $ok = $this->qb
-                ->update(SchemaMysql::TABLE_CATEGORY, $data, SchemaMysql::CATEGORY_ID . ' = :id', ['id' => $category->id]);
+                ->update(CategorySchemaMysql::TABLE, $data, CategorySchemaMysql::ID . ' = :id', ['id' => $category->id]);
         } else {
             $stmt = $this->qb;
-            $category->id = $stmt->insert(SchemaMysql::TABLE_CATEGORY, $data);
+            $category->id = $stmt->insert(CategorySchemaMysql::TABLE, $data);
         }
 
         return $category;

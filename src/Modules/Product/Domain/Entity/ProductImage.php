@@ -3,7 +3,7 @@
 namespace Src\Modules\Product\Domain\Entity;
 
 use Core\Database\BaseModel;
-use Src\Database\SchemaMysql;
+use Src\Modules\Product\Infrastructure\Schema\ProductImageSchemaMysql;
 
 class ProductImage extends BaseModel
 {
@@ -48,10 +48,10 @@ class ProductImage extends BaseModel
     public static function fromArray(array $row): self
     {
         return new self(
-            _filePath: self::getString($row, SchemaMysql::PRODUCT_IMAGE_FILE_PATH),
-            _alt: self::getStringOrNull($row, SchemaMysql::PRODUCT_IMAGE_ALT_TEXT),
-            _id: self::getIntOrNull($row, SchemaMysql::PRODUCT_IMAGE_ID),
-            _isMain: self::getBoolOrFalse($row, SchemaMysql::PRODUCT_IMAGE_IS_MAIN),
+            _filePath: self::getString($row, ProductImageSchemaMysql::FILE_PATH),
+            _alt: self::getStringOrNull($row, ProductImageSchemaMysql::ALT_TEXT),
+            _id: self::getIntOrNull($row, ProductImageSchemaMysql::ID),
+            _isMain: self::getBoolOrFalse($row, ProductImageSchemaMysql::IS_MAIN),
         );
     }
 }

@@ -3,9 +3,14 @@
 namespace Src\Modules\Product\Domain\Entity;
 
 use Src\Modules\Category\Domain\Entity\Category;
-use Src\Database\SchemaMysql;
 use Core\Database\BaseModel;
 use DateTime;
+use Src\Modules\Attribute\Infrastructure\Schema\AttributeSchemaMysql;
+use Src\Modules\Category\Infrastructure\Schema\CategorySchemaMysql;
+use Src\Modules\Product\Infrastructure\Schema\ProductImageSchemaMysql;
+use Src\Modules\Product\Infrastructure\Schema\ProductSchemaMysql;
+use Src\Modules\Shared\Infrastructure\Schema\HelperSchemaMysql;
+use Src\Modules\Stock\Domain\Infrastructure\Schema\StockProductSchemaMysql;
 
 class Product extends BaseModel
 {
@@ -162,27 +167,27 @@ class Product extends BaseModel
         return new self(
 
             // Obligatoires
-            _reference: self::getString($row, SchemaMysql::PRODUCT_REFERENCE),
-            _slug: self::getString($row, SchemaMysql::PRODUCT_SLUG),
-            _name: self::getString($row, SchemaMysql::PRODUCT_NAME),
-            _isActive: self::getBoolOrFalse($row, SchemaMysql::PRODUCT_IS_ACTIVE),
+            _reference: self::getString($row, ProductSchemaMysql::REFERENCE),
+            _slug: self::getString($row, ProductSchemaMysql::SLUG),
+            _name: self::getString($row, ProductSchemaMysql::NAME),
+            _isActive: self::getBoolOrFalse($row, ProductSchemaMysql::IS_ACTIVE),
 
             // Optionnelles (nullable)
-            _id: self::getIntOrNull($row, SchemaMysql::PRODUCT_ID),
-            _description: self::getStringOrNull($row, SchemaMysql::PRODUCT_DESCRIPTION),
-            _composition: self::getStringOrNull($row, SchemaMysql::PRODUCT_COMPOSITION),
-            _useFor: self::getStringOrNull($row, SchemaMysql::PRODUCT_USE_FOR),
-            _createdAt: self::getDateOrNull($row, SchemaMysql::USER_CREATED_AT),
-            _updatedAt: self::getDateOrNull($row, SchemaMysql::PRODUCT_UPDATED_AT),
-            _subtitle: self::getStringOrNull($row, SchemaMysql::PRODUCT_SUBTITLE),
-            _metaDescription: self::getStringOrNull($row, SchemaMysql::PRODUCT_META_DESCRIPTION),
-            _stockProduct: self::getMappedOrNull($row, SchemaMysql::fieldTable(SchemaMysql::TABLE_STOCK_PRODUCT), [ProductStock::class, 'fromArray']),
+            _id: self::getIntOrNull($row, ProductSchemaMysql::ID),
+            _description: self::getStringOrNull($row, ProductSchemaMysql::DESCRIPTION),
+            _composition: self::getStringOrNull($row, ProductSchemaMysql::COMPOSITION),
+            _useFor: self::getStringOrNull($row, ProductSchemaMysql::USE_FOR),
+            _createdAt: self::getDateOrNull($row, ProductSchemaMysql::CREATED_AT),
+            _updatedAt: self::getDateOrNull($row, ProductSchemaMysql::UPDATED_AT),
+            _subtitle: self::getStringOrNull($row, ProductSchemaMysql::SUBTITLE),
+            _metaDescription: self::getStringOrNull($row, ProductSchemaMysql::META_DESCRIPTION),
+            _stockProduct: self::getMappedOrNull($row, HelperSchemaMysql::fieldTable(StockProductSchemaMysql::TABLE), [ProductStock::class, 'fromArray']),
 
             // Listes ([])
-            _features: self::getJsonOrEmpty($row, SchemaMysql::PRODUCT_FEATURES),
-            _images: self::getMappedOrEmpty($row, SchemaMysql::fieldTable(SchemaMysql::TABLE_PRODUCT_IMAGE), [ProductImage::class, 'fromArray']),
-            _attributes: self::getMappedOrEmpty($row, SchemaMysql::fieldTable(SchemaMysql::TABLE_ATTRIBUTE), [ProductAttribute::class, 'fromArray']),
-            _categories: self::getMappedOrEmpty($row, SchemaMysql::fieldTable(SchemaMysql::TABLE_CATEGORY), [Category::class, 'fromArray'])
+            _features: self::getJsonOrEmpty($row, ProductSchemaMysql::FEATURES),
+            _images: self::getMappedOrEmpty($row, HelperSchemaMysql::fieldTable(ProductImageSchemaMysql::TABLE), [ProductImage::class, 'fromArray']),
+            _attributes: self::getMappedOrEmpty($row, HelperSchemaMysql::fieldTable(AttributeSchemaMysql::TABLE), [ProductAttribute::class, 'fromArray']),
+            _categories: self::getMappedOrEmpty($row, HelperSchemaMysql::fieldTable(CategorySchemaMysql::TABLE), [Category::class, 'fromArray'])
         );
     }
 }

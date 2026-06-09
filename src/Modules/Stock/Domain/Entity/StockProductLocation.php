@@ -4,7 +4,7 @@ namespace Src\Modules\Stock\Entity;
 
 use Core\Database\BaseModel;
 use DateTime;
-use Src\Database\SchemaMysql;
+use Src\Modules\Stock\Domain\Infrastructure\Schema\StockProductLocationSchemaMysql;
 
 class StockProductLocation extends BaseModel
 {
@@ -52,12 +52,12 @@ class StockProductLocation extends BaseModel
     public static function fromArray(array $row): self
     {
         return new self(
-            _productStockId: self::getInt($row, SchemaMysql::STOCK_PRODUCT_LOCATION_PRODUCT_STOCK_ID),
-            _stockLocationId: self::getInt($row, SchemaMysql::STOCK_PRODUCT_LOCATION_STOCK_LOCATION_ID),
-            _quantity: self::getInt($row, SchemaMysql::STOCK_PRODUCT_LOCATION_QUANTITY),
-            _id: self::getIntOrNull($row, SchemaMysql::STOCK_PRODUCT_LOCATION_ID),
-            _createdAt: self::getDateOrNull($row, SchemaMysql::STOCK_PRODUCT_LOCATION_CREATED_AT),
-            _updatedAt: self::getDateOrNull($row, SchemaMysql::STOCK_PRODUCT_LOCATION_UPDATED_AT),
+            _productStockId: self::getInt($row, StockProductLocationSchemaMysql::PRODUCT_STOCK_ID),
+            _stockLocationId: self::getInt($row, StockProductLocationSchemaMysql::STOCK_LOCATION_ID),
+            _quantity: self::getInt($row, StockProductLocationSchemaMysql::QUANTITY),
+            _id: self::getIntOrNull($row, StockProductLocationSchemaMysql::ID),
+            _createdAt: self::getDateOrNull($row, StockProductLocationSchemaMysql::CREATED_AT),
+            _updatedAt: self::getDateOrNull($row, StockProductLocationSchemaMysql::UPDATED_AT),
         );
     }
 }

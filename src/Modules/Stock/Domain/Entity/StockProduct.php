@@ -3,8 +3,10 @@
 namespace Src\Modules\Stock\Entity;
 
 use Core\Database\BaseModel;
-use Src\Database\SchemaMysql;
 use Src\Modules\Product\Domain\Entity\Product;
+use Src\Modules\Shared\Infrastructure\Schema\HelperSchemaMysql;
+use Src\Modules\Stock\Domain\Infrastructure\Schema\StockLocationSchemaMysql;
+use Src\Modules\Stock\Domain\Infrastructure\Schema\StockProductSchemaMysql;
 
 class StockProduct extends BaseModel
 {
@@ -71,12 +73,12 @@ class StockProduct extends BaseModel
     {
         return new self(
             _product: self::getMappedOrNull($row, 'product', [Product::class, 'fromArray']) ?? throw new \RuntimeException('Missing product relation'),
-            _quantity: self::getInt($row, SchemaMysql::STOCK_PRODUCT_QUANTITY),
-            _stock_minimum: self::getInt($row, SchemaMysql::STOCK_PRODUCT_STOCK_MINIMUM),
-            _id: self::getIntOrNull($row, SchemaMysql::STOCK_PRODUCT_ID),
-            _stock_maximum: self::getIntOrNull($row, SchemaMysql::STOCK_PRODUCT_STOCK_MAXIMUM),
-            _stockProductLocation: self::getMappedOrEmpty($row, SchemaMysql::fieldTable(SchemaMysql::TABLE_STOCK_PRODUCT_LOCATION), [StockProductLocation::class, 'fromArray']),
-            _stockLocation: self::getMappedOrEmpty($row, SchemaMysql::fieldTable(SchemaMysql::TABLE_STOCK_LOCATION), [StockLocation::class, 'fromArray'])
+            _quantity: self::getInt($row, StockProductSchemaMysql::QUANTITY),
+            _stock_minimum: self::getInt($row, StockProductSchemaMysql::STOCK_MINIMUM),
+            _id: self::getIntOrNull($row, StockProductSchemaMysql::ID),
+            _stock_maximum: self::getIntOrNull($row, StockProductSchemaMysql::STOCK_MAXIMUM),
+            _stockProductLocation: self::getMappedOrEmpty($row, HelperSchemaMysql::fieldTable(StockProductSchemaMysql::TABLE), [StockProductLocation::class, 'fromArray']),
+            _stockLocation: self::getMappedOrEmpty($row, HelperSchemaMysql::fieldTable(StockLocationSchemaMysql::TABLE), [StockLocation::class, 'fromArray'])
         );
     }
 }

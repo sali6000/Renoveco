@@ -3,7 +3,7 @@
 namespace Src\Modules\User\Domain\Entity;
 
 use Core\Database\BaseModel;
-use Src\Database\SchemaMysql;
+use Src\Modules\User\Infrastructure\Schema\RoleSchemaMysql;
 
 class Role extends BaseModel
 {
@@ -65,11 +65,11 @@ class Role extends BaseModel
         return new self(
 
             // Obligatoires
-            _name: self::getString($row, SchemaMysql::ROLE_NAME),
+            _name: self::getString($row, RoleSchemaMysql::NAME),
 
             // Optionnelles (nullable)
-            _id: self::getInt($row, SchemaMysql::ROLE_ID),
-            _isActive: self::getBoolOrFalse($row, SchemaMysql::ROLE_IS_ACTIVE),
+            _id: self::getInt($row, RoleSchemaMysql::ID),
+            _isActive: self::getBoolOrFalse($row, RoleSchemaMysql::IS_ACTIVE),
 
             // Listes ([])
             _users: self::getMappedOrEmpty($row, 'users', [User::class, 'fromArray']),

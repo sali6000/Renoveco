@@ -3,10 +3,12 @@
 namespace Src\Modules\Auth\Application\Service;
 
 use Core\Support\DebugHelper;
-use Src\Database\SchemaMysql;
 use Src\Exception\Application\AuthentificationException;
+use Src\Modules\Shared\Infrastructure\Schema\HelperSchemaMysql;
 use Src\Modules\User\Domain\Query\UserQuery;
 use Src\Modules\User\Domain\Repository\UserRepositoryInterface;
+use Src\Modules\User\Infrastructure\Schema\RoleSchemaMysql;
+use Src\Modules\User\Infrastructure\Schema\UserSchemaMysql;
 
 final class AuthService
 {
@@ -32,12 +34,10 @@ final class AuthService
 
         $this->userRepo->updateLastLogin($user->id);
 
-        DebugHelper::verboseServer($user);
-
         return [
-            SchemaMysql::fieldProperty(SchemaMysql::USER_ID) => $user->id,
-            SchemaMysql::fieldProperty(SchemaMysql::USER_EMAIL) => $user->email,
-            SchemaMysql::fieldTable(SchemaMysql::TABLE_ROLE) => $user->roles[0]->name
+            HelperSchemaMysql::fieldProperty(UserSchemaMysql::ID) => $user->id,
+            HelperSchemaMysql::fieldProperty(UserSchemaMysql::EMAIL) => $user->email,
+            HelperSchemaMysql::fieldTable(RoleSchemaMysql::TABLE) => $user->roles[0]->name
         ];
     }
 

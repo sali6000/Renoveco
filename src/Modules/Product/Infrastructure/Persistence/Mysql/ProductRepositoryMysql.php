@@ -9,7 +9,11 @@ use Src\Modules\Product\Domain\Query\ProductQuery;
 use Src\Modules\Product\Domain\Repository\ProductRepositoryInterface;
 use Core\Database\QueryBuilderInterface;
 use Core\Database\RepositoryMysql;
-use Src\Database\SchemaMysql;
+use Src\Modules\Category\Infrastructure\Schema\CategorySchemaMysql;
+use Src\Modules\Product\Infrastructure\Schema\ProductCategorySchemaMysql;
+use Src\Modules\Product\Infrastructure\Schema\ProductImageSchemaMysql;
+use Src\Modules\Product\Infrastructure\Schema\ProductSchemaMysql;
+use Src\Modules\Stock\Domain\Infrastructure\Schema\StockProductSchemaMysql;
 
 final class ProductRepositoryMysql extends RepositoryMySQL implements ProductRepositoryInterface
 {
@@ -18,45 +22,45 @@ final class ProductRepositoryMysql extends RepositoryMySQL implements ProductRep
     //----------------------------------------------------------------------------
 
     private const PRODUCT_COLUMNS = [
-        SchemaMysql::PRODUCT_ID,
-        SchemaMysql::PRODUCT_REFERENCE,
-        SchemaMysql::PRODUCT_SLUG,
-        SchemaMysql::PRODUCT_NAME,
-        SchemaMysql::PRODUCT_DESCRIPTION,
-        SchemaMysql::PRODUCT_COMPOSITION,
-        SchemaMysql::PRODUCT_IS_ACTIVE,
-        SchemaMysql::PRODUCT_SUBTITLE,
-        SchemaMysql::PRODUCT_META_DESCRIPTION,
-        SchemaMysql::PRODUCT_FEATURES,
-        SchemaMysql::PRODUCT_IMAGE_ALT_TEXT,
-        SchemaMysql::PRODUCT_IMAGE_FILE_PATH,
+        ProductSchemaMysql::ID,
+        ProductSchemaMysql::REFERENCE,
+        ProductSchemaMysql::SLUG,
+        ProductSchemaMysql::NAME,
+        ProductSchemaMysql::DESCRIPTION,
+        ProductSchemaMysql::COMPOSITION,
+        ProductSchemaMysql::IS_ACTIVE,
+        ProductSchemaMysql::SUBTITLE,
+        ProductSchemaMysql::META_DESCRIPTION,
+        ProductSchemaMysql::FEATURES,
+        ProductImageSchemaMysql::ALT_TEXT,
+        ProductImageSchemaMysql::FILE_PATH,
     ];
 
     private const IMAGE_COLUMNS = [
-        SchemaMysql::PRODUCT_IMAGE_ID,
-        SchemaMysql::PRODUCT_IMAGE_FILE_PATH,
-        SchemaMysql::PRODUCT_IMAGE_ALT_TEXT,
-        SchemaMysql::PRODUCT_IMAGE_IS_MAIN,
+        ProductImageSchemaMysql::ID,
+        ProductImageSchemaMysql::FILE_PATH,
+        ProductImageSchemaMysql::ALT_TEXT,
+        ProductImageSchemaMysql::IS_MAIN,
     ];
 
     private const CATEGORY_COLUMNS = [
-        SchemaMysql::CATEGORY_ID,
-        SchemaMysql::CATEGORY_NAME,
-        SchemaMysql::CATEGORY_SLUG,
-        SchemaMysql::CATEGORY_DESCRIPTION,
+        CategorySchemaMysql::ID,
+        CategorySchemaMysql::NAME,
+        CategorySchemaMysql::SLUG,
+        CategorySchemaMysql::DESCRIPTION,
     ];
 
     private const STOCK_PRODUCT_COLUMNS = [
-        SchemaMysql::STOCK_PRODUCT_ID,
-        SchemaMysql::STOCK_PRODUCT_QUANTITY,
-        SchemaMysql::STOCK_PRODUCT_STOCK_MINIMUM,
-        SchemaMysql::STOCK_PRODUCT_STOCK_MAXIMUM
+        StockProductSchemaMysql::ID,
+        StockProductSchemaMysql::QUANTITY,
+        StockProductSchemaMysql::STOCK_MINIMUM,
+        StockProductSchemaMysql::STOCK_MAXIMUM
     ];
 
     /** @return string Schéma table product */
     protected function getTable(): string
     {
-        return SchemaMysql::TABLE_PRODUCT;
+        return ProductSchemaMysql::TABLE;
     }
 
     /** @return Product Produit obtenu depuis $row */
@@ -85,11 +89,11 @@ final class ProductRepositoryMysql extends RepositoryMySQL implements ProductRep
 
     protected function applyFilters(QueryBuilderInterface $qb, ProductQuery $q): QueryBuilderInterface
     {
-        if ($q->slug !== null) $qb = $qb->where(SchemaMysql::PRODUCT_SLUG . ' = :slug', [':slug' => $q->slug]);
-        if ($q->id !== null) $qb = $qb->where(SchemaMysql::PRODUCT_ID . ' = :id', [':id' => $q->id]);
+        if ($q->slug !== null) $qb = $qb->where(ProductSchemaMysql::SLUG . ' = :slug', [':slug' => $q->slug]);
+        if ($q->id !== null) $qb = $qb->where(ProductSchemaMysql::ID . ' = :id', [':id' => $q->id]);
         if ($q->isActive !== null) {
             $active = $q->isActive ? 'TRUE' : 'FALSE';
-            $qb = $qb->where(SchemaMysql::PRODUCT_IS_ACTIVE . " = {$active}");
+            $qb = $qb->where(ProductSchemaMysql::IS_ACTIVE . " = {$active}");
         }
 
         return $qb;
@@ -103,9 +107,9 @@ final class ProductRepositoryMysql extends RepositoryMySQL implements ProductRep
     {
         $relations = [];
 
-        if ($q->withCategories) $relations[] = SchemaMysql::productCategoriesRelation(self::CATEGORY_COLUMNS);
-        if ($q->withImages) $relations[] = SchemaMysql::productImagesRelation(self::IMAGE_COLUMNS);
-        if ($q->withStock) $relations[] = SchemaMysql::productStockRelation(self::STOCK_PRODUCT_COLUMNS);
+        if ($q->withCategories) $relations[] = ProductCategorySchemaMysql::productCategoriesRelation(self::CATEGORY_COLUMNS);
+        if ($q->withImages) $relations[] = ProductImageSchemaMysql::productImagesRelation(self::IMAGE_COLUMNS);
+        if ($q->withStock) $relations[] = StockProductSchemaMysql::stockProductRelation(self::STOCK_PRODUCT_COLUMNS);
 
         return $relations;
     }

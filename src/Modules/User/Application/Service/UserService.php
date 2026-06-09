@@ -2,13 +2,14 @@
 
 namespace Src\Modules\User\Application\Service;
 
-use Src\Database\SchemaMysql;
 use Src\Exception\Domain\UniqueConstraintException;
 use Core\Logger\AccessLogger;
 use Src\Modules\User\Domain\Entity\User;
 use Src\Modules\User\Domain\Entity\Role;
 use Src\Modules\User\Domain\Repository\UserRepositoryInterface;
 use PDOException;
+use Src\Modules\Shared\Infrastructure\Schema\HelperSchemaMysql;
+use Src\Modules\User\Infrastructure\Schema\UserSchemaMysql;
 
 class UserService
 {
@@ -35,8 +36,8 @@ class UserService
                 // Si le message d'erreur est sur le champ "users.email" renvoyer une erreur sur "email"
                 if (str_contains(
                     $message,
-                    SchemaMysql::fieldTable(SchemaMysql::TABLE_USER) . "." .
-                        SchemaMysql::fieldProperty(SchemaMysql::USER_EMAIL)
+                    HelperSchemaMysql::fieldTable(UserSchemaMysql::TABLE) . "." .
+                        HelperSchemaMysql::fieldProperty(UserSchemaMysql::EMAIL)
                 )) {
                     AccessLogger::logTo($e, AccessLogger::LEVEL_ERROR, AccessLogger::CHANNEL_DATABASE);
                     throw new UniqueConstraintException('Cette email est déjà inscrit.');

@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Core\Database\Relations;
 
 use Core\Database\QueryBuilderInterface;
-use Core\Support\DebugHelper;
-use Src\Database\SchemaMysql;
+use Src\Modules\Shared\Infrastructure\Schema\HelperSchemaMysql;
 
 /**
  * Classe de base pour toutes les relations.
@@ -67,7 +66,7 @@ abstract class AbstractRelation implements RelationInterface
 
         // Ex: role_id AS role_id, role_name AS role_name
         $result = array_map(
-            fn(string $col) => $col . ' AS ' . $this->relationPrefix . SchemaMysql::fieldProperty($col),
+            fn(string $col) => $col . ' AS ' . $this->relationPrefix . HelperSchemaMysql::fieldProperty($col),
             $this->relationColumns
         );
 
@@ -98,7 +97,7 @@ abstract class AbstractRelation implements RelationInterface
                 $cleanColumn = substr($column, strlen($this->relationPrefix));
 
                 if (empty($this->relationColumns) || in_array($cleanColumn, array_map(
-                    fn(string $col) => SchemaMysql::fieldProperty($col),
+                    fn(string $col) => HelperSchemaMysql::fieldProperty($col),
                     $this->relationColumns
                 ))) {
                     $relationData[$cleanColumn] = $value;

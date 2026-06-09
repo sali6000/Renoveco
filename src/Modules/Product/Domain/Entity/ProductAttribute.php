@@ -3,7 +3,8 @@
 namespace Src\Modules\Product\Domain\Entity;
 
 use Core\Database\BaseModel;
-use Src\Database\SchemaMysql;
+use Src\Modules\Attribute\Infrastructure\Schema\AttributeSchemaMysql;
+use Src\Modules\Product\Infrastructure\Schema\ProductAttributeSchemaMysql;
 
 class ProductAttribute extends BaseModel
 {
@@ -39,8 +40,8 @@ class ProductAttribute extends BaseModel
         return new self(
             _groupName: $row['group_name'],
             _attributeName: $row['attribute_name'],
-            _value: self::getString($row, SchemaMysql::PRODUCT_ATTRIBUTE_VALUE),
-            _unit: self::getStringOrNull($row, SchemaMysql::ATTRIBUTES_UNIT),
+            _value: self::getString($row, ProductAttributeSchemaMysql::VALUE),
+            _unit: self::getStringOrNull($row, AttributeSchemaMysql::UNIT),
         );
     }
 }

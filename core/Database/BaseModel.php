@@ -3,7 +3,7 @@
 namespace Core\Database;
 
 use DateTime;
-use Src\Database\SchemaMysql;
+use Src\Modules\Shared\Infrastructure\Schema\HelperSchemaMysql;
 
 abstract class BaseModel
 {
@@ -13,17 +13,17 @@ abstract class BaseModel
 
     protected static function getString(array $row, string $const): string
     {
-        return $row[SchemaMysql::fieldProperty($const)];
+        return $row[HelperSchemaMysql::fieldProperty($const)];
     }
 
     protected static function getStringOrNull(array $row, string $const): ?string
     {
-        return $row[SchemaMysql::fieldProperty($const)] ?? null;
+        return $row[HelperSchemaMysql::fieldProperty($const)] ?? null;
     }
 
     protected static function getStringOrEmpty(array $row, string $const): string
     {
-        return $row[SchemaMysql::fieldProperty($const)] ?? '';
+        return $row[HelperSchemaMysql::fieldProperty($const)] ?? '';
     }
 
     // ==========================================================
@@ -32,18 +32,18 @@ abstract class BaseModel
 
     protected static function getInt(array $row, string $const): int
     {
-        return (int) $row[SchemaMysql::fieldProperty($const)];
+        return (int) $row[HelperSchemaMysql::fieldProperty($const)];
     }
 
     protected static function getIntOrNull(array $row, string $const): ?int
     {
-        $key = SchemaMysql::fieldProperty($const);
+        $key = HelperSchemaMysql::fieldProperty($const);
         return isset($row[$key]) ? (int) $row[$key] : null;
     }
 
     protected static function getIntOrZero(array $row, string $const): int
     {
-        return (int) ($row[SchemaMysql::fieldProperty($const)] ?? 0);
+        return (int) ($row[HelperSchemaMysql::fieldProperty($const)] ?? 0);
     }
 
     // ==========================================================
@@ -52,18 +52,18 @@ abstract class BaseModel
 
     protected static function getFloat(array $row, string $const): float
     {
-        return (float) $row[SchemaMysql::fieldProperty($const)];
+        return (float) $row[HelperSchemaMysql::fieldProperty($const)];
     }
 
     protected static function getFloatOrNull(array $row, string $const): ?float
     {
-        $key = SchemaMysql::fieldProperty($const);
+        $key = HelperSchemaMysql::fieldProperty($const);
         return isset($row[$key]) ? (float) $row[$key] : null;
     }
 
     protected static function getFloatOrZero(array $row, string $const): float
     {
-        return (float) ($row[SchemaMysql::fieldProperty($const)] ?? 0.0);
+        return (float) ($row[HelperSchemaMysql::fieldProperty($const)] ?? 0.0);
     }
 
     // ==========================================================
@@ -72,12 +72,12 @@ abstract class BaseModel
 
     protected static function getBoolOrFalse(array $row, string $const): bool
     {
-        return (bool) ($row[SchemaMysql::fieldProperty($const)] ?? false);
+        return (bool) ($row[HelperSchemaMysql::fieldProperty($const)] ?? false);
     }
 
     protected static function getBoolOrTrue(array $row, string $const): bool
     {
-        return (bool) ($row[SchemaMysql::fieldProperty($const)] ?? true);
+        return (bool) ($row[HelperSchemaMysql::fieldProperty($const)] ?? true);
     }
 
     // ==========================================================
@@ -86,7 +86,7 @@ abstract class BaseModel
 
     protected static function getDateOrNull(array $row, string $const): ?DateTime
     {
-        return self::toDateTime($row[SchemaMysql::fieldProperty($const)] ?? null);
+        return self::toDateTime($row[HelperSchemaMysql::fieldProperty($const)] ?? null);
     }
 
     // ==========================================================
@@ -95,7 +95,7 @@ abstract class BaseModel
 
     protected static function getJsonOrEmpty(array $row, string $const): array
     {
-        $key = SchemaMysql::fieldProperty($const);
+        $key = HelperSchemaMysql::fieldProperty($const);
         return !empty($row[$key])
             ? json_decode($row[$key], true)
             : [];
@@ -103,7 +103,7 @@ abstract class BaseModel
 
     protected static function getJsonOrNull(array $row, string $const): ?array
     {
-        $key = SchemaMysql::fieldProperty($const);
+        $key = HelperSchemaMysql::fieldProperty($const);
         return !empty($row[$key])
             ? json_decode($row[$key], true)
             : null;

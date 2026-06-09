@@ -5,15 +5,15 @@ namespace Src\Modules\Shared\Infrastructure\Persistence\Mysql;
 use Core\Database\QueryBuilderInterface;
 use Core\Database\RepositoryMysql;
 use Override;
-use Src\Database\SchemaMysql;
 use Src\Modules\Shared\Domain\Repository\RateLimitRepositoryInterface;
+use Src\Modules\Shared\Infrastructure\Schema\RateLimitSchemaMysql;
 
 class RateLimitRepositoryMysql  extends RepositoryMysql implements RateLimitRepositoryInterface
 {
     #[Override]
     public function getTable(): string
     {
-        return SchemaMysql::TABLE_RATE_LIMIT_ATTEMPT;
+        return RateLimitSchemaMysql::TABLE;
     }
 
     #[Override]

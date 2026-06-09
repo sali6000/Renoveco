@@ -2,15 +2,8 @@
 
 namespace Src\Modules\Category\Application\Service;
 
-use Src\Database\SchemaMysql;
-use Src\Exception\ServiceException;
-use Src\Exception\UniqueConstraintException;
-use Src\Exception\ValidationException;
 use Src\Modules\Category\Domain\Entity\Category;
 use Src\Modules\Category\Domain\Repository\CategoryRepositoryInterface;
-use Core\Logger\AccessLogger;
-use Core\Support\DebugHelper;
-use PDOException;
 use Src\Modules\Category\Domain\Query\CategoryQuery;
 
 class CategoryService
