@@ -35,7 +35,7 @@ class UserService
                 // Si le message d'erreur est sur le champ "users.email" renvoyer une erreur sur "email"
                 if (str_contains(
                     $message,
-                    SchemaMysql::fieldTable(SchemaMysql::TABLE_USERS) . "." .
+                    SchemaMysql::fieldTable(SchemaMysql::TABLE_USER) . "." .
                         SchemaMysql::fieldProperty(SchemaMysql::USER_EMAIL)
                 )) {
                     AccessLogger::logTo($e, AccessLogger::LEVEL_ERROR, AccessLogger::CHANNEL_DATABASE);

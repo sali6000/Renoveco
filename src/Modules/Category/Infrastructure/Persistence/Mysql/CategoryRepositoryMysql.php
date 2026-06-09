@@ -33,7 +33,7 @@ class CategoryRepositoryMysql extends RepositoryMysql implements CategoryReposit
 
     protected function getTable(): string
     {
-        return SchemaMysql::TABLE_CATEGORIES;
+        return SchemaMysql::TABLE_CATEGORY;
     }
 
     protected function fromArray(array $row): Category
@@ -77,10 +77,10 @@ class CategoryRepositoryMysql extends RepositoryMysql implements CategoryReposit
 
         if ($category->id) {
             $ok = $this->qb
-                ->update(SchemaMysql::TABLE_CATEGORIES, $data, SchemaMysql::CATEGORY_ID . ' = :id', ['id' => $category->id]);
+                ->update(SchemaMysql::TABLE_CATEGORY, $data, SchemaMysql::CATEGORY_ID . ' = :id', ['id' => $category->id]);
         } else {
             $stmt = $this->qb;
-            $category->id = $stmt->insert(SchemaMysql::TABLE_CATEGORIES, $data);
+            $category->id = $stmt->insert(SchemaMysql::TABLE_CATEGORY, $data);
         }
 
         return $category;

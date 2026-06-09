@@ -13,7 +13,7 @@ class RateLimitRepositoryMysql  extends RepositoryMysql implements RateLimitRepo
     #[Override]
     public function getTable(): string
     {
-        return SchemaMysql::TABLE_RATE_LIMIT_ATTEMPTS;
+        return SchemaMysql::TABLE_RATE_LIMIT_ATTEMPT;
     }
 
     #[Override]
@@ -43,7 +43,7 @@ class RateLimitRepositoryMysql  extends RepositoryMysql implements RateLimitRepo
     public function countRecent(string $type, int $minutes): int
     {
         $sql = "SELECT COUNT(*) AS attempt_count 
-                FROM rate_limit_attempts 
+                FROM rate_limit_attempt
                 WHERE type = :type
                 AND ip_address = :ip 
                 AND attempted_at >= DATE_SUB(NOW(), INTERVAL :minutes MINUTE)";
@@ -56,7 +56,7 @@ class RateLimitRepositoryMysql  extends RepositoryMysql implements RateLimitRepo
 
     public function record(string $type, ?string $identifier): void
     {
-        $sql = "INSERT INTO rate_limit_attempts (type, ip_address, identifier) 
+        $sql = "INSERT INTO rate_limit_attempt (type, ip_address, identifier) 
                 VALUES (:type, :ip, :identifier)";
 
         $stmt = $this->pdo->prepare($sql);

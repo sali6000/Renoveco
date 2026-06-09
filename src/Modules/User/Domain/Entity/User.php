@@ -101,7 +101,7 @@ class User extends BaseModel
             _deletedAt: self::getDateOrNull($row, SchemaMysql::USER_DELETED_AT),
 
             // Listes ([])
-            _roles: self::getMappedOrEmpty($row, 'roles', [Role::class, 'fromArray']),
+            _roles: self::getMappedOrEmpty($row, SchemaMysql::fieldTable(SchemaMysql::TABLE_ROLE), [Role::class, 'fromArray']),
         );
     }
 }

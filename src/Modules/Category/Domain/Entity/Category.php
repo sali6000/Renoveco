@@ -115,7 +115,7 @@ class Category extends BaseModel
             _parentId: self::getIntOrNull($row, SchemaMysql::CATEGORY_PARENT_ID),
 
             // Listes ([])
-            _products: self::getMappedOrEmpty($row, SchemaMysql::fieldTable(SchemaMysql::TABLE_PRODUCTS), [Product::class, 'fromArray'])
+            _products: self::getMappedOrEmpty($row, SchemaMysql::fieldTable(SchemaMysql::TABLE_PRODUCT), [Product::class, 'fromArray'])
         );
     }
 }

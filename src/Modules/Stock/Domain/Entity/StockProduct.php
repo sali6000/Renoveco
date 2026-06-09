@@ -75,8 +75,8 @@ class StockProduct extends BaseModel
             _stock_minimum: self::getInt($row, SchemaMysql::STOCK_PRODUCT_STOCK_MINIMUM),
             _id: self::getIntOrNull($row, SchemaMysql::STOCK_PRODUCT_ID),
             _stock_maximum: self::getIntOrNull($row, SchemaMysql::STOCK_PRODUCT_STOCK_MAXIMUM),
-            _stockProductLocation: self::getMappedOrEmpty($row, 'stockProductLocation', [StockProductLocation::class, 'fromArray']),
-            _stockLocation: self::getMappedOrEmpty($row, 'stockLocation', [StockLocation::class, 'fromArray'])
+            _stockProductLocation: self::getMappedOrEmpty($row, SchemaMysql::fieldTable(SchemaMysql::TABLE_STOCK_PRODUCT_LOCATION), [StockProductLocation::class, 'fromArray']),
+            _stockLocation: self::getMappedOrEmpty($row, SchemaMysql::fieldTable(SchemaMysql::TABLE_STOCK_LOCATION), [StockLocation::class, 'fromArray'])
         );
     }
 }

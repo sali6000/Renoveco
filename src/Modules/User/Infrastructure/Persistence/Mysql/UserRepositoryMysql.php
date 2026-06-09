@@ -52,7 +52,7 @@ class UserRepositoryMysql extends RepositoryMysql implements UserRepositoryInter
 
     protected function getTable(): string
     {
-        return SchemaMysql::TABLE_USERS;
+        return SchemaMysql::TABLE_USER;
     }
 
     protected function fromArray(array $row): User
@@ -132,13 +132,13 @@ class UserRepositoryMysql extends RepositoryMysql implements UserRepositoryInter
 
         if ($user->id !== null) {
             $this->qb->update(
-                SchemaMysql::TABLE_USERS,
+                SchemaMysql::TABLE_USER,
                 $data,
                 SchemaMysql::USER_ID . ' = :id',
                 ['id' => $user->id]
             );
         } else {
-            $ok = $this->qb->insert(SchemaMysql::TABLE_USERS, $data);
+            $ok = $this->qb->insert(SchemaMysql::TABLE_USER, $data);
             if ($ok) {
                 $user->id = $this->qb->returnInsertId();
             }
@@ -161,7 +161,7 @@ class UserRepositoryMysql extends RepositoryMysql implements UserRepositoryInter
         foreach ($user->roles as $role) {
             $roleId = $this->qb
                 ->select([SchemaMysql::ROLE_ID])
-                ->from(SchemaMysql::TABLE_ROLES)
+                ->from(SchemaMysql::TABLE_ROLE)
                 ->where(SchemaMysql::ROLE_NAME . ' = :name', [':name' => $role->name])
                 ->executeAndFetchColumn();
 
@@ -191,7 +191,7 @@ class UserRepositoryMysql extends RepositoryMysql implements UserRepositoryInter
     public function updateLastLogin(int $userId): void
     {
         $this->qb->update(
-            SchemaMysql::TABLE_USERS,
+            SchemaMysql::TABLE_USER,
             [
                 SchemaMysql::fieldProperty(SchemaMysql::USER_LAST_LOGIN_AT) => (new \DateTime('now', new \DateTimeZone(AppConfig::getEnv('DATETIMEZONE'))))
                     ->format('Y-m-d H:i:s')

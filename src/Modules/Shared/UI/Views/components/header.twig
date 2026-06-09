@@ -54,15 +54,13 @@
                 </li>
 
                 {% if userSession %}
-                    {% if userSession.role is same as('superadmin') %}
-                    <li class="shared-navbar__item">
-                        <a href="/admin/dashboard" class="shared-navbar__link">Admin</a>
-                    </li>
-                    {% endif %}
-                    {% if userSession.role is same as('user') %}
                     <li class="shared-navbar__item">
                         <a href="/profil" class="shared-navbar__link">Mon profil</a>
                     </li>
+                    {% if userSession.role is same as('superadmin') %}
+                        <li class="shared-navbar__item">
+                            <a href="/admin/dashboard" class="shared-navbar__link">{{userSession.role|lower|capitalize}}</a>
+                        </li>
                     {% endif %}
                     <li class="shared-navbar__item">
                         <a href="/auth/logout" class="shared-navbar__link">Déconnexion</a>

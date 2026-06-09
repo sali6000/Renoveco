@@ -11,7 +11,7 @@ final class SchemaMysql
     // -------------------------------------------------------
     // 🧩 ATTRIBUTE
     // -------------------------------------------------------    
-    public const TABLE_ATTRIBUTES = 'attributes att';
+    public const TABLE_ATTRIBUTE = 'attribute att';
     public const ATTRIBUTES_ID = 'att.id';
     public const ATTRIBUTES_DOMAIN_ID = 'att.domain_id';
     public const ATTRIBUTES_NAME = 'att.name';
@@ -25,7 +25,7 @@ final class SchemaMysql
     // -------------------------------------------------------
     // 🧩 ATTRIBUTE : GROUPS
     // -------------------------------------------------------
-    public const TABLE_ATTRIBUTE_GROUPS = 'attribute_groups attgro';
+    public const TABLE_ATTRIBUTE_GROUP = 'attribute_group attgro';
     public const ATTRIBUTE_GROUPS_ID = 'attgro.id';
     public const ATTRIBUTE_GROUPS_DOMAIN_ID = 'attgro.domain_id';
     public const ATTRIBUTE_GROUPS_NAME = 'attgro.name';
@@ -46,7 +46,7 @@ final class SchemaMysql
     {
         return new ManyToManyRelation(
             // SET KEY ARRAY (ex: User['roles'][...])
-            key: self::fieldTable(self::TABLE_ATTRIBUTES),
+            key: self::fieldTable(self::TABLE_ATTRIBUTE),
 
             // SET COLUMNS TO GET (ex: self::ROLE_COLUMNS_MINIMAL)
             relationColumns: $columns,
@@ -55,7 +55,7 @@ final class SchemaMysql
             relationPrefix: self::ATTRIBUTES_RELATION_PREFIX,
 
             // PARAMS SPECIFIQUE TARGET TABLE
-            relatedTable: self::TABLE_ATTRIBUTES,
+            relatedTable: self::TABLE_ATTRIBUTE,
             foreignKey: self::ATTRIBUTES_ID,
             localKey: self::PRODUCT_ID,
 
@@ -84,7 +84,7 @@ final class SchemaMysql
     // -------------------------------------------------------
     // 🧩 PRODUCT
     // -------------------------------------------------------
-    public const TABLE_PRODUCTS = 'products pro';
+    public const TABLE_PRODUCT = 'product pro';
     public const PRODUCT_ID = 'pro.id';
     public const PRODUCT_REFERENCE = 'pro.reference';
     public const PRODUCT_SLUG = 'pro.slug';
@@ -147,7 +147,7 @@ final class SchemaMysql
     // -------------------------------------------------------
     // 🧩 CATÉGORIES
     // -------------------------------------------------------
-    public const TABLE_CATEGORIES = 'categories cat';
+    public const TABLE_CATEGORY = 'category cat';
     public const CATEGORY_ID = 'cat.id';
     public const CATEGORY_SLUG = 'cat.slug';
     public const CATEGORY_NAME = 'cat.name';
@@ -160,7 +160,7 @@ final class SchemaMysql
     {
         return new ManyToManyRelation(
             // SET KEY ARRAY (ex: User['roles'][...])
-            key: self::fieldTable(self::TABLE_CATEGORIES),
+            key: self::fieldTable(self::TABLE_CATEGORY),
 
             // SET COLUMNS TO GET (ex: self::ROLE_COLUMNS_MINIMAL)
             relationColumns: $columns,
@@ -169,7 +169,7 @@ final class SchemaMysql
             relationPrefix: self::CATEGORY_RELATION_PREFIX,
 
             // PARAMS SPECIFIQUE TARGET TABLE
-            relatedTable: self::TABLE_CATEGORIES,
+            relatedTable: self::TABLE_CATEGORY,
             foreignKey: self::CATEGORY_ID,
             localKey: self::PRODUCT_ID,
 
@@ -183,7 +183,7 @@ final class SchemaMysql
     // -------------------------------------------------------
     // 🧩 PRODUIT : IMAGE
     // -------------------------------------------------------
-    public const TABLE_PRODUCT_IMAGES = 'product_images proima';
+    public const TABLE_PRODUCT_IMAGE = 'product_image proima';
     public const PRODUCT_IMAGE_ID = 'proima.id';
     public const PRODUCT_IMAGE_PRODUCT_ID = 'proima.product_id';
     public const PRODUCT_IMAGE_FILE_PATH = 'proima.file_path';
@@ -194,12 +194,12 @@ final class SchemaMysql
     public static function productImagesRelation(array $columns): OneToManyRelation
     {
         return new OneToManyRelation(
-            key: self::fieldTable(self::TABLE_PRODUCT_IMAGES),
+            key: self::fieldTable(self::TABLE_PRODUCT_IMAGE),
             relationColumns: $columns,
             relationPrefix: self::PRODUCT_IMAGE_RELATION_PREFIX,
 
             // JOIN PARAMS
-            relatedTable: self::TABLE_PRODUCT_IMAGES,
+            relatedTable: self::TABLE_PRODUCT_IMAGE,
             localKey: self::PRODUCT_ID,
             foreignKey: self::PRODUCT_IMAGE_PRODUCT_ID,
         );
@@ -208,7 +208,7 @@ final class SchemaMysql
     // -------------------------------------------------------
     // 🧩 ROLE
     // -------------------------------------------------------
-    public const TABLE_ROLES = 'roles rol';
+    public const TABLE_ROLE = 'role rol';
     public const ROLE_ID = 'rol.id';
     public const ROLE_NAME = 'rol.name';
     public const ROLE_IS_ACTIVE = 'rol.is_active';
@@ -218,7 +218,7 @@ final class SchemaMysql
     // -------------------------------------------------------
     // 🧩 USER
     // -------------------------------------------------------
-    public const TABLE_USERS = 'users usr';
+    public const TABLE_USER = 'user usr';
     public const USER_ALL = 'usr.*';
     public const USER_ID = 'usr.id';
     public const USER_EMAIL = 'usr.email';
@@ -233,7 +233,7 @@ final class SchemaMysql
     {
         return new ManyToManyRelation(
             // SET KEY ARRAY (ex: User['roles'][...])
-            key: self::fieldTable(self::TABLE_ROLES),
+            key: self::fieldTable(self::TABLE_ROLE),
 
             // SET COLUMNS TO GET (ex: self::ROLE_COLUMNS_MINIMAL)
             relationColumns: $columns,
@@ -242,7 +242,7 @@ final class SchemaMysql
             relationPrefix: self::ROLE_RELATION_PREFIX,
 
             // PARAMS SPECIFIQUE TARGET TABLE
-            relatedTable: self::TABLE_ROLES,
+            relatedTable: self::TABLE_ROLE,
             foreignKey: self::ROLE_ID,
             localKey: self::USER_ID,
 
@@ -256,7 +256,7 @@ final class SchemaMysql
     // -------------------------------------------------------
     // 🧩 RATE LIMIT ATTEMPTS (📋 Limite de tentatives)
     // -------------------------------------------------------
-    public const TABLE_RATE_LIMIT_ATTEMPTS = 'rate_limit_attempts rla';
+    public const TABLE_RATE_LIMIT_ATTEMPT = 'rate_limit_attempt rla';
     public const RATE_LIMIT_ID         = 'rla.id';
     public const RATE_LIMIT_TYPE       = 'rla.type';
     public const RATE_LIMIT_IP         = 'rla.ip_address';
@@ -266,7 +266,7 @@ final class SchemaMysql
     // -------------------------------------------------------
     // 🧩 SUPPLIER (Fournisseeurs)
     // -------------------------------------------------------
-    public const TABLE_SUPPLIERS = 'suppliers sup';
+    public const TABLE_SUPPLIER = 'supplier sup';
     public const SUPPLIER_ID = 'sup.id';
     public const SUPPLIER_NAME = 'sup.name';
 

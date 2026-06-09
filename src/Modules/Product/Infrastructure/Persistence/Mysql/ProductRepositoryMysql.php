@@ -56,7 +56,7 @@ final class ProductRepositoryMysql extends RepositoryMySQL implements ProductRep
     /** @return string Schéma table product */
     protected function getTable(): string
     {
-        return SchemaMysql::TABLE_PRODUCTS;
+        return SchemaMysql::TABLE_PRODUCT;
     }
 
     /** @return Product Produit obtenu depuis $row */
