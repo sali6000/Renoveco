@@ -2,7 +2,6 @@
 
 namespace Src\Modules\Auth\Application\Service;
 
-use Core\Support\DebugHelper;
 use Src\Exception\Application\AuthentificationException;
 use Src\Modules\Shared\Infrastructure\Schema\HelperSchemaMysql;
 use Src\Modules\User\Domain\Query\UserQuery;

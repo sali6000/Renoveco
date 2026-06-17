@@ -13,82 +13,55 @@ abstract class RepositoryMysql
     ) {}
 
     //----------------------------------------------------------------------------
-    // QUERY MAKER :
-    //----------------------------------------------------------------------------
-
-    // PREPARE QUERY
-    protected function buildQuery(object $q, array $columns, array $relations, callable $applyFilters): QueryBuilderInterface
-    {
-        // GET COLUMNS (from $columns and $relations)
-        foreach ($relations as $relation) {
-            $columns = array_merge($columns, $relation->getColumns());
-        }
-
-        // PREPARE QUERY <= SELECT ... FROM ...
-        $query = $this->queryBuilder
-            ->select($columns)
-            ->from($this->getTable());
-
-        // ADD TO QUERY <= JOINS ... (for each $relations)
-        foreach ($relations as $relation) {
-            $query = $relation->applyJoin($query);
-        }
-
-        // ADD CONDITIONS TO QUERY <= WHERE, LIMIT, OFFSET,... (from $q->param)
-        return $applyFilters ? $applyFilters($query, $q) : $query;
-    }
-
-    //----------------------------------------------------------------------------
     // QUERIES EXECUTE :
     //----------------------------------------------------------------------------
 
     // EXECUTE : FIND ONE
-    protected function executeFindOne(object $q, array $columns, ?callable $applyFilters = null, ?callable $applyRelations = null): ?object
+    protected function executeFindOne(object $objectQuery, array $columns, ?callable $applyFilters = null, ?callable $applyRelations = null): ?object
     {
-        // SELECT COLUMNS = $columns + relations params (ex: $q->withRoles, etc...)
-        // FROM USER
-        // WHERE (ex: $q->param !=== null)
-        $relations = $applyRelations ? $applyRelations($q) : [];
-        $query = $this->buildQuery($q, $columns, $relations, $applyFilters);
+        // 1. Récupération de l'objet en base (sans relations)
+        $row = $this->buildQuery($objectQuery, $columns, $applyFilters)->executeAndFetchOne();
+        if (!$row) return null;
 
-        // IF RELATIONS (GROUPED <- rows)
-        if (!empty($relations)) {
-
-            // EXECUTION (return rows[])
-            $rows = $query->executeAndFetchAll();
-
-            // HYDRATATION (Entities['roles'] <- rows['role1'], rows['role2']) (> 1 result)
-            $entities = $this->hydrateMany($rows, $relations);
-
-            // RETURN ENTITY FROM ARRAY (Entity['roles'] <- Entities['roles']) (1 result)
-            return $entities[0] ?? null;
+        // 2. Récupération des relations en base liés à l'objet
+        $relations = $applyRelations ? $applyRelations($objectQuery) : [];
+        foreach ($relations as $relation) {
+            $relatedRows = $relation->fetchRelated($this->pdo, [$row['id']]);
+            [$row] = $relation->hydrate([$row], $relatedRows);
         }
 
-        // EXECUTION (return row)
-        $row = $query->executeAndFetchOne();
-
-        // RETURN HYDRATATION (Entity <- row)
-        return $row ? $this->fromArray($row) : null;
+        return $this->fromArray($row);
     }
 
-    // EXECUTE : FIND ALL
-    protected function executeMany(object $q, array $columns, ?callable $applyFilters = null, ?callable $applyRelations = null): array
+    protected function executeFindAll(object $objectQuery, array $columns, ?callable $applyFilters = null, ?callable $applyRelations = null): array
     {
-        // SELECT COLUMNS = $columns + $relations (ex: $q->withRoles, etc...)
-        // FROM TABLE
-        // WHERE (ex: $q->param !=== null)
-        $relations = $applyRelations ? $applyRelations($q) : [];
-        $query = $this->buildQuery($q, $columns, $relations, $applyFilters);
-
-        // ADD <= LIMIT, OFFSET, ...
+        // 1. Récupération des objets en base (sans relations)
+        $query = $this->buildQuery($objectQuery, $columns, $applyFilters);
         if (isset($q->limit))  $query = $query->limit($q->limit);
         if (isset($q->offset)) $query = $query->offset($q->offset);
-        // EXECUTION (return rows[])
 
         $rows = $query->executeAndFetchAll();
+        if (empty($rows)) return [];
 
-        // RETURN HYDRATATION (Entities['roles'] <- rows['role1'], rows['role2']) (> 1 result)
-        return $this->hydrateMany($rows, $relations);
+        // 2. Récupération des relations en base liés aux objets
+        $relations = $applyRelations ? $applyRelations($objectQuery) : [];
+        $ids = array_column($rows, 'id');
+
+        foreach ($relations as $relation) {
+            $relatedRows = $relation->fetchRelated($this->pdo, $ids);
+            $rows = $relation->hydrate($rows, $relatedRows);
+        }
+
+        return array_map(fn($row) => $this->fromArray($row), $rows);
+    }
+
+    protected function buildQuery(object $q, array $columns, ?callable $applyFilters): QueryBuilderInterface
+    {
+        $query = $this->queryBuilder
+            ->select($columns)
+            ->from($this->getTable());
+
+        return $applyFilters ? $applyFilters($query, $q) : $query;
     }
 
     //----------------------------------------------------------------------------

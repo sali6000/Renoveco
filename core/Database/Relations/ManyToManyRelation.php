@@ -12,26 +12,50 @@ class ManyToManyRelation extends AbstractRelation
         string $key,
         string $idKey = 'id',
         array  $relationColumns = [],
-        string $relationPrefix = '',
-
-        // JOIN PARAMS spécifiques ManyToMany
         private string $pivotTable = '',
         private string $pivotLocalKey = '',
         private string $pivotForeignKey = '',
-
-        // JOIN PARAMS communs (relatedTable, localKey, foreignKey via parent)
+        private array  $pivotColumns = [],
         string $relatedTable = '',
         string $localKey = '',
         string $foreignKey = '',
     ) {
-        parent::__construct($key, $idKey, $relationColumns, $relationPrefix, $relatedTable, $localKey, $foreignKey);
+        parent::__construct($key, $idKey, $relationColumns, $relatedTable, $localKey, $foreignKey);
     }
 
-    public function hydrate(array $rows): array
+    public function fetchRelated(\PDO $pdo, array $ids): array
     {
-        return $this->groupRows($rows);
+        if (empty($ids)) return [];
+
+        $placeholders = implode(',', array_fill(0, count($ids), '?'));
+
+        $columnsSQL = implode(', ', array_merge(
+            array_map(fn(string $col) => $col, $this->relationColumns),
+            array_map(fn(string $col) => $col, $this->pivotColumns)
+        ));
+
+        $pivotTableName   = $this->pivotTable;
+        $relatedTableName = $this->relatedTable;
+        $pivotLocalKeyClean = $this->pivotLocalKey;
+        $foreignKeyClean    = $this->foreignKey;
+        $pivotForeignKeyClean = $this->pivotForeignKey;
+
+        $sql = "SELECT {$columnsSQL}, {$pivotLocalKeyClean} AS fk
+        FROM {$relatedTableName}
+        JOIN {$pivotTableName} ON {$pivotForeignKeyClean} = {$foreignKeyClean}
+        WHERE {$pivotLocalKeyClean} IN ({$placeholders})";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute($ids);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    public function hydrate(array $mainRows, array $relatedRows): array
+    {
+        return $this->groupRelatedRows($mainRows, $relatedRows);
+    }
+
+    // applyJoin conservé pour compatibilité si besoin
     public function applyJoin(QueryBuilderInterface $query): QueryBuilderInterface
     {
         return $query->joinManyToMany(

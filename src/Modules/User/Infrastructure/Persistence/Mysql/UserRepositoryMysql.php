@@ -7,7 +7,6 @@ namespace Src\Modules\User\Infrastructure\Persistence\Mysql;
 use Config\AppConfig;
 use Core\Database\QueryBuilderInterface;
 use Core\Database\RepositoryMysql;
-use Core\Support\DebugHelper;
 use Src\Exception\Domain\RoleNotFoundException;
 use Src\Modules\Shared\Infrastructure\Schema\HelperSchemaMysql;
 use Src\Modules\User\Domain\Entity\User;

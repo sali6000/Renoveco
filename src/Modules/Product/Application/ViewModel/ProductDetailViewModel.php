@@ -27,7 +27,9 @@ final class ProductDetailViewModel
     public string $name;
     public string $slug;
     public string $reference;
-    public array $categories;
+    public string $category_slug;
+    public string $category_name;
+
 
     // -------------------------------------------------------------------------
     // Textes
@@ -45,6 +47,7 @@ final class ProductDetailViewModel
     // -------------------------------------------------------------------------
     // Médias
     // -------------------------------------------------------------------------
+    public string $image_main;
     /** @var array<int, array{filePath: string}> */
     public array $images;
 
@@ -59,6 +62,9 @@ final class ProductDetailViewModel
     // -------------------------------------------------------------------------
     /** @var string[] */
     public array $features;
+
+    /** @var ProductAttribute[] */
+    public array $attributes;
 
     // -------------------------------------------------------------------------
     // Documents téléchargeables (PDF, plans…)

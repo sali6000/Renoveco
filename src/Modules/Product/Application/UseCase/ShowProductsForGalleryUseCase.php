@@ -12,7 +12,7 @@ final class ShowProductsForGalleryUseCase
 
     public function execute(): ResultUseCase
     {
-        $datas = $this->productRepo->findAll(new ProductQuery(withImages: true, withCategories: true));
+        $datas = $this->productRepo->findProducts(new ProductQuery(withImages: true, withCategories: true));
         return ResultUseCase::success($datas);
     }
 }

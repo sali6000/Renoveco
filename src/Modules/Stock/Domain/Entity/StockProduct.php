@@ -73,10 +73,10 @@ class StockProduct extends BaseModel
     {
         return new self(
             _product: self::getMappedOrNull($row, 'product', [Product::class, 'fromArray']) ?? throw new \RuntimeException('Missing product relation'),
-            _quantity: self::getInt($row, ProductStockSchemaMysql::QUANTITY),
-            _stock_minimum: self::getInt($row, ProductStockSchemaMysql::STOCK_MINIMUM),
-            _id: self::getIntOrNull($row, ProductStockSchemaMysql::ID),
-            _stock_maximum: self::getIntOrNull($row, ProductStockSchemaMysql::STOCK_MAXIMUM),
+            _quantity: self::getInt($row, HelperSchemaMysql::fieldProperty(ProductStockSchemaMysql::QUANTITY)),
+            _stock_minimum: self::getInt($row, HelperSchemaMysql::fieldProperty(ProductStockSchemaMysql::STOCK_MINIMUM)),
+            _id: self::getIntOrNull($row, HelperSchemaMysql::fieldProperty(ProductStockSchemaMysql::ID)),
+            _stock_maximum: self::getIntOrNull($row, HelperSchemaMysql::fieldProperty(ProductStockSchemaMysql::STOCK_MAXIMUM)),
             _stockProductLocation: self::getMappedOrEmpty($row, HelperSchemaMysql::fieldTable(ProductStockSchemaMysql::TABLE), [StockProductLocation::class, 'fromArray']),
             _stockLocation: self::getMappedOrEmpty($row, HelperSchemaMysql::fieldTable(StockLocationSchemaMysql::TABLE), [StockLocation::class, 'fromArray'])
         );

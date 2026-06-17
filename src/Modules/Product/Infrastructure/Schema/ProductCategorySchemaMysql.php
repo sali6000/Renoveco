@@ -24,9 +24,6 @@ final class ProductCategorySchemaMysql extends HelperSchemaMysql
             // SET COLUMNS TO GET (ex: self::ROLE_COLUMNS_MINIMAL)
             relationColumns: $columns,
 
-            // SET PREFIX FOR ROLE COLUMNS
-            relationPrefix: CategorySchemaMysql::RELATION_PREFIX,
-
             // PARAMS SPECIFIQUE TARGET TABLE
             relatedTable: CategorySchemaMysql::TABLE,
             foreignKey: CategorySchemaMysql::ID,

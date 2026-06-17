@@ -13,5 +13,4 @@ final class CategorySchemaMysql
     public const NAME = 'cat.name';
     public const DESCRIPTION = 'cat.description';
     public const PARENT_ID = 'cat.parent_id';
-    public const RELATION_PREFIX = "cat_";
 }

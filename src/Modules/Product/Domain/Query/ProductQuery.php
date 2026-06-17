@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace Src\Modules\Product\Domain\Query;
 
+use Src\Modules\Category\Domain\Entity\Category;
+
 final class ProductQuery
 {
     public function __construct(
 
         // FILTRES MÉTIER
-        public readonly ?int $id = null,
-        public readonly ?string $slug = null,
+        public readonly ?int $byId = null,
+        public readonly ?string $bySlug = null,
+        /** @var Category */
+        public readonly ?Category $byCategory = null,
         public readonly ?bool $isActive = null,
         public readonly bool $onlyMainImage = false,
 

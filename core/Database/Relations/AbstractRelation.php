@@ -5,21 +5,17 @@ declare(strict_types=1);
 namespace Core\Database\Relations;
 
 use Core\Database\QueryBuilderInterface;
-use Src\Modules\Shared\Infrastructure\Schema\HelperSchemaMysql;
 
-/**
- * Classe de base pour toutes les relations.
+/** Classe de base pour toutes les relations.
  * Centralise la logique commune : extraction des colonnes préfixées.
  *
  * Chaque relation concrète implémente :
  * - hydrate()   : comment regrouper les lignes (rows ou row)
  * - applyJoin() : quel type de JOIN appliquer
- * - getColumns(): quelles colonnes sélectionner
  */
-abstract class AbstractRelation implements RelationInterface
+abstract class AbstractRelation
 {
-    /**
-     * Gère les relations one-to-many de façon générique et réutilisable.
+    /** Gère les relations one-to-many de façon générique et réutilisable.
      *
      * Exemple : un User a plusieurs Address (addresses.user_id = users.id)
      *
@@ -34,156 +30,96 @@ abstract class AbstractRelation implements RelationInterface
      * );
      */
     public function __construct(
+        // PARAMS
         protected string $key,  // Clé du résultat final Ex: $user['roles']
         protected string $idKey = 'id',  // Clé qui sert à regrouper les résultats Ex: par $user['id']
         protected array  $relationColumns = [], // Colonnes à récupérer dans la table cible
-        protected string $relationPrefix = '', // Préfixe des alias SQL Ex: 'role_'
 
-        // JOIN PARAMS
+        // PARAMS (JOIN)
         protected string $relatedTable = '',
         protected string $localKey = '',
         protected string $foreignKey = '',
     ) {}
 
-    public function getKey(): string
+    protected function groupRelatedRows(array $mainRows, array $relatedRows): array
     {
-        return $this->key;
-    }
-
-    /**
-     * Retourne les colonnes (avec préfixe) à sélectionner dans la requête SQL.
-     *
-     * Exemple : si tu demandes ['id', 'name'] avec préfixe 'role_',
-     * ça retourne ['role_id', 'role_name'] pour qu'on les sélectionne dans la requête.
-     *
-     * @return string[]
-     */
-    public function getColumns(): array
-    {
-        if (empty($this->relationColumns)) {
-            return [];
-        }
-
-        // Ex: role_id AS role_id, role_name AS role_name
-        $result = array_map(
-            fn(string $col) => $col . ' AS ' . $this->relationPrefix . HelperSchemaMysql::fieldProperty($col),
-            $this->relationColumns
-        );
-
-        return $result;
-    }
-
-    /**
-     * Extrait les colonnes d'une relation depuis une ligne brute.
-     * Identifie les colonnes via le préfixe, puis le strip.
-     *
-     * Entrée : ['id' => 1, 'email' => '...', 'role_id' => 2, 'role_name' => 'admin']
-     * Sortie : ['id' => 2, 'name' => 'admin']
-     */
-    protected function extractRelationData(array $row): array
-    {
-        if (empty($this->relationPrefix)) {
-            return [];
-        }
-
-        $relationData = [];
-
-        foreach ($row as $column => $value) {
-
-            // Vérifie si la colonne appartient à la relation (démarre avec le préfixe)
-            if (str_starts_with($column, $this->relationPrefix)) {
-
-                // Enlève le préfixe : 'role_id' → 'id'
-                $cleanColumn = substr($column, strlen($this->relationPrefix));
-
-                if (empty($this->relationColumns) || in_array($cleanColumn, array_map(
-                    fn(string $col) => HelperSchemaMysql::fieldProperty($col),
-                    $this->relationColumns
-                ))) {
-                    $relationData[$cleanColumn] = $value;
-                }
-            }
-        }
-
-        return $relationData;
-    }
-
-    /**
-     * Regroupe les lignes par entité principale.
-     * Utilisé par OneToMany et ManyToMany — chaque parent a plusieurs enfants.
-     *
-     * Entrée (1 user, 2 rôles) :
-     * [
-     *   ['id' => 1, 'email' => '...', 'role_id' => 1, 'role_name' => 'admin'],
-     *   ['id' => 1, 'email' => '...', 'role_id' => 2, 'role_name' => 'editor'],
-     * ]
-     *
-     * Sortie :
-     * [
-     *   ['id' => 1, 'email' => '...', 'roles' => [['id' => 1, ...], ['id' => 2, ...]]]
-     * ]
-     */
-    protected function groupRows(array $rows): array
-    {
+        /** Construction de la table de correspondance
+         * 
+         * Exemple:
+         * $grouped = [
+         *  1 => [[...Article A...], [...Article B...], ...],
+         *  2 => [[...Article C...], ...]]
+         * ];
+         * 
+         */
         $grouped = [];
-
-        // ROWS[] -> ROW (FOREACH)
-        foreach ($rows as $row) {
-
-            // Identifié la clé 'id' de la row en cours
-            // (un user a plusieurs rôles, donc plusieurs lignes associés à ce même 'id')
-            $mainId = $row[$this->idKey];
-
-            // Première row : Enregistrer la row + initialiser un tableau de relations vide Ex: 
-            // $grouped[1] = ['mainRow' => $row, 'relations' => []];
-            if (!isset($grouped[$mainId])) {
-                $grouped[$mainId] = [
-                    'mainRow'   => $row,
-                    'relations' => [],
-                ];
-            }
-
-            // Extraire les colonnes de la relation (enlève les préfixes) Ex:
-            // 1. ['role_id' => 1, 'role_name' => 'admin']
-            // 2. ['id' => 1, 'name' => 'admin']
-            $relationData = $this->extractRelationData($row);
-
-            // Ajouter le rôle à l'User
-            // (Exemple après 2 résultats trouvés pour le même mainId):
-            // $grouped[1]['relations'] = [['id'=>1,'name'=>'admin'],['id'=>2,'name'=>'editor']];
-            if (!empty($relationData)) {
-                $grouped[$mainId]['relations'][] = $relationData;
+        foreach ($relatedRows as $related) {
+            $fkValue = $related['fk'] ?? null; // clé temporaire injectée par fetchRelated
+            if ($fkValue !== null) {
+                $grouped[$fkValue][] = $related;
             }
         }
 
-        // Récupérer un tableau prêt et indexé
-        // ['roles' => [['id'=>1,'name'=>'admin'],['id'=>2,'name'=>'editor']]]
-        return array_values(array_map(function (array $entry) {
-            $mainRow = $entry['mainRow'];
-            $mainRow[$this->key] = $entry['relations'];
-            return $mainRow;
-        }, $grouped));
-    }
-
-    /**
-     * Injecte la relation dans chaque ligne sans groupement.
-     * Utilisé par ManyToOne et OneToOne — chaque enfant a exactement un parent.
-     *
-     * Entrée :
-     * ['id' => 1, 'user_id' => 5, 'user_email' => 'a@b.com']
-     *
-     * Sortie :
-     * ['id' => 1, 'user_id' => 5, 'user' => ['email' => 'a@b.com']]
-     */
-    protected function flatRows(array $rows): array
-    {
-        return array_map(function (array $row) {
-            $relationData = $this->extractRelationData($row);
-            $row[$this->key] = !empty($relationData) ? $relationData : null;
+        /** Injection dans les parents
+         * 
+         * Exemple:
+         * [
+         *  ['id' => 1, 'name' => 'Jean', 'posts' => [['id' => 10, 'title' => 'Article A'], ['id' => 11, 'title' => 'Article B']]],
+         *  ['id' => 2, 'name' => 'Paul', 'posts' => [['id' => 12, 'title' => 'Article C'],
+         * ]
+         * 
+         */
+        return array_map(function (array $row) use ($grouped) {
+            $mainId = $row[$this->idKey];
+            $row[$this->key] = $grouped[$mainId] ?? [];
             return $row;
-        }, $rows);
+        }, $mainRows);
     }
 
-    abstract public function hydrate(array $rows): array;
+    protected function flatRelatedRows(array $mainRows, array $relatedRows): array
+    {
+        /** Construction de la table de correspondance
+         * (Contrairement à groupRelatedRows(), chaque clé ne contient qu'une seule ligne liée.)
+         *
+         * Exemple:
+         * $indexed = [1 => ['id' => 10, 'title' => 'Article A'], 2 => ['id' => 12, 'title' => 'Article C'], ... ];
+         *
+         */
+        $indexed = [];
+        foreach ($relatedRows as $related) {
+            $fk = $related['fk'] ?? null; // clé temporaire injectée par fetchRelated
+
+            if ($fk !== null) {
+                $indexed[$fk] = $related;
+            }
+        }
+
+        /** Injection dans les parents
+         *
+         * Exemple:
+         * [
+         *     ['id' => 1, 'name' => 'Jean', 'profile' => ['id' => 10, 'bio' => 'Développeur PHP']],
+         *     ['id' => 2, 'name' => 'Paul', 'profile' => ['id' => 12, 'bio' => 'Designer']],
+         *     ['id' => 3, 'name' => 'Marc', 'profile' => null] (<= Si aucune relation n'existe)
+         * ]
+         * 
+         */
+        return array_map(function (array $row) use ($indexed) {
+            $mainId = $row[$this->idKey];
+            $row[$this->key] = $indexed[$mainId] ?? null;
+
+            return $row;
+        }, $mainRows);
+    }
+
+    /** Hydrate une collection de lignes brutes (issues d'un JOIN) en entités avec relations.
+     *
+     * @param array $mainRows Lignes brutes issues de la requête SQL
+     * @return array Entités hydratées avec les relations chargées
+     */
+    abstract public function hydrate(array $mainRows, array $relatedRows): array;
+    abstract public function fetchRelated(\PDO $pdo, array $ids): array;
+
+    /** Chaque implémentation fait son propre join */
     abstract public function applyJoin(QueryBuilderInterface $query): QueryBuilderInterface;
 }

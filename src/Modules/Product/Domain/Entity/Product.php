@@ -159,6 +159,14 @@ class Product extends BaseModel
         $this->_categories[] = $category;
     }
 
+    public function getMainImage(): ?ProductImage
+    {
+        foreach ($this->images as $image) {
+            if ($image->isMain) return $image;
+        }
+        return $this->images[0] ?? null;
+    }
+
     // ==========================================================
     // Hydratation (Entity <- array)
     // ==========================================================

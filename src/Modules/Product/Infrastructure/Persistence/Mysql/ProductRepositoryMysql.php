@@ -9,7 +9,9 @@ use Src\Modules\Product\Domain\Query\ProductQuery;
 use Src\Modules\Product\Domain\Repository\ProductRepositoryInterface;
 use Core\Database\QueryBuilderInterface;
 use Core\Database\RepositoryMysql;
+use Src\Modules\Attribute\Infrastructure\Schema\AttributeSchemaMysql;
 use Src\Modules\Category\Infrastructure\Schema\CategorySchemaMysql;
+use Src\Modules\Product\Infrastructure\Schema\ProductAttributeSchemaMysql;
 use Src\Modules\Product\Infrastructure\Schema\ProductCategorySchemaMysql;
 use Src\Modules\Product\Infrastructure\Schema\ProductImageSchemaMysql;
 use Src\Modules\Product\Infrastructure\Schema\ProductSchemaMysql;
@@ -31,8 +33,6 @@ final class ProductRepositoryMysql extends RepositoryMySQL implements ProductRep
         ProductSchemaMysql::SUBTITLE,
         ProductSchemaMysql::META_DESCRIPTION,
         ProductSchemaMysql::FEATURES,
-        ProductImageSchemaMysql::ALT_TEXT,
-        ProductImageSchemaMysql::FILE_PATH,
     ];
 
     private const IMAGE_COLUMNS = [
@@ -56,6 +56,16 @@ final class ProductRepositoryMysql extends RepositoryMySQL implements ProductRep
         ProductStockSchemaMysql::STOCK_MAXIMUM
     ];
 
+    private const PRODUCT_ATTRIBUTE_COLUMNS = [
+        ProductAttributeSchemaMysql::VALUE,
+    ];
+
+    private const ATTRIBUTE_COLUMNS = [
+        AttributeSchemaMysql::NAME,
+        AttributeSchemaMysql::UNIT,
+    ];
+
+
     /** @return string Schéma table product */
     protected function getTable(): string
     {
@@ -72,14 +82,14 @@ final class ProductRepositoryMysql extends RepositoryMySQL implements ProductRep
     // EXECUTE QUERIES :
     //----------------------------------------------------------------------------
 
-    public function findOne(ProductQuery $q): ?Product
+    public function findProduct(ProductQuery $q): ?Product
     {
         return $this->executeFindOne($q, self::PRODUCT_COLUMNS, $this->applyFilters(...), $this->applyRelations(...));
     }
 
-    public function findAll(ProductQuery $q): array
+    public function findProducts(ProductQuery $q): array
     {
-        return $this->executeMany($q, self::PRODUCT_COLUMNS, $this->applyFilters(...), $this->applyRelations(...));
+        return $this->executeFindAll($q, self::PRODUCT_COLUMNS, $this->applyFilters(...), $this->applyRelations(...));
     }
 
     //----------------------------------------------------------------------------
@@ -88,8 +98,11 @@ final class ProductRepositoryMysql extends RepositoryMySQL implements ProductRep
 
     protected function applyFilters(QueryBuilderInterface $qb, ProductQuery $q): QueryBuilderInterface
     {
-        if ($q->slug !== null) $qb = $qb->where(ProductSchemaMysql::SLUG . ' = :slug', [':slug' => $q->slug]);
-        if ($q->id !== null) $qb = $qb->where(ProductSchemaMysql::ID . ' = :id', [':id' => $q->id]);
+        if ($q->bySlug !== null) $qb = $qb->where(ProductSchemaMysql::SLUG . ' = :slug', [':slug' => $q->bySlug]);
+        if ($q->byId !== null) $qb = $qb->where(ProductSchemaMysql::ID . ' = :id', [':id' => $q->byId]);
+        if ($q->byCategory !== null) $qb = $qb
+            ->joinLeft(ProductCategorySchemaMysql::TABLE, ProductCategorySchemaMysql::PRODUCT_ID, ProductSchemaMysql::ID)
+            ->where(ProductCategorySchemaMysql::CATEGORY_ID . ' = :categoryId', [':categoryId' => $q->byCategory->id]);
         if ($q->isActive !== null) {
             $active = $q->isActive ? 'TRUE' : 'FALSE';
             $qb = $qb->where(ProductSchemaMysql::IS_ACTIVE . " = {$active}");
@@ -109,6 +122,10 @@ final class ProductRepositoryMysql extends RepositoryMySQL implements ProductRep
         if ($q->withCategories) $relations[] = ProductCategorySchemaMysql::withCategories(self::CATEGORY_COLUMNS);
         if ($q->withImages) $relations[] = ProductImageSchemaMysql::withImages(self::IMAGE_COLUMNS);
         if ($q->withStock) $relations[] = ProductStockSchemaMysql::withStock(self::STOCK_PRODUCT_COLUMNS);
+        if ($q->withAttributes) $relations[] = ProductAttributeSchemaMysql::withAttributes(
+            pivotColumns: self::PRODUCT_ATTRIBUTE_COLUMNS,
+            attributeColumns: self::ATTRIBUTE_COLUMNS
+        );
 
         return $relations;
     }

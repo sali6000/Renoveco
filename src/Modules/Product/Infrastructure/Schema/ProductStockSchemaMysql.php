@@ -16,14 +16,12 @@ final class ProductStockSchemaMysql extends HelperSchemaMysql
     public const QUANTITY = 'stopro.quantity';
     public const STOCK_MINIMUM = 'stopro.stock_minimum';
     public const STOCK_MAXIMUM = 'stopro.stock_maximum';
-    public const RELATION_PREFIX = 'stopro_';
 
     public static function withStock(array $columns): ManyToOneRelation
     {
         return new ManyToOneRelation(
-            key: self::fieldTable(ProductStockSchemaMysql::TABLE),
+            key: self::fieldTable(self::TABLE),
             relationColumns: $columns,
-            relationPrefix: self::RELATION_PREFIX,
 
             relatedTable: self::TABLE,
             foreignKey: self::PRODUCT_ID,

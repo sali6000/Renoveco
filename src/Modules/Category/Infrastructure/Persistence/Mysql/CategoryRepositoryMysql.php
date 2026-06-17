@@ -51,7 +51,7 @@ class CategoryRepositoryMysql extends RepositoryMysql implements CategoryReposit
      */
     public function findAll(CategoryQuery $q): array
     {
-        return $this->executeMany($q, self::CATEGORY_COLUMNS, $this->applyFilters(...));
+        return $this->executeFindAll($q, self::CATEGORY_COLUMNS, $this->applyFilters(...));
     }
 
     // PREPARE FILTERS (conditions)

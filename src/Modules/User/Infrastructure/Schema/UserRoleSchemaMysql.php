@@ -13,7 +13,6 @@ final class UserRoleSchemaMysql extends HelperSchemaMysql
     public const TABLE = 'role_user roluse';
     public const USER_ID = 'roluse.user_id';
     public const ROLE_ID = 'roluse.role_id';
-    private const RELATION_PREFIX = 'role_';
 
     public static function userRolesRelation(array $columns): ManyToManyRelation
     {
@@ -23,9 +22,6 @@ final class UserRoleSchemaMysql extends HelperSchemaMysql
 
             // SET COLUMNS TO GET (ex: self::ROLE_COLUMNS_MINIMAL)
             relationColumns: $columns,
-
-            // SET PREFIX FOR ROLE COLUMNS
-            relationPrefix: self::RELATION_PREFIX,
 
             // PARAMS SPECIFIQUE TARGET TABLE
             relatedTable: RoleSchemaMysql::TABLE,

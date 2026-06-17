@@ -7,7 +7,6 @@ use Src\Modules\Category\Application\UseCase\ShowCategoriesForGalleryUseCase;
 use Src\Services\Schema\SchemaBuilder;
 use Core\BaseController;
 use Core\Routing\Attribute\Route;
-use Core\Support\DebugHelper;
 
 #[Route('/product')]
 class ProductListController extends BaseController

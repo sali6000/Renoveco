@@ -19,27 +19,23 @@ final class ProductAttributeSchemaMysql extends HelperSchemaMysql
     public const CREATED_AT = 'proatt.created_at';
     public const UPDATED_AT = 'proatt.updated_at';
 
-    public static function productAttributesRelation(array $columns): ManyToManyRelation
+    public static function withAttributes(array $pivotColumns, array $attributeColumns = []): ManyToManyRelation
     {
         return new ManyToManyRelation(
-            // SET KEY ARRAY (ex: User['roles'][...])
-            key: self::fieldTable(AttributeSchemaMysql::TABLE),
+            // TARGET
+            key: self::fieldTable(AttributeSchemaMysql::TABLE), // SET KEY ARRAY (ex: User['roles'][...])
+            relationColumns: $attributeColumns, // SET COLUMNS TO RETURN
 
-            // SET COLUMNS TO GET (ex: self::ROLE_COLUMNS_MINIMAL)
-            relationColumns: $columns,
-
-            // SET PREFIX FOR ROLE COLUMNS
-            relationPrefix: AttributeSchemaMysql::RELATION_PREFIX,
-
-            // PARAMS SPECIFIQUE TARGET TABLE
+            // FROM 
             relatedTable: AttributeSchemaMysql::TABLE,
             foreignKey: AttributeSchemaMysql::ID,
             localKey: ProductSchemaMysql::ID,
 
-            // PARAMS SPECIFIQUE PIVOT (ManyToManyRelation)
+            // PIVOT 
             pivotTable: self::TABLE,
             pivotForeignKey: self::ATTRIBUTE_ID,
             pivotLocalKey: self::PRODUCT_ID,
+            pivotColumns: $pivotColumns,
         );
     }
 }

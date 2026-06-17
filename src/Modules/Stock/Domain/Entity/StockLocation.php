@@ -3,6 +3,7 @@
 namespace Src\Modules\Stock\Entity;
 
 use Core\Database\BaseModel;
+use Src\Modules\Shared\Infrastructure\Schema\HelperSchemaMysql;
 use Src\Modules\Stock\Domain\Infrastructure\Schema\StockLocationSchemaMysql;
 
 class StockLocation extends BaseModel
@@ -39,9 +40,9 @@ class StockLocation extends BaseModel
     public static function fromArray(array $row): self
     {
         return new self(
-            _name: self::getString($row, StockLocationSchemaMysql::NAME),
-            _id: self::getIntOrNull($row, StockLocationSchemaMysql::ID),
-            _description: self::getStringOrNull($row, StockLocationSchemaMysql::DESCRIPTION),
+            _name: self::getString($row, HelperSchemaMysql::fieldProperty(StockLocationSchemaMysql::NAME)),
+            _id: self::getIntOrNull($row, HelperSchemaMysql::fieldProperty(StockLocationSchemaMysql::ID)),
+            _description: self::getStringOrNull($row, HelperSchemaMysql::fieldProperty(StockLocationSchemaMysql::DESCRIPTION)),
         );
     }
 }

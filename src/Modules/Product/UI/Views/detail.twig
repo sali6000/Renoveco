@@ -17,12 +17,14 @@
         <li class="product-detail-spec-breadcrumb__item" aria-hidden="true">
             <span class="product-detail-spec-breadcrumb__sep">/</span>
         </li>
-        <li class="product-detail-spec-breadcrumb__item">
-            <a class="product-detail-spec-breadcrumb__link" href="/product/list/{{ model.categories[0].slug }}">{{ model.categories[0].name }}</a>
-        </li>
-        <li class="product-detail-spec-breadcrumb__item" aria-hidden="true">
-            <span class="product-detail-spec-breadcrumb__sep">/</span>
-        </li>
+        {% if model.category_slug %}
+            <li class="product-detail-spec-breadcrumb__item">
+                <a class="product-detail-spec-breadcrumb__link" href="/product/list/{{ model.category_slug }}">{{ model.category_name }}</a>
+            </li>
+            <li class="product-detail-spec-breadcrumb__item" aria-hidden="true">
+                <span class="product-detail-spec-breadcrumb__sep">/</span>
+            </li>
+        {% endif %}
         <li class="product-detail-spec-breadcrumb__item product-detail-spec-breadcrumb__item--current" aria-current="page">
             {{ model.name }}
         </li>
@@ -104,7 +106,7 @@
             <img
                 id="product-gallery-main"
                 class="product-detail-spec__gallery-main-img"
-                src="{{ model.images[0].filePath }}"
+                src="{{ model.image_main }}"
                 alt="{{ model.name }}"
                 width="800"
                 height="600"
@@ -221,12 +223,12 @@
                     <div class="c-product-card__media">
                         <img
                             class="c-product-card__img"
-                            src="{{ product.images[0].filePath }}"
+                            src="{{ product.image }}"
                             alt="{{ product.name }}"
                             loading="lazy">
                     </div>
                     <div class="c-product-card__body">
-                        <span class="c-product-card__category">{{ product.category_name }}</span>
+                        <span class="c-product-card__category">{{ model.category_name }}</span>
                         <h3 class="c-product-card__title">{{ product.name }}</h3>
                     </div>
                 </a>

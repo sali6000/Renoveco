@@ -4,7 +4,6 @@ namespace Core\Middleware;
 
 use Config\AppConfig;
 use Core\Middleware\Middleware;
-use Core\Support\DebugHelper;
 
 class SecurityHeaderMiddleware extends Middleware
 {
