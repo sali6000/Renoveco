@@ -75,6 +75,7 @@
                 {% endif %}
 
             </ul>
+                
         </nav>
 
         {# Contact #}
@@ -112,6 +113,29 @@
 
     </div>
 
+    {# Menu admin #}
+            {% if userSession.role in ['admin', 'superadmin'] %}
+    <div  class="shared-navbar__bar">
+        <nav class="shared-navbar__nav" aria-label="Navigation principale">
+                <ul class="shared-navbar__menu">
+                    <li class="shared-navbar__item shared-navbar__item--dropdown">
+                        <button class="shared-navbar__link shared-navbar__link--dropdown" 
+                            aria-expanded="false"
+                            aria-haspopup="true">
+                            Gestion des Produits
+                            <svg class="shared-navbar__chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                <path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                        <ul class="shared-navbar__dropdown" role="menu">
+                            <li role="menuitem"><a href="/admin/product/list" class="shared-navbar__dropdown-link">Voir tous les produits</a></li>  
+                            <li role="menuitem"><a href="/admin/product/create" class="shared-navbar__dropdown-link">Ajouter un produit</a></li>  
+                        </ul>
+                    </li>
+                </ul>
+        </nav>
+    </div>
+            {% endif %}
 
     {# SUR MOBILE #}
 

@@ -1,0 +1,16 @@
+{% extends "@Shared/layout/base.twig" %}
+
+{% block title %}Liste des produits - {{ parent() }}{% endblock %}
+
+{% block content %}
+
+{% for product in products %}
+<p>Name: {{ product.name}}</p>
+<p>Disponibilité: {{ product.available ? 'Disponible' : 'Indisponible' }}</p>
+<p>Quantitée: {{ product.quantity}}</p>
+
+<hr>
+
+
+{% endfor %}
+{% endblock %}

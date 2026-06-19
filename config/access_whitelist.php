@@ -1,39 +1,57 @@
 <?php
 
+use Src\Modules\About\Interface\Http\Controllers\AboutIndexController;
+use Src\Modules\Auth\Interface\Http\Controllers\AuthLoginController;
+use Src\Modules\Cgu\Interface\Http\Controllers\CguIndexController;
+use Src\Modules\Cgu\Interface\Http\Controllers\CguPolicyController;
+use Src\Modules\Contact\Interface\Http\Controllers\ContactIndexController;
+use Src\Modules\Home\Interface\Http\Controllers\HomeIndexController;
+use Src\Modules\Admin\Product\Interface\Http\Controllers\ProductController as AdminProductController;
+use Src\Modules\Product\Interface\Http\Controllers\ProductDetailController;
+use Src\Modules\Product\Interface\Http\Controllers\ProductListController;
+use Src\Modules\Services\Interface\Http\Controllers\DetailController;
+use Src\Modules\User\Interface\Http\Controllers\UserCreateController;
+use Src\Modules\Utilities\Interface\Http\Controllers\SitemapController;
+
 return [
+
     'roles' => [
         'guest'      => [],
-        'user'       => ['guest'],      // hérite de guest
-        'admin'      => ['user'],       // hérite de user
-        'superadmin' => ['admin'],      // hérite de admin
+        'user'       => ['guest'],
+        'admin'      => ['user'],
+        'superadmin' => ['admin'],
     ],
+
     'permissions' => [
+
         'guest' => [
-            'About\AboutIndexController@index',
-            'Auth\AuthLoginController@connection',
-            'Auth\AuthLoginController@login',
-            'Cgu\CguIndexController@index',
-            'Cgu\CguPolicyController@policy',
-            'Contact\ContactIndexController@index',
-            'Contact\ContactIndexController@mailSend',
-            'Gallery\GalleryIndexController@index',
-            'Home\HomeIndexController@index',
-            'Product\ProductDetailController@detail',
-            'Product\ProductListController@list',
-            'Services\DetailController@detail',
-            'User\UserCreateController@create',
-            'User\UserCreateController@store',
-            'Utilities\SitemapController@index',
-            'Auth\AuthLoginController@logout',
+            AboutIndexController::class    . '@index',
+            AuthLoginController::class     . '@connection',
+            AuthLoginController::class     . '@login',
+            AuthLoginController::class     . '@logout',
+            CguIndexController::class      . '@index',
+            CguPolicyController::class     . '@policy',
+            ContactIndexController::class  . '@index',
+            ContactIndexController::class  . '@mailSend',
+            HomeIndexController::class     . '@index',
+            ProductDetailController::class . '@detail',
+            ProductListController::class   . '@list',
+            DetailController::class        . '@detail',
+            UserCreateController::class    . '@create',
+            UserCreateController::class    . '@store',
+            SitemapController::class       . '@index',
             // -- new-line-generate-by-make-module --
         ],
+
         'user' => [
-            'User\ProfileController@view',
-            'Order\OrderController@list',
+            // ...
         ],
-        'admin'      => [
-            'Admin\AdminDashboardController@index',
+
+        'admin' => [
+            AdminProductController::class  . '@list',
+            AdminProductController::class  . '@create',
         ],
+
         'superadmin' => ['*'],
     ],
 ];

@@ -9,6 +9,10 @@ use Core\Middleware\LoggerMiddleware;
 use Core\Middleware\MaintenanceMiddleware;
 use Core\Middleware\SecurityHeaderMiddleware;
 
+use Src\Modules\Admin\Product\Interface\Http\Controllers\ProductController as AdminProductController;
+// use Src\Modules\Product\Interface\Http\Controllers\ProductController as ShopProductController;
+
+
 return [
     '*@*' => [
         LoggerMiddleware::class,
@@ -16,7 +20,8 @@ return [
         AccessControlMiddleware::class,
         SecurityHeaderMiddleware::class
     ],
-    'ProductController@create' => [AuthMiddleware::class],
+    AdminProductController::class . '@*' => [AuthMiddleware::class, AdminMiddleware::class],
+    // ShopProductController::class  . '@*' => [],
     'OrderController@*' => [AuthMiddleware::class],
     'AdminController@*' => [AuthMiddleware::class, AdminMiddleware::class],
     'AdminController@dashboard' => [AuthMiddleware::class, AdminMiddleware::class],

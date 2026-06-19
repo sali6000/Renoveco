@@ -14,6 +14,7 @@ use Src\Modules\Shared\Infrastructure\Schema\HelperSchemaMysql;
 
 class Product extends BaseModel
 {
+    private bool $_available;
     public function __construct(
 
         // Obligatoires

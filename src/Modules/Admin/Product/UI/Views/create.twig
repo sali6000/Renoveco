@@ -1,0 +1,188 @@
+{% extends "@Shared/layout/base.twig" %}
+
+{% block title %}Créer un produit - {{ parent() }}{% endblock %}
+
+{% block content %}
+<div class="l-stack l-stack--gap-xl l-stack--p-xl">
+<form class="c-form" method="POST" action="/admin/product/store" enctype="multipart/form-data">
+
+    <div class="c-form__header">
+        <h2>Créer un produit</h2>
+        <p>Remplissez le formulaire pour ajouter un nouveau produit</p>
+    </div>
+
+    <div class="c-form__divider"></div>
+
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+    <div id="form-error" class="alert alert--danger" style="display: none;"></div>
+    <div id="form-success" class="alert alert--success" style="display: none;"></div>
+
+
+    {# — Identification ---------------------------------------------------- #}
+
+    <div class="c-form__field">
+        <label class="c-form__label" for="product-name">Nom du produit</label>
+        <input
+            class="c-form__input"
+            type="text"
+            id="product-name"
+            name="name"
+            required
+            autofocus
+            placeholder="Ex : Parquet chêne massif 14mm"
+            minlength="3"
+            maxlength="150"
+        >
+    </div>
+
+    <div class="c-form__field">
+        <label class="c-form__label" for="product-reference">Référence</label>
+        <input
+            class="c-form__input"
+            type="text"
+            id="product-reference"
+            name="reference"
+            required
+            placeholder="Ex : PAR-CHE-14MM"
+            maxlength="50"
+        >
+    </div>
+
+    <div class="c-form__field">
+        <label class="c-form__label" for="product-subtitle">Sous-titre</label>
+        <input
+            class="c-form__input"
+            type="text"
+            id="product-subtitle"
+            name="subtitle"
+            placeholder="Ex : Idéal pour pièces à fort passage"
+            maxlength="200"
+        >
+    </div>
+
+
+    {# — Catégorie (liste déroulante) --------------------------------------- #}
+
+    <div class="c-form__field">
+        <label class="c-form__label" for="product-category">Catégorie</label>
+        <select
+            class="c-form__input c-form__select"
+            id="product-category"
+            name="category_id"
+            required
+        >
+            <option value="" disabled selected>-- Choisir une catégorie --</option>
+            {% for category in vm.categories %}
+                <option value="{{ category.id }}">{{ category.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+
+    {# — Description ------------------------------------------------------- #}
+
+    <div class="c-form__field">
+        <label class="c-form__label" for="product-description">Description</label>
+        <textarea
+            class="c-form__input c-form__textarea"
+            id="product-description"
+            name="description"
+            rows="5"
+            placeholder="Description complète du produit..."
+            maxlength="2000"
+        ></textarea>
+    </div>
+
+    <div class="c-form__field">
+        <label class="c-form__label" for="product-meta">Meta description</label>
+        <input
+            class="c-form__input"
+            type="text"
+            id="product-meta"
+            name="meta_description"
+            placeholder="Résumé SEO (max 160 caractères)"
+            maxlength="160"
+        >
+        <p class="c-form__hint">Visible uniquement dans les résultats Google</p>
+    </div>
+
+
+    {# — Stock (chiffre) --------------------------------------------------- #}
+
+    <div class="c-form__field">
+        <label class="c-form__label" for="product-quantity">Quantité en stock</label>
+        <input
+            class="c-form__input"
+            type="number"
+            id="product-quantity"
+            name="quantity"
+            required
+            min="0"
+            max="99999"
+            placeholder="0"
+        >
+    </div>
+
+
+    {# — Booléens ---------------------------------------------------------- #}
+
+    <div class="c-form__field c-form__field--checkbox">
+        <input
+            class="c-form__checkbox"
+            type="checkbox"
+            id="product-active"
+            name="is_active"
+            value="1"
+            checked
+        >
+        <label class="c-form__label" for="product-active">
+            Produit actif (visible sur le site)
+        </label>
+    </div>
+
+    <div class="c-form__field c-form__field--checkbox">
+        <input
+            class="c-form__checkbox"
+            type="checkbox"
+            id="product-featured"
+            name="is_featured"
+            value="1"
+        >
+        <label class="c-form__label" for="product-featured">
+            Mettre en avant ce produit
+        </label>
+    </div>
+
+
+    {# — Images ------------------------------------------------------------ #}
+
+    <div class="c-form__divider"></div>
+
+    <div class="c-form__field">
+        <label class="c-form__label" for="product-images">Images du produit</label>
+        <input
+            class="c-form__input"
+            type="file"
+            id="product-images"
+            name="images[]"
+            accept="image/jpeg,image/png,image/webp"
+            multiple
+        >
+        <p class="c-form__hint">Formats acceptés : JPG, PNG, WebP — La première image sera l'image principale</p>
+    </div>
+
+
+    <div class="c-form__divider"></div>
+
+    <button type="submit" class="c-btn c-btn--primary">
+        Créer le produit
+    </button>
+
+    <p class="c-form__footer">
+        <a href="/admin/products">← Retour à la liste</a>
+    </p>
+
+</form>
+</div>
+{% endblock %}

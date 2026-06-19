@@ -6,16 +6,16 @@ use Core\Middleware\Middleware;
 use Core\Routing\RouteContext;
 use Core\Logger\AccessLogger;
 use Config\AppConfig;
+use Core\Support\DebugHelper;
 
 class AccessControlMiddleware extends Middleware
 {
     public function handle(): bool
     {
         // Récupération du contrôleur + action actuel (ex: Services\ServiceDetailController@detail)
-        $route =
-            RouteContext::getInstance()->getModule() . '\\' .
-            RouteContext::getInstance()->getController() . '@' .
-            RouteContext::getInstance()->getAction();
+
+        $route = RouteContext::getInstance()->getClass() . '@' . RouteContext::getInstance()->getAction();
+
 
         // Récupération du rôle actuel de l'utilisateur
         $role = $_SESSION['user']['role'] ?? 'guest';
@@ -28,6 +28,9 @@ class AccessControlMiddleware extends Middleware
         // Vérification de l'accès de l'utilsateur à la route demandée
         $allowedRoutes = $this->resolvePermissions($_SESSION['user']['role'] ?? 'guest', $permissions, $hierarchy);
 
+        DebugHelper::verboseServer("Route résolue : " . $route);
+        DebugHelper::verboseServer("Role : " . $role);
+        DebugHelper::verboseServer("Allowed : " . implode(', ', $allowedRoutes));
         if (!in_array('*', $allowedRoutes, true) && !in_array($route, $allowedRoutes, true)) {
             AccessLogger::logTo("Accès refusé pour la route $route en tant que [$role]", AccessLogger::LEVEL_WARNING, AccessLogger::CHANNEL_ROUTING);
             http_response_code(403);

@@ -10,6 +10,7 @@ use Core\Routing\Exception\RoutingException;
 use Core\Routing\RouteCache;
 use Core\Routing\RouteCompiler;
 use Core\Routing\RouteContext;
+use Core\Support\DebugHelper;
 
 class Router
 {
@@ -140,6 +141,8 @@ class Router
             '*@*'
         ];
 
+        DebugHelper::verboseServer($keysToCheck);
+
         // Vérifier la route
         foreach ($keysToCheck as $key) {
             if (!$this->validationMiddlewares($key)) {
@@ -162,8 +165,12 @@ class Router
                 throw new RoutingException("Le middleware '{$middlewareClass}' n'existe pas.");
             }
 
+            DebugHelper::verboseServer("avant instanciation");
+            DebugHelper::verboseServer($middlewareClass . ' avec la key ' . $key);
             // Instanciation du middleware
-            $middleware = new $middlewareClass();
+            $middleware = $this->container->get($middlewareClass);
+
+            DebugHelper::verboseServer("apres instanciation");
 
             // Vérification que l'instance est bien un Middleware
             if (!$middleware instanceof Middleware) {

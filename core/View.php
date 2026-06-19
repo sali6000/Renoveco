@@ -5,6 +5,7 @@ namespace Core;
 
 use Src\Modules\Shared\Interface\Http\Controllers\HeaderController;
 use Config\AppConfig;
+use Core\Support\DebugHelper;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use Twig\TwigFunction;
@@ -30,7 +31,8 @@ class View
         $cacheViews = self::getCacheRoutesViews();
 
         foreach ($cacheViews as $moduleName => $viewsPath) {
-            $loader->addPath($viewsPath, $moduleName);
+            $namespace = str_replace('/', '-', $moduleName);
+            $loader->addPath($viewsPath, $namespace);
         }
 
         self::$twig = new Environment($loader, [
@@ -75,27 +77,52 @@ class View
 
     private static function compileCacheRoute($modulesPath, $cacheFile)
     {
-        // Sinon on scanne
-        $modules = [];
+        $modules = self::scanModules($modulesPath, $modulesPath);
 
-        foreach (scandir($modulesPath) as $moduleName) {
-            if ($moduleName === '.' || $moduleName === '..')
-                continue;
-
-            $viewsPath = $modulesPath . $moduleName . "/UI/Views"; // Ex: "/var/www/html/src/Modules/" + "Product" + "/UI/Views" 
-
-            if (is_dir($viewsPath)) {
-                $modules[$moduleName] = $viewsPath;
-            }
-        }
-
-        // On génère le cache
         file_put_contents(
             $cacheFile,
             '<?php return ' . var_export($modules, true) . ';',
             LOCK_EX
         );
     }
+
+    /**
+     * Scanne récursivement les dossiers à la recherche de modules (présence de /UI/Views).
+     * S'arrête dès qu'un /UI/Views est trouvé — ne descend pas plus profond.
+     *
+     * @return array<string, string> ['Admin/Product' => '/path/to/.../Admin/Product/UI/Views']
+     */
+    private static function scanModules(string $basePath, string $currentPath): array
+    {
+        $modules = [];
+
+        foreach (scandir($currentPath) as $entry) {
+            if ($entry === '.' || $entry === '..') {
+                continue;
+            }
+
+            $fullPath = $currentPath . $entry;
+
+            if (!is_dir($fullPath)) {
+                continue;
+            }
+
+            $viewsPath = $fullPath . '/UI/Views';
+
+            if (is_dir($viewsPath)) {
+                // Module trouvé — on dérive le nom relatif depuis $basePath
+                // Ex: "/var/www/src/Modules/Admin/Product" -> "Admin/Product"
+                $moduleName = trim(str_replace($basePath, '', $fullPath), '/');
+                $modules[$moduleName] = $viewsPath;
+            } else {
+                // Pas encore un module — on descend
+                $modules = array_merge($modules, self::scanModules($basePath, $fullPath . '/'));
+            }
+        }
+
+        return $modules;
+    }
+
     /**
      * Résout un asset, lance une exception si absent (obligatoire)
      */
@@ -170,12 +197,24 @@ class View
         // Afficher la vue Twig
         echo $result;
     }
-
     private static function sanitizePathToViewTwig(string $path): string
     {
-        $parts = explode('/', $path, 2);
-        $parts[0] = ucfirst($parts[0]);  // Majuscule sur le premier mot
-        return implode('/', $parts);
+        $lastSlash = strrpos($path, '/');
+
+        if ($lastSlash === false) {
+            // Pas de slash — juste un nom de fichier, on ne touche à rien
+            return $path;
+        }
+
+        $modulePath = substr($path, 0, $lastSlash);   // "admin/product"
+        $filename   = substr($path, $lastSlash + 1);  // "list.twig"
+
+        // Majuscule sur chaque segment du chemin module
+        $namespace = implode('-', array_map('ucfirst', explode('/', $modulePath)));
+
+        $result = $namespace . '/' . $filename; // "Admin/Product/list.twig"
+
+        return $result;
     }
 
     /**
