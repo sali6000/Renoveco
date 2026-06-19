@@ -10,7 +10,6 @@ use Core\Routing\Exception\RoutingException;
 use Core\Routing\RouteCache;
 use Core\Routing\RouteCompiler;
 use Core\Routing\RouteContext;
-use Core\Support\DebugHelper;
 
 class Router
 {
@@ -45,7 +44,7 @@ class Router
 
                 // Vérifier l'autorisation (guest? maintenance ? ...) 
                 $this->validationRouteContext(
-                    RouteContext::getInstance()->getController(),
+                    RouteContext::getInstance()->getClass(),
                     RouteContext::getInstance()->getAction()
                 );
 
@@ -131,19 +130,14 @@ class Router
         // [0] => chassis-de-fenetres-pe50-105426586987
         return $params;
     }
-
-    private function validationRouteContext($controller, $action)
+    private function validationRouteContext(string $class, string $action): void
     {
-        // Préparer la route à vérifier
         $keysToCheck = [
-            $controller . '@' . $action,
-            $controller . '@*',
+            $class . '@' . $action,  // "Src\Modules\Admin\Product\...\ProductController@index"
+            $class . '@*',           // "Src\Modules\Admin\Product\...\ProductController@*"
             '*@*'
         ];
 
-        DebugHelper::verboseServer($keysToCheck);
-
-        // Vérifier la route
         foreach ($keysToCheck as $key) {
             if (!$this->validationMiddlewares($key)) {
                 throw new RoutingException('Middleware bloquant la requête');
@@ -165,12 +159,8 @@ class Router
                 throw new RoutingException("Le middleware '{$middlewareClass}' n'existe pas.");
             }
 
-            DebugHelper::verboseServer("avant instanciation");
-            DebugHelper::verboseServer($middlewareClass . ' avec la key ' . $key);
             // Instanciation du middleware
             $middleware = $this->container->get($middlewareClass);
-
-            DebugHelper::verboseServer("apres instanciation");
 
             // Vérification que l'instance est bien un Middleware
             if (!$middleware instanceof Middleware) {

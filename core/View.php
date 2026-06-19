@@ -5,7 +5,6 @@ namespace Core;
 
 use Src\Modules\Shared\Interface\Http\Controllers\HeaderController;
 use Config\AppConfig;
-use Core\Support\DebugHelper;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use Twig\TwigFunction;

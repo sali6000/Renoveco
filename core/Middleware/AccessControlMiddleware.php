@@ -6,7 +6,6 @@ use Core\Middleware\Middleware;
 use Core\Routing\RouteContext;
 use Core\Logger\AccessLogger;
 use Config\AppConfig;
-use Core\Support\DebugHelper;
 
 class AccessControlMiddleware extends Middleware
 {
@@ -28,9 +27,6 @@ class AccessControlMiddleware extends Middleware
         // Vérification de l'accès de l'utilsateur à la route demandée
         $allowedRoutes = $this->resolvePermissions($_SESSION['user']['role'] ?? 'guest', $permissions, $hierarchy);
 
-        DebugHelper::verboseServer("Route résolue : " . $route);
-        DebugHelper::verboseServer("Role : " . $role);
-        DebugHelper::verboseServer("Allowed : " . implode(', ', $allowedRoutes));
         if (!in_array('*', $allowedRoutes, true) && !in_array($route, $allowedRoutes, true)) {
             AccessLogger::logTo("Accès refusé pour la route $route en tant que [$role]", AccessLogger::LEVEL_WARNING, AccessLogger::CHANNEL_ROUTING);
             http_response_code(403);
