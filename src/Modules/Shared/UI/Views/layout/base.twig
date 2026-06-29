@@ -5,8 +5,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>{% block title %}{{ company_title }}{% endblock %}</title> 
-        <meta name="description" content="{{ block('meta_description') | trim }}"> 
-        <meta name="author" content="Steven Ferlazzo">
+        <meta name="description" content="{{ block('meta_description') is defined ? block('meta_description') | trim : 'Renove Construct SRL' }}">        <meta name="author" content="Steven Ferlazzo">
         <base href="{{ baseUri|e }}">
         <link rel="canonical" href="{{ canonical }}">       
         <link rel="shortcut icon" href="{{ vite_asset('img/about/logos/favicon-v2.ico') }}">
