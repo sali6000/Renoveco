@@ -4,6 +4,28 @@
 
 {% block meta_description %}Renove Construct installe vos panneaux photovoltaïques en Belgique. Réduisez votre facture d'énergie, valorisez votre bien et bénéficiez des primes régionales. Demandez votre devis gratuit.{% endblock %}
 
+{% block json_ld %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Pose de panneaux photovoltaïques à Manage",
+    "description": "Installation de panneaux solaires pour particuliers et professionnels dans le Hainaut et à Bruxelles.",
+    "provider": {
+        "@type": "HomeAndConstructionBusiness",
+        "name": "Renove Construct SRL",
+        "url": "https://renoveconstruct.be"
+    },
+    "areaServed": [
+        { "@type": "City", "name": "Manage" },
+        { "@type": "AdministrativeArea", "name": "Hainaut" }
+    ],
+    "url": "https://renoveconstruct.be/services/panneaux-photovoltaiques",
+	"image": "https://renoveconstruct.be/build/img/services/panneaux-photovoltaiques/image3.jpg"
+}
+</script>
+{% endblock %}
+
 {% block content %}
 
 {# =============================================

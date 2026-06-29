@@ -1,15 +1,51 @@
 {% extends "@Shared/layout/base.twig" %}
 
 {% block title %}
-Châssis, Fenêtres & Panneaux Solaires en Belgique | Renove Construct
+Châssis, Panneaux Solaires & Rénovation à Manage | Renove Construct
 {% endblock %}
 
 {% block meta_description %}
-Renove Construct, entreprise de rénovation basée à Manage (Hainaut). Pose de châssis PVC et aluminium, double et triple vitrage, panneaux photovoltaïques. Devis gratuit – intervention dans toute la Belgique.
+Pose de châssis PVC, double vitrage et panneaux photovoltaïques à Manage et dans le Hainaut. Entreprise locale, devis gratuit sous 48h. Contactez-nous.
 {% endblock %}
 
-{% block content %}
+{% block json_ld %}
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "HomeAndConstructionBusiness",
+        "name": "Renove Construct SRL",
+        "url": "https://renoveconstruct.be",
+        "telephone": "+3249275.95.77",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Rue des brasseries 2",
+          "addressLocality": "Manage",
+          "postalCode": "7170",
+          "addressCountry": "BE"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 50.4997,
+          "longitude": 4.2333
+        },
+        "areaServed": [
+          { "@type": "City", "name": "Manage" },
+          { "@type": "City", "name": "La Louvière" },
+          { "@type": "City", "name": "Binche" },
+          { "@type": "City", "name": "Charleroi" },
+          { "@type": "City", "name": "Bruxelles" },
+          { "@type": "AdministrativeArea", "name": "Hainaut" },
+          { "@type": "AdministrativeArea", "name": "Wallonie" }
+        ],
+        "openingHoursSpecification": [...],
+        "priceRange": "€€",
+        "image": "https://renoveconstruct.be/build/img/about/logos/logo.webp"
+    }
+</script>
+{% endblock %}
 
+
+{% block content %}
 {# Hero #}
 <section data-section="home-hero">
 
