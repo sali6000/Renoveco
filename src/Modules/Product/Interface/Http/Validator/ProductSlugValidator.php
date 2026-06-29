@@ -3,9 +3,7 @@
 
 namespace Src\Modules\Product\Interface\Http\Validator;
 
-use Src\Exception\ValidationException;
-
-class ProductSlugValidator implements ProductSlugValidatorInterface
+final class ProductSlugValidator
 {
     public function validate(string $slug): bool
     {

@@ -2,16 +2,16 @@
 
 namespace Src\Modules\Product\Interface\Http\Controllers;
 
-use Src\Modules\Product\Interface\Http\Validator\ProductSlugValidatorInterface;
 use Core\BaseController;
 use Core\Routing\Attribute\Route;
 use Src\Modules\Product\Application\UseCase\ShowProductForDetailUseCase;
+use Src\Modules\Product\Interface\Http\Validator\ProductSlugValidator;
 
 #[Route('/product')]
 class ProductDetailController extends BaseController
 {
   public function __construct(
-    private ProductSlugValidatorInterface $productSlugValidator,
+    private ProductSlugValidator $productSlugValidator,
     private ShowProductForDetailUseCase $showProductForDetail
   ) {}
 

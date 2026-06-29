@@ -37,8 +37,8 @@ abstract class RepositoryMysql
     {
         // 1. Récupération des objets en base (sans relations)
         $query = $this->buildQuery($objectQuery, $columns, $applyFilters);
-        if (isset($q->limit))  $query = $query->limit($q->limit);
-        if (isset($q->offset)) $query = $query->offset($q->offset);
+        if (isset($objectQuery->limit))  $query = $query->limit($objectQuery->limit);
+        if (isset($objectQuery->offset)) $query = $query->offset($objectQuery->offset);
 
         $rows = $query->executeAndFetchAll();
         if (empty($rows)) return [];

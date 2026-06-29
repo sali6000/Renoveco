@@ -2,7 +2,9 @@
 
 {% block title %}{{ model.name }} – {{ model.category_name }} – Renove Construct{% endblock %}
 
-{% block meta_description %}{{ model.meta_description ?? ('Découvrez ' ~ model.name ~ ', ' ~ model.category_name ~ '. Fiche technique complète, disponibilité et devis gratuit.') }}{% endblock %}
+{% block meta_description %}
+{{ model.meta_description ?? ('Découvrez ' ~ model.name ~ ', ' ~ model.category_name ~ '. Fiche technique complète, disponibilité et devis gratuit.') }}
+{% endblock %}
 
 {% block content %}
 
