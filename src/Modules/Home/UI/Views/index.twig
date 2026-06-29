@@ -9,46 +9,40 @@ Pose de châssis PVC, double vitrage et panneaux photovoltaïques à Manage et d
 {% endblock %}
 
 {% block json_ld %}
-<script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "HomeAndConstructionBusiness",
-        "name": "Renove Construct SRL",
-        "url": "https://renoveconstruct.be",
-        "telephone": "+3249275.95.77",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "Rue des brasseries 2",
-          "addressLocality": "Manage",
-          "postalCode": "7170",
-          "addressCountry": "BE"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 50.4997,
-          "longitude": 4.2333
-        },
-        "areaServed": [
-          { "@type": "City", "name": "Manage" },
-          { "@type": "City", "name": "La Louvière" },
-          { "@type": "City", "name": "Binche" },
-          { "@type": "City", "name": "Charleroi" },
-          { "@type": "City", "name": "Bruxelles" },
-          { "@type": "AdministrativeArea", "name": "Hainaut" },
-          { "@type": "AdministrativeArea", "name": "Wallonie" }
-        ],
-        "openingHoursSpecification": [
-          {
-              "@type": "OpeningHoursSpecification",
-              "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-              "opens": "08:00",
-              "closes": "16:00"
-          }
-        ],
-        "priceRange": "€€",
-        "image": "https://renoveconstruct.be/build/img/about/logos/rclogo-02-dark.avif"
-    }
-</script>
+"@type": "HomeAndConstructionBusiness",
+"name": "Renove Construct SRL",
+"url": "https://renoveconstruct.be",
+"telephone": "+32492759577",
+"address": {
+  "@type": "PostalAddress",
+  "streetAddress": "Rue des brasseries 2",
+  "addressLocality": "Manage",
+  "postalCode": "7170",
+  "addressCountry": "BE"
+},
+"geo": {
+  "@type": "GeoCoordinates",
+  "latitude": 50.4997,
+  "longitude": 4.2333
+},
+"areaServed": [
+  { "@type": "City", "name": "Manage" },
+  { "@type": "City", "name": "La Louvière" },
+  { "@type": "City", "name": "Binche" },
+  { "@type": "City", "name": "Charleroi" },
+  { "@type": "City", "name": "Bruxelles" },
+  { "@type": "AdministrativeArea", "name": "Hainaut" },
+  { "@type": "AdministrativeArea", "name": "Wallonie" }
+],
+"openingHoursSpecification": [
+  {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "08:00",
+      "closes": "16:00"
+  }
+],
+"priceRange": "€€"
 {% endblock %}
 
 
