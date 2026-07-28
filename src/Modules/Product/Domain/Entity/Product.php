@@ -5,7 +5,7 @@ namespace Src\Modules\Product\Domain\Entity;
 use Src\Modules\Category\Domain\Entity\Category;
 use Core\Database\BaseModel;
 use DateTime;
-use Src\Modules\Attribute\Infrastructure\Schema\AttributeSchemaMysql;
+use Src\Modules\Admin\Attribute\Infrastructure\Persistence\Schema\AttributeSchemaMysql;
 use Src\Modules\Category\Infrastructure\Schema\CategorySchemaMysql;
 use Src\Modules\Product\Infrastructure\Schema\ProductImageSchemaMysql;
 use Src\Modules\Product\Infrastructure\Schema\ProductSchemaMysql;

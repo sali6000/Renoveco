@@ -3,7 +3,7 @@
 namespace Src\Modules\Product\Infrastructure\Schema;
 
 use Core\Database\Relations\ManyToManyRelation;
-use Src\Modules\Attribute\Infrastructure\Schema\AttributeSchemaMysql;
+use Src\Modules\Admin\Attribute\Infrastructure\Persistence\Schema\AttributeSchemaMysql;
 use Src\Modules\Shared\Infrastructure\Schema\HelperSchemaMysql;
 
 final class ProductAttributeSchemaMysql extends HelperSchemaMysql

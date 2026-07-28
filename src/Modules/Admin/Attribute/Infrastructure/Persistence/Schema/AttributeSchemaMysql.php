@@ -1,6 +1,6 @@
 <?php
 
-namespace Src\Modules\Attribute\Infrastructure\Schema;
+namespace Src\Modules\Admin\Attribute\Infrastructure\Persistence\Schema;
 
 use Core\Database\Relations\ManyToOneRelation;
 use Src\Modules\Shared\Infrastructure\Schema\HelperSchemaMysql;
@@ -23,6 +23,7 @@ final class AttributeSchemaMysql extends HelperSchemaMysql
     {
         return new ManyToOneRelation(
             key: self::fieldTable(AttributeGroupSchemaMysql::TABLE),
+            idKey: HelperSchemaMysql::fieldProperty(self::GROUP_ID),
             relationColumns: $columns,
 
             relatedTable: AttributeGroupSchemaMysql::TABLE,

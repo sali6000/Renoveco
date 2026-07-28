@@ -1,0 +1,38 @@
+{% extends "@Shared/layout/base.twig" %}
+
+{% block title %}Liste des attributs - {{ parent() }}{% endblock %}
+
+{% block content %}
+
+<div class="l-attribute-tree">
+    <h1 class="c-page-title">Attributs</h1>
+
+    {% set grouped = {} %}
+    {% for attribut in attributs %}
+        {% set groupName = attribut.attributeGroup.name %}
+        {% set grouped = grouped|merge({
+            (groupName): (grouped[groupName] ?? [])|merge([attribut])
+        }) %}
+    {% endfor %}
+
+    {% for groupName, groupAttributs in grouped %}
+        <div class="c-attribute-group">
+            <h2 class="c-attribute-group__title">{{ groupName }}</h2>
+            <ul class="c-attribute-group__list">
+                {% for attribut in groupAttributs %}
+                    <li class="c-attribute-group__item">
+                        {{ attribut.name }}
+                        {% if attribut.unit %}
+                            <span class="u-text-muted">({{ attribut.unit }})</span>
+                        {% endif %}
+                        {% if attribut.isRequired %}
+                            <span class="c-badge c-badge--required">Requis</span>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

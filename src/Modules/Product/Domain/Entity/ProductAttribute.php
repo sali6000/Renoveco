@@ -3,7 +3,7 @@
 namespace Src\Modules\Product\Domain\Entity;
 
 use Core\Database\BaseModel;
-use Src\Modules\Attribute\Infrastructure\Schema\AttributeSchemaMysql;
+use Src\Modules\Admin\Attribute\Infrastructure\Persistence\Schema\AttributeSchemaMysql;
 use Src\Modules\Product\Infrastructure\Schema\ProductAttributeSchemaMysql;
 use Src\Modules\Shared\Infrastructure\Schema\HelperSchemaMysql;
 

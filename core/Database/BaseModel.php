@@ -136,6 +136,14 @@ abstract class BaseModel
             : null;
     }
 
+    /**
+     * Mappe un tableau JSON décodé vers une entitée
+     */
+    protected static function getMapped(array $row, string $key, callable $mapper): ?object
+    {
+        return $mapper($row[$key]);
+    }
+
     // ==========================================================
     // HELPERS INTERNES
     // ==========================================================

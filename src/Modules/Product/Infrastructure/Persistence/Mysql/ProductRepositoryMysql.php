@@ -9,7 +9,7 @@ use Src\Modules\Product\Domain\Query\ProductQuery;
 use Src\Modules\Product\Domain\Repository\ProductRepositoryInterface;
 use Core\Database\QueryBuilderInterface;
 use Core\Database\RepositoryMysql;
-use Src\Modules\Attribute\Infrastructure\Schema\AttributeSchemaMysql;
+use Src\Modules\Admin\Attribute\Infrastructure\Persistence\Schema\AttributeSchemaMysql;
 use Src\Modules\Category\Infrastructure\Schema\CategorySchemaMysql;
 use Src\Modules\Product\Infrastructure\Schema\ProductAttributeSchemaMysql;
 use Src\Modules\Product\Infrastructure\Schema\ProductCategorySchemaMysql;

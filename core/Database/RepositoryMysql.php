@@ -45,13 +45,12 @@ abstract class RepositoryMysql
 
         // 2. Récupération des relations en base liés aux objets
         $relations = $applyRelations ? $applyRelations($objectQuery) : [];
-        $ids = array_column($rows, 'id');
 
         foreach ($relations as $relation) {
-            $relatedRows = $relation->fetchRelated($this->pdo, $ids);
+            $keys = $relation->extractKeys($rows);
+            $relatedRows = $relation->fetchRelated($this->pdo, $keys);
             $rows = $relation->hydrate($rows, $relatedRows);
         }
-
         return array_map(fn($row) => $this->fromArray($row), $rows);
     }
 

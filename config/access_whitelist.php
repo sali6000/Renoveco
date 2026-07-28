@@ -1,6 +1,7 @@
 <?php
 
 use Src\Modules\About\Interface\Http\Controllers\AboutIndexController;
+use Src\Modules\Admin\Attribute\Interface\Http\Controllers\AttributeController;
 use Src\Modules\Auth\Interface\Http\Controllers\AuthLoginController;
 use Src\Modules\Cgu\Interface\Http\Controllers\CguIndexController;
 use Src\Modules\Cgu\Interface\Http\Controllers\CguPolicyController;
@@ -25,6 +26,9 @@ return [
     'permissions' => [
 
         'guest' => [
+            AttributeController::class . '@list',
+            AttributeController::class . '@index',
+
             AboutIndexController::class    . '@index',
             AuthLoginController::class     . '@connection',
             AuthLoginController::class     . '@login',

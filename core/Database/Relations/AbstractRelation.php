@@ -76,6 +76,12 @@ abstract class AbstractRelation
         }, $mainRows);
     }
 
+    public function extractKeys(array $rows): array
+    {
+        $keys = array_column($rows, $this->idKey);
+        return array_values(array_unique(array_filter($keys, fn($v) => $v !== null)));
+    }
+
     protected function flatRelatedRows(array $mainRows, array $relatedRows): array
     {
         /** Construction de la table de correspondance
@@ -106,8 +112,11 @@ abstract class AbstractRelation
          */
         return array_map(function (array $row) use ($indexed) {
             $mainId = $row[$this->idKey];
-            $row[$this->key] = $indexed[$mainId] ?? null;
-
+            $related = $indexed[$mainId] ?? null;
+            if ($related !== null) {
+                unset($related['fk']);
+            }
+            $row[$this->key] = $related;
             return $row;
         }, $mainRows);
     }

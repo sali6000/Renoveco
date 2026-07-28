@@ -1,6 +1,6 @@
 <?php
 
-namespace Src\Modules\Attribute\Infrastructure\Schema;
+namespace Src\Modules\Admin\Attribute\Infrastructure\Persistence\Schema;
 
 use Core\Database\Relations\OneToManyRelation;
 use Src\Modules\Shared\Infrastructure\Schema\HelperSchemaMysql;
