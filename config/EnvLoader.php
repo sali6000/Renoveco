@@ -71,20 +71,42 @@ final class EnvLoader
             throw new \RuntimeException("Format de fichier chiffré non supporté: $file");
         }
 
-        $password = rtrim((string) file_get_contents($key), "\r\n");
-        $salt = substr($ciphertext, 8, 8);
-        $encrypted = substr($ciphertext, 16);
-
-        $derivedKey = openssl_pbkdf2($password, $salt, 48, 10000, 'sha256');
-        if ($derivedKey === false) {
-            throw new \RuntimeException('Échec de la dérivation PBKDF2 pour le déchiffrement.');
+        $rawPassword = file_get_contents($key);
+        if ($rawPassword === false) {
+            throw new \RuntimeException("Lecture de la clé de déchiffrement impossible: $key");
         }
 
-        $keyBytes = substr($derivedKey, 0, 32);
-        $iv = substr($derivedKey, 32, 16);
+        $passwordCandidates = [$rawPassword];
+        $withoutTrailingNewline = preg_replace('/\r?\n\z/', '', $rawPassword);
+        if ($withoutTrailingNewline !== null && $withoutTrailingNewline !== $rawPassword) {
+            $passwordCandidates[] = $withoutTrailingNewline;
+        }
 
-        $plainText = openssl_decrypt($encrypted, 'aes-256-cbc', $keyBytes, OPENSSL_RAW_DATA, $iv);
-        if ($plainText === false) {
+        $withoutBom = preg_replace('/^\xEF\xBB\xBF/', '', $rawPassword);
+        if ($withoutBom !== null && $withoutBom !== $rawPassword) {
+            $passwordCandidates[] = $withoutBom;
+        }
+
+        $salt = substr($ciphertext, 8, 8);
+        $encrypted = substr($ciphertext, 16);
+        $plainText = null;
+
+        foreach (array_unique($passwordCandidates) as $password) {
+            $derivedKey = openssl_pbkdf2($password, $salt, 48, 10000, 'sha256');
+            if ($derivedKey === false) {
+                continue;
+            }
+
+            $keyBytes = substr($derivedKey, 0, 32);
+            $iv = substr($derivedKey, 32, 16);
+            $plainText = openssl_decrypt($encrypted, 'aes-256-cbc', $keyBytes, OPENSSL_RAW_DATA, $iv);
+
+            if ($plainText !== false) {
+                break;
+            }
+        }
+
+        if ($plainText === false || $plainText === null) {
             throw new \RuntimeException('Échec du déchiffrement OpenSSL: ' . openssl_error_string());
         }
 
