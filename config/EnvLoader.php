@@ -52,14 +52,49 @@ final class EnvLoader
         }
     }
 
-    private function decryptFile($file, $key, $destination)
+    private function decryptFile(string $file, string $key, string $destination): void
     {
-        $cmd = "openssl enc -aes-256-cbc -pbkdf2 -d -in \"$file\" -out \"$destination\" -pass file:$key 2>&1";
+        if (!extension_loaded('openssl')) {
+            throw new \RuntimeException("L'extension OpenSSL PHP est requise pour déchiffrer les fichiers d'environnement.");
+        }
 
-        exec($cmd, $output, $returnCode);
+        if (!is_file($file) || !is_file($key)) {
+            throw new \RuntimeException("Fichier chiffré ou clé introuvable: $file / $key");
+        }
 
-        if ($returnCode !== 0) {
-            throw new \RuntimeException("Échec du déchiffrement: " . implode("\n", $output));
+        $ciphertext = file_get_contents($file);
+        if ($ciphertext === false) {
+            throw new \RuntimeException("Lecture du fichier chiffré impossible: $file");
+        }
+
+        if (!str_starts_with($ciphertext, 'Salted__')) {
+            throw new \RuntimeException("Format de fichier chiffré non supporté: $file");
+        }
+
+        $password = rtrim((string) file_get_contents($key), "\r\n");
+        $salt = substr($ciphertext, 8, 8);
+        $encrypted = substr($ciphertext, 16);
+
+        $derivedKey = openssl_pbkdf2($password, $salt, 48, 10000, 'sha256');
+        if ($derivedKey === false) {
+            throw new \RuntimeException('Échec de la dérivation PBKDF2 pour le déchiffrement.');
+        }
+
+        $keyBytes = substr($derivedKey, 0, 32);
+        $iv = substr($derivedKey, 32, 16);
+
+        $plainText = openssl_decrypt($encrypted, 'aes-256-cbc', $keyBytes, OPENSSL_RAW_DATA, $iv);
+        if ($plainText === false) {
+            throw new \RuntimeException('Échec du déchiffrement OpenSSL: ' . openssl_error_string());
+        }
+
+        $directory = dirname($destination);
+        if (!is_dir($directory) && !mkdir($directory, 0775, true) && !is_dir($directory)) {
+            throw new \RuntimeException("Impossible de créer le dossier de destination: $directory");
+        }
+
+        if (file_put_contents($destination, $plainText) === false) {
+            throw new \RuntimeException("Impossible d'écrire le fichier déchiffré: $destination");
         }
     }
 

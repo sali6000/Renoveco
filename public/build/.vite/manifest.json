@@ -1,6 +1,6 @@
 {
   "src/assets/js/app.js": {
-    "file": "assets/app-DJ4OOP3v.js",
+    "file": "assets/app-cZJrj9rp.js",
     "name": "app",
     "src": "src/assets/js/app.js",
     "isEntry": true,
@@ -12,25 +12,25 @@
     ]
   },
   "src/assets/js/pages/admin/category/index.js": {
-    "file": "assets/category-Hqr5LiEt.js",
+    "file": "assets/category-CiHUVT0Q.js",
     "name": "category",
     "src": "src/assets/js/pages/admin/category/index.js",
     "isDynamicEntry": true
   },
   "src/assets/js/pages/home/index.js": {
-    "file": "assets/home-DFb67Rpp.js",
+    "file": "assets/home-BWMRxy9a.js",
     "name": "home",
     "src": "src/assets/js/pages/home/index.js",
     "isDynamicEntry": true
   },
   "src/assets/js/pages/product/detail.js": {
-    "file": "assets/detail-F4sIAPBQ.js",
+    "file": "assets/detail-C_q850qj.js",
     "name": "detail",
     "src": "src/assets/js/pages/product/detail.js",
     "isDynamicEntry": true
   },
   "src/assets/js/pages/product/list.js": {
-    "file": "assets/list-BakMksH6.js",
+    "file": "assets/list-BwQVmG-6.js",
     "name": "list",
     "src": "src/assets/js/pages/product/list.js",
     "isDynamicEntry": true
@@ -78,6 +78,15 @@
       "product-detail.css"
     ],
     "src": "src/assets/scss/pages/product/detail.scss",
+    "isEntry": true
+  },
+  "src/assets/scss/pages/product/list.scss": {
+    "file": "assets/product-list-bplhfpTL.css",
+    "name": "product-list",
+    "names": [
+      "product-list.css"
+    ],
+    "src": "src/assets/scss/pages/product/list.scss",
     "isEntry": true
   },
   "src/assets/scss/pages/services/chassis-fenetres.scss": {
