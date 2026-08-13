@@ -52,6 +52,7 @@ final class EnvLoader
         }
     }
 
+    # openssl
     private function decryptFile(string $file, string $key, string $destination): void
     {
         if (!extension_loaded('openssl')) {
